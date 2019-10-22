@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 16-10-2019 a las 07:48:00
+-- Tiempo de generación: 22-10-2019 a las 00:04:45
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.3.1
 
@@ -142,15 +142,36 @@ INSERT INTO `contact_basic` (`id_doc`, `tlf_local`, `tlf_cel`, `correo`) VALUES
 
 CREATE TABLE `docentes` (
   `id_doc_docent` varchar(15) NOT NULL,
-  `tipo` varchar(10) NOT NULL
+  `id_tipo_docente` int(1) NOT NULL,
+  `id_clase` int(11) NOT NULL,
+  `id_turno` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `docentes`
 --
 
-INSERT INTO `docentes` (`id_doc_docent`, `tipo`) VALUES
-('18117206', 'Educacion ');
+INSERT INTO `docentes` (`id_doc_docent`, `id_tipo_docente`, `id_clase`, `id_turno`) VALUES
+('18117206', 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `estado`
+--
+
+CREATE TABLE `estado` (
+  `id_estado` int(1) NOT NULL,
+  `descripcion` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `estado`
+--
+
+INSERT INTO `estado` (`id_estado`, `descripcion`) VALUES
+(1, 'Activo'),
+(2, 'Inactivo');
 
 -- --------------------------------------------------------
 
@@ -180,16 +201,19 @@ INSERT INTO `estudiantes` (`ci_escolar`, `id_doc_est`, `id_doc_pers_est`, `id_es
 --
 
 CREATE TABLE `est_civil` (
-  `id_doc` varchar(8) NOT NULL,
-  `estado` varchar(8) NOT NULL
+  `id_estado_civil` int(1) NOT NULL,
+  `descrpcion` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `est_civil`
 --
 
-INSERT INTO `est_civil` (`id_doc`, `estado`) VALUES
-('28117206', 'Soltero');
+INSERT INTO `est_civil` (`id_estado_civil`, `descrpcion`) VALUES
+(1, 'Soltero/a'),
+(2, 'Casado/a'),
+(3, 'Divordiado/a'),
+(4, 'Viudo/a');
 
 -- --------------------------------------------------------
 
@@ -213,23 +237,25 @@ CREATE TABLE `info_personal` (
   `nombre` varchar(50) NOT NULL,
   `apellido_p` varchar(20) NOT NULL,
   `apellido_m` varchar(20) NOT NULL,
-  `nacionalidad` varchar(12) NOT NULL,
-  `sexo` varchar(12) NOT NULL,
   `fecha_nac` date NOT NULL,
   `lugar_nac` varchar(100) NOT NULL,
-  `direcc_hab` varchar(100) NOT NULL
+  `direcc_hab` varchar(100) NOT NULL,
+  `id_nacionalidad` int(1) NOT NULL,
+  `id_estado_civil` int(11) NOT NULL,
+  `id_sexo` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `info_personal`
 --
 
-INSERT INTO `info_personal` (`id_doc`, `nombre`, `apellido_p`, `apellido_m`, `nacionalidad`, `sexo`, `fecha_nac`, `lugar_nac`, `direcc_hab`) VALUES
-('12345678', 'Luis', 'Perez', 'Sanchez', 'Extranjero', 'Masculini', '1080-11-01', 'Caracas', 'La Paz'),
-('18117206', 'Jose Gregorio', 'Varaon', '', '', '', '0000-00-00', '', ''),
-('28117206', 'Newman Louis', 'Rodriguez', 'Robles', 'Venezolana', 'Masculino', '1999-08-17', 'Dpto.Capital, San Martín, Maternidad', 'Miranda, Los Valle del Tuy, Via Cua'),
-('38117206', 'Deiker Luis', 'Rodriguez', 'Robles', 'Venezolana', 'Masculino', '2005-08-03', 'Dpto.Capital, San Martín, Maternidad', 'Miranda, Los Valle del Tuy, Via Cua'),
-('48117206', 'Frainer Alberto', 'Petit', 'Sanzhez', '', '', '0000-00-00', '', '');
+INSERT INTO `info_personal` (`id_doc`, `nombre`, `apellido_p`, `apellido_m`, `fecha_nac`, `lugar_nac`, `direcc_hab`, `id_nacionalidad`, `id_estado_civil`, `id_sexo`) VALUES
+('12345678', 'Luis', 'Perez', 'Sanchez', '1080-11-01', 'Caracas', 'La Paz', 0, 0, 0),
+('18117206', 'Jose Gregorio', 'Varaon', '', '0000-00-00', '', '', 0, 0, 0),
+('23903877', 'Luis Angel', 'Sachez', 'Mendez', '1999-07-07', 'Caracas', 'Charallave', 1, 2, 1),
+('28117206', 'Newman Louis', 'Rodriguez', 'Robles', '1999-08-17', 'Dpto.Capital, San Martín, Maternidad', 'Miranda, Los Valle del Tuy, Via Cua', 0, 0, 0),
+('38117206', 'Deiker Luis', 'Rodriguez', 'Robles', '2005-08-03', 'Dpto.Capital, San Martín, Maternidad', 'Miranda, Los Valle del Tuy, Via Cua', 0, 0, 0),
+('48117206', 'Frainer Alberto', 'Petit', 'Sanzhez', '0000-00-00', '', '', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -279,6 +305,25 @@ CREATE TABLE `movilidad` (
   `est_tranport` tinyint(1) NOT NULL,
   `desc_tranport` int(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `nacionalidad`
+--
+
+CREATE TABLE `nacionalidad` (
+  `id_nacionalidad` int(1) NOT NULL,
+  `descripcion` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `nacionalidad`
+--
+
+INSERT INTO `nacionalidad` (`id_nacionalidad`, `descripcion`) VALUES
+(1, 'Venezolano/a'),
+(2, 'Extrangero/a');
 
 -- --------------------------------------------------------
 
@@ -363,6 +408,85 @@ CREATE TABLE `salud` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `sexo`
+--
+
+CREATE TABLE `sexo` (
+  `id_sexo` int(11) NOT NULL,
+  `descripción` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `sexo`
+--
+
+INSERT INTO `sexo` (`id_sexo`, `descripción`) VALUES
+(1, 'Masculino'),
+(2, 'Femenino');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipos_docentes`
+--
+
+CREATE TABLE `tipos_docentes` (
+  `id_tipo_docente` int(1) NOT NULL,
+  `descripcion` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `tipos_docentes`
+--
+
+INSERT INTO `tipos_docentes` (`id_tipo_docente`, `descripcion`) VALUES
+(1, 'Normal'),
+(2, 'Educación Física'),
+(3, 'Arte y Cultura');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tip_user`
+--
+
+CREATE TABLE `tip_user` (
+  `id_tip_usr` int(1) NOT NULL,
+  `descripcion` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `tip_user`
+--
+
+INSERT INTO `tip_user` (`id_tip_usr`, `descripcion`) VALUES
+(0, 'Inabilidado'),
+(1, 'Administrador'),
+(2, 'Normal'),
+(3, 'Invitado');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `turnos`
+--
+
+CREATE TABLE `turnos` (
+  `id_turno` int(1) NOT NULL,
+  `descripcion` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `turnos`
+--
+
+INSERT INTO `turnos` (`id_turno`, `descripcion`) VALUES
+(1, 'Mañana'),
+(2, 'Tarde');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuarios`
 --
 
@@ -435,7 +559,15 @@ ALTER TABLE `contact_basic`
 -- Indices de la tabla `docentes`
 --
 ALTER TABLE `docentes`
-  ADD PRIMARY KEY (`id_doc_docent`);
+  ADD PRIMARY KEY (`id_doc_docent`),
+  ADD KEY `docentes` (`id_tipo_docente`),
+  ADD KEY `id_turno` (`id_turno`);
+
+--
+-- Indices de la tabla `estado`
+--
+ALTER TABLE `estado`
+  ADD PRIMARY KEY (`id_estado`);
 
 --
 -- Indices de la tabla `estudiantes`
@@ -448,7 +580,7 @@ ALTER TABLE `estudiantes`
 -- Indices de la tabla `est_civil`
 --
 ALTER TABLE `est_civil`
-  ADD KEY `id_doc` (`id_doc`);
+  ADD PRIMARY KEY (`id_estado_civil`);
 
 --
 -- Indices de la tabla `familiar_estd`
@@ -461,7 +593,10 @@ ALTER TABLE `familiar_estd`
 -- Indices de la tabla `info_personal`
 --
 ALTER TABLE `info_personal`
-  ADD PRIMARY KEY (`id_doc`);
+  ADD PRIMARY KEY (`id_doc`),
+  ADD KEY `id_nacionalidad` (`id_nacionalidad`),
+  ADD KEY `id_estado_civil` (`id_estado_civil`),
+  ADD KEY `id_sexo` (`id_sexo`);
 
 --
 -- Indices de la tabla `inscripcion`
@@ -480,6 +615,12 @@ ALTER TABLE `laboral`
 --
 ALTER TABLE `movilidad`
   ADD KEY `ci_escolar` (`ci_escolar`);
+
+--
+-- Indices de la tabla `nacionalidad`
+--
+ALTER TABLE `nacionalidad`
+  ADD PRIMARY KEY (`id_nacionalidad`);
 
 --
 -- Indices de la tabla `parenteco`
@@ -510,6 +651,30 @@ ALTER TABLE `recursos_public`
 --
 ALTER TABLE `salud`
   ADD KEY `ci_escolar` (`ci_escolar`);
+
+--
+-- Indices de la tabla `sexo`
+--
+ALTER TABLE `sexo`
+  ADD PRIMARY KEY (`id_sexo`);
+
+--
+-- Indices de la tabla `tipos_docentes`
+--
+ALTER TABLE `tipos_docentes`
+  ADD PRIMARY KEY (`id_tipo_docente`);
+
+--
+-- Indices de la tabla `tip_user`
+--
+ALTER TABLE `tip_user`
+  ADD PRIMARY KEY (`id_tip_usr`);
+
+--
+-- Indices de la tabla `turnos`
+--
+ALTER TABLE `turnos`
+  ADD PRIMARY KEY (`id_turno`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -584,8 +749,10 @@ ALTER TABLE `contact_basic`
 -- Filtros para la tabla `docentes`
 --
 ALTER TABLE `docentes`
+  ADD CONSTRAINT `docentes` FOREIGN KEY (`id_tipo_docente`) REFERENCES `tipos_docentes` (`id_tipo_docente`),
   ADD CONSTRAINT `docentes_ibfk_1` FOREIGN KEY (`id_doc_docent`) REFERENCES `info_personal` (`id_doc`),
-  ADD CONSTRAINT `docentes_ibfk_2` FOREIGN KEY (`id_doc_docent`) REFERENCES `contact_basic` (`id_doc`);
+  ADD CONSTRAINT `docentes_ibfk_2` FOREIGN KEY (`id_doc_docent`) REFERENCES `contact_basic` (`id_doc`),
+  ADD CONSTRAINT `docentes_ibfk_3` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id_turno`);
 
 --
 -- Filtros para la tabla `estudiantes`
@@ -595,12 +762,6 @@ ALTER TABLE `estudiantes`
   ADD CONSTRAINT `estudiantes_ibfk_2` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`);
 
 --
--- Filtros para la tabla `est_civil`
---
-ALTER TABLE `est_civil`
-  ADD CONSTRAINT `est_civil_ibfk_1` FOREIGN KEY (`id_doc`) REFERENCES `administrativos` (`id_doc_admin`);
-
---
 -- Filtros para la tabla `familiar_estd`
 --
 ALTER TABLE `familiar_estd`
@@ -608,6 +769,16 @@ ALTER TABLE `familiar_estd`
   ADD CONSTRAINT `familiar_estd_ibfk_2` FOREIGN KEY (`ci_escolar_famil`) REFERENCES `estudiantes` (`ci_escolar`),
   ADD CONSTRAINT `familiar_estd_ibfk_3` FOREIGN KEY (`ci_escolar_famil`) REFERENCES `parenteco` (`id_doc`),
   ADD CONSTRAINT `familiar_estd_ibfk_4` FOREIGN KEY (`ci_escolar_famil`) REFERENCES `parenteco` (`id_doc`);
+
+--
+-- Filtros para la tabla `info_personal`
+--
+ALTER TABLE `info_personal`
+  ADD CONSTRAINT `info_personal_ibfk_1` FOREIGN KEY (`id_nacionalidad`) REFERENCES `nacionalidad` (`id_nacionalidad`),
+  ADD CONSTRAINT `info_personal_ibfk_2` FOREIGN KEY (`id_estado_civil`) REFERENCES `est_civil` (`id_estado_civil`),
+  ADD CONSTRAINT `info_personal_ibfk_3` FOREIGN KEY (`id_nacionalidad`) REFERENCES `nacionalidad` (`id_nacionalidad`),
+  ADD CONSTRAINT `info_personal_ibfk_4` FOREIGN KEY (`id_estado_civil`) REFERENCES `est_civil` (`id_estado_civil`),
+  ADD CONSTRAINT `info_personal_ibfk_5` FOREIGN KEY (`id_sexo`) REFERENCES `sexo` (`id_sexo`);
 
 --
 -- Filtros para la tabla `inscripcion`

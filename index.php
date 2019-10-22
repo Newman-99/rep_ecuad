@@ -9,7 +9,7 @@ if (!empty($_POST)) {
     $ci = htmlentities(addslashes($_POST["ci"]));
     $pass = htmlentities(addslashes($_POST["pass"]));
 
-    if(valid_dat($pass,$ci)){
+    if(validar_datos_vacios_sin_espacios($pass,$ci)){
         $errors[]= "Debe llenar todos los campos y evitar los espacios";
     }
               elseif(is_string(valid_ci($ci))){

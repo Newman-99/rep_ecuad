@@ -14,7 +14,7 @@ if (!empty($_POST)) {
     
 
     //Validacion de datos vacios y espacios
-        if(valid_dat($ci,$pass,$pass_c)){
+        if(validar_datos_vacios_sin_espacios($ci,$pass,$pass_c)){
             $errors_total[] = "Debe llenar todos los campos y evitar los espacios";    
     }else{
         if(!valid_user($ci)){

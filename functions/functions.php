@@ -3,11 +3,22 @@
 // Validaciones
 
 // Comprobar Variable definida o vacia o con espacios
-function valid_dat(...$datos){
+function validar_datos_vacios_sin_espacios(...$datos){
     $comprobador = false;
     
     foreach ($datos as $dato) {
         if(empty($dato) || preg_match('/\s/',$dato)){
+            $comprobador = true;
+        }
+}
+return $comprobador;
+}
+
+function validar_datos_vacios(...$datos){
+    $comprobador = false;
+    
+    foreach ($datos as $dato) {
+        if(empty($dato)){
             $comprobador = true;
         }
 }
@@ -313,24 +324,37 @@ function validar_exist_docente($ci){
     }
 }
 
+function registrar_docentes($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$tipo_docent,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno){
 
-function validar_exist_profesor($ci){
     global $db;
 
-    $sql="SELECT * FROM estudiantes WHERE ci_escolar = :id";
-                                    
-    $result=$db->prepare($sql);
+    // Insertando datos personales genericos
+    
+$sql = "INSERT INTO info_personal(id_doc, nombre, apellido_p, apellido_m, fecha_nac, lugar_nac,direcc_hab, id_nacionalidad, id_estado_civil, id_sexo) VALUES (:id_doc,:nombre,:apellido_p,:apellido_m,:fecha_nac,:lugar_nac,:direcc_hab,:id_nacionalidad,:id_estado_civil,:id_sexo)";
+
+$result=$db->prepare($sql);
                             
-    $result->bindValue(":id",$ci);
+$result->execute(array("id_doc"=>$id_doc,"nombre"=>$nombres,
+"apellido_p"=>$apellido_p,"apellido_m"=>$apellido_m,"fecha_nac"=>$fecha_nac,"lugar_nac"=>$lugar_nac,"direcc_hab"=>$direcc_hab,"id_nacionalidad"=>$nacionalidad,"id_estado_civil"=>$estado_civil,"id_sexo"=>$sexo));
 
-    $result->execute();
+// Insertando datos de contacto
 
-   $count=$result->rowCount();
-    if(!$count == 0){ 
-    return true;
-    }else{
-        return false;
-    }
+$sql = "SET FOREIGN_KEY_CHECKS=0;"."INSERT INTO contact_basic (id_doc,tlf_local,tlf_cel, correo)
+VALUES (:id_doc,:tlf_local,:tlf_cel,:correo);"."SET FOREIGN_KEY_CHECKS=1;";
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("id_doc"=>$id_doc,"tlf_local"=>$tlf_local,
+"tlf_cel"=>$tlf_cel,"correo"=>$correo));
+
+// Insertando datos de la persona como docente
+
+$sql ="SET FOREIGN_KEY_CHECKS=0;"."INSERT INTO docentes(id_doc_docent,id_tipo_docent,id_turno) VALUES (:id_doc_docent,:id_tipo_docent,:id_turno);"."SET FOREIGN_KEY_CHECKS=1;";
+
+$result=$db->prepare($sql);
+
+$result->execute(array("id_doc_docent"=>$id_doc,"id_tipo_docent"=>$tipo_docent,"id_turno"=>$turno));
+
 }
     
 ?>
