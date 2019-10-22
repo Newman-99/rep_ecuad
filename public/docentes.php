@@ -84,7 +84,7 @@ session_start();
 	<section>
 		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
 			
-			<input type="search" class="search" placeholder="Cédula escolar o normal" name="ci_estudiante" value="<?php if(isset($ci)) echo $ci;?>">
+			<input type="search" class="search" placeholder="Ingrese Cédula" name="ci_estudiante" value="<?php if(isset($ci)) echo $ci;?>">
 			
 			<button id=button class="icon-search" type="submit">Buscar</button>
 		</form>

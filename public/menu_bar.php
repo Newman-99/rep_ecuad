@@ -3,7 +3,7 @@
  	            <ul>
 
 <li><a href="estudiantes.php">Estudiantes</a></li>
-<li><a href="profesores.php">Docentes</a></li>
+<li><a href="docentes.php">Docentes</a></li>
 <li><a href="secciones.php">Secciones</a></li>
 <li><a href="administrativos.php">Aministrativos</a></li>
 
