@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 22-10-2019 a las 00:04:45
+-- Tiempo de generación: 25-10-2019 a las 17:50:01
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.3.1
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `rep_ecuad`
+-- Base de datos: `rep_ecuador`
 --
 
 -- --------------------------------------------------------
@@ -53,8 +53,7 @@ CREATE TABLE `administrativos` (
 --
 
 INSERT INTO `administrativos` (`id_doc_admin`, `cargo`) VALUES
-('12345678', 'Secretario'),
-('28117206', 'Director');
+('28117208', 'Director');
 
 -- --------------------------------------------------------
 
@@ -93,14 +92,14 @@ CREATE TABLE `calificaciones` (
 --
 
 CREATE TABLE `clases` (
-  `id_clase` int(11) NOT NULL,
-  `ci_escolar` varchar(15) NOT NULL,
+  `id_clase` varchar(15) NOT NULL,
   `id_doc_docent` varchar(15) NOT NULL,
   `id_doc_docent_fis` varchar(15) NOT NULL,
+  `id_doc_docent_cult` varchar(15) NOT NULL,
   `grado` int(1) NOT NULL,
   `seccion` varchar(1) NOT NULL,
   `no_aula` int(3) NOT NULL,
-  `turno` varchar(10) NOT NULL,
+  `id_turno` int(1) NOT NULL,
   `año_escolar1` year(4) NOT NULL,
   `año_escolar2` year(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -109,9 +108,9 @@ CREATE TABLE `clases` (
 -- Volcado de datos para la tabla `clases`
 --
 
-INSERT INTO `clases` (`id_clase`, `ci_escolar`, `id_doc_docent`, `id_doc_docent_fis`, `grado`, `seccion`, `no_aula`, `turno`, `año_escolar1`, `año_escolar2`) VALUES
-(1, '38117206', '18117206', '28117208', 1, 'a', 17, 'Matutino', 2018, 2019),
-(2, '48117206', '', '', 5, 'D', 22, 'Tarde', 0000, 0000);
+INSERT INTO `clases` (`id_clase`, `id_doc_docent`, `id_doc_docent_fis`, `id_doc_docent_cult`, `grado`, `seccion`, `no_aula`, `id_turno`, `año_escolar1`, `año_escolar2`) VALUES
+('2-a-2018-2019', '1909022', '1909022', '14117206', 2, 'a', 28, 2, 2018, 2019),
+('4-b-2018-2019', '1909022', '14117206', '', 4, 'b', 12, 1, 2018, 2019);
 
 -- --------------------------------------------------------
 
@@ -131,8 +130,9 @@ CREATE TABLE `contact_basic` (
 --
 
 INSERT INTO `contact_basic` (`id_doc`, `tlf_local`, `tlf_cel`, `correo`) VALUES
-('', '', '04120566793', 'jose@hotmail.com'),
-('28117206', '02392349782', '04123492390', 'newmanrodriguez@gmail.com');
+('14117206', '02120902945', '04126218967', 'otero123@gmail.com'),
+('1909022', '023823978', '041223975', 'jose_v@gmai.com'),
+('28117208', '02390172334', '04120172922', 'newmanrodriguez1999@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -142,17 +142,18 @@ INSERT INTO `contact_basic` (`id_doc`, `tlf_local`, `tlf_cel`, `correo`) VALUES
 
 CREATE TABLE `docentes` (
   `id_doc_docent` varchar(15) NOT NULL,
-  `id_tipo_docente` int(1) NOT NULL,
-  `id_clase` int(11) NOT NULL,
-  `id_turno` int(1) NOT NULL
+  `id_tipo_docent` int(1) NOT NULL,
+  `id_turno` int(1) NOT NULL,
+  `id_estado` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `docentes`
 --
 
-INSERT INTO `docentes` (`id_doc_docent`, `id_tipo_docente`, `id_clase`, `id_turno`) VALUES
-('18117206', 0, 0, 0);
+INSERT INTO `docentes` (`id_doc_docent`, `id_tipo_docent`, `id_turno`, `id_estado`) VALUES
+('14117206', 2, 1, 1),
+('1909022', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -182,7 +183,7 @@ INSERT INTO `estado` (`id_estado`, `descripcion`) VALUES
 CREATE TABLE `estudiantes` (
   `ci_escolar` varchar(15) NOT NULL,
   `id_doc_est` varchar(15) NOT NULL,
-  `id_doc_pers_est` varchar(15) NOT NULL,
+  `id_clase` varchar(15) NOT NULL,
   `id_estado` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -190,9 +191,10 @@ CREATE TABLE `estudiantes` (
 -- Volcado de datos para la tabla `estudiantes`
 --
 
-INSERT INTO `estudiantes` (`ci_escolar`, `id_doc_est`, `id_doc_pers_est`, `id_estado`) VALUES
-('38117206', '38117206', '', 1),
-('48117206', '48117206', '', 2);
+INSERT INTO `estudiantes` (`ci_escolar`, `id_doc_est`, `id_clase`, `id_estado`) VALUES
+('3228117206', '3228117206', '4-b-2018-2019', 1),
+('34990567', '', '4-b-2018-2019', 1),
+('36117206', '', '2-a-2018-2019', 1);
 
 -- --------------------------------------------------------
 
@@ -250,12 +252,12 @@ CREATE TABLE `info_personal` (
 --
 
 INSERT INTO `info_personal` (`id_doc`, `nombre`, `apellido_p`, `apellido_m`, `fecha_nac`, `lugar_nac`, `direcc_hab`, `id_nacionalidad`, `id_estado_civil`, `id_sexo`) VALUES
-('12345678', 'Luis', 'Perez', 'Sanchez', '1080-11-01', 'Caracas', 'La Paz', 0, 0, 0),
-('18117206', 'Jose Gregorio', 'Varaon', '', '0000-00-00', '', '', 0, 0, 0),
-('23903877', 'Luis Angel', 'Sachez', 'Mendez', '1999-07-07', 'Caracas', 'Charallave', 1, 2, 1),
-('28117206', 'Newman Louis', 'Rodriguez', 'Robles', '1999-08-17', 'Dpto.Capital, San Martín, Maternidad', 'Miranda, Los Valle del Tuy, Via Cua', 0, 0, 0),
-('38117206', 'Deiker Luis', 'Rodriguez', 'Robles', '2005-08-03', 'Dpto.Capital, San Martín, Maternidad', 'Miranda, Los Valle del Tuy, Via Cua', 0, 0, 0),
-('48117206', 'Frainer Alberto', 'Petit', 'Sanzhez', '0000-00-00', '', '', 0, 0, 0);
+('14117206', 'Carlos Gabriel', 'Sanchez', 'Otero', '1994-10-08', 'Caracas', 'Los Teques', 2, 1, 1),
+('1909022', 'Jose Gregorio', 'Varaon', '', '1990-02-22', 'Caracas', 'Parroquia La vega', 1, 1, 1),
+('28117208', 'Newman Louis', 'Rodriguez', 'Robles', '1999-08-17', 'Caracas San Martin, Maternidad Concepción Palacios', 'Miranda Cristobal Rojas Concepcion Palacios', 1, 1, 1),
+('3228117206', 'Angel Nicolas', 'Hernandez Garantón', 'Zapatero', '2010-10-02', 'Cojedes San Carlos', 'Caracas Catia', 1, 1, 1),
+('34990567', 'Fabiana Maria', 'Giordano ', 'Petit', '2011-05-01', 'Caracas San Martin', 'Caracas El Valle', 1, 1, 2),
+('36117206', 'Alessandro Gabriel', 'Rodriguez', 'Hernandez', '2016-04-23', 'Caracas', 'Caracas San Bernardino', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -502,8 +504,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_doc`, `id_tip_usr`, `pass`, `ult_sesion`) VALUES
-('12345678', 2, '$2y$10$UneR8ZN5feex55ikYPUNROxnIie9oYNrvD6ePWXogzuWvzZX6TJZe', '2019-10-15'),
-('28117206', 1, '$2y$10$r3DKvAjqBXaAqlGP/es1xOU1htsEyaln5RyecoHDZ1d1Bqfkj6uoq', '2019-10-15');
+('28117208', 1, '$2y$10$i8Vrf/tmlVV5BCLUOMcoCeQLawaXzw19IXIt1GiBzzxZ7raGyjNJa', '2019-10-25');
 
 --
 -- Índices para tablas volcadas
@@ -544,9 +545,10 @@ ALTER TABLE `calificaciones`
 --
 ALTER TABLE `clases`
   ADD PRIMARY KEY (`id_clase`),
-  ADD KEY `ci_escolar` (`ci_escolar`),
   ADD KEY `id_doc_docent` (`id_doc_docent`),
-  ADD KEY `id_doc_docent_fis` (`id_doc_docent_fis`);
+  ADD KEY `id_doc_docent_fis` (`id_doc_docent_fis`),
+  ADD KEY `id_doc_docent_cult` (`id_doc_docent_cult`),
+  ADD KEY `id_turno` (`id_turno`);
 
 --
 -- Indices de la tabla `contact_basic`
@@ -560,8 +562,9 @@ ALTER TABLE `contact_basic`
 --
 ALTER TABLE `docentes`
   ADD PRIMARY KEY (`id_doc_docent`),
-  ADD KEY `docentes` (`id_tipo_docente`),
-  ADD KEY `id_turno` (`id_turno`);
+  ADD KEY `docentes` (`id_tipo_docent`),
+  ADD KEY `id_turno` (`id_turno`),
+  ADD KEY `id_estado` (`id_estado`);
 
 --
 -- Indices de la tabla `estado`
@@ -574,7 +577,8 @@ ALTER TABLE `estado`
 --
 ALTER TABLE `estudiantes`
   ADD PRIMARY KEY (`ci_escolar`),
-  ADD KEY `id_estado` (`id_estado`);
+  ADD KEY `id_estado` (`id_estado`),
+  ADD KEY `id_clase` (`id_clase`);
 
 --
 -- Indices de la tabla `est_civil`
@@ -688,12 +692,6 @@ ALTER TABLE `usuarios`
 --
 
 --
--- AUTO_INCREMENT de la tabla `clases`
---
-ALTER TABLE `clases`
-  MODIFY `id_clase` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT de la tabla `plantillas`
 --
 ALTER TABLE `plantillas`
@@ -720,16 +718,13 @@ ALTER TABLE `administrativos`
 -- Filtros para la tabla `asistencias`
 --
 ALTER TABLE `asistencias`
-  ADD CONSTRAINT `asistencias_ibfk_1` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`),
-  ADD CONSTRAINT `asistencias_ibfk_2` FOREIGN KEY (`id_clase`) REFERENCES `clases` (`id_clase`);
+  ADD CONSTRAINT `asistencias_ibfk_1` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`);
 
 --
 -- Filtros para la tabla `calificaciones`
 --
 ALTER TABLE `calificaciones`
-  ADD CONSTRAINT `calificaciones_ibfk_1` FOREIGN KEY (`id_doc_docent`) REFERENCES `docentes` (`id_doc_docent`),
-  ADD CONSTRAINT `calificaciones_ibfk_2` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`),
-  ADD CONSTRAINT `calificaciones_ibfk_3` FOREIGN KEY (`id_clase`) REFERENCES `clases` (`id_clase`);
+  ADD CONSTRAINT `calificaciones_ibfk_1` FOREIGN KEY (`id_doc_docent`) REFERENCES `docentes` (`id_doc_docent`);
 
 --
 -- Filtros para la tabla `clases`
@@ -737,7 +732,8 @@ ALTER TABLE `calificaciones`
 ALTER TABLE `clases`
   ADD CONSTRAINT `clases_ibfk_1` FOREIGN KEY (`id_doc_docent`) REFERENCES `docentes` (`id_doc_docent`),
   ADD CONSTRAINT `clases_ibfk_2` FOREIGN KEY (`id_doc_docent_fis`) REFERENCES `docentes` (`id_doc_docent`),
-  ADD CONSTRAINT `clases_ibfk_3` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`);
+  ADD CONSTRAINT `clases_ibfk_3` FOREIGN KEY (`id_doc_docent_cult`) REFERENCES `docentes` (`id_doc_docent`),
+  ADD CONSTRAINT `clases_ibfk_4` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id_turno`);
 
 --
 -- Filtros para la tabla `contact_basic`
@@ -749,17 +745,19 @@ ALTER TABLE `contact_basic`
 -- Filtros para la tabla `docentes`
 --
 ALTER TABLE `docentes`
-  ADD CONSTRAINT `docentes` FOREIGN KEY (`id_tipo_docente`) REFERENCES `tipos_docentes` (`id_tipo_docente`),
+  ADD CONSTRAINT `docentes` FOREIGN KEY (`id_tipo_docent`) REFERENCES `tipos_docentes` (`id_tipo_docente`),
   ADD CONSTRAINT `docentes_ibfk_1` FOREIGN KEY (`id_doc_docent`) REFERENCES `info_personal` (`id_doc`),
   ADD CONSTRAINT `docentes_ibfk_2` FOREIGN KEY (`id_doc_docent`) REFERENCES `contact_basic` (`id_doc`),
-  ADD CONSTRAINT `docentes_ibfk_3` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id_turno`);
+  ADD CONSTRAINT `docentes_ibfk_3` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id_turno`),
+  ADD CONSTRAINT `docentes_ibfk_4` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`);
 
 --
 -- Filtros para la tabla `estudiantes`
 --
 ALTER TABLE `estudiantes`
   ADD CONSTRAINT `estudiantes_ibfk_1` FOREIGN KEY (`ci_escolar`) REFERENCES `info_personal` (`id_doc`),
-  ADD CONSTRAINT `estudiantes_ibfk_2` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`);
+  ADD CONSTRAINT `estudiantes_ibfk_2` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`),
+  ADD CONSTRAINT `estudiantes_ibfk_3` FOREIGN KEY (`id_clase`) REFERENCES `clases` (`id_clase`);
 
 --
 -- Filtros para la tabla `familiar_estd`

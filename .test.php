@@ -52,5 +52,9 @@ $correo = "n@gmail.com";
 $estado_civil = "1";
 $turno = "1";
 
-
+<!--
+                        
 ?>
+
+$sql="SELECT in_p.id_doc, in_p.nombre,in_p.apellido_p,in_p.apellido_m,tr.descripcion descripcion_turno,tp.descripcion descripcion_tip_docent,cb.tlf_cel,cb.tlf_local,cb.correo,cl.grado,cl.seccion,cl.año_escolar1,cl.año_escolar2,cl.no_aula FROM docentes doc INNER JOIN info_personal in_p ON doc.id_doc_docent = in_p.id_doc INNER JOIN turnos tr ON doc.id_turno = tr.id_turno INNER JOIN clases cl ON doc.id_doc_docent = cl.id_doc_docent or doc.id_doc_docent = cl.id_doc_docent_fis or doc.id_doc_docent = cl.id_doc_docent_cult INNER JOIN tipos_docentes tp ON doc.id_tipo_docent = tp.id_tipo_docente INNER JOIN contact_basic cb ON doc.id_doc_docent = cb.id_doc
+            WHERE doc.id_doc_docent = :id";

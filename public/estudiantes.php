@@ -1,4 +1,3 @@
-
 <?php
 require '../database/connect.php';
 require '../functions/functions.php';
@@ -32,13 +31,14 @@ session_start();
 	   
 		<?php 
 		if(!empty($_POST)){
-			$ci = $_POST['ci_estudiante'];
+			$ci = htmlentities(addslashes($_POST['ci_estudiante']));
 			if(validar_exist_estudiante($ci)){
 
-			$sql="SELECT est.ci_escolar, est.id_doc_est,info_p.nombre,info_p.apellido_p,info_p.apellido_m,clas.grado,clas.seccion, edo.descripcion FROM estudiantes est
-			JOIN info_personal info_p ON est.ci_escolar = info_p.id_doc
-			JOIN clases clas ON est.ci_escolar = clas.ci_escolar
-			JOIN estado edo ON est.id_estado = edo.id_estado
+			$sql="SELECT est.ci_escolar, est.id_doc_est,info_p.nombre,info_p.apellido_p,info_p.apellido_m,edo.descripcion descripcion_estado,clas.grado,clas.seccion,tr.descripcion descripcion_turn FROM estudiantes est
+			INNER JOIN info_personal info_p ON est.ci_escolar = info_p.id_doc
+			INNER JOIN clases clas ON est.id_clase = clas.id_clase
+			INNER JOIN estado edo ON est.id_estado = edo.id_estado
+            INNER JOIN turnos tr ON clas.id_turno = tr.id_turno
 			WHERE est.ci_escolar = :id";
 					 
 			$result=$db->prepare($sql);
@@ -48,7 +48,6 @@ session_start();
 			$result->execute();	
 			
 			while($registro=$result->fetch(PDO::FETCH_ASSOC)){
-
 					?>
 
 	        <div>
@@ -61,7 +60,7 @@ session_start();
 						 <th>Apellidos</th> 
 						 <th>Grado</th> 
 						 <th>Seccion</th> 
-						 <th>Estado</th> 
+						 <th>Turno</th> 
 						 <th><button id="boton" class="icon-cog"></button></th>
 						 <th><button id="boton3" class="icon-download1"></button></th>
  			            </tr>
@@ -73,13 +72,12 @@ session_start();
 						<td><?php echo $registro['apellido_p']." ".$registro['apellido_m'] ?></td> 
 						<td><?php echo $registro['grado']?></td>
 						<td><?php echo $registro['seccion']?></td>
-						<td><?php echo $registro['descripcion']?></td>
+						<td><?php echo $registro['descripcion_turn']?></td>
  		            </tr>
  	            </table>
             </div>
 	<?php  }}else{
-		echo "<h3>No existe el Estudiante</h3>";
-	}
+		$errors[] = "<h1>No existe el Estudiante</h1>";}
 }?>
 
 	<section>
@@ -110,4 +108,13 @@ session_start();
     </body>
 </html>
 
-<?php } ?>
+<?php
+
+    if(!empty($errors)){
+        foreach ($errors as $msjs) {
+            echo "<p>$msjs<p>";
+        }
+    }
+
+
+ } ?>

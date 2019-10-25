@@ -1,7 +1,7 @@
 <?php
 
 try{
-$db = new PDO('mysql:host=localhost;dbname=rep_ecuador','root','');
+$db = new PDO('mysql:host=localhost;dbname=rep_ecuador;charset=utf8','root','');
 return 'Conexion Correcta';
 $db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 }catch(Exception $e){
@@ -9,6 +9,6 @@ $db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 }
 
 
-$db -> exec("SET CHARACTER SET utf8"); 
+//$db -> exec("SET CHARACTER SET utf8"); 
 
 ?>

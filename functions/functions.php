@@ -308,7 +308,7 @@ echo "</table></p>";
 function validar_exist_docente($ci){
     global $db;
 
-    $sql="SELECT * FROM docente WHERE id_doc_docent = :id";
+    $sql="SELECT * FROM docentes WHERE id_doc_docent = :id";
                                     
     $result=$db->prepare($sql);
                             
@@ -356,5 +356,24 @@ $result=$db->prepare($sql);
 $result->execute(array("id_doc_docent"=>$id_doc,"id_tipo_docent"=>$tipo_docent,"id_turno"=>$turno));
 
 }
+  
+function validar_exist_estudiante($ci){
+    global $db;
     
+        $sql="SELECT * FROM estudiantes WHERE ci_escolar = :id";
+                                        
+        $result=$db->prepare($sql);
+                                
+        $result->bindValue(":id",$ci);
+    
+        $result->execute();
+    
+   $count=$result->rowCount();
+    if(!$count == 0){ 
+    return true;
+    }else{
+        return false;
+    }
+
+    }
 ?>
