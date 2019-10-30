@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 25-10-2019 a las 17:50:01
+-- Tiempo de generación: 30-10-2019 a las 04:50:05
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.3.1
 
@@ -504,7 +504,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_doc`, `id_tip_usr`, `pass`, `ult_sesion`) VALUES
-('28117208', 1, '$2y$10$i8Vrf/tmlVV5BCLUOMcoCeQLawaXzw19IXIt1GiBzzxZ7raGyjNJa', '2019-10-25');
+('28117208', 1, '$2y$10$i8Vrf/tmlVV5BCLUOMcoCeQLawaXzw19IXIt1GiBzzxZ7raGyjNJa', '2019-10-29');
 
 --
 -- Índices para tablas volcadas
