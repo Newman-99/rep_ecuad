@@ -20,14 +20,13 @@ session_start();
 	    <link rel="stylesheet" href="./style.css">
 	    <title></title>
     </head>
-    <body style="background-image: url(../img/IMG_20150610_132427.jpg);">
+    <body>
 
-		<header class="top">
-		   <ul>
-				<li><img src="../img/i.png" width="80px" height="70px"> U-E-N "República del Ecuador"</li>
-			</ul>
-			<span class="icon-user-solid-circle"></span>		
-	   </header>
+      <header class="top">
+       <ul>
+        <li><img src="../img/i.png" width="80px" height="70px"><br>U-E-N "República del Ecuador"</li>
+      </ul>
+     </header>
 	   
 		<?php 
 		if(!empty($_POST)){

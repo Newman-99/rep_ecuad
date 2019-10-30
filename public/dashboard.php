@@ -5,17 +5,24 @@ require '../functions/functions.php';
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+      <link rel="stylesheet" href="./css/styles.css">
+      <link rel="stylesheet" href="./style.css">
+    <title>Menu</title>
 </head>
 <body>
+      <header class="top">
+       <ul>
+        <li><img src="../img/i.png" width="80px" height="70px"><br>U-E-N "República del Ecuador"</li>
+      </ul>
+     </header>
+
 <?php
         session_start();
 
     if(!isset($_SESSION["id_user"])){
-       header("Location:../login/register.php");
+       header("Location:../index.php");
    }else{
     $ci = $_SESSION["id_user"];
     $nivel_permiso=$_SESSION['nivel_usuario'];
@@ -34,6 +41,18 @@ require '../functions/functions.php';
        }else{  include './menu_bar.php'; ?>
 
    
+      <section class="piedepagina"></section>
+            <script src="./js/jquery-3.1.1.min.js"></script>
+      <script src="./js/sweetalert2.min.js"></script>
+          <script src="./js/bootstrap.min.js"></script>
+          <script src="./js/material.min.js"></script>
+          <script src="./js/ripples.min.js"></script>
+          <script src="./js/jquery.mCustomScrollbar.concat.min.js"></script>
+      <script src="./js/main.js"></script>
+
+<script>
+            $.material.init();
+          </script>
 
 </body>
 </html>

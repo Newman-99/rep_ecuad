@@ -7,6 +7,8 @@
 <li><a href="secciones.php">Secciones</a></li>
 <li><a href="administrativos.php">Aministrativos</a></li>
 
+<li><a href="dashboard.php">Menu</a></li>
+
 <?php if ($nivel_permiso === "1") {
 echo "<li><a href='#'>Administracion de Usuarios </a></li>
 <li><a href='config.php'>Configuraciones</a></li>

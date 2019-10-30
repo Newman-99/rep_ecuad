@@ -39,9 +39,24 @@ if (!empty($_POST)) {
     <meta charset="UTF-8">
     <meta name="viewpor t" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <link rel="stylesheet" href="./css/styles.css">
+        <link rel="stylesheet" href="./public/style.css">
+
     <title>Document</title>
 </head>
-<body>
+    <body style="background: url(./img/IMG_20150610_132427.jpg) no-repeat center center fixed;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+" class="textw">
+
+      <header class="top">
+       <ul>
+        <li><img src="./img/i.png" width="80px" height="70px"><br>U-E-N "República del Ecuador"</li>
+      </ul>
+     </header>
+
     
 <title>Ingresar Sesion</title>
      
@@ -64,6 +79,9 @@ if (!empty($_POST)) {
             echo "<p>$msjs<p>";
         }
     }
+
+
+
     ?>
 </body>
 </html>
