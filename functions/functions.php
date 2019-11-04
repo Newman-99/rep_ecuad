@@ -376,4 +376,125 @@ function validar_exist_estudiante($ci){
     }
 
     }
+
+    function registrar_clases($id_doc_docent,
+        $id_doc_docent_fis,
+        $id_doc_docent_cult,
+        $grado,
+        $seccion,
+        $no_aula,
+        $id_turno,
+        $año_escolar1,
+        $año_escolar2){
+    global $db;
+  $id_clase = $grado.'-'.$seccion.'-'.$año_escolar1.'-'.$año_escolar2;
+
+$parameters = array(
+    ':id'=>$id_clase,
+    ':id_docent'=>$id_doc_docent,
+    ':id_docent_fis'=>$id_doc_docent_fis,
+    ':id_docent_cult'=>$id_doc_docent_cult,
+    ':grad'=>$grado,
+    ':secc'=>$seccion,
+    ':aula'=>$no_aula,
+    ':turno'=>$id_turno,
+    ':anio_1'=>$año_escolar1,
+    ':anio_2'=>$año_escolar2,);
+
+
+$sql = "INSERT INTO `clases`(
+`id_clase`,
+`id_doc_docent`,
+`id_doc_docent_fis`,
+`id_doc_docent_cult`,
+`grado`,
+`seccion`,
+`no_aula`,
+`id_turno`,
+`anio_escolar1`,
+`anio_escolar2`)
+VALUES (:id,
+:id_docent,
+:id_docent_fis,
+:id_docent_cult,
+:grad,
+:secc,
+:aula,
+:turno,
+:anio_1,
+:anio_2)";
+
+$result=$db->prepare($sql);
+
+$result->execute($parameters);
+        
+    }
+
+
+function exist_clase($grado,$seccion,$año_escolar1,$año_escolar2){
+    global $db;
+    
+            $id_clase = $grado.'-'.$seccion.'-'.$año_escolar1.'-'.$año_escolar2;
+
+        $sql="SELECT id_clase FROM clases WHERE id_clase = :id";
+                                        
+        $result=$db->prepare($sql);
+                                
+        $result->bindValue(":id",$id_clase);
+    
+        $result->execute();
+    
+   $count=$result->rowCount();
+    if(!$count == 0){ 
+    return true;
+    }else{
+        return false;
+    }
+    }
+
+function validar_grado($grado){
+
+if (preg_match("/^[1-6]{1}$/",$grado)) {
+    return NULL;
+} else {
+ return "El Grado que a ingresado es invalido";
+}
+
+}  
+
+
+function validar_seccion($seccion){
+
+if (preg_match("/^[A-Z]{1}$/",$seccion)) {
+    return NULL;
+} else {
+ return "La seccion que usted a ingresado es invalida";
+}
+
+}  
+
+function validar_anio_escolar($anio_escolar_1,$anio_escolar_2){
+
+$anio_actual = date("Y",time());
+
+
+if ($anio_escolar_1 > $anio_actual+1 || $anio_escolar_2 > $anio_actual+1 || $anio_escolar_1<1944 || $anio_escolar_2<1944 || $anio_escolar_1+1 != $anio_escolar_2
+|| preg_match("/^[0-9]{4}$/",$anio_escolar_1,$anio_escolar_2)
+){
+    return "Año Escolar Invalido";
+} else {
+   return NULL;
+    }
+
+    }
+
+function comprobar_no_aula($no_aula){ 
+if (!preg_match("/^[0-9]$/",$no_aula)) {
+    return "Solo puede ingresar numeros en el numero de aulas";
+} else {
+    return NULL;
+    }
+
+    }
+ 
 ?>
