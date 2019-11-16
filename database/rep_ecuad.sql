@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 30-10-2019 a las 04:50:05
+-- Tiempo de generación: 17-11-2019 a las 00:29:15
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.3.1
 
@@ -93,24 +93,51 @@ CREATE TABLE `calificaciones` (
 
 CREATE TABLE `clases` (
   `id_clase` varchar(15) NOT NULL,
-  `id_doc_docent` varchar(15) NOT NULL,
-  `id_doc_docent_fis` varchar(15) NOT NULL,
-  `id_doc_docent_cult` varchar(15) NOT NULL,
   `grado` int(1) NOT NULL,
   `seccion` varchar(1) NOT NULL,
   `no_aula` int(3) NOT NULL,
   `id_turno` int(1) NOT NULL,
-  `año_escolar1` year(4) NOT NULL,
-  `año_escolar2` year(4) NOT NULL
+  `anio_escolar1` year(4) NOT NULL,
+  `anio_escolar2` year(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `clases`
 --
 
-INSERT INTO `clases` (`id_clase`, `id_doc_docent`, `id_doc_docent_fis`, `id_doc_docent_cult`, `grado`, `seccion`, `no_aula`, `id_turno`, `año_escolar1`, `año_escolar2`) VALUES
-('2-a-2018-2019', '1909022', '1909022', '14117206', 2, 'a', 28, 2, 2018, 2019),
-('4-b-2018-2019', '1909022', '14117206', '', 4, 'b', 12, 1, 2018, 2019);
+INSERT INTO `clases` (`id_clase`, `grado`, `seccion`, `no_aula`, `id_turno`, `anio_escolar1`, `anio_escolar2`) VALUES
+('1-C-2019-2020-1', 1, 'C', 3, 1, 2019, 2020),
+('1-C-2019-2020-2', 1, 'C', 2, 2, 2019, 2020),
+('1-D-2019-2020-1', 1, 'D', 34, 1, 2019, 2020);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `clases_asignadas`
+--
+
+CREATE TABLE `clases_asignadas` (
+  `id_contrato_clase` varchar(30) NOT NULL,
+  `id_estado` int(1) NOT NULL,
+  `id_clase` varchar(15) NOT NULL,
+  `id_doc_docent` varchar(15) NOT NULL,
+  `id_tipo_docent` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `clases_asignadas`
+--
+
+INSERT INTO `clases_asignadas` (`id_contrato_clase`, `id_estado`, `id_clase`, `id_doc_docent`, `id_tipo_docent`) VALUES
+('1-C-2019-2020-1-No Asignado-1', 1, '1-C-2019-2020-1', 'No Asignado', 1),
+('1-C-2019-2020-1-No Asignado-2', 1, '1-C-2019-2020-1', 'No Asignado', 2),
+('1-C-2019-2020-1-No Asignado-3', 1, '1-C-2019-2020-1', 'No Asignado', 3),
+('1-C-2019-2020-2-12345678-1', 1, '1-C-2019-2020-2', '12345678', 1),
+('1-C-2019-2020-2-No Asignado-2', 1, '1-C-2019-2020-2', 'No Asignado', 2),
+('1-C-2019-2020-2-No Asignado-3', 1, '1-C-2019-2020-2', 'No Asignado', 3),
+('1-D-2019-2020-1-14117206-1', 1, '1-D-2019-2020-1', '14117206', 1),
+('1-D-2019-2020-1-No Asignado-2', 1, '1-D-2019-2020-1', 'No Asignado', 2),
+('1-D-2019-2020-1-No Asignado-3', 1, '1-D-2019-2020-1', 'No Asignado', 3);
 
 -- --------------------------------------------------------
 
@@ -433,7 +460,7 @@ INSERT INTO `sexo` (`id_sexo`, `descripción`) VALUES
 --
 
 CREATE TABLE `tipos_docentes` (
-  `id_tipo_docente` int(1) NOT NULL,
+  `id_tipo_docent` int(1) NOT NULL,
   `descripcion` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -441,7 +468,7 @@ CREATE TABLE `tipos_docentes` (
 -- Volcado de datos para la tabla `tipos_docentes`
 --
 
-INSERT INTO `tipos_docentes` (`id_tipo_docente`, `descripcion`) VALUES
+INSERT INTO `tipos_docentes` (`id_tipo_docent`, `descripcion`) VALUES
 (1, 'Normal'),
 (2, 'Educación Física'),
 (3, 'Arte y Cultura');
@@ -504,7 +531,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_doc`, `id_tip_usr`, `pass`, `ult_sesion`) VALUES
-('28117208', 1, '$2y$10$i8Vrf/tmlVV5BCLUOMcoCeQLawaXzw19IXIt1GiBzzxZ7raGyjNJa', '2019-10-29');
+('28117208', 1, '$2y$10$i8Vrf/tmlVV5BCLUOMcoCeQLawaXzw19IXIt1GiBzzxZ7raGyjNJa', '2019-11-03');
 
 --
 -- Índices para tablas volcadas
@@ -545,10 +572,17 @@ ALTER TABLE `calificaciones`
 --
 ALTER TABLE `clases`
   ADD PRIMARY KEY (`id_clase`),
-  ADD KEY `id_doc_docent` (`id_doc_docent`),
-  ADD KEY `id_doc_docent_fis` (`id_doc_docent_fis`),
-  ADD KEY `id_doc_docent_cult` (`id_doc_docent_cult`),
   ADD KEY `id_turno` (`id_turno`);
+
+--
+-- Indices de la tabla `clases_asignadas`
+--
+ALTER TABLE `clases_asignadas`
+  ADD PRIMARY KEY (`id_contrato_clase`),
+  ADD KEY `id_doc_docent` (`id_doc_docent`),
+  ADD KEY `id_clase` (`id_clase`),
+  ADD KEY `id_tipo_docent` (`id_tipo_docent`),
+  ADD KEY `id_estado` (`id_estado`);
 
 --
 -- Indices de la tabla `contact_basic`
@@ -666,7 +700,7 @@ ALTER TABLE `sexo`
 -- Indices de la tabla `tipos_docentes`
 --
 ALTER TABLE `tipos_docentes`
-  ADD PRIMARY KEY (`id_tipo_docente`);
+  ADD PRIMARY KEY (`id_tipo_docent`);
 
 --
 -- Indices de la tabla `tip_user`
@@ -730,10 +764,18 @@ ALTER TABLE `calificaciones`
 -- Filtros para la tabla `clases`
 --
 ALTER TABLE `clases`
-  ADD CONSTRAINT `clases_ibfk_1` FOREIGN KEY (`id_doc_docent`) REFERENCES `docentes` (`id_doc_docent`),
-  ADD CONSTRAINT `clases_ibfk_2` FOREIGN KEY (`id_doc_docent_fis`) REFERENCES `docentes` (`id_doc_docent`),
-  ADD CONSTRAINT `clases_ibfk_3` FOREIGN KEY (`id_doc_docent_cult`) REFERENCES `docentes` (`id_doc_docent`),
   ADD CONSTRAINT `clases_ibfk_4` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id_turno`);
+
+--
+-- Filtros para la tabla `clases_asignadas`
+--
+ALTER TABLE `clases_asignadas`
+  ADD CONSTRAINT `clases_asignadas_ibfk_1` FOREIGN KEY (`id_doc_docent`) REFERENCES `docentes` (`id_doc_docent`),
+  ADD CONSTRAINT `clases_asignadas_ibfk_2` FOREIGN KEY (`id_doc_docent`) REFERENCES `docentes` (`id_doc_docent`),
+  ADD CONSTRAINT `clases_asignadas_ibfk_3` FOREIGN KEY (`id_doc_docent`) REFERENCES `docentes` (`id_doc_docent`),
+  ADD CONSTRAINT `clases_asignadas_ibfk_4` FOREIGN KEY (`id_clase`) REFERENCES `clases` (`id_clase`),
+  ADD CONSTRAINT `clases_asignadas_ibfk_5` FOREIGN KEY (`id_tipo_docent`) REFERENCES `tipos_docentes` (`id_tipo_docent`),
+  ADD CONSTRAINT `clases_asignadas_ibfk_6` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`);
 
 --
 -- Filtros para la tabla `contact_basic`
@@ -745,7 +787,7 @@ ALTER TABLE `contact_basic`
 -- Filtros para la tabla `docentes`
 --
 ALTER TABLE `docentes`
-  ADD CONSTRAINT `docentes` FOREIGN KEY (`id_tipo_docent`) REFERENCES `tipos_docentes` (`id_tipo_docente`),
+  ADD CONSTRAINT `docentes` FOREIGN KEY (`id_tipo_docent`) REFERENCES `tipos_docentes` (`id_tipo_docent`),
   ADD CONSTRAINT `docentes_ibfk_1` FOREIGN KEY (`id_doc_docent`) REFERENCES `info_personal` (`id_doc`),
   ADD CONSTRAINT `docentes_ibfk_2` FOREIGN KEY (`id_doc_docent`) REFERENCES `contact_basic` (`id_doc`),
   ADD CONSTRAINT `docentes_ibfk_3` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id_turno`),

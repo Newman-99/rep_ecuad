@@ -18,7 +18,7 @@ function validar_datos_vacios(...$datos){
     $comprobador = false;
     
     foreach ($datos as $dato) {
-        if(empty($dato)){
+        if(empty($dato) || is_null($dato)){
             $comprobador = true;
         }
 }
@@ -305,6 +305,7 @@ echo "</table></p>";
     }
 
 
+
 function validar_exist_docente($ci){
     global $db;
 
@@ -324,6 +325,14 @@ function validar_exist_docente($ci){
     }
 }
 
+function disable_foreing(){
+    return "SET FOREIGN_KEY_CHECKS=0;";
+}
+
+function enable_foreing(){
+    return "SET FOREIGN_KEY_CHECKS=1;";
+}
+
 function registrar_docentes($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$tipo_docent,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno){
 
     global $db;
@@ -339,8 +348,8 @@ $result->execute(array("id_doc"=>$id_doc,"nombre"=>$nombres,
 
 // Insertando datos de contacto
 
-$sql = "SET FOREIGN_KEY_CHECKS=0;"."INSERT INTO contact_basic (id_doc,tlf_local,tlf_cel, correo)
-VALUES (:id_doc,:tlf_local,:tlf_cel,:correo);"."SET FOREIGN_KEY_CHECKS=1;";
+$sql = disable_foreing()."INSERT INTO contact_basic (id_doc,tlf_local,tlf_cel, correo)
+VALUES (:id_doc,:tlf_local,:tlf_cel,:correo);".enable_foreing();
 
 $result=$db->prepare($sql);
                             
@@ -349,7 +358,7 @@ $result->execute(array("id_doc"=>$id_doc,"tlf_local"=>$tlf_local,
 
 // Insertando datos de la persona como docente
 
-$sql ="SET FOREIGN_KEY_CHECKS=0;"."INSERT INTO docentes(id_doc_docent,id_tipo_docent,id_turno) VALUES (:id_doc_docent,:id_tipo_docent,:id_turno);"."SET FOREIGN_KEY_CHECKS=1;";
+$sql =disable_foreing()."INSERT INTO docentes(id_doc_docent,id_tipo_docent,id_turno) VALUES (:id_doc_docent,:id_tipo_docent,:id_turno);".enable_foreing();
 
 $result=$db->prepare($sql);
 
@@ -377,52 +386,41 @@ function validar_exist_estudiante($ci){
 
     }
 
-    function registrar_clases($id_doc_docent,
+    function registrar_clases(/*$id_doc_docent,
         $id_doc_docent_fis,
-        $id_doc_docent_cult,
+        $id_doc_docent_cult,*/
         $grado,
         $seccion,
         $no_aula,
         $id_turno,
-        $año_escolar1,
-        $año_escolar2){
+        $anio_escolar1,
+        $anio_escolar2){
     global $db;
-  $id_clase = $grado.'-'.$seccion.'-'.$año_escolar1.'-'.$año_escolar2;
+
+    $seccion=strtoupper($seccion);
+  
+  $id_clase = generador_id_clases($grado,$seccion,$anio_escolar1,$anio_escolar2,$id_turno);
 
 $parameters = array(
-    ':id'=>$id_clase,
-    ':id_docent'=>$id_doc_docent,
-    ':id_docent_fis'=>$id_doc_docent_fis,
-    ':id_docent_cult'=>$id_doc_docent_cult,
+    ':id'=>$id_clase,    
     ':grad'=>$grado,
     ':secc'=>$seccion,
     ':aula'=>$no_aula,
     ':turno'=>$id_turno,
-    ':anio_1'=>$año_escolar1,
-    ':anio_2'=>$año_escolar2,);
+    ':anio_1'=>$anio_escolar1,
+    ':anio_2'=>$anio_escolar2,);
 
 
-$sql = "INSERT INTO `clases`(
-`id_clase`,
-`id_doc_docent`,
-`id_doc_docent_fis`,
-`id_doc_docent_cult`,
-`grado`,
-`seccion`,
-`no_aula`,
-`id_turno`,
-`anio_escolar1`,
-`anio_escolar2`)
+$sql = disable_foreing()." INSERT INTO `clases`(`id_clase`,`grado`,`seccion`,`no_aula`,`id_turno`, `anio_escolar1`,`anio_escolar2`)
 VALUES (:id,
-:id_docent,
-:id_docent_fis,
-:id_docent_cult,
 :grad,
 :secc,
 :aula,
 :turno,
 :anio_1,
-:anio_2)";
+:anio_2); ".enable_foreing();
+
+var_dump($sql);
 
 $result=$db->prepare($sql);
 
@@ -431,17 +429,14 @@ $result->execute($parameters);
     }
 
 
-function exist_clase($grado,$seccion,$año_escolar1,$año_escolar2){
+function exist_clase($id_clase){
     global $db;
     
-            $id_clase = $grado.'-'.$seccion.'-'.$año_escolar1.'-'.$año_escolar2;
-
         $sql="SELECT id_clase FROM clases WHERE id_clase = :id";
                                         
         $result=$db->prepare($sql);
                                 
         $result->bindValue(":id",$id_clase);
-    
         $result->execute();
     
    $count=$result->rowCount();
@@ -465,7 +460,7 @@ if (preg_match("/^[1-6]{1}$/",$grado)) {
 
 function validar_seccion($seccion){
 
-if (preg_match("/^[A-Z]{1}$/",$seccion)) {
+if (preg_match("/^[A-z]{1}$/",$seccion)) {
     return NULL;
 } else {
  return "La seccion que usted a ingresado es invalida";
@@ -479,7 +474,7 @@ $anio_actual = date("Y",time());
 
 
 if ($anio_escolar_1 > $anio_actual+1 || $anio_escolar_2 > $anio_actual+1 || $anio_escolar_1<1944 || $anio_escolar_2<1944 || $anio_escolar_1+1 != $anio_escolar_2
-|| preg_match("/^[0-9]{4}$/",$anio_escolar_1,$anio_escolar_2)
+|| !preg_match("/^[0-9]{4}$/",$anio_escolar_1,$anio_escolar_2)
 ){
     return "Año Escolar Invalido";
 } else {
@@ -489,12 +484,138 @@ if ($anio_escolar_1 > $anio_actual+1 || $anio_escolar_2 > $anio_actual+1 || $ani
     }
 
 function comprobar_no_aula($no_aula){ 
-if (!preg_match("/^[0-9]$/",$no_aula)) {
+if (!preg_match("/[0-9]/",$no_aula)) {
     return "Solo puede ingresar numeros en el numero de aulas";
 } else {
     return NULL;
     }
 
     }
+
+/*
+function validar_tipo_dodente_repetido($id_clase,$tipo_docent){
+
+global $db;
+
+        $sql="SELECT * FROM clases_asignadas c WHERE id_tipo_docent = :tipo_docent AND id_clase = :id_clase";
+                                    
+    $result=$db->prepare($sql);
+                            
+                $result->execute(array("tipo_docent"=>$tipo_docent,"id_clase"=>$id_clase));
+
+    $result->execute();
+
+   $count=$result->rowCount();
+    if(!$count == 0){ 
+    return true;
+    }else{
+        return false;
+    }
+    /*
+            if (!empty($tipo_docent)) {
+
+        foreach ($tipo_docent as $id) {
+            if (validar_tipo_dodente_repetido($id_clase,$id)) {
+                switch ($id) {
+                    case "1":
+                    $errors[] = "" 
+                        break;
+                    
+                    default:
+                        # code...
+                        break;
+                }
+            }
+
+        }
+        }
+     */
+
+//}
+
+
+// Para evitar asignar un docente que ya tien el turno ocupado
+
+
+function generador_id_clases($grado,$seccion,$anio_escolar1,$anio_escolar2,$turno){
+      return $id_clase = $grado.'-'.$seccion.'-'.$anio_escolar1.'-'.$anio_escolar2.'-'.$turno;
+}
+
+// Por si un docente ya tiene un turno ocupado para asignarle una clase
+
+function comprobar_turno_docent_clase($id_doc_docent,$id_turno){
+    global $db;
+   $sql="SELECT d.id_doc_docent,c_a.id_clase,c.id_turno FROM docentes d INNER JOIN clases_asignadas c_a ON d.id_doc_docent = c_a.id_doc_docent INNER JOIN clases c ON c_a.id_clase = c.id_clase WHERE d.id_doc_docent = :id_doc AND c.id_turno = :id_turno ";
+
+       $result=$db->prepare($sql);
+
+        $result->execute(array("id_doc"=>$id_doc_docent,"id_turno"=>$id_turno));
  
+    $result->execute();
+
+   $count=$result->rowCount();
+    if($count == 0){ 
+        return true;
+    }else{
+         return false;
+
+    }
+}
+
+
+
+ 
+ function asignar_docente_clase($id_clase,$id_contrato_clase,$grado,$seccion,$id_doc_docent,$id_tipo_docent,$id_estado){
+
+    global $db;
+
+$sql = disable_foreing()." INSERT INTO `clases_asignadas`(`id_contrato_clase`, `id_estado`, `id_clase`, `id_doc_docent`, `id_tipo_docent`) VALUES (:id_contrato_clase,:id_estado,:id_clase,:id_doc_docent,:id_tipo_docent); ".enable_foreing();
+            
+ $result = $db->prepare($sql);
+            
+ $result->execute(array("id_contrato_clase"=>$id_contrato_clase,"id_estado"=>$id_estado,"id_clase"=>$id_clase,"id_doc_docent"=>$id_doc_docent,"id_tipo_docent"=>$id_tipo_docent));
+
+}
+
+
+function generador_id_contrato_clase($id_clase,$id_doc_docent,$tipo_docent){
+
+$id_contrato_clase=$id_clase.'-'.$id_doc_docent.'-'.$tipo_docent;
+return $id_contrato_clase;
+}
+
+
+
+function comprobar_msjs_array($array){
+    $comprobador=FALSE;
+    foreach ($array as $key => $value) {
+        if (is_string($value)) {
+            $comprobador=TRUE;
+        }
+    }
+    return $comprobador;
+}
+
+
+function comprobar_aula_ocupada($no_aula){
+    global $db;
+   $sql="SELECT no_aula  FROM clases
+WHERE no_aula = :no_aula";
+
+       $result=$db->prepare($sql);
+
+        $result->bindValue(":no_aula",$no_aula);
+ 
+    $result->execute();
+
+   $count=$result->rowCount();
+   var_dump($count);
+    if($count > 0){ 
+        return true;
+    }else{
+         return false;
+
+    }
+}
+
 ?>
