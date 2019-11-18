@@ -15,5 +15,6 @@ asignar_docente_clase($id_clase,$id_contrato_clase,'6','A','1909022','1','1');
 
 
 
-var_dump(comprobar_aula_ocupada('3'));
+
+var_dump(exist_nro_contrato_clase('2'))."<hr>";
 ?>

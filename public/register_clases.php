@@ -74,7 +74,7 @@ if (comprobar_aula_ocupada($no_aula)){$errors[]="El Aula ya esta Ocupada";}
     
 
 if (!comprobar_msjs_array($errors)) {
-    echo "Entramos a registros";
+
     registrar_clases(/*$id_doc_docent,
         $id_doc_docent_fis,
         $id_doc_docent_cult,*/
@@ -93,17 +93,17 @@ if (!comprobar_msjs_array($errors)) {
         // Registro Docente Normal
         $id_contrato_clase=generador_id_contrato_clase($id_clase,$id_doc_docent_normal,'1');
 
-        asignar_docente_clase($id_clase,$id_contrato_clase,$grado,$seccion,$id_doc_docent_normal,'1','1');
+        asignar_docente_clase($id_clase,$id_contrato_clase,$grado,$seccion,$id_doc_docent_normal,'1','1','1');
 
         //Registro Docente de Educacion Fisica
-        $id_contrato_clase=generador_id_contrato_clase($id_clase,$id_doc_educ_fisica,'2');
+        $id_contrato_clase=generador_id_contrato_clase($id_clase,$id_doc_educ_fisica,'2','1');
 
-        asignar_docente_clase($id_clase,$id_contrato_clase,$grado,$seccion,$id_doc_educ_fisica,'2','1');
+        asignar_docente_clase($id_clase,$id_contrato_clase,$grado,$seccion,$id_doc_educ_fisica,'2','1','1');
 
         //Registro Docente de Arte y Cultura
-        $id_contrato_clase=generador_id_contrato_clase($id_clase,$id_doc_docent_arte_cultura,'3');
+        $id_contrato_clase=generador_id_contrato_clase($id_clase,$id_doc_docent_arte_cultura,'3','1');
 
-        asignar_docente_clase($id_clase,$id_contrato_clase,$grado,$seccion,$id_doc_docent_arte_cultura,'3','1');
+        asignar_docente_clase($id_clase,$id_contrato_clase,$grado,$seccion,$id_doc_docent_arte_cultura,'3','1','1');
 
                 
         }

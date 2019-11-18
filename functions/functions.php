@@ -565,22 +565,22 @@ function comprobar_turno_docent_clase($id_doc_docent,$id_turno){
 
 
  
- function asignar_docente_clase($id_clase,$id_contrato_clase,$grado,$seccion,$id_doc_docent,$id_tipo_docent,$id_estado){
+ function asignar_docente_clase($id_clase,$id_contrato_clase,$grado,$seccion,$id_doc_docent,$id_tipo_docent,$id_estado,$nro_contrato){
 
     global $db;
 
-$sql = disable_foreing()." INSERT INTO `clases_asignadas`(`id_contrato_clase`, `id_estado`, `id_clase`, `id_doc_docent`, `id_tipo_docent`) VALUES (:id_contrato_clase,:id_estado,:id_clase,:id_doc_docent,:id_tipo_docent); ".enable_foreing();
+$sql = disable_foreing()." INSERT INTO `clases_asignadas`(`id_contrato_clase`, `id_estado`, `id_clase`, `id_doc_docent`, `id_tipo_docent`, `nro_contrato`) VALUES (:id_contrato_clase,:id_estado,:id_clase,:id_doc_docent,:id_tipo_docent,:nro_contrato); ".enable_foreing();
             
  $result = $db->prepare($sql);
             
- $result->execute(array("id_contrato_clase"=>$id_contrato_clase,"id_estado"=>$id_estado,"id_clase"=>$id_clase,"id_doc_docent"=>$id_doc_docent,"id_tipo_docent"=>$id_tipo_docent));
+ $result->execute(array("id_contrato_clase"=>$id_contrato_clase,"id_estado"=>$id_estado,"id_clase"=>$id_clase,"id_doc_docent"=>$id_doc_docent,"id_tipo_docent"=>$id_tipo_docent,"nro_contrato"=>$nro_contrato));
 
 }
 
 
-function generador_id_contrato_clase($id_clase,$id_doc_docent,$tipo_docent){
+function generador_id_contrato_clase($id_clase,$id_doc_docent,$tipo_docent,$nro_contrato=1){
 
-$id_contrato_clase=$id_clase.'-'.$id_doc_docent.'-'.$tipo_docent;
+$id_contrato_clase=$id_clase.'-'.$id_doc_docent.'-'.$tipo_docent.'-'.$nro_contrato;
 return $id_contrato_clase;
 }
 
@@ -617,5 +617,26 @@ WHERE no_aula = :no_aula";
 
     }
 }
+
+function exist_nro_contrato_clase($nro_contrato){
+     global $db;
+   $sql='SELECT nro_contrato FROM clases_asignadas WHERE nro_contrato = :nro_contrato';
+
+       $result=$db->prepare($sql);
+
+        $result->bindValue("nro_contrato",$nro_contrato);
+ 
+    $result->execute();
+
+   $count=$result->rowCount();
+   var_dump($count);
+    if($count > 0){ 
+        return true;
+    }else{
+         return false;
+
+    }
+}
+
 
 ?>

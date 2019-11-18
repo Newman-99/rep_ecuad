@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 17-11-2019 a las 00:29:15
+-- Tiempo de generación: 19-11-2019 a las 00:28:22
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.3.1
 
@@ -106,6 +106,7 @@ CREATE TABLE `clases` (
 --
 
 INSERT INTO `clases` (`id_clase`, `grado`, `seccion`, `no_aula`, `id_turno`, `anio_escolar1`, `anio_escolar2`) VALUES
+('1-A-2019-2020-2', 1, 'A', 13, 2, 2019, 2020),
 ('1-C-2019-2020-1', 1, 'C', 3, 1, 2019, 2020),
 ('1-C-2019-2020-2', 1, 'C', 2, 2, 2019, 2020),
 ('1-D-2019-2020-1', 1, 'D', 34, 1, 2019, 2020);
@@ -121,23 +122,19 @@ CREATE TABLE `clases_asignadas` (
   `id_estado` int(1) NOT NULL,
   `id_clase` varchar(15) NOT NULL,
   `id_doc_docent` varchar(15) NOT NULL,
-  `id_tipo_docent` int(1) NOT NULL
+  `id_tipo_docent` int(1) NOT NULL,
+  `nro_contrato` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `clases_asignadas`
 --
 
-INSERT INTO `clases_asignadas` (`id_contrato_clase`, `id_estado`, `id_clase`, `id_doc_docent`, `id_tipo_docent`) VALUES
-('1-C-2019-2020-1-No Asignado-1', 1, '1-C-2019-2020-1', 'No Asignado', 1),
-('1-C-2019-2020-1-No Asignado-2', 1, '1-C-2019-2020-1', 'No Asignado', 2),
-('1-C-2019-2020-1-No Asignado-3', 1, '1-C-2019-2020-1', 'No Asignado', 3),
-('1-C-2019-2020-2-12345678-1', 1, '1-C-2019-2020-2', '12345678', 1),
-('1-C-2019-2020-2-No Asignado-2', 1, '1-C-2019-2020-2', 'No Asignado', 2),
-('1-C-2019-2020-2-No Asignado-3', 1, '1-C-2019-2020-2', 'No Asignado', 3),
-('1-D-2019-2020-1-14117206-1', 1, '1-D-2019-2020-1', '14117206', 1),
-('1-D-2019-2020-1-No Asignado-2', 1, '1-D-2019-2020-1', 'No Asignado', 2),
-('1-D-2019-2020-1-No Asignado-3', 1, '1-D-2019-2020-1', 'No Asignado', 3);
+INSERT INTO `clases_asignadas` (`id_contrato_clase`, `id_estado`, `id_clase`, `id_doc_docent`, `id_tipo_docent`, `nro_contrato`) VALUES
+('1-A-2019-2020-2-1909022-1-1', 1, '1-A-2019-2020-2', '1909022', 1, 1),
+('1-A-2019-2020-2-1909022-2-1', 1, '1-A-2019-2020-2', '1909022', 2, 1),
+('1-A-2019-2020-2-1909022-3-1', 1, '1-A-2019-2020-2', '1909022', 3, 1),
+('323', 1, '1-C-2019-2020-1', '1909022', 2, 2);
 
 -- --------------------------------------------------------
 
