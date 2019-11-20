@@ -81,7 +81,8 @@ session_start();
                          <th>Telefono Celular</th>
                          <th>Telefono Local</th>
                          <th>Correo</th>
-                         <th>Clase Actual</th>
+                         <th>Fecha Ingreso</th>
+						 <th>Fecha Inabilitacion</th>
 
 						 <th><button id="boton" class="icon-cog"></button></th>
 						 <th><button id="boton3" class="icon-download1"></button></th>
@@ -94,27 +95,23 @@ session_start();
                         
                         <td><?php echo $registro['apellido_p']." ".$registro['apellido_m'] ?></td> 
 						
-						<td><?php echo $registro['descripcion_turno']?>
-                        </td>
+						<td><?php echo $registro['descripcion_turno']?></td>
 
-                        <td><?php echo $registro['descripcion_tip_docent']?>                    </td>
+                        <td><?php echo $registro['descripcion_tip_docent']?></td>
 
-                        <td><?php echo $registro['descripcion_estado']?>                    </td>
+                        <td><?php echo $registro['descripcion_estado']?></td>
 						
-                        <td><?php echo $registro['tlf_cel']?>
-                        </td>
+                        <td><?php echo $registro['tlf_cel']?></td>
 
-                        <td><?php echo $registro['tlf_local']?>
-                        </td>
+                        <td><?php echo $registro['tlf_local']?></td>
 
+                        <td><?php echo $registro['correo']?></td>
 
-                        <td><?php echo $registro['correo']?>
-                        </td>
+						<td><?php echo $registro['fecha_ingreso']?></td>
 
-                        <td><?php echo $registro['grado']."".$registro['seccion']."<br> No Aula ".$registro['no_aula']."<br>Año Escolar ".$registro['año_escolar1']."-".$registro['año_escolar2'];
-                        ?></td>
-                    
- 		            </tr>
+						<td><?php echo $registro['fecha_inabilitacion']?></td>                     	
+	 
+	            </tr>
  	            </table>
             </div>
 	<?php  }}else{
