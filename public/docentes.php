@@ -17,8 +17,7 @@ session_start();
 	    <meta charset="UTF-8">
 	    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	    <link rel="stylesheet" href="./css/styles.css">
-	    <link rel="stylesheet" href="./style.css">
-	    <title></title>
+	    <title>Docentes</title>
     </head>
     <body>
 
@@ -43,20 +42,22 @@ session_start();
             cb.tlf_cel,
             cb.tlf_local,
             cb.correo,
-            cl.grado,
-            cl.seccion,
-            cl.año_escolar1,
-            cl.año_escolar2,
-            cl.no_aula FROM docentes doc 
-            INNER JOIN info_personal in_p ON doc.id_doc_docent = in_p.id_doc 
-            INNER JOIN turnos tr ON doc.id_turno = tr.id_turno 
-            INNER JOIN clases cl ON doc.id_doc_docent = cl.id_doc_docent
-            or doc.id_doc_docent = cl.id_doc_docent_fis
-            or doc.id_doc_docent = cl.id_doc_docent_cult 
-            INNER JOIN tipos_docentes tp ON doc.id_tipo_docent = tp.id_tipo_docente 
-            INNER JOIN contact_basic cb ON doc.id_doc_docent = cb.id_doc
-            INNER JOIN estado est ON doc.id_estado = est.id_estado
-         WHERE doc.id_doc_docent = :id";
+            doc.fecha_ingreso,
+            doc.fecha_inabilitacion
+			
+           FROM docentes doc 
+           
+           INNER JOIN info_personal in_p ON doc.id_doc_docent = in_p.id_doc 
+           
+           INNER JOIN tipos_docentes tp ON doc.id_tipo_docent = tp.id_tipo_docent
+           
+           INNER JOIN contact_basic cb ON doc.id_doc_docent = cb.id_doc
+           
+           INNER JOIN estado est ON doc.id_estado = est.id_estado
+           
+           INNER JOIN turnos tr ON doc.id_turno = tr.id_turno 
+                       
+       WHERE doc.id_doc_docent = :id;";
 					 
 			$result=$db->prepare($sql);
 									

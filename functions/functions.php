@@ -333,7 +333,7 @@ function enable_foreing(){
     return "SET FOREIGN_KEY_CHECKS=1;";
 }
 
-function registrar_docentes($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$tipo_docent,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno){
+function registrar_docentes($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$tipo_docent,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$id_estado){
 
     global $db;
 
@@ -358,11 +358,11 @@ $result->execute(array("id_doc"=>$id_doc,"tlf_local"=>$tlf_local,
 
 // Insertando datos de la persona como docente
 
-$sql =disable_foreing()."INSERT INTO docentes(id_doc_docent,id_tipo_docent,id_turno) VALUES (:id_doc_docent,:id_tipo_docent,:id_turno);".enable_foreing();
+$sql =disable_foreing()."INSERT INTO docentes(id_doc_docent,id_tipo_docent,id_turno,id_estado) VALUES (:id_doc_docent,:id_tipo_docent,:id_turno,:id_estado);".enable_foreing();
 
 $result=$db->prepare($sql);
 
-$result->execute(array("id_doc_docent"=>$id_doc,"id_tipo_docent"=>$tipo_docent,"id_turno"=>$turno));
+$result->execute(array("id_doc_docent"=>$id_doc,"id_tipo_docent"=>$tipo_docent,"id_turno"=>$turno,"id_estado"=>$id_estado));
 
 }
   
