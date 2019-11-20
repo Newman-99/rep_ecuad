@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 19-11-2019 a las 00:28:22
+-- Tiempo de generación: 20-11-2019 a las 19:41:48
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.3.1
 
@@ -154,8 +154,10 @@ CREATE TABLE `contact_basic` (
 --
 
 INSERT INTO `contact_basic` (`id_doc`, `tlf_local`, `tlf_cel`, `correo`) VALUES
+('1023102', '0239389279', '04142980900', 'uzdiana@gmail.com'),
 ('14117206', '02120902945', '04126218967', 'otero123@gmail.com'),
 ('1909022', '023823978', '041223975', 'jose_v@gmai.com'),
+('28117204', '02390972799', '04122894287', 'carlosor@gmail.com'),
 ('28117208', '02390172334', '04120172922', 'newmanrodriguez1999@gmail.com');
 
 -- --------------------------------------------------------
@@ -168,16 +170,20 @@ CREATE TABLE `docentes` (
   `id_doc_docent` varchar(15) NOT NULL,
   `id_tipo_docent` int(1) NOT NULL,
   `id_turno` int(1) NOT NULL,
-  `id_estado` int(1) NOT NULL
+  `id_estado` int(1) NOT NULL,
+  `fecha_ingreso` date DEFAULT NULL,
+  `fecha_inabilitacion` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `docentes`
 --
 
-INSERT INTO `docentes` (`id_doc_docent`, `id_tipo_docent`, `id_turno`, `id_estado`) VALUES
-('14117206', 2, 1, 1),
-('1909022', 1, 1, 1);
+INSERT INTO `docentes` (`id_doc_docent`, `id_tipo_docent`, `id_turno`, `id_estado`, `fecha_ingreso`, `fecha_inabilitacion`) VALUES
+('1023102', 3, 1, 1, '0000-00-00', '0000-00-00'),
+('14117206', 2, 1, 1, '2019-11-05', '2019-11-10'),
+('1909022', 1, 1, 1, '0000-00-00', '0000-00-00'),
+('28117204', 1, 1, 2, '0000-00-00', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -216,9 +222,9 @@ CREATE TABLE `estudiantes` (
 --
 
 INSERT INTO `estudiantes` (`ci_escolar`, `id_doc_est`, `id_clase`, `id_estado`) VALUES
-('3228117206', '3228117206', '4-b-2018-2019', 1),
-('34990567', '', '4-b-2018-2019', 1),
-('36117206', '', '2-a-2018-2019', 1);
+('3228117206', '3228117206', '1-A-2019-2020-2', 1),
+('34990567', '', '1-A-2019-2020-2', 1),
+('36117206', '', '1-A-2019-2020-2', 1);
 
 -- --------------------------------------------------------
 
@@ -276,8 +282,10 @@ CREATE TABLE `info_personal` (
 --
 
 INSERT INTO `info_personal` (`id_doc`, `nombre`, `apellido_p`, `apellido_m`, `fecha_nac`, `lugar_nac`, `direcc_hab`, `id_nacionalidad`, `id_estado_civil`, `id_sexo`) VALUES
+('1023102', 'Diana Kimberly', 'Uzcategui', 'Sanchez', '1980-11-14', 'Caracas, San Benardino', 'Caracas, Catia', 1, 1, 2),
 ('14117206', 'Carlos Gabriel', 'Sanchez', 'Otero', '1994-10-08', 'Caracas', 'Los Teques', 2, 1, 1),
 ('1909022', 'Jose Gregorio', 'Varaon', '', '1990-02-22', 'Caracas', 'Parroquia La vega', 1, 1, 1),
+('28117204', 'Carlos Alexander', 'Rodriguez', 'Alvarado', '1978-11-07', 'Caracas. San Martin', 'Caracas, San Benardino', 1, 1, 1),
 ('28117208', 'Newman Louis', 'Rodriguez', 'Robles', '1999-08-17', 'Caracas San Martin, Maternidad Concepción Palacios', 'Miranda Cristobal Rojas Concepcion Palacios', 1, 1, 1),
 ('3228117206', 'Angel Nicolas', 'Hernandez Garantón', 'Zapatero', '2010-10-02', 'Cojedes San Carlos', 'Caracas Catia', 1, 1, 1),
 ('34990567', 'Fabiana Maria', 'Giordano ', 'Petit', '2011-05-01', 'Caracas San Martin', 'Caracas El Valle', 1, 1, 2),
@@ -528,7 +536,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_doc`, `id_tip_usr`, `pass`, `ult_sesion`) VALUES
-('28117208', 1, '$2y$10$i8Vrf/tmlVV5BCLUOMcoCeQLawaXzw19IXIt1GiBzzxZ7raGyjNJa', '2019-11-03');
+('28117208', 1, '$2y$10$i8Vrf/tmlVV5BCLUOMcoCeQLawaXzw19IXIt1GiBzzxZ7raGyjNJa', '2019-11-18');
 
 --
 -- Índices para tablas volcadas
@@ -775,12 +783,6 @@ ALTER TABLE `clases_asignadas`
   ADD CONSTRAINT `clases_asignadas_ibfk_6` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`);
 
 --
--- Filtros para la tabla `contact_basic`
---
-ALTER TABLE `contact_basic`
-  ADD CONSTRAINT `contact_basic_ibfk_1` FOREIGN KEY (`id_doc`) REFERENCES `administrativos` (`id_doc_admin`);
-
---
 -- Filtros para la tabla `docentes`
 --
 ALTER TABLE `docentes`
@@ -789,83 +791,6 @@ ALTER TABLE `docentes`
   ADD CONSTRAINT `docentes_ibfk_2` FOREIGN KEY (`id_doc_docent`) REFERENCES `contact_basic` (`id_doc`),
   ADD CONSTRAINT `docentes_ibfk_3` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id_turno`),
   ADD CONSTRAINT `docentes_ibfk_4` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`);
-
---
--- Filtros para la tabla `estudiantes`
---
-ALTER TABLE `estudiantes`
-  ADD CONSTRAINT `estudiantes_ibfk_1` FOREIGN KEY (`ci_escolar`) REFERENCES `info_personal` (`id_doc`),
-  ADD CONSTRAINT `estudiantes_ibfk_2` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`),
-  ADD CONSTRAINT `estudiantes_ibfk_3` FOREIGN KEY (`id_clase`) REFERENCES `clases` (`id_clase`);
-
---
--- Filtros para la tabla `familiar_estd`
---
-ALTER TABLE `familiar_estd`
-  ADD CONSTRAINT `familiar_estd_ibfk_1` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`),
-  ADD CONSTRAINT `familiar_estd_ibfk_2` FOREIGN KEY (`ci_escolar_famil`) REFERENCES `estudiantes` (`ci_escolar`),
-  ADD CONSTRAINT `familiar_estd_ibfk_3` FOREIGN KEY (`ci_escolar_famil`) REFERENCES `parenteco` (`id_doc`),
-  ADD CONSTRAINT `familiar_estd_ibfk_4` FOREIGN KEY (`ci_escolar_famil`) REFERENCES `parenteco` (`id_doc`);
-
---
--- Filtros para la tabla `info_personal`
---
-ALTER TABLE `info_personal`
-  ADD CONSTRAINT `info_personal_ibfk_1` FOREIGN KEY (`id_nacionalidad`) REFERENCES `nacionalidad` (`id_nacionalidad`),
-  ADD CONSTRAINT `info_personal_ibfk_2` FOREIGN KEY (`id_estado_civil`) REFERENCES `est_civil` (`id_estado_civil`),
-  ADD CONSTRAINT `info_personal_ibfk_3` FOREIGN KEY (`id_nacionalidad`) REFERENCES `nacionalidad` (`id_nacionalidad`),
-  ADD CONSTRAINT `info_personal_ibfk_4` FOREIGN KEY (`id_estado_civil`) REFERENCES `est_civil` (`id_estado_civil`),
-  ADD CONSTRAINT `info_personal_ibfk_5` FOREIGN KEY (`id_sexo`) REFERENCES `sexo` (`id_sexo`);
-
---
--- Filtros para la tabla `inscripcion`
---
-ALTER TABLE `inscripcion`
-  ADD CONSTRAINT `inscripcion_ibfk_1` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`);
-
---
--- Filtros para la tabla `laboral`
---
-ALTER TABLE `laboral`
-  ADD CONSTRAINT `laboral_ibfk_1` FOREIGN KEY (`id_doc`) REFERENCES `pers_est` (`id_doc`);
-
---
--- Filtros para la tabla `movilidad`
---
-ALTER TABLE `movilidad`
-  ADD CONSTRAINT `movilidad_ibfk_1` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`);
-
---
--- Filtros para la tabla `parenteco`
---
-ALTER TABLE `parenteco`
-  ADD CONSTRAINT `parenteco_ibfk_1` FOREIGN KEY (`id_doc`) REFERENCES `pers_est` (`id_doc`);
-
---
--- Filtros para la tabla `pers_est`
---
-ALTER TABLE `pers_est`
-  ADD CONSTRAINT `pers_est_ibfk_1` FOREIGN KEY (`id_doc`) REFERENCES `info_personal` (`id_doc`),
-  ADD CONSTRAINT `pers_est_ibfk_2` FOREIGN KEY (`id_doc`) REFERENCES `contact_basic` (`id_doc`);
-
---
--- Filtros para la tabla `recursos_public`
---
-ALTER TABLE `recursos_public`
-  ADD CONSTRAINT `recursos_public_ibfk_1` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`);
-
---
--- Filtros para la tabla `salud`
---
-ALTER TABLE `salud`
-  ADD CONSTRAINT `salud_ibfk_1` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`);
-
---
--- Filtros para la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`id_doc`) REFERENCES `administrativos` (`id_doc_admin`),
-  ADD CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`id_tip_usr`) REFERENCES `tip_user` (`id_tip_usr`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
