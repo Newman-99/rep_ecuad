@@ -37,13 +37,15 @@ if(validar_datos_vacios_sin_espacios($grado,$turno,$no_aula,$anio_escolar1,$anio
 
     $errors[] = comprobar_no_aula($no_aula); 
 
+
+}
+if (!comprobar_msjs_array($errors)) {
+
     $id_clase= generador_id_clases($grado,$seccion,$anio_escolar1,$anio_escolar2,$turno);
 
-    }if(exist_clase($id_clase)){$errors[]="Esta clase ya existe ";}else{
+if(exist_clase($id_clase)){$errors[]="Esta clase ya existe ";}else{
 
-
-        $tipo_docent = array();
-        if (validar_datos_vacios($id_doc_docent_normal)){$id_doc_docent_normal="No Asignado";}else{if(is_string(valid_ci($id_doc_docent_normal))){$errors[]="La Cedula del docente normal es inavlida";}}
+        if (validar_datos_vacios($id_doc_docent_normal)){$id_doc_docent_normal="No Asignado";}else{if(is_string(valid_ci($id_doc_docent_normal))){$errors[]="La Cedula del docente en aula es inavlida";}}
 
         if (validar_datos_vacios($id_doc_educ_fisica)){$id_doc_educ_fisica="No Asignado";}else{if (is_string(valid_ci($id_doc_educ_fisica))){$errors[]="La Cedula del docente de Educacion fisica es inavlida";}}}
 
@@ -52,7 +54,7 @@ if(validar_datos_vacios_sin_espacios($grado,$turno,$no_aula,$anio_escolar1,$anio
             // Si Hay Una Cedula se procedera a buscar si existe el docent
             if (is_numeric($id_doc_docent_normal)) {
                 if (!validar_exist_docente($id_doc_docent_normal)) {
-                    $errors[]="No hay ningun docente normal con esta cedula registrado";}
+                    $errors[]="No hay ningun docente en Aula con esta cedula registrado";}
                 }
             
 
@@ -67,7 +69,7 @@ if(validar_datos_vacios_sin_espacios($grado,$turno,$no_aula,$anio_escolar1,$anio
                 }
 
 if (!comprobar_turno_docent_clase($id_doc_docent_normal,$turno)){
-    $errors[]="El Docente normal ya tiene este turno ocupado";}
+    $errors[]="El Docente en Aula ya tiene este turno ocupado";}
 
 
 if (comprobar_aula_ocupada($no_aula)){$errors[]="El Aula ya esta Ocupada";}
@@ -110,10 +112,7 @@ if (!comprobar_msjs_array($errors)) {
 ///////////////////////////
  
 }
-
-
-
-
+}
 
 ?>
 
@@ -124,7 +123,7 @@ if (!comprobar_msjs_array($errors)) {
             <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <link rel="stylesheet" href="./css/styles.css">
 
-    <title>Registro de Docentes</title>
+    <title>Registro de Clases</title>
 </head>
 <body>
 
@@ -174,7 +173,7 @@ Turno:
         <input type="number" name="año_escolar2" id="" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
         <br>
 
-        Documento de Identidad - Docente Normal <input type="number" name="id_doc_docent_normal" id="" value="<?php if(isset($id_doc_docent_normal)) echo $id_doc_docent_normal; ?>">
+        Documento de Identidad - Docente en Aula <input type="number" name="id_doc_docent_normal" id="" value="<?php if(isset($id_doc_docent_normal)) echo $id_doc_docent_normal; ?>">
 
         <br>
         Documento de Identidad - Docente Educacion Fisica <input type="number" name="id_doc_educ_fisica" id="" value="<?php if(isset($id_doc_educ_fisica)) echo $id_doc_educ_fisica; ?>">
@@ -185,7 +184,8 @@ Turno:
 
     <input type="submit" value="Registrar" name="registrar">
     </form>
-
+<br>
+<a href="clases.php">Volver</a>
         
     <?php
     if(!empty($errors)){
@@ -195,7 +195,7 @@ Turno:
     }
 
     ?>
-        <section class="piedepagina"></section>
+        <section class=""></section>
             <script src="./js/jquery-3.1.1.min.js"></script>
             <script src="./js/sweetalert2.min.js"></script>
             <script src="./js/bootstrap.min.js"></script>

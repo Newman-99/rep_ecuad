@@ -1,4 +1,6 @@
-
+ul{
+  list-style: none; 
+}
 
 * {
     margin: 0;
@@ -12,17 +14,17 @@ body {
     background-size: cover;
     background-attachment: fixed;
     font-family: Roboto;
-    background-color: gray;
-}
+    background-color: #E1ECF5;
+    margin:20px;}
 
 /* estilos de */
 .top{
-    margin: auto;
-    
+    margin: auto; 
+    width: 150%;
+    display:block; 
+    position: relative;      
 }
 
-.top{
-}
 .top ul {
     list-style: none;
     font-size: 30px;
@@ -30,25 +32,22 @@ body {
 }
 
 .top li {
-    background-color: #000;
+    background-color: #077BC6;
     color: #FFF;
     text-decoration: none;
     padding: 30px 95px ;
-    display: block;
 }
 
 
 .top li ul{
     display: none;
-    position: absolute;
-    min-width: 140px;
     margin-top: 20px;
 }
 
 .top span{
      color: #fff;
-     display: inline;
-     position: absolute;
+/*     display: inline-block;
+     position: absolute;*/
      right: 5%;
      top: 30px;
      font-size: 60px;
@@ -65,7 +64,7 @@ body {
 .busqueda{
 	position: absolute;
 	right: 15%;
-	margin-bottom: 400px;
+	margin-bottom: 700px;
 	width:300px;
 
 }
@@ -107,30 +106,32 @@ input[type="submit"]:hover{
     padding: 10px;
     width: 20%;
     border: none;
-     display: inline;
+     display:     ;
      position: absolute;
      right: 10%;
-     top: 30%;
+     top: 35%;
      border-radius: 10px;
 }
 .tabla{
-    margin: 100px auto;
-    left: 40%;
-    width: 700px;
+   /* margin: 100px auto;*/
+   margin-top:100px;
+    margin-left:-120px;
+    margin-right: 400px;
+    left: 35%;
+    width: 80%;
     height: 200px;
-    max-width: 90%;
-    position: absolute;
+    max-width: 70%;
+    position:absolute;
     font-size: 20px;
-
 
 }
 table{
-	background-color: #75A3C7;
+	background-color: #F5F8F5;
 	text-align: left;
-	width: 100%;
+	width: 80%;
 	border-collapse: collapse;
 	 transition: all .3s ease-in-out;
-  max-width: 90%;
+  max-width: 80%;
   padding: 10px;
 
 }
@@ -142,7 +143,7 @@ td{
 	width: 1000px;
 }
 thead{
-	background-color: #B5CFB4;
+	background-color: #DFEDDE;
 	border-bottom: solid 3px;
 }
 
@@ -150,7 +151,7 @@ tr:nth-child(even){
 	background-color: #ddd;
 }
 tr:hover{
-	background-color: #fff;
+	background-color: gray;
 }
 tr:hover{
   opacity: 0.75;
@@ -281,31 +282,28 @@ a{
 /*navegar*/
 .nave{
     margin: 30px auto;
-    right: 30%;
     width: 300px;
     max-width: 90%;
-    position: relative;
+    position: absolute;
     font-size: 20px;
 
 }
  .nave > ul{
-    background-color: #000;
+    background-color: #077BC6;
     text-align: left;
     width: 100%;
-    height: 400px;
+    height: 100%;
     border-collapse: collapse;
     transition: all .3s ease-in-out;
     max-width: 90%;
+
     padding: 10px;
 
 }
-.nave{
-}
+
 .nave li{
     padding: 20px;
 }
-
-
 
 .nave li:hover{
     background-color: #75A3C7;

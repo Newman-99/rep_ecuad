@@ -12,16 +12,16 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap-reboot.min.css">
     <title>Registro Alumnos</title>
 </head>
-<body style="background-image: url(img/rep_ecu_flag.jpg);">
+<body>
 
     <header>
         <ul class="nav_reg">
-            <li><a href="menu.html">Menú principal</a></li>
+            <li><a href="../dashboard.php">Inicio</a></li>
             <ul>
-                <li><a href="alumno.html" >Volver a control de alumnos</a></li>
+                <li><a href="../dashboard.php" >Volver</a></li>
             </ul>
+            <h2>Inscripcion de Estudiantes</h2>
         </ul>
-        <h2>Registro estudiantil</h2>
     </header>
 
 
@@ -55,16 +55,10 @@
                     <select name="cedula" id="cedula" class="">
                         <option value="0">--- Seleccione ---</option>
                         <option value="V">V - Venezolano </option>
-                        <option value="E">E - Cedula Escolar</option>
+                        <option value="E">E - Extranjero</option>
                     </select>
-                    <input type="text" maxlength="8" placeholder="C.I">
-                    <p class="">(De no poseer C.I seleccione Cedula Escolar)</p>
-                </div>
-                <div class="my-2 mx-4">
-                    <label for="" class="mx-2">Nacionalidad</label>
-                    <input type="text" name="" id="" placeholder="Ingresar nacionalidad" class="form-control">
-                </div>
-                
+                    <input type="text" maxlength="8" placeholder="C.I">                </div>
+
                 <div class=" my-2 mx-4">
                     <label for="">Fecha de Nacimiento</label>
                     <input type="date" name="" id="" class="form-control">
@@ -557,6 +551,7 @@
                         <label for="">Observaciones</label>
                         <input type="text" name="inscripcion_escolaridad" id="" placeholder="Ingrese la observacion" class="form-control">
                     </div>
+
                 </form>
         </section>
 
@@ -577,6 +572,9 @@
             </div>
                 
         </section>
+
+    <a href="../estudiantes.php">Volver</a>
+
     </div>
 
     <!--jquery, boostrap.min.js, bundle.min.js-->

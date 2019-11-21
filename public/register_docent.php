@@ -66,8 +66,6 @@ if(validar_datos_vacios_sin_espacios($nacionalidad, $id_doc,$sexo,$tlf_cel,$tlf_
 
 
     <h2>Registro de Docentes</h2>
-
-    <h3>Registrar Docente</h3>
     <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
         <br>
         Nacionalidad:
@@ -147,6 +145,11 @@ if(validar_datos_vacios_sin_espacios($nacionalidad, $id_doc,$sexo,$tlf_cel,$tlf_
         <br>
         <input type="submit" value="Registrar" name="registrar">
     </form>
+
+    <br>
+    <a href="docentes.php">volver</a>
+    <br>
+    <br>
 
     <?php
     if(!empty($errors)){

@@ -420,8 +420,6 @@ VALUES (:id,
 :anio_1,
 :anio_2); ".enable_foreing();
 
-var_dump($sql);
-
 $result=$db->prepare($sql);
 
 $result->execute($parameters);
@@ -609,7 +607,6 @@ WHERE no_aula = :no_aula";
     $result->execute();
 
    $count=$result->rowCount();
-   var_dump($count);
     if($count > 0){ 
         return true;
     }else{
@@ -629,7 +626,6 @@ function exist_nro_contrato_clase($nro_contrato){
     $result->execute();
 
    $count=$result->rowCount();
-   var_dump($count);
     if($count > 0){ 
         return true;
     }else{

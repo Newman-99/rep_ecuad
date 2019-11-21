@@ -84,8 +84,7 @@ session_start();
                          <th>Fecha Ingreso</th>
 						 <th>Fecha Inabilitacion</th>
 
-						 <th><button id="boton" class="icon-cog"></button></th>
-						 <th><button id="boton3" class="icon-download1"></button></th>
+						 <th></th>
  			            </tr>
  		            </thead>
  		            <tr>
@@ -110,6 +109,12 @@ session_start();
 						<td><?php echo $registro['fecha_ingreso']?></td>
 
 						<td><?php echo $registro['fecha_inabilitacion']?></td>                     	
+						 <td><a href="modificar.php">Modificar</a>
+						 <br><br>
+						 <a href="info_docent.php">Mas Informacion</a>
+						 <br><br>
+						 <a href="clases_asignadas.php?id_doc_docent=<?php echo $registro['id_doc'] ?>">Sus Clases</a>
+						</td>
 	 
 	            </tr>
  	            </table>
@@ -123,8 +128,9 @@ session_start();
 		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
 			
 			<input type="search" class="search" placeholder="Ingrese Cedula" name="ci_docente" value="<?php if(isset($ci)) echo $ci;?>">
-			
 			<button id=button class="icon-search" type="submit">Buscar</button>
+			<br>
+			<a href="register_docent.php" style="float:right;margin-top:50px;margin-right:190px;">Registrar Nuevo Docente</a>
 		</form>
 		
 
@@ -132,7 +138,7 @@ session_start();
 
             </div>
 	    </section>
-	    <section class="piedepagina"></section>
+	    <section class=""></section>
             <script src="./js/jquery-3.1.1.min.js"></script>
 			<script src="./js/sweetalert2.min.js"></script>
 	        <script src="./js/bootstrap.min.js"></script>

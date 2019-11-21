@@ -1,3 +1,4 @@
+
 <?php
 require '../database/connect.php';
 require '../functions/functions.php';
@@ -17,7 +18,7 @@ session_start();
 	    <meta charset="UTF-8">
 	    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	    <link rel="stylesheet" href="./css/styles.css">
-	    <title></title>
+	    <title>Estudiantes</title>
     </head>
     <body>
 
@@ -59,8 +60,7 @@ session_start();
 						 <th>Grado</th> 
 						 <th>Seccion</th> 
 						 <th>Turno</th> 
-						 <th><button id="boton" class="icon-cog"></button></th>
-						 <th><button id="boton3" class="icon-download1"></button></th>
+						 <th></th>
  			            </tr>
  		            </thead>
  		            <tr>
@@ -71,11 +71,19 @@ session_start();
 						<td><?php echo $registro['grado']?></td>
 						<td><?php echo $registro['seccion']?></td>
 						<td><?php echo $registro['descripcion_turn']?></td>
+
+						 <td><a href="modificar.php">Modificar</a>
+						 <br><br>
+						 <a href="info_docent.php">Mas Informacion</a>
+						<br><br>
+						 <a href="documentacion.php">Documentacion</a>
+
+						</td>
  		            </tr>
  	            </table>
             </div>
 	<?php  }}else{
-		$errors[] = "<h1>No existe el Estudiante</h1>";}
+		$errors[] = "No existe el Estudiante";}
 }?>
 
 	<section>
@@ -84,6 +92,9 @@ session_start();
 			<input type="search" class="search" placeholder="Cédula escolar o normal" name="ci_estudiante" value="<?php if(isset($ci)) echo $ci;?>">
 			
 			<button id=button class="icon-search" type="submit">Buscar</button>
+			<br>
+			<a href="./register_student/reg_alumno.php" style="float:right;margin-top:50px;margin-right:190px;">Registrar Nuevo Estudiante</a>
+
 		</form>
 		
 
@@ -91,7 +102,7 @@ session_start();
 
             </div>
 	    </section>
-	    <section class="piedepagina"></section>
+	    <section class=""></section>
             <script src="./js/jquery-3.1.1.min.js"></script>
 			<script src="./js/sweetalert2.min.js"></script>
 	        <script src="./js/bootstrap.min.js"></script>
@@ -110,7 +121,7 @@ session_start();
 
     if(!empty($errors)){
         foreach ($errors as $msjs) {
-            echo "<p>$msjs<p>";
+            echo "<h4 style = 'margin-top:40%;'>$msjs</h4>";
         }
     }
 
