@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 20-11-2019 a las 19:41:48
+-- Tiempo de generación: 21-11-2019 a las 10:49:03
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.3.1
 
@@ -106,10 +106,9 @@ CREATE TABLE `clases` (
 --
 
 INSERT INTO `clases` (`id_clase`, `grado`, `seccion`, `no_aula`, `id_turno`, `anio_escolar1`, `anio_escolar2`) VALUES
-('1-A-2019-2020-2', 1, 'A', 13, 2, 2019, 2020),
-('1-C-2019-2020-1', 1, 'C', 3, 1, 2019, 2020),
-('1-C-2019-2020-2', 1, 'C', 2, 2, 2019, 2020),
-('1-D-2019-2020-1', 1, 'D', 34, 1, 2019, 2020);
+('1-A-2019-2020-1', 1, 'A', 17, 1, 2019, 2020),
+('1-D-2018-2019-1', 1, 'D', 5, 1, 2018, 2019),
+('2-B-2018-2019-1', 2, 'B', 21, 1, 2018, 2019);
 
 -- --------------------------------------------------------
 
@@ -131,10 +130,15 @@ CREATE TABLE `clases_asignadas` (
 --
 
 INSERT INTO `clases_asignadas` (`id_contrato_clase`, `id_estado`, `id_clase`, `id_doc_docent`, `id_tipo_docent`, `nro_contrato`) VALUES
-('1-A-2019-2020-2-1909022-1-1', 1, '1-A-2019-2020-2', '1909022', 1, 1),
-('1-A-2019-2020-2-1909022-2-1', 1, '1-A-2019-2020-2', '1909022', 2, 1),
-('1-A-2019-2020-2-1909022-3-1', 1, '1-A-2019-2020-2', '1909022', 3, 1),
-('323', 1, '1-C-2019-2020-1', '1909022', 2, 2);
+('1-A-2019-2020-1-No Asignado-1-', 1, '1-A-2019-2020-1', 'No Asignado', 1, 1),
+('1-A-2019-2020-1-No Asignado-2-', 1, '1-A-2019-2020-1', 'No Asignado', 2, 1),
+('1-A-2019-2020-1-No Asignado-3-', 1, '1-A-2019-2020-1', 'No Asignado', 3, 1),
+('1-D-2018-2019-1-14117206-2-1', 1, '1-D-2018-2019-1', '14117206', 2, 1),
+('1-D-2018-2019-1-28117204-1-1', 1, '1-D-2018-2019-1', '28117204', 1, 1),
+('1-D-2018-2019-1-No Asignado-3-', 1, '1-D-2018-2019-1', 'No Asignado', 3, 1),
+('2-B-2018-2019-1-1023102-1-1', 1, '2-B-2018-2019-1', '1023102', 1, 1),
+('2-B-2018-2019-1-14117206-2-1', 1, '2-B-2018-2019-1', '14117206', 2, 1),
+('2-B-2018-2019-1-1909022-3-1', 1, '2-B-2018-2019-1', '1909022', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -180,10 +184,10 @@ CREATE TABLE `docentes` (
 --
 
 INSERT INTO `docentes` (`id_doc_docent`, `id_tipo_docent`, `id_turno`, `id_estado`, `fecha_ingreso`, `fecha_inabilitacion`) VALUES
-('1023102', 3, 1, 1, '0000-00-00', '0000-00-00'),
-('14117206', 2, 1, 1, '2019-11-05', '2019-11-10'),
-('1909022', 1, 1, 1, '0000-00-00', '0000-00-00'),
-('28117204', 1, 1, 2, '0000-00-00', '0000-00-00');
+('1023102', 1, 1, 1, '2005-01-20', '0000-00-00'),
+('14117206', 2, 1, 1, '2010-01-05', '0000-00-00'),
+('1909022', 3, 1, 1, '2016-02-01', '0000-00-00'),
+('28117204', 1, 2, 2, '2017-02-08', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -222,9 +226,12 @@ CREATE TABLE `estudiantes` (
 --
 
 INSERT INTO `estudiantes` (`ci_escolar`, `id_doc_est`, `id_clase`, `id_estado`) VALUES
-('3228117206', '3228117206', '1-A-2019-2020-2', 1),
-('34990567', '', '1-A-2019-2020-2', 1),
-('36117206', '', '1-A-2019-2020-2', 1);
+('32020390', '32020390', '2-B-2018-2019-1', 1),
+('34117206', '34117206', '2-B-2018-2019-1', 1),
+('34289190', '', '1-D-2018-2019-1', 1),
+('38873956', '', '1-D-2018-2019-1', 1),
+('38938390', '', '1-D-2018-2019-1', 2),
+('39029283', '', '1-A-2019-2020-1', 1);
 
 -- --------------------------------------------------------
 
@@ -287,9 +294,12 @@ INSERT INTO `info_personal` (`id_doc`, `nombre`, `apellido_p`, `apellido_m`, `fe
 ('1909022', 'Jose Gregorio', 'Varaon', '', '1990-02-22', 'Caracas', 'Parroquia La vega', 1, 1, 1),
 ('28117204', 'Carlos Alexander', 'Rodriguez', 'Alvarado', '1978-11-07', 'Caracas. San Martin', 'Caracas, San Benardino', 1, 1, 1),
 ('28117208', 'Newman Louis', 'Rodriguez', 'Robles', '1999-08-17', 'Caracas San Martin, Maternidad Concepción Palacios', 'Miranda Cristobal Rojas Concepcion Palacios', 1, 1, 1),
-('3228117206', 'Angel Nicolas', 'Hernandez Garantón', 'Zapatero', '2010-10-02', 'Cojedes San Carlos', 'Caracas Catia', 1, 1, 1),
-('34990567', 'Fabiana Maria', 'Giordano ', 'Petit', '2011-05-01', 'Caracas San Martin', 'Caracas El Valle', 1, 1, 2),
-('36117206', 'Alessandro Gabriel', 'Rodriguez', 'Hernandez', '2016-04-23', 'Caracas', 'Caracas San Bernardino', 1, 1, 1);
+('32020390', 'Andrea Mariella', 'Sanchez', 'Giordano', '2014-11-01', 'Italia, Roma', 'Caracas, Chacao', 2, 1, 2),
+('34117206', 'Andres Enrique', 'Rodriguez', 'Murcia', '2010-11-01', 'Miranda, Los Teques', 'Miranda, Los Teques', 1, 1, 1),
+('34289190', 'Maria Valentina', 'Robles', 'Jimenes', '2010-05-29', 'Dpto Capital, San Benardino', 'Dpto Capital, La pastora', 1, 1, 2),
+('38873956', 'Pedro', 'Oviedo', 'Martinez', '2014-05-07', 'Miranda, Los Valles del tuy', 'Dpto Capital, Catia', 1, 1, 1),
+('38938390', 'Calos Alexander', 'Hernandez', 'Aparicio', '2013-11-01', 'Cojedes, San Carlos.', 'Dpto Capital, La Candelaria', 1, 1, 1),
+('39029283', 'Angela Alessandra', 'Uzcategui', 'Rodrguez', '2014-11-08', 'Dpto Capital, San Martín', 'Dpto Capital, La Paz', 1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -474,7 +484,7 @@ CREATE TABLE `tipos_docentes` (
 --
 
 INSERT INTO `tipos_docentes` (`id_tipo_docent`, `descripcion`) VALUES
-(1, 'Normal'),
+(1, 'En Aula'),
 (2, 'Educación Física'),
 (3, 'Arte y Cultura');
 
@@ -536,7 +546,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_doc`, `id_tip_usr`, `pass`, `ult_sesion`) VALUES
-('28117208', 1, '$2y$10$i8Vrf/tmlVV5BCLUOMcoCeQLawaXzw19IXIt1GiBzzxZ7raGyjNJa', '2019-11-18');
+('28117208', 1, '$2y$10$i8Vrf/tmlVV5BCLUOMcoCeQLawaXzw19IXIt1GiBzzxZ7raGyjNJa', '2019-11-21');
 
 --
 -- Índices para tablas volcadas
