@@ -129,7 +129,7 @@ if (!comprobar_msjs_array($errors)) {
 
           <header class="top">
        <ul>
-        <li><img src="../img/i.png" width="80px" height="70px"><br>U-E-N "República del Ecuador"</li>
+        <li><img src="./img/i.png" width="80px" height="70px"><br>U-E-N "República del Ecuador"</li>
       </ul>
      </header>
 
