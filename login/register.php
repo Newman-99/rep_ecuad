@@ -1,44 +1,4 @@
-<?php
-require '../database/connect.php';
-require '../functions/functions.php';
 
-
-if (!empty($_POST)) {
-
-    $ci = htmlentities(addslashes($_POST["ci"]));
-    $pass = htmlentities(addslashes($_POST["pass"]));
-    $pass_c = htmlentities(addslashes($_POST["pass_confir"]));
-
-    $tip_usr=0;
-    $pass_g="";
-    
-
-    //Validacion de datos vacios y espacios
-        if(validar_datos_vacios_sin_espacios($ci,$pass,$pass_c)){
-            $errors_total[] = "Debe llenar todos los campos y evitar los espacios";    
-    }else{
-        if(!valid_user($ci)){
-            $errors_total[] = "El usuario ya existe<p></p>Si desea puede registrarse"; 
-        }else{
-        if(is_string(valid_ci_admin($ci)) || is_string(valid_ci($ci)) || is_array(valid_pass($pass)) || is_string(valid_pass_par($pass,$pass_c))){
-            
-            $errors_total = construc_msj(valid_ci_admin($ci),valid_ci($ci),valid_pass_par($pass,$pass_c),valid_pass($pass));
-
-                        }else{
-                        $pass_hash = hash_pass($pass);
-                        regist_usr($ci,$pass_hash,$tip_usr,$db);
-                        session_start();
-                        $_SESSION['id_user'] = $ci;
-                        $_SESSION['nivel_usuario'] = obtener_nivel_permiso($ci);
-                        header("Location: ../public/dashboard.php");   
-                    }
-            }
-        }
-    }
-
-    
-   
-?>
 
 <!DOCTYPE html>
 <html lang="en">

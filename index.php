@@ -65,7 +65,7 @@ background-size: cover;
 
     Cedula: <input type="text" name="ci" value="<?php if(isset($ci)) echo $ci; ?>">
 
-    Contraseña: <input type="text" name="pass"  value="<?php if(isset($pass)) echo $pass; ?>">
+    Contraseña: <input type="password" name="pass"  value="<?php if(isset($pass)) echo $pass; ?>">
     
     <input type="submit" value="Enviar" name="enviar">
     
