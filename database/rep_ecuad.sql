@@ -3,11 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
-<<<<<<< HEAD
--- Tiempo de generación: 21-11-2019 a las 10:49:03
-=======
--- Tiempo de generación: 26-11-2019 a las 16:22:26
->>>>>>> test
+-- Tiempo de generación: 28-11-2019 a las 05:10:53
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.3.1
 
@@ -82,7 +78,7 @@ CREATE TABLE `asistencias` (
 
 CREATE TABLE `calificaciones` (
   `ci_escolar` varchar(15) NOT NULL,
-  `id_clase` int(11) NOT NULL,
+  `id_clase` varchar(15) NOT NULL,
   `id_doc_docent` varchar(15) NOT NULL,
   `nota_per` varchar(1) NOT NULL,
   `nota_acum` varchar(1) NOT NULL,
@@ -163,21 +159,8 @@ CREATE TABLE `contact_basic` (
 -- Volcado de datos para la tabla `contact_basic`
 --
 
-<<<<<<< HEAD
-INSERT INTO `contact_basic` (`id_doc`, `tlf_local`, `tlf_cel`, `correo`) VALUES
-('1023102', '0239389279', '04142980900', 'uzdiana@gmail.com'),
-('14117206', '02120902945', '04126218967', 'otero123@gmail.com'),
-('1909022', '023823978', '041223975', 'jose_v@gmai.com'),
-('28117204', '02390972799', '04122894287', 'carlosor@gmail.com'),
-('28117208', '02390172334', '04120172922', 'newmanrodriguez1999@gmail.com');
-=======
 INSERT INTO `contact_basic` (`id_doc`, `tlf_local`, `tlf_cel`, `tlf_emergecia`, `correo`) VALUES
-('1023102', '0239389279', '04142980900', '', 'uzdiana@gmail.com'),
-('14117206', '02120902945', '04126218967', '', 'otero123@gmail.com'),
-('1909022', '023823978', '041223975', '', 'jose_v@gmai.com'),
-('28117204', '02390972799', '04122894287', '', 'carlosor@gmail.com'),
 ('28117208', '02390172334', '04120172922', '', 'newmanrodriguez1999@gmail.com');
->>>>>>> test
 
 -- --------------------------------------------------------
 
@@ -202,7 +185,8 @@ INSERT INTO `docentes` (`id_doc_docent`, `id_tipo_docent`, `id_turno`, `id_estad
 ('1023102', 1, 1, 1, '2005-01-20', '0000-00-00'),
 ('14117206', 2, 1, 1, '2010-01-05', '0000-00-00'),
 ('1909022', 3, 1, 1, '2016-02-01', '0000-00-00'),
-('28117204', 1, 2, 2, '2017-02-08', '0000-00-00');
+('28117204', 1, 2, 2, '2017-02-08', '0000-00-00'),
+('28117208', 1, 1, 1, '2019-11-06', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -418,6 +402,13 @@ CREATE TABLE `pers_est` (
   `convivencia` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `pers_est`
+--
+
+INSERT INTO `pers_est` (`ci_escolar`, `id_doc`, `convivencia`) VALUES
+('32020390', '28117208', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -568,7 +559,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_doc`, `id_tip_usr`, `pass`, `ult_sesion`) VALUES
-('28117208', 1, '$2y$10$i8Vrf/tmlVV5BCLUOMcoCeQLawaXzw19IXIt1GiBzzxZ7raGyjNJa', '2019-11-21');
+('28117208', 1, '$2y$10$i8Vrf/tmlVV5BCLUOMcoCeQLawaXzw19IXIt1GiBzzxZ7raGyjNJa', '2019-11-27');
 
 --
 -- Índices para tablas volcadas
@@ -715,7 +706,8 @@ ALTER TABLE `parentescos_asignados`
 -- Indices de la tabla `pers_est`
 --
 ALTER TABLE `pers_est`
-  ADD PRIMARY KEY (`id_doc`);
+  ADD PRIMARY KEY (`id_doc`),
+  ADD KEY `ci_escolar` (`ci_escolar`);
 
 --
 -- Indices de la tabla `plantillas`
@@ -806,7 +798,9 @@ ALTER TABLE `asistencias`
 -- Filtros para la tabla `calificaciones`
 --
 ALTER TABLE `calificaciones`
-  ADD CONSTRAINT `calificaciones_ibfk_1` FOREIGN KEY (`id_doc_docent`) REFERENCES `docentes` (`id_doc_docent`);
+  ADD CONSTRAINT `calificaciones_ibfk_1` FOREIGN KEY (`id_doc_docent`) REFERENCES `docentes` (`id_doc_docent`),
+  ADD CONSTRAINT `calificaciones_ibfk_2` FOREIGN KEY (`id_clase`) REFERENCES `clases` (`id_clase`),
+  ADD CONSTRAINT `calificaciones_ibfk_3` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`);
 
 --
 -- Filtros para la tabla `clases`
@@ -826,6 +820,12 @@ ALTER TABLE `clases_asignadas`
   ADD CONSTRAINT `clases_asignadas_ibfk_6` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`);
 
 --
+-- Filtros para la tabla `contact_basic`
+--
+ALTER TABLE `contact_basic`
+  ADD CONSTRAINT `contact_basic_ibfk_1` FOREIGN KEY (`id_doc`) REFERENCES `pers_est` (`id_doc`);
+
+--
 -- Filtros para la tabla `docentes`
 --
 ALTER TABLE `docentes`
@@ -834,14 +834,19 @@ ALTER TABLE `docentes`
   ADD CONSTRAINT `docentes_ibfk_2` FOREIGN KEY (`id_doc_docent`) REFERENCES `contact_basic` (`id_doc`),
   ADD CONSTRAINT `docentes_ibfk_3` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id_turno`),
   ADD CONSTRAINT `docentes_ibfk_4` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`);
-<<<<<<< HEAD
-=======
 
 --
 -- Filtros para la tabla `estudiantes`
 --
 ALTER TABLE `estudiantes`
   ADD CONSTRAINT `estudiantes_ibfk_1` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`);
+
+--
+-- Filtros para la tabla `familiar_estd`
+--
+ALTER TABLE `familiar_estd`
+  ADD CONSTRAINT `familiar_estd_ibfk_1` FOREIGN KEY (`ci_escolar_famil`) REFERENCES `estudiantes` (`ci_escolar`),
+  ADD CONSTRAINT `familiar_estd_ibfk_2` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`);
 
 --
 -- Filtros para la tabla `info_personal`
@@ -861,7 +866,7 @@ ALTER TABLE `inscripcion`
 -- Filtros para la tabla `laboral`
 --
 ALTER TABLE `laboral`
-  ADD CONSTRAINT `laboral_ibfk_1` FOREIGN KEY (`id_doc`) REFERENCES `familiar_estd` (`ci_escolar_famil`);
+  ADD CONSTRAINT `laboral_ibfk_1` FOREIGN KEY (`id_doc`) REFERENCES `pers_est` (`id_doc`);
 
 --
 -- Filtros para la tabla `movilidad`
@@ -876,6 +881,14 @@ ALTER TABLE `parentescos_asignados`
   ADD CONSTRAINT `parentescos_asignados_ibfk_1` FOREIGN KEY (`id_doc`) REFERENCES `pers_est` (`id_doc`),
   ADD CONSTRAINT `parentescos_asignados_ibfk_2` FOREIGN KEY (`id_doc`) REFERENCES `familiar_estd` (`ci_escolar_famil`),
   ADD CONSTRAINT `parentescos_asignados_ibfk_3` FOREIGN KEY (`id_parentesco`) REFERENCES `parenteco` (`id_parentesco`);
+
+--
+-- Filtros para la tabla `pers_est`
+--
+ALTER TABLE `pers_est`
+  ADD CONSTRAINT `pers_est_ibfk_1` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`),
+  ADD CONSTRAINT `pers_est_ibfk_2` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`),
+  ADD CONSTRAINT `pers_est_ibfk_3` FOREIGN KEY (`id_doc`) REFERENCES `info_personal` (`id_doc`);
 
 --
 -- Filtros para la tabla `recursos_public`
@@ -894,8 +907,8 @@ ALTER TABLE `salud`
 --
 ALTER TABLE `usuarios`
   ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`id_doc`) REFERENCES `administrativos` (`id_doc_admin`),
-  ADD CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`id_tip_usr`) REFERENCES `tip_user` (`id_tip_usr`);
->>>>>>> test
+  ADD CONSTRAINT `usuarios_ibfk_2` FOREIGN KEY (`id_tip_usr`) REFERENCES `tip_user` (`id_tip_usr`),
+  ADD CONSTRAINT `usuarios_ibfk_3` FOREIGN KEY (`id_doc`) REFERENCES `docentes` (`id_doc_docent`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
