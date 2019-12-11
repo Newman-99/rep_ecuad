@@ -1,8 +1,6 @@
 <?php
-require '../database/connect.php';
-require '../functions/functions.php';
-
-var_dump($_POST['dir_estado']);
+require '../../database/connect.php';
+require '../../functions/functions.php';
 
 session_start();
 
@@ -26,12 +24,12 @@ session_start();
 
 		<header class="top">
 		   <ul>
-				<li><img src="./img/i.png" width="80px" height="70px"><br>U-E-N "República del Ecuador"</li>
+				<li><img src="../img/i.png" width="80px" height="70px"><br>U-E-N "República del Ecuador"</li>
 			</ul>
 	   </header>
 
-           <script language="javascript" src="js2/jquery-3.4.1.min.js"></script>
-/*
+           <script language="javascript" src="js/jquery-3.4.1.min.js"></script>
+
 
 	   		<script language="javascript">
 			$(document).ready(function(){
@@ -41,7 +39,7 @@ session_start();
 					
 					$("#dir_estado option:selected").each(function () {
 						id_estado = $(this).val();
-						$.post("./includes/getMunicipio.php", { id_estado: id_estado }, function(data){
+						$.post("../includes/getMunicipio.php", { id_estado: id_estado }, function(data){
 							$("#dir_municipio").html(data);
 						});            
 					});
@@ -53,7 +51,7 @@ session_start();
 				$("#dir_municipio").change(function () {
 					$("#dir_municipio option:selected").each(function () {
 						id_municipio = $(this).val();
-						$.post("includes/getParroquia.php", { id_municipio:id_municipio }, function(data){
+						$.post("../includes/getParroquia.php", { id_municipio:id_municipio }, function(data){
 							$("#dir_parroquia").html(data);
 						});            
 					});
@@ -64,7 +62,7 @@ session_start();
 				$("#dir_estado").change(function () {					
 					$("#dir_estado option:selected").each(function () {
 						id_estado = $(this).val();
-						$.post("./includes/getCiudad.php", { id_estado: id_estado }, function(data){
+						$.post("../includes/getCiudad.php", { id_estado: id_estado }, function(data){
 							$("#dir_ciudad").html(data);
 						});            
 					});
