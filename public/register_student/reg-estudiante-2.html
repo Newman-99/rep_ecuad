@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
+    <link rel="stylesheet" href="css/estilos.css">
+    <!--Boostrap-->
+    
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <!--
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-grid.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-grid.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-reboot.min.css">
+    -->
+    <title>Registro de Estudiante</title>
+</head>
+<body>
+
+        <header>
+                <ul class="nav_reg">
+                    <li><a href="menu.html">Menú principal</a></li>
+                    <ul>
+                        <li><a href="alumno.html" >Volver a control de alumnos</a></li>
+                    </ul>
+                </ul>
+                <h2>REGISTRO ESTUDIANTIL</h2>
+            </header>
+
+    <!--formularios-->
+            <div class="container">
+
+<!------------------------------- SEGUNDO FORMULARIO [ DATOS DE LA MADRE ] ------------------------------------------------>
+                <div class="row">    
+                        <div class="col-lg-12">
+                        <!--<div id="ui">-->
+                                <form action="" class="form-group text-center">
+                              
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h3 class="form-titulo">Datos de la Madre</h3>
+                                        </div>
+                                        <div class="col-lg-6 my-2">
+                                            <label>Primer Apellido:</label>
+                                            <input type="text" name="p-apellido" id="" placeholder="Apellido" class="form-control" required>
+                                        </div>
+                                        <div class="col-lg-6 my-2">
+                                            <label>Segundo Apellido:</label>
+                                            <input type="text" name="s-apellido" id="" placeholder="Apellido" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-lg-6 my-2">
+                                            <label>Primer Nombre:</label>
+                                            <input type="text" name="" id="" placeholder="Nombre" class="form-control" required>
+                                        </div>
+                                        <div class="col-lg-6 my-2">
+                                            <label>Segundo Nombre:</label>
+                                            <input type="text" name="" id="" placeholder="Nombre" class="form-control" required>
+                                        </div>
+                                    </div>
+
+                                
+                                    <div class="row">
+                                        <div class="col-lg-6 my-2">
+                                            <label>Cedula:</label>
+                                            <select name="cedula" id="cedula" class="form-control"  required>
+                                                <option value="0">-- Seleccione --</option>
+                                                <option value="V">V - Venezolana </option>
+                                                <option value="E">E - Extranjera</option>
+                                            </select>
+                                            <input type="text" maxlength="8" placeholder="C.I" class="form-control" required>     
+                                        </div>
+                                        
+                                        <div class="col-lg-6 my-2">
+                                            <label>Ocupacion:</label>
+                                            <input type="text" name="" id="" placeholder="Ocupacion" class="form-control">
+                                        </div>
+                                    </div> 
+                                
+                                    <div class="row my-4">
+                                        <div class="col-lg-3 ">
+                                            <label for="">Fecha de Nacimiento:</label>
+                                            <input type="date" name="" id="" class="form-control">
+                                        </div>
+    
+                                        <div class="col-lg-6 ">
+                                            <label for="">Lugar de Nacimiento</label>
+                                            <input type="text" name="" id="" placeholder="Lugar de nacimiento" class="form-control" required>
+                                        </div>
+
+                                        <div class="col-lg-3 ">
+                                            <label>Estado civil:</label>
+                                            <select name="cedula" id="cedula" class="form-control"  required>
+                                                <option value="0">-- Seleccione --</option>
+                                                <option value="S"> Soltera </option>
+                                                <option value="C"> Casada </option>
+                                            </select>
+                                        </div>
+                                    </div>
+    
+                                
+                                    <div class="row my-4">
+                                        <div class="col-lg-6 ">
+                                            <label for="">Direccion de Habitacion</label>
+                                            <input type="text" name="" id="" placeholder="Direccion de Habitacion" class="form-control" required>
+                                        </div>
+    
+                                        <div class="col-lg-3 ">
+                                            <label for="">Telefono local</label>
+                                            <input type="number" name="telefono" id="" placeholder="Telefono local" class="form-control" required>    
+                                        </div>
+                                        
+                                        <div class="col-lg-3 ">
+                                            <label for="">Telefono celular</label>
+                                            <input type="number" name="telefono" id="" placeholder="Telefono celular" class="form-control" required>    
+                                        </div>
+                                    </div>
+    
+
+                                    <div class="row my-4">
+                                        <div class="col-lg-6">
+                                            <label>Correo Electronico:</label>
+                                            <input type="email" name="correo" id="" placeholder="Correo electronico" class="form-control">
+                                        </div>
+                                        
+                                        <div class="col-lg-6 ">
+                                            <label >Profesion u Oficio:</label>
+                                            <input type="text" name="" id="" placeholder="Profesion u Oficio" class="form-control">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row my-4">
+                                        <div class="col-lg-6">
+                                            <label for="">Lugar de trabajo:</label>
+                                            <input type="text" name="" id="" placeholder="Lugar de trabajo" class="form-control">
+                                        </div>
+            
+                                        <div class="col-lg-6 ">
+                                            <label for="">Direccion de trabajo:</label>
+                                            <input type="text" name="" id="" placeholder="Direccion de trabajo" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <label for="">Telefono de oficina:</label>
+                                            <input type="number" name="telefono" id="" placeholder="Telefono de oficina" class="form-control">
+                                        </div>
+                                    </div>
+                                </form>
+                        <!--</div>-->
+                        </div>
+                </div>
+
+
+<!------------------------------- TERCER FORMULARIO [ DATOS DEL PADRE ] ------------------------------------------------>
+                <div class="row">    
+                        <div class="col-lg-12">
+                        <!--<div id="ui">-->
+                                <form action="" class="form-group text-center">
+
+                               
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h3 class="form-titulo">Datos del Padre</h3>
+                                        </div>
+                                        <div class="col-lg-6 my-2">
+                                            <label>Primer Apellido:</label>
+                                            <input type="text" name="p-apellido" id="" placeholder="Apellido" class="form-control" required>
+                                        </div>
+                                        <div class="col-lg-6 my-2">
+                                            <label>Segundo Apellido:</label>
+                                            <input type="text" name="s-apellido" id="" placeholder="Apellido" class="form-control" required>
+                                        </div>
+                                    </div>
+                    
+                                    <div class="row">
+                                        <div class="col-lg-6 my-2">
+                                            <label>Primer Nombre:</label>
+                                            <input type="text" name="" id="" placeholder="Nombre" class="form-control" required>
+                                        </div>
+                                        <div class="col-lg-6 my-2">
+                                            <label>Segundo Nombre:</label>
+                                            <input type="text" name="" id="" placeholder="Nombre" class="form-control" required>
+                                        </div>
+                                    </div>
+                               
+                                    <div class="row">
+                                        <div class="col-lg-6 my-2">
+                                            <label>Cedula:</label>
+                                            <select name="cedula" id="cedula" class="form-control"  required>
+                                                <option value="0">-- Seleccione --</option>
+                                                <option value="V">V - Venezolana </option>
+                                                <option value="E">E - Extranjera</option>
+                                            </select>
+                                            <input type="text" maxlength="8" placeholder="C.I" class="form-control" required>     
+                                        </div>
+                        
+                                        <div class="col-lg-6 my-2">
+                                            <label>Ocupacion:</label>
+                                            <input type="text" name="" id="" placeholder="Ocupacion" class="form-control">
+                                        </div>
+                                    </div> 
+
+                                
+                                    <div class="row my-4">
+                                        <div class="col-lg-3 ">
+                                            <label for="">Fecha de Nacimiento:</label>
+                                            <input type="date" name="" id="" class="form-control">
+                                        </div>
+
+                                        <div class="col-lg-6 ">
+                                            <label for="">Lugar de Nacimiento</label>
+                                            <input type="text" name="" id="" placeholder="Lugar de nacimiento" class="form-control" required>
+                                        </div>
+
+                                        <div class="col-lg-3 ">
+                                            <label>Estado civil:</label>
+                                            <select name="cedula" id="cedula" class="form-control"  required>
+                                                <option value="0">-- Seleccione --</option>
+                                                <option value="S"> Soltera </option>
+                                                <option value="C"> Casada </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                
+                                    <div class="row my-4">
+                                        <div class="col-lg-6 ">
+                                            <label for="">Direccion de Habitacion</label>
+                                            <input type="text" name="" id="" placeholder="Direccion Habitacion" class="form-control" required>
+                                        </div>
+
+                                        <div class="col-lg-3 ">
+                                            <label for="">Telefono local</label>
+                                            <input type="number" name="telefono" id="" placeholder="Telefono local" class="form-control" required>    
+                                        </div>
+                        
+                                        <div class="col-lg-3 ">
+                                            <label for="">Telefono celular</label>
+                                            <input type="number" name="telefono" id="" placeholder="Telefono celular" class="form-control" required>    
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row my-4">
+                                        <div class="col-lg-6">
+                                            <label>Correo Electronico:</label>
+                                            <input type="email" name="correo" id="" placeholder="Correo electronico" class="form-control">
+                                        </div>
+                        
+                                        <div class="col-lg-6 ">
+                                            <label >Profesion u Oficio:</label>
+                                            <input type="text" name="" id="" placeholder="Profesion u Oficio" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="row my-4">
+                                        <div class="col-lg-6">
+                                            <label for="">Lugar de trabajo:</label>
+                                            <input type="text" name="" id="" placeholder="Lugar de trabajo" class="form-control">
+                                        </div>
+
+                                        <div class="col-lg-6 ">
+                                            <label for="">Direccion de trabajo:</label>
+                                            <input type="text" name="" id="" placeholder="Direccion de trabajo" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <label for="">Telefono de oficina:</label>
+                                            <input type="number" name="telefono" id="" placeholder="Telefono de oficina" class="form-control">
+                                        </div>
+                                    </div>
+                                </form>
+                        <!--</div>-->
+                        </div>
+                </div>
+
+<!------------------------------- CUARTO FORMULARIO [ REPRESENTANTE LEGAL ] ------------------------------------------------>
+                <div class="row">    
+                        <div class="col-lg-12">
+                        <!--<div id="ui">-->
+                                <form action="" class="form-group text-center">
+          
+                                    <div class="row">
+                                            <div class="col-12">
+                                                <h3 class="form-titulo">Datos del Representante Legal</h3>
+                                            </div>
+                                            <div class="col-lg-6 my-2">
+                                                <label>Primer Apellido:</label>
+                                                <input type="text" name="p-apellido" id="" placeholder="Apellido" class="form-control" required>
+                                            </div>
+                                            <div class="col-lg-6 my-2">
+                                                <label>Segundo Apellido:</label>
+                                                <input type="text" name="s-apellido" id="" placeholder="Apellido" class="form-control" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-6 my-2">
+                                                <label>Primer Nombre:</label>
+                                                <input type="text" name="" id="" placeholder="Nombre" class="form-control" required>
+                                            </div>
+                                            <div class="col-lg-6 my-2">
+                                                <label>Segundo Nombre:</label>
+                                                <input type="text" name="" id="" placeholder="Nombre" class="form-control" required>
+                                            </div>
+                                        </div>
+
+                                
+                                        <div class="row">
+                                            <div class="col-lg-6 my-2">
+                                                <label>Cedula:</label>
+                                                <select name="cedula" id="cedula" class="form-control"  required>
+                                                    <option value="0">-- Seleccione --</option>
+                                                    <option value="V">V - Venezolano/a </option>
+                                                    <option value="E">E - Extranjero/a</option>
+                                                </select>
+                                                <input type="text" maxlength="8" placeholder="C.I" class="form-control" required>     
+                                            </div>
+
+                                            <div class="col-lg-6 my-2">
+                                                <label>Ocupacion:</label>
+                                                <input type="text" name="" id="" placeholder="Ocupacion" class="form-control">
+                                            </div>
+                                        </div> 
+                                
+                                        <div class="row my-4">
+                                            <div class="col-lg-4 ">
+                                                <label for="">Fecha de Nacimiento:</label>
+                                                <input type="date" name="" id="" class="form-control">
+                                            </div>
+
+                                            <div class="col-lg-8 ">
+                                                <label for="">Lugar de Nacimiento</label>
+                                                <input type="text" name="" id="" placeholder="Lugar de nacimiento" class="form-control" required>
+                                            </div>
+                                        </div>
+
+
+                                    <div class="row my-4">
+                                        <div class="col-lg-6">
+                                            <label for="">Parentesco:</label>
+                                            <input type="text" name="parentesco" id="" placeholder="Parentesco" class="form-control">
+                                        </div>
+
+                                        <div class="col-lg-6 ">
+                                            <label for="">Direccion de Habitacion o Trabajo:</label>
+                                            <input type="text" name="" id="" placeholder="Direccion de Habitacion o Trabajo" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <label for="">Telefono local:</label>
+                                            <input type="number" name="telefono" id="" placeholder="Telefono local" class="form-control">
+                                        </div>
+
+                                        <div class="col-lg-6 my-2">
+                                            <p for="" class="">Vive con el estudiante?:</p>
+                                            <label for="" class="">Si:</label>
+                                            <input type="radio" name="seleccion2" value="si" id="">
+                                            <label for="" class="">No:</label>
+                                            <input type="radio" name="seleccion2" value="si" id="">
+                                        </div>
+                                    </div>
+
+<!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
+                                <a href="reg-estudiante-1.php" class="btn btn-primary col-lg-2 btn-lg">VOLVER</a>    
+                                <a href="reg-estudiante-3.html" class="btn btn-primary col-lg-9 btn-lg">CONTINUAR</a>
+                                <!-- <input type="submit" name="continuar" value="CONTINUAR" class="btn btn-primary btn-block btn-lg" id="boton-enviar"> -->
+                                        
+                                </form>
+                        <!--</div>-->
+                        </div>
+                </div>
+
+
+<!----------- DIV container principal Se arrastra hasta el final (NO BORRAR)---->
+            </div>
+
+    <!--jquery, boostrap.min.js, bundle.min.js-->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    
+</body>
+</html>

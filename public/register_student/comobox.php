@@ -82,7 +82,6 @@ session_start();
 	 
 		<form id="combo" name="combo" action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">  
 		
-		<div>
 			Seleciona Estado: <select id="dir_estado" name="dir_estado">
 				
 				<option value="0">Seleccionar Estado</option>
@@ -92,21 +91,19 @@ session_start();
 				<option value="<?php echo $registro['id_estado'] ?>"> <?php echo $registro['estado'] ?> </option>
 		<?php  } ?>
 					</select>
-				</div> 
 
-				<div>Seleciona Municipio
+				Seleciona Municipio
 				<select id="dir_municipio" name="dir_municipio"></select>
-				</div>
 
-				</div> 
+					 
 
-				<div>Seleciona Parroquia
+				Seleciona Parroquia
 				<select id="dir_parroquia" name="dir_parroquia"></select>
-				</div>
+					
 
-				<div>Seleciona Ciudad
+				Seleciona Ciudad
 				<select id="dir_ciudad" name="dir_ciudad"></select>
-				</div>
+					
 
 				<input type="submit" name="enviar">
 

@@ -20,7 +20,7 @@ body {
 /* estilos de */
 .top{
     margin: auto; 
-    width: 150%;
+    width: 100%;
     display:block; 
     position: relative;      
 }
@@ -79,9 +79,9 @@ th{
 button {
     background:#ffa64d;
     color: #000
-    width: 5%;
+    width: 4%;
     border: none;
-    padding: 20px 0;
+    padding: 27px 0;
     font-size: 16px;
     font-weight: normal;
     font-family: Roboto;
@@ -89,9 +89,9 @@ button {
     cursor: pointer;
     transition: all .5s ease;
      position: absolute;
-     right: 5%;
+     right: 15%;
     border-radius: 10px;
-    margin-top: 160px;
+    margin-top: 12%;
 }
 
 input[type="submit"]:hover {
@@ -108,17 +108,17 @@ input[type="submit"]:hover{
     border: none;
      display:     ;
      position: absolute;
-     right: 10%;
+     right: 15%;
      top: 35%;
      border-radius: 10px;
 }
 .tabla{
    /* margin: 100px auto;*/
-   margin-top:100px;
-    margin-left:-120px;
-    margin-right: 400px;
-    left: 35%;
-    width: 80%;
+   margin-top:150px;
+    margin-left:-90px;
+    margin-right: 250px;
+    left: 30%;
+    width: 90%;
     height: 200px;
     max-width: 70%;
     position:absolute;
@@ -174,118 +174,85 @@ span{
     color: #000;
 }
 #button{
-	display: inline;
+     padding: 10px; 
+     position: absolute;
+     border-radius: 10px;
      position: absolute;
      right: 10%;
-     width: 60px;
-     border-radius: 10px;
+     width: 4%;
      background: #000;
      color: #fff;
      border:none;
-     padding: 5px;
-     top: 45px;
+     padding: 8px;
+     top: 10%;
      cursor: pointer;
-         transition: all .5s ease;
+     transition: all .5s ease;
 
 }
 #button:hover{
-	background-color:#ffa64d;
+    background-color: #75A3C7;
 	color: #000;
 }
-#boton{
-	display: inline;
-     position: absolute;
-     right: 5%;
+#button-modi{
      border-radius: 10px;
+     width: 5%;
+     background: #000;
+     color: #fff;
+     border:none;
+      padding: 5px;
+      cursor: pointer;
+     transition: all .5s ease;
+     font-size: 15px;
+
+        }
+#button-modi:hover{
+    background-color: #75A3C7;
+  color: #000;
+}
+#button-doc{
+  border-radius: 10px;
      background: #000;
      color: #fff;
      border:none;
      padding: 5px;
      cursor: pointer;
-     top: -150px;
+     transition: all .5s ease;
+     font-size: 15px;
 
 }
-#boton:hover{
-	background-color: #ffa64d;
-	color: #000;
+#button-doc:hover{
+    background-color: #75A3C7;
+  color: #000;
 }
-#boton3{
-     display: inline;
-     position: absolute;
-     right: 1%;
-     border-radius: 10px;
-     background: #000;
-     color: #fff;
-     border:none;
-     padding: 5px;
-     cursor: pointer;
-     top: -150px;
-}
-#boton3:hover{
-    background-color: #ffa64d;
-    color: #000;
-}
-#boton1{
 
-    width: 300px;
-    height:300px;
-    text-align: center;
-    color: #fff;
-    margin: 40px auto;
-    left: 300px;
-    padding: 0;
-    font-size: 200px;
-    transition: all .3s ease-in-out;
-    position: relative;
-    background:#75A3C7;
-    border-radius: 360px;
-    max-width: 90%;
-}
-a{
+a {
     text-decoration: none;
 }
-#boton1{
-    opacity: 0.75;
+#registrer{
+  border-radius: 10px;
+     background: #000;
+     color: #fff;
+     border:none;
+          padding: 5px;
+            cursor: pointer;
+     transition: all .5s ease;
+     width: 15%;
 }
-#boton1:hover{
-    background-color: #ffa64d;
-    color: #000;
+#registrer:hover{
+    background-color: #75A3C7;
+  color: #000;
 }
-.title{
-    margin-top: 10px;
-    font-size: 20px;
-    color: #fff;
-}
-#boton2{
-    width: 300px;
-    height:300px;
-    text-align: center;
-    color: #fff;
-    margin: 40px auto;
-    right: -500px;
-    padding: 0;
-    font-size: 150px;
-    transition: all .3s ease-in-out;
-    position: relative;
-    background:#75A3C7;
-    border-radius: 360px;
-    max-width: 90%;
-    margin-top: 100px;
-}
-#boton2{
-    opacity: 0.75;
-}
-#boton2:hover{
-    background-color: #ffa64d;
-    color: #000;
+#registrer{
+  opacity: 0.75;
 }
 /*navegar*/
 .nave{
     margin: 30px auto;
-    width: 300px;
+    width: 20%;
     max-width: 90%;
     position: absolute;
     font-size: 20px;
+    top: 250px;
 
 }
  .nave > ul{
@@ -296,7 +263,6 @@ a{
     border-collapse: collapse;
     transition: all .3s ease-in-out;
     max-width: 90%;
-
     padding: 10px;
 
 }
@@ -318,17 +284,7 @@ a{
 .nave a:hover{
     color: #000;
 }
-.piedepagina{
-    background-color: #000;
-    color: #FFF;
-    padding: 40px 95px ;
-    display: block;
-    text-decoration: none;
-    list-style: none;
-}
-.piedepagina{
-    opacity: 0.75;
-}
+
 -------formulario------
 .contenedor-form {
     background: rgba(0,0,0,.7);
@@ -401,8 +357,7 @@ a{
     color: #fff;
     width: 100%;
     border: none;
-        border-radius: 5px;
-
+    border-radius: 5px;
     padding: 10px 0;
     font-size: 16px;
     font-weight: normal;
@@ -413,7 +368,7 @@ a{
 }
 
 .contenedor-form input[type="submit"]:hover {
-    background: #0075d9;
+    background-color: #75A3C7;
 }
 
 .contenedor-form .reset-password {
@@ -438,4 +393,144 @@ a{
 
 .contenedor-form .formulario:nth-child(2) {
     display: block;
+}
+
+.clase select{
+border: none;
+padding: 5px;
+border-radius: 10px;
+}
+
+.clase input{
+  border: none;
+  padding: 5px;
+  border-radius: 10px;
+
+
+}
+#button-search{
+  left: 63%;
+  top: 7%;
+  width: 5%;
+  padding: 5px;
+  background: #000;
+  color: #fff;
+
+}
+#button-search:hover{
+    background-color: #75A3C7;
+
+}
+.registro{
+   background: rgba(0,0,0,.7);
+    max-width: 600px;
+    width: 50%;
+    margin:100px auto;
+    border-radius: 5px;
+    color: #fff;
+    position: relative;
+    /padding: 40px;*/
+}
+.registro input[type="text"]{
+    outline: none;
+    display: inline;
+    width: 80%;
+    padding: 15px 15px;
+    margin-left: 40px;
+    background: rgba(0,0,0,.5);
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    box-sizing: border-box;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight:normal;
+    transition: all .5s ease;
+}
+
+.registro input[type="text"]:focus{
+    border-bottom: 4px solid #0075d9;
+}
+.registro input[type="number"]{
+    outline: none;
+    display: inline;
+    width: 80%;
+    padding: 10px 10px;
+    margin-left: 40px;
+    background: rgba(0,0,0,.5);
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    box-sizing: border-box;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight:normal;
+    transition: all .5s ease;
+}
+
+.registro select{
+  outline: none;
+    display: block;
+    width: 40%;
+    padding: 15px 15px;
+    margin-left: 40px;
+    background: rgba(0,0,0,.5);
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    box-sizing: border-box;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight:normal;
+    transition: all .5s ease;
+}
+.form {
+    background: rgba(0,0,0,.7);
+    max-width: 400px;
+    width: 50%;
+    margin:100px auto;
+    border-radius: 5px;
+    color: #fff;
+    position: relative;
+    top: -40px;
+  }
+
+
+.form input[type="text"],
+.form input[type="number"]
+
+
+{
+  margin-left: 40%;
+    padding: 5px 5px;
+    margin: 0 0 20px 0;
+    border: none;
+    border-radius: 2px;
+    box-sizing: border-box;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight:normal;
+    transition: all .5s ease;
+
+}
+.form input[type="number"]
+{
+  width: 80%;
+}
+.form input[type="submit"]{
+  background: #C64133;
+    color: #fff;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 0;
+    font-size: 16px;
+    font-weight: normal;
+    font-family: Roboto;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all .5s ease;
+}
+#year{
+  width: 70px;
 }

@@ -17,6 +17,8 @@ session_start();
 	    <meta charset="UTF-8">
 	    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	    <link rel="stylesheet" href="./css/styles.css">
+	    	 <link rel="stylesheet" href="style.css">
+
 	    <title>Clases</title>
     </head>
     <body>
@@ -86,12 +88,11 @@ INNER JOIN turnos tr ON cl.id_turno = tr.id_turno
 						<td><?php echo $registro['descripcion'];?></td> 
 						<td><?php echo $registro['anio_escolar1']?></td>
 						<td><?php echo $registro['anio_escolar2']?></td>
-
-						 <td><a href="modificar.php">Modificar</a>
+						 <td><a href="modificar.php" id=button-modi class="icon-compose"> Modificar </a>
 						 <br><br>
-						 <a href="info_docent.php">Mas Informacion</a>
+						 <a href="info_docent.php" class="icon-list1" id="button-modi"> Mas Informacion </a>
 						 <br><br>
-						 <a href="docent_asign.php">Docentes Asignados</a>
+						 <a href="docent_asign.php" id="button-modi">Docentes Asignados</a>
 
 						</td>
 
@@ -136,7 +137,7 @@ INNER JOIN turnos tr ON cl.id_turno = tr.id_turno
 
 		<button id=button class="icon-search" type="submit">Buscar</button>
 
-		<a href="register_clases.php" style="float:right;margin-top:50px;margin-right:190px;">Registrar Nueva Clase</a>
+			<a href="register_clases.php" style="float:right;margin-top:80px;margin-right:180px;" id=registrer class="icon-add">Registrar Nueva Clase</a>
 
 		</form>
 		

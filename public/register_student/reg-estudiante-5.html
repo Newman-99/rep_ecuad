@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
+    <link rel="stylesheet" href="css/estilos.css">
+    <!--Boostrap-->
+    
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <!--
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-grid.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-grid.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-reboot.min.css">
+    -->
+    <title>Registro de Estudiante</title>
+</head>
+<body>
+
+        <header>
+                <ul class="nav_reg">
+                    <li><a href="menu.html">Menú principal</a></li>
+                    <ul>
+                        <li><a href="alumno.html" >Volver a control de alumnos</a></li>
+                    </ul>
+                </ul>
+                <h2>REGISTRO ESTUDIANTIL</h2>
+            </header>
+
+    <!--formularios-->
+            <div class="container">
+
+    <!--------------------------- DECIMO FORMULARIO [ Actualizacion de datos ]-->
+            <!--ESQUEMA ESQUELO PARA DECIMO FORMULARIO-->
+            <div class="row">
+                        <div class="col-lg-12">
+                            <div id="ui">
+                                <form action="" class="form-group text-center">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h3 class="form-titulo">Actualizacion de datos</h3>
+                                        </div>
+<!----------------------------------------- INSERTA FORM ACA EN EL DIV y por ahí vas entre lg-6 o 12 ---------------->
+                                        <div class="col-lg-6 my-2">
+                                            
+                                                <h3 class="form-titulo2">Datos del Estudiante</h3>
+                                              
+                                                <label for="">Grupo/Grado</label>
+                                              
+                                                <select class="form-control">
+                                                    <option value="0">-- Seleccione --</option>
+                                                    <option value="">1er Grupo</option>
+                                                    <option value="">2do Grupo</option>
+                                                    <option value="">3er Grupo</option>
+                                                    <option value="">1º Grado</option>
+                                                    <option value="">2º Grado</option>
+                                                    <option value="">3º Grado</option>
+                                                    <option value="">4º Grado</option>
+                                                    <option value="">5º Grado</option>
+                                                    <option value="">6º Grado</option>
+                                                </select>
+                                                  
+                                                <label for="" class="my-2">Fecha</label>
+                                                <input type="date" name="" id=""  class="form-control">
+                                                  
+                                                <label for="" class="my-2">Cedula</label>
+                                                <input type="number" name="" id="" placeholder="C.I" class="form-control">
+                                        </div>
+
+                                        <div class="col-lg-6 my-2">
+                                            <h3 class="form-titulo2">Datos del Funcionario</h3>
+                                            <label for="">Cedula</label> 
+                                            <input type="number" name="" id="" placeholder="C.I" class="form-control">
+                                        </div>
+                                    </div>
+
+<!----------------------------------------- BOTON (SIGUIENTE) --------------------->
+                                    <a href="reg-estudiante-4.html" class="btn btn-primary col-lg-2 btn-lg">VOLVER</a>
+                                    <a href="reg-estudiante-5.html" class="btn btn-primary col-lg-9 btn-lg">CONTINUAR</a>
+                                <!-- <input type="submit" name="continuar" value="CONTINUAR" class="btn btn-primary btn-block btn-lg" id="boton-enviar"> -->
+
+                                </form>   
+                            </div>
+                        </div>
+                </div> 
+
+<!----------- DIV container principal Se arrastra hasta el final (NO BORRAR)---->
+            </div>
+
+    <!--jquery, boostrap.min.js, bundle.min.js-->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    
+</body>
+</html>

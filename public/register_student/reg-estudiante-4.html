@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
+    <link rel="stylesheet" href="css/estilos.css">
+    <!--Boostrap-->
+    
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <!--
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-grid.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-grid.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-reboot.min.css">
+    -->
+    <title>Registro de Estudiante</title>
+</head>
+<body>
+
+        <header>
+                <ul class="nav_reg">
+                    <li><a href="menu.html">Menú principal</a></li>
+                    <ul>
+                        <li><a href="alumno.html" >Volver a control de alumnos</a></li>
+                    </ul>
+                </ul>
+                <h2>REGISTRO ESTUDIANTIL</h2>
+            </header>
+
+    <!--formularios-->
+            <div class="container">
+
+    <!--------------------------- NOVENO FORMULARIO [ Otros datos de inscripcion y escolaridad ]-->
+                <div class="row">
+                        <div class="col-lg-12">
+                            <div id="ui">
+                                <form action="" class="form-group text-center">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <h3 class="form-titulo">Otros datos de inscripcion y escolaridad</h3>
+                                        </div>
+
+                                        <div class="col-lg-6 my-2">
+                                            <label for="" class="">Cedula escolar</label>
+                                            <input type="number" name="inscripcion_escolaridad" maxlength="8" placeholder="C.E" class="form-control" required>
+                                        </div>
+
+                                        <div class="col-lg-6 my-2">
+                                            <label for="" class="">Plantel de procedencia</label>
+                                            <input type="text" name="inscripcion_escolaridad" id="" placeholder="Plantel de procedencia" class="form-control">
+                                        </div>
+
+                                        <div class="col-lg-6 my-2">
+                                            <label for="" class="">Localidad</label>
+                                            <input type="text" name="inscripcion_escolaridad" id="" placeholder="Localidad" class="form-control">
+                                        </div>
+
+                                        <div class="col-lg-6 my-2">
+                                            <label for="">Año escolar</label>
+                                            <input type="number" name="inscripcion_escolaridad" id="" placeholder="Año escolar" class="form-control">
+                                        </div>
+
+                                        <div class="col-lg-6 my-2">
+                                            <label for="">Clase</label>
+            <br>
+            Grado     
+            <select name="grado" id="" autocomplete="on">
+            <option value="1">1ro</option>
+            <option value="2">2do</option>
+            <option value="3">3ro</option>
+            <option value="4">4to</option>
+            <option value="5">5to</option>
+            <option value="6">6to</option>
+        </select>
+
+        / Seccion
+                <select name="grado" id="" autocomplete="on">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+
+        </select>
+
+
+
+                                        </div>
+
+                                        <div class="col-lg-6 my-2">
+                                            <label for="">Calificacion definitiva</label>
+                                            <select name="calificacion" id="calificacion" class="form-control"  required>
+                                                <option value="0">-- Seleccione --</option>
+                                                <option value="A">A</option>
+                                                <option value="B">B</option>
+                                                <option value="C">C</option>
+                                                <option value="D">D</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-lg-6 my-2">
+                                            <p for="">Repitiente:</p>
+                                            <label for="" class=" ">Si:</label>
+                                            <input type="radio" name="seleccion" id="">
+                                            <label for="" class="">No:</label>
+                                            <input type="radio" name="seleccion" id="">
+                                        </div>
+
+                                        <div class="col-lg-6 my-2">
+                                            <label for="">Observaciones</label>
+                                            <textarea name="inscripcion_escolaridad" id="" class="form-control" placeholder="Ingrese la observacion"></textarea>
+                                        </div>
+                                    </div>
+
+<!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
+                                    <a href="reg-estudiante-3.html" class="btn btn-primary col-lg-2 btn-lg">VOLVER</a>
+                                    <a href="reg-estudiante-5.html" class="btn btn-primary col-lg-9 btn-lg">CONTINUAR</a>
+                                <!-- <input type="submit" name="continuar" value="CONTINUAR" class="btn btn-primary btn-block btn-lg" id="boton-enviar"> -->
+
+                                </form>   
+                            </div>
+                        </div>
+                </div>
+
+
+<!----------- DIV container principal Se arrastra hasta el final (NO BORRAR)---->
+            </div>
+
+    <!--jquery, boostrap.min.js, bundle.min.js-->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    
+</body>
+</html>

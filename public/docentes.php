@@ -17,6 +17,8 @@ session_start();
 	    <meta charset="UTF-8">
 	    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	    <link rel="stylesheet" href="./css/styles.css">
+	    	    	  <link rel="stylesheet" href="style.css">
+
 	    <title>Docentes</title>
     </head>
     <body>
@@ -109,14 +111,15 @@ session_start();
 						<td><?php echo $registro['fecha_ingreso']?></td>
 
 						<td><?php echo $registro['fecha_inabilitacion']?></td>                     	
-						 <td><a href="modificar.php">Modificar</a>
+	                        <td><a href="modificar.php" id=button-modi class="icon-compose"> Modificar </a>
+                        	<br><br>
+						<a href="info_docent.php" class="icon-list1" id="button-modi">MasInformacion</a>
+						<br><br>
+						 <a href="clases_asignadas.php?id_doc_docent=<?php echo $registro['id_doc'] ?>" id="button-modi">Sus Clases</a>
 						 <br><br>
-						 <a href="info_docent.php">Mas Informacion</a>
-						 <br><br>
-						 <a href="clases_asignadas.php?id_doc_docent=<?php echo $registro['id_doc'] ?>">Sus Clases</a>
-						</td>
-	 
-	            </tr>
+						 <a href="d.php" class="icon-cancel" id="button-modi"> Eliminar </a>
+						</td>	 
+           </tr>
  	            </table>
             </div>
 	<?php  }}else{
@@ -130,7 +133,7 @@ session_start();
 			<input type="search" class="search" placeholder="Ingrese Cedula" name="ci_docente" value="<?php if(isset($ci)) echo $ci;?>">
 			<button id=button class="icon-search" type="submit">Buscar</button>
 			<br>
-			<a href="register_docent.php" style="float:right;margin-top:50px;margin-right:190px;">Registrar Nuevo Docente</a>
+			<a href="register_docent.php" style="float:right;margin-top:80px;margin-right:180px;" id=registrer class="icon-add">Registrar Nuevo Docente</a>
 		</form>
 		
 

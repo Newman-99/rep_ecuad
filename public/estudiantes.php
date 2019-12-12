@@ -16,8 +16,10 @@ session_start();
 <html>
     <head>
 	    <meta charset="UTF-8">
-	    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	    <meta name="viewport" content="width=device-width, user-scalable=no, initial -scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	    <link rel="stylesheet" href="./css/styles.css">
+	    	  <link rel="stylesheet" href="style.css">
+
 	    <title>Estudiantes</title>
     </head>
     <body>
@@ -71,12 +73,13 @@ session_start();
 						<td><?php echo $registro['grado']?></td>
 						<td><?php echo $registro['seccion']?></td>
 						<td><?php echo $registro['descripcion_turn']?></td>
-
-						 <td><a href="modificar.php">Modificar</a>
+						 <td><a href="modificar.php" id=button-modi class="icon-compose"> Modificar </a>
 						 <br><br>
-						 <a href="info_docent.php">Mas Informacion</a>
+						 <a href="info_docent.php" class="icon-list1" id="button-modi"> Mas Informacion </a>
 						<br><br>
-						 <a href="documentacion.php">Documentacion</a>
+						 <a href="documentacion.php" class="icon-file-pdf" id="button-doc"> Documentacion </a>
+						 <br><br>
+						 <a href="d.php" class="icon-cancel" id="button-modi"> Eliminar </a>
 
 						</td>
  		            </tr>
@@ -93,7 +96,7 @@ session_start();
 			
 			<button id=button class="icon-search" type="submit">Buscar</button>
 			<br>
-			<a href="./register_student/reg_alumno.php" style="float:right;margin-top:50px;margin-right:190px;">Registrar Nuevo Estudiante</a>
+			<a href="./register_student/reg_alumno.php" style="float:right;margin-top:80px;margin-right:180px;">Registrar Nuevo Estudiante</a>
 
 		</form>
 		
