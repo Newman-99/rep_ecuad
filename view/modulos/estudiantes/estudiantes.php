@@ -10,15 +10,8 @@ session_start();
     $nivel_permiso=$_SESSION['nivel_usuario'];
 ?>
 	    <title>Estudiantes</title>
-    </head>
-    <body>
-
-      <header class="top">
-       <ul>
-        <li><img src="./img/i.png" width="80px" height="70px"><br>U-E-N "República del Ecuador"</li>
-      </ul>
-     </header>
-	   
+	    
+<?php require '../../includes/header.php'; ?>	   
 		<?php 
 		if(!empty($_POST)){
 			$ci = htmlentities(addslashes($_POST['ci_estudiante']));

@@ -11,13 +11,8 @@ session_start();
 ?>
 
     <title>Inicio</title>
-</head>
-<body>
-      <header class="top">
-       <ul>
-        <li><img src="./img/i.png" width="80px" height="70px"><br>U-E-N "República del Ecuador"</li>
-      </ul>
-     </header>
+
+<?php require '../../includes/header.php'; ?>    
 
 <?php
 
@@ -38,24 +33,10 @@ session_start();
        }else{  require '../../includes/menu_bar.php'; ?>
 
    
-      <section class=""></section>
-            <script src="./js/jquery-3.1.1.min.js"></script>
-      <script src="./js/sweetalert2.min.js"></script>
-          <script src="./js/bootstrap.min.js"></script>
-          <script src="./js/material.min.js"></script>
-          <script src="./js/ripples.min.js"></script>
-          <script src="./js/jquery.mCustomScrollbar.concat.min.js"></script>
-      <script src="./js/main.js"></script>
-
-<script>
-            $.material.init();
-          </script>
-
-</body>
-</html>
 <?php 
+
         }
 
       }
-
+  require '../../includes/footer.php';
  ?>

@@ -1,13 +1,5 @@
 <?php
 require '../../includes/head.php';
-session_start();
-
-    if(!isset($_SESSION["id_user"])){
-       header("Location:../index.php");
-        
-   }else{
-    $nivel_permiso=$_SESSION['nivel_usuario'];
-
 if (!empty($_POST)) {
 
     $ci = htmlentities(addslashes($_POST['ci']));
@@ -39,7 +31,7 @@ if (!empty($_POST)) {
     
    
 ?>
-    <title>Login |CódigoMasters|</title>
+    <title>Inicio</title>
 </head>
 <body>
 
@@ -102,4 +94,4 @@ if (!empty($_POST)) {
 
 require'../../includes/footer.php';
 
- } ?>
+  ?>

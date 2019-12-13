@@ -4,7 +4,7 @@ require '../../includes/head.php';
 session_start();
 
     if(!isset($_SESSION["id_user"])){
-       header("Location:../index.php");
+       header("Location:../../../index.php");
         
    }else{
     $nivel_permiso=$_SESSION['nivel_usuario'];
@@ -55,14 +55,9 @@ if(validar_datos_vacios_sin_espacios($nacionalidad, $id_doc,$sexo,$tlf_cel,$tlf_
 ?>
 
     <title>Registro de Docentes</title>
-</head>
-<body>
 
-          <header class="top">
-       <ul>
-        <li><img src="./img/i.png" width="80px" height="70px"><br>U-E-N "República del Ecuador"</li>
-      </ul>
-     </header>
+
+<?php require '../../includes/header.php' ?>
 
 
     <h2>Registro de Docentes</h2>

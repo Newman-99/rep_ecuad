@@ -5,7 +5,7 @@ require '../../includes/head.php';
 session_start();
 
     if(!isset($_SESSION["id_user"])){
-       header("Location:../index.php");
+       header("Location:../../../index.php");
         
    }else{
     $nivel_permiso=$_SESSION['nivel_usuario'];
@@ -19,14 +19,9 @@ $id_doc_docent = htmlentities(addslashes($_GET["id_doc_docent"]));
 ?>
 
 	    <title>Clases Asignadas</title>
-    </head>
-    <body>
+		
+		<?php require '../../includes/header.php' ?>
 
-      <header class="top">
-       <ul>
-        <li><img src="../img/i.png" width="80px" height="70px"><br>U-E-N "República del Ecuador"</li>
-      </ul>
-     </header>
 <?php
 
 $sql="SELECT doc.id_doc_docent,cl.grado,cl.seccion,cl.no_aula,tr.descripcion turno, cl.anio_escolar1,cl.anio_escolar2,tp.descripcion cargo, est.descripcion estado FROM docentes doc INNER JOIN clases_asignadas ca ON doc.id_doc_docent = ca.id_doc_docent INNER JOIN clases cl ON ca.id_clase = cl.id_clase INNER JOIN estado est ON ca.id_estado = est.id_estado INNER JOIN turnos tr ON cl.id_turno = tr.id_turno INNER JOIN tipos_docentes tp ON ca.id_tipo_docent = tp.id_tipo_docent

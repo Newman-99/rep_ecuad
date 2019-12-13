@@ -5,7 +5,7 @@ require '../../includes/head.php';
 session_start();
 
     if(!isset($_SESSION["id_user"])){
-       header("Location:../index.php");
+       header("Location:../../../index.php");
         
    }else{
     $nivel_permiso=$_SESSION['nivel_usuario'];
@@ -126,23 +126,10 @@ if (!comprobar_msjs_array($errors)) {
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <link rel="stylesheet" href="./css/styles.css">
-                      <link rel="stylesheet" href="style.css">
 
     <title>Registro de Clases</title>
-</head>
-<body>
 
-          <header class="top">
-       <ul>
-        <li><img src="./img/i.png" width="80px" height="70px"><br>U-E-N "República del Ecuador"</li>
-      </ul>
-     </header>
+<?php require '../../includes/header.php'; ?>      
 
 
     <h2>Registro de Clases</h2>
