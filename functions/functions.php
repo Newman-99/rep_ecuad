@@ -684,7 +684,7 @@ function login_users($ci,$pass){
             session_start(); 
             $_SESSION['id_user'] = $ci;
             $_SESSION['nivel_usuario'] = obtener_nivel_permiso($ci);
-            header("Location:../public/dashboard.php");
+            header("Location:../inicio/dashboard.php");
             }
         }
 

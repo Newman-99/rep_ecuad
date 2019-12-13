@@ -1,14 +1,14 @@
 <?php
-require '../database/connect.php';
-require '../functions/functions.php';
+require '../../includes/head.php';
+
+session_start();
+
+    if(!isset($_SESSION["id_user"])){
+       header("Location:../index.php");
+        
+   }else{
+    $nivel_permiso=$_SESSION['nivel_usuario'];
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-      <link rel="stylesheet" href="./css/styles.css">
-                <link rel="stylesheet" href="style.css">
 
     <title>Inicio</title>
 </head>
@@ -20,11 +20,7 @@ require '../functions/functions.php';
      </header>
 
 <?php
-        session_start();
 
-    if(!isset($_SESSION["id_user"])){
-       header("Location:../index.php");
-   }else{
     $ci = $_SESSION["id_user"];
     $nivel_permiso=$_SESSION['nivel_usuario'];
 ?>
@@ -39,7 +35,7 @@ require '../functions/functions.php';
         echo "<h3>Usuario  inhabilitado o por confirmar comuniquese con el Administrador</h3>";
 
         echo "<a href='../login/logout.php'>Cerrar Sesion</a>";    
-       }else{  include './menu_bar.php'; ?>
+       }else{  require '../../includes/menu_bar.php'; ?>
 
    
       <section class=""></section>

@@ -1,6 +1,5 @@
 <?php
-require '../database/connect.php';
-require '../functions/functions.php';
+require '../../includes/head.php';
 
 session_start();
 
@@ -10,14 +9,6 @@ session_start();
    }else{
 	$nivel_permiso=$_SESSION['nivel_usuario'];
         ?>
-
-<!DOCTYPE html>
-<html>
-    <head>
-	    <meta charset="UTF-8">
-	    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	    <link rel="stylesheet" href="./css/styles.css">
-	    	    	  <link rel="stylesheet" href="style.css">
 
 	    <title>Docentes</title>
     </head>
@@ -137,23 +128,14 @@ session_start();
 		</form>
 		
 
-				<?php include 'menu_bar.php' ?>
+				<?php include '../../includes/menu_bar.php' ?>
 
             </div>
 	    </section>
-	    <section class=""></section>
-            <script src="./js/jquery-3.1.1.min.js"></script>
-			<script src="./js/sweetalert2.min.js"></script>
-	        <script src="./js/bootstrap.min.js"></script>
-	        <script src="./js/material.min.js"></script>
-	        <script src="./js/ripples.min.js"></script>
-	        <script src="./js/jquery.mCustomScrollbar.concat.min.js"></script>
-			<script src="./js/main.js"></script>
 
-<script>
-		        $.material.init();
-	        </script>
-    </body>
-</html>
+<?php } 
 
-<?php } ?>
+include '../../includes/footer.php'
+?>
+
+

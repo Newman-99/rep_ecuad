@@ -1,14 +1,6 @@
 <?php 
 
-
-if (empty($_GET['id_doc_docent'])) {
-	header('Location:docentes.php');
-}
-
-$id_doc_docent = htmlentities(addslashes($_GET["id_doc_docent"]));
-
-require '../database/connect.php';
-require '../functions/functions.php';
+require '../../includes/head.php';
 
 session_start();
 
@@ -16,16 +8,15 @@ session_start();
        header("Location:../index.php");
         
    }else{
-	$nivel_permiso=$_SESSION['nivel_usuario'];
-        ?>
+    $nivel_permiso=$_SESSION['nivel_usuario'];
 
-<!DOCTYPE html>
-<html>
-    <head>
-	    <meta charset="UTF-8">
-	    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	    <link rel="stylesheet" href="./css/styles.css">
-	    	    	  <link rel="stylesheet" href="style.css">
+
+if (empty($_GET['id_doc_docent'])) {
+	header('Location:docentes.php');
+}
+
+$id_doc_docent = htmlentities(addslashes($_GET["id_doc_docent"]));
+?>
 
 	    <title>Clases Asignadas</title>
     </head>
@@ -85,20 +76,7 @@ $sql="SELECT doc.id_doc_docent,cl.grado,cl.seccion,cl.no_aula,tr.descripcion tur
                  <a href="docentes.php">Volver</a>
 
 
-            <script src="./js/jquery-3.1.1.min.js"></script>
-			<script src="./js/sweetalert2.min.js"></script>
-	        <script src="./js/bootstrap.min.js"></script>
-	        <script src="./js/material.min.js"></script>
-	        <script src="./js/ripples.min.js"></script>
-	        <script src="./js/jquery.mCustomScrollbar.concat.min.js"></script>
-			<script src="./js/main.js"></script>
-
-<script>
-		        $.material.init();
-	        </script>
-
-    </body>
-</html>
+            
 
 <?php
 
@@ -110,3 +88,5 @@ $sql="SELECT doc.id_doc_docent,cl.grado,cl.seccion,cl.no_aula,tr.descripcion tur
 
 
  } ?>
+
+<?php require '../../includes/head.php' ?>

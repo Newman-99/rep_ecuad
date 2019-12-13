@@ -1,6 +1,16 @@
 <?php
-require '../database/connect.php';
-require '../functions/functions.php';
+
+require '../../includes/head.php';
+
+session_start();
+
+    if(!isset($_SESSION["id_user"])){
+       header("Location:../index.php");
+        
+   }else{
+    $nivel_permiso=$_SESSION['nivel_usuario'];
+
+
 global $db;
 $errors = array();
 
@@ -188,6 +198,9 @@ Turno:
 <br>
 <a href="clases.php">Volver</a>
         
+
+<?php } ?>
+
     <?php
     if(!empty($errors)){
         foreach ($errors as $msjs) {
@@ -196,18 +209,5 @@ Turno:
     }
 
     ?>
-        <section class=""></section>
-            <script src="./js/jquery-3.1.1.min.js"></script>
-            <script src="./js/sweetalert2.min.js"></script>
-            <script src="./js/bootstrap.min.js"></script>
-            <script src="./js/material.min.js"></script>
-            <script src="./js/ripples.min.js"></script>
-            <script src="./js/jquery.mCustomScrollbar.concat.min.js"></script>
-            <script src="./js/main.js"></script>
 
-<script>
-                $.material.init();
-            </script>
-
-</body>
-</html>
+<?php require '../../includes/footer.php' ?>

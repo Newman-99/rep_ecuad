@@ -1,6 +1,6 @@
 <?php
 
-header("location:login/log.php")
+header("location:view/modulos/login/log.php")
 
 
     ?>

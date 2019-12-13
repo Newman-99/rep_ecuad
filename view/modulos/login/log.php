@@ -1,7 +1,12 @@
 <?php
-require '../database/connect.php';
-require '../functions/functions.php';
+require '../../includes/head.php';
+session_start();
 
+    if(!isset($_SESSION["id_user"])){
+       header("Location:../index.php");
+        
+   }else{
+    $nivel_permiso=$_SESSION['nivel_usuario'];
 
 if (!empty($_POST)) {
 
@@ -34,13 +39,7 @@ if (!empty($_POST)) {
     
    
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
     <title>Login |CódigoMasters|</title>
-    <link rel="stylesheet" href="./css/estilos.css">
 </head>
 <body>
 
@@ -95,7 +94,12 @@ if (!empty($_POST)) {
             <a href="#">Olvide mi Contraseña?</a>
         </div>
     </div>
-    <script src="js/jquery-3.1.1.min.js"></script>    
-    <script src="js/main.js"></script>
+    
 </body>
 </html>
+
+<?php
+
+require'../../includes/footer.php';
+
+ } ?>
