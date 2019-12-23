@@ -7,7 +7,7 @@ function validar_datos_vacios_sin_espacios(...$datos){
     $comprobador = false;
     
     foreach ($datos as $dato) {
-        if(empty($dato) || preg_match('/\s/',$dato)){
+        if(empty($dato) || preg_match('/\s/',$dato) || comprobar_var_total_espace($dato)){
             $comprobador = true;
         }
 }
@@ -18,12 +18,159 @@ function validar_datos_vacios(...$datos){
     $comprobador = false;
     
     foreach ($datos as $dato) {
-        if(empty($dato) || is_null($dato)){
+        if(empty($dato) || is_null($dato) || comprobar_var_total_espace($dato)){
             $comprobador = true;
         }
 }
 return $comprobador;
 }
+
+function filtrar_nombres_apellidos($nom_apell){
+
+       $nom_apell=trim($nom_apell);
+        //$nom_apell=ucwords($nom_apell);
+        $nom_apell=ucwords(strtolower($nom_apell));
+        return $nom_apell; 
+        
+    }
+
+function is_valid_email($email )
+{
+  return (false !== filter_var($email, FILTER_VALIDATE_EMAIL));
+}
+
+
+function comprobar_var_total_espace($str){
+        $count_arr=0;
+        $count_str=strlen($str);
+
+        $arr=str_split($str);
+
+          foreach ($arr as $pos){
+
+                if (preg_match_all('/\s/',$pos)) {
+                    $count_arr++;
+                }
+}
+        if ($count_arr==$count_str)  {
+            return TRUE;
+        }else{
+            return FALSE;
+        }
+}
+
+
+function validar_nombres_apellidos(...$nombres_apells){
+
+    foreach ($nombres_apells as $nom_apell) {
+        # code...
+       if(preg_match("/\W|\d/",$nom_apell)){
+        
+        return 'El nombre o apellido ingresado es invalido'; 
+         }} 
+        return NULL;
+
+    }
+
+
+function validar_fecha_sintaxis(...$fechas){
+/*    $valores = explode('/', $fecha);
+    if(count($valores) == 3 && checkdate($valores[1], $valores[0], $valores[2])){
+        return false;
+    }
+    return true;*/
+
+foreach ($fechas as $fecha) {
+    # code...
+        $pattern="/^(0?[1-9]|[12][0-9]|3[01])[\/|-](0?[1-9]|[1][012])[\/|-]((19|20)?[0-9]{2})$/";
+    if(preg_match($pattern,$fecha))
+    {
+    $values=preg_split("[\/|-]",$fecha);
+    
+        if(checkdate($values[1],$values[0],$values[2])){
+            return false;
+        }
+    }else{
+    return true;
+}
+}
+}
+
+function is_valid_num_tlf(...$num_tlfs){
+    foreach ($num_tlfs as $num_tlf) {
+
+    if(preg_match("/^[0-9]{11}$/",$num_tlf)){
+        return true;
+    }
+}
+
+return false;
+}
+
+
+function validar_fecha_sintaxis1($date)
+{
+    $pattern="/^((19|20)?[0-9]{2})[\/|-](0?[1-9]|[1][012])[\/|-](0?[1-9]|[12][0-9]|3[01])$/";
+    if(preg_match($pattern,$date))
+        return true;
+    return false;
+}
+
+
+function validar_fecha_registro(...$fechas){
+
+foreach ($fechas as $fecha) {
+    if (!validar_fecha_sintaxis1($fecha)) {
+        return "La fecha ingresada es invalida o tiene error de sintaxis";
+    }
+
+    if (validar_fecha_sistema($fecha)) {
+        return "La fecha ingresada es mayor a la actual del sistema";
+    }
+}
+}
+
+
+function validar_fecha_sistema($fecha){
+    date_default_timezone_set("America/Caracas");
+    $fecha_actual = strtotime(date("Y-m-d H:i:s"));
+    $fecha_validar = strtotime($fecha);
+        if($fecha_actual > $fecha_validar){
+            return false;
+        }else{
+            return true;
+
+        }                   
+
+}
+
+
+function valid_inicio_sesion($nivel_requerido = '3'){
+
+    $comprobador = NULL;
+
+    session_start();
+
+    if(!isset($_SESSION["id_user"])){
+      
+      header("Location:../../../index.php");
+
+      return false;
+        
+   }else{
+
+    $nivel_permiso=$_SESSION['nivel_usuario'];
+
+    if ($nivel_permiso > $nivel_requerido || $nivel_permiso == 0) {
+           
+    header("Location:../../../index.php");
+    
+    }
+      return true;
+
+
+}
+}    
 
 //Validar un par de valores
 
@@ -99,8 +246,8 @@ function hash_pass($pass){
 
 //Funcion Para Registrar usuarios
 
-function regist_usr($ci,$pass_hash,$tip_usr,$db){
-
+function registrar_datos_usr_bd($ci,$pass_hash,$tip_usr,$respuesta1,$respuesta2){
+        global $db;
             $sql = "INSERT INTO usuarios(id_doc,pass,id_tip_usr) 
             VALUES (:id, :pass, :tip_usr)";
             
@@ -108,6 +255,19 @@ function regist_usr($ci,$pass_hash,$tip_usr,$db){
             
                 $result->execute(array("id"=>$ci,"pass"=>$pass_hash,
                 "tip_usr"=>$tip_usr));
+
+//////////
+            $sql = "INSERT INTO `preguntas_usuarios`(`id_usr`, `id_pregunta`, `respuesta`) VALUES (:id,'1',:respuesta1);";
+            
+                $result = $db->prepare($sql);
+            
+                $result->execute(array("id"=>$ci,"respuesta1"=>$respuesta1));
+//////////
+            $sql = "INSERT INTO `preguntas_usuarios`(`id_usr`, `id_pregunta`, `respuesta`) VALUES (:id,'2',:respuesta2);";
+            
+                $result = $db->prepare($sql);
+            
+                $result->execute(array("id"=>$ci,"respuesta2"=>$respuesta1));
 }
 
  // Comprobacion del usuario en la Base de datos
@@ -208,7 +368,6 @@ function ingreso_user($ci,$pass){
 
 
 
-
 // Comprabar contrasena y hash
 
 function comprobar_pass_hash($ci,$pass){
@@ -265,13 +424,11 @@ return $nivel=$result->fetchColumn();
 
 // Para mostrar los Datos Basicos y de Bienvenida al usuario al hacer login
 
-function imprimir_usuario($ci){
+function imprimir_usuario_bienvenida($ci){
     global $db;
-    $sql="SELECT usr.id_doc, t_usr.descripcion, adm.cargo, info_p.nombre, info_p.apellido_p, info_p.apellido_m FROM usuarios usr 
-    INNER JOIN tip_user t_usr ON usr.id_tip_usr = t_usr.id_tip_usr
-    INNER JOIN administrativos adm ON usr.id_doc = adm.id_doc_admin 
-    INNER JOIN info_personal info_p ON usr.id_doc = info_p.id_doc
-    WHERE usr.id_doc = :id ";
+       $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,c.descripcion cargo,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN cargos c ON a.id_cargo = c.id_cargo INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr
+
+    WHERE s.id_doc = :id ";
                              
     $result=$db->prepare($sql);
                             
@@ -296,7 +453,7 @@ function imprimir_usuario($ci){
     <td>".$registro['nombre']."</td>
     <td>".$registro['apellido_p']." ".$registro['apellido_m']."</td>
     <td>".$registro['cargo']."</td>
-    <td>".$registro['descripcion']."</td>
+    <td>".$registro['nivel']."</td>
     </tr>";
 
 echo "</table></p>";
@@ -333,7 +490,7 @@ function enable_foreing(){
     return "SET FOREIGN_KEY_CHECKS=1;";
 }
 
-function registrar_docentes($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$tipo_docent,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$id_estado){
+function registrar_docentes($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$tipo_docent,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion){
 
     global $db;
 
@@ -358,11 +515,11 @@ $result->execute(array("id_doc"=>$id_doc,"tlf_local"=>$tlf_local,
 
 // Insertando datos de la persona como docente
 
-$sql =disable_foreing()."INSERT INTO docentes(id_doc_docent,id_tipo_docent,id_turno,id_estado) VALUES (:id_doc_docent,:id_tipo_docent,:id_turno,:id_estado);".enable_foreing();
+$sql =disable_foreing()."INSERT INTO docentes(id_doc_docent,id_tipo_docent,id_turno,id_estado,fecha_ingreso,fecha_inabilitacion) VALUES (:id_doc_docent,:id_tipo_docent,:id_turno,:id_estado,:fecha_ingreso,:fecha_inabilitacion);".enable_foreing();
 
 $result=$db->prepare($sql);
 
-$result->execute(array("id_doc_docent"=>$id_doc,"id_tipo_docent"=>$tipo_docent,"id_turno"=>$turno,"id_estado"=>$id_estado));
+$result->execute(array("id_doc_docent"=>$id_doc,"id_tipo_docent"=>$tipo_docent,"id_turno"=>$turno,"id_estado"=>$id_estado,"fecha_ingreso"=>$fecha_ingreso,"fecha_inabilitacion"=>$fecha_inabilitacion));
 
 }
   
@@ -419,8 +576,6 @@ VALUES (:id,
 :turno,
 :anio_1,
 :anio_2); ".enable_foreing();
-
-var_dump($sql);
 
 $result=$db->prepare($sql);
 
@@ -588,13 +743,13 @@ return $id_contrato_clase;
 
 function comprobar_msjs_array($array){
     $comprobador=FALSE;
-    foreach ($array as $key => $value) {
+        foreach ($array as $key => $value) {
         if (is_string($value)) {
             $comprobador=TRUE;
         }
     }
     return $comprobador;
-}
+    }
 
 
 function comprobar_aula_ocupada($no_aula){
@@ -609,7 +764,6 @@ WHERE no_aula = :no_aula";
     $result->execute();
 
    $count=$result->rowCount();
-   var_dump($count);
     if($count > 0){ 
         return true;
     }else{
@@ -629,7 +783,6 @@ function exist_nro_contrato_clase($nro_contrato){
     $result->execute();
 
    $count=$result->rowCount();
-   var_dump($count);
     if($count > 0){ 
         return true;
     }else{
@@ -638,41 +791,59 @@ function exist_nro_contrato_clase($nro_contrato){
     }
 }
 
-function register_user($ci,$pass,$pass_confirm){
+function register_user($ci,$pass,$pass_confirm,$respuesta1,$respuesta2){
+
+    global $db;
 
     $tip_usr=0;    
 
     //Validacion de datos vacios y espacios
-        if(validar_datos_vacios_sin_espacios($ci,$pass,$pass_confirm)){
-            $errors_total[] = "Debe llenar todos los campos y evitar los espacios";    
+        if(validar_datos_vacios_sin_espacios($ci,$pass,$pass_confirm) || validar_datos_vacios($respuesta2,$respuesta2) ){
+            $errors_total[] = "Debe llenar todos los campos, evitando espacios en la cedula y contraseña";    
     }else{
         if(!valid_user($ci)){
-            $errors_total[] = "El usuario ya existe<p></p>Si desea puede registrarse"; 
+            $errors_total[] = "<p>El usuario ya existe</p> 
+            <p></p>Si desea puede Iniciar Sesion"; 
+            return $errors_total;
         }else{
-        if(is_string(valid_ci_admin($ci)) || is_string(valid_ci($ci)) || is_array(valid_pass($pass)) || is_string(valid_pass_par($pass,$pass_c))){
-            
-            $errors_total = construc_msj(valid_ci_admin($ci),valid_ci($ci),valid_pass_par($pass,$pass_confirm),valid_pass($pass));
 
+
+        if(is_string(valid_ci_admin($ci)) || is_string(valid_ci($ci)) || is_array(valid_pass($pass)) || is_string(valid_pass_par($pass,$pass_confirm)) || is_string(valid_repuest_usrs($respuesta1,$respuesta2))) {            
+            
+            $errors_total = construc_msj(valid_repuest_usrs($respuesta1,$respuesta2),valid_ci_admin($ci),valid_ci($ci),valid_pass_par($pass,$pass_confirm),valid_pass($pass));
                 return $errors_total;
                 
                         }else{
                         $pass_hash = hash_pass($pass);
-                        regist_usr($ci,$pass_hash,$tip_usr,$db);
+
+                        registrar_datos_usr_bd($ci,$pass_hash,$tip_usr,$respuesta1,$respuesta2);
+
                         session_start();
                         $_SESSION['id_user'] = $ci;
                         $_SESSION['nivel_usuario'] = obtener_nivel_permiso($ci);
-                        header("Location: ../public/dashboard.php");   
+                        header("Location:../inicio/dashboard.php");   
                     }
             }
         }
     }
+
+           function valid_repuest_usrs($respuesta1,$respuesta2){ 
+        if (strlen($respuesta1)>30 || strlen($respuesta2)>30 ) {
+            $error = "Las Repuestas no pueden exceder los 30 caracteres";
+                return $error;
+            }else{
+
+            return NULL;
+
+            }
+        }
 
 function login_users($ci,$pass){
 
     if(validar_datos_vacios_sin_espacios($pass,$ci)){
         return $errors[]= "Debe llenar todos los campos y evitar los espacios";
     }
-              elseif(is_string(valid_ci($ci))){
+                elseif(is_string(valid_ci($ci))){
                return $errors[]= valid_ci($ci);
         }else{
 
@@ -689,4 +860,460 @@ function login_users($ci,$pass){
         }
 
         }
+
+
+        function exist_user($id_doc){
+     global $db;
+   $sql='SELECT id_doc FROM usuarios WHERE id_doc = :id';
+
+       $result=$db->prepare($sql);
+
+        $result->bindValue("id",$id_doc);
+ 
+    $result->execute();
+
+   $count=$result->rowCount();
+    if($count > 0){ 
+        return true;
+    }else{
+         return false;
+
+    }
+}
+
+function is_exist_clases_asignadas($id_doc){
+
+     global $db;
+
+   $sql='SELECT doc.id_doc_docent FROM docentes doc 
+INNER JOIN clases_asignadas ca ON doc.id_doc_docent = ca.id_doc_docent 
+INNER JOIN clases cl ON ca.id_clase = cl.id_clase 
+
+            WHERE doc.id_doc_docent = :id';
+
+       $result=$db->prepare($sql);
+
+        $result->bindValue("id",$id_doc);
+ 
+    $result->execute();
+
+   $count=$result->rowCount();
+
+    if($count > 0){ 
+        return true;
+    }else{
+         return false;
+    }
+}
+
+
+function mostrar_user_especifico($id){
+
+global $db;
+
+    $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,c.descripcion cargo,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN cargos c ON a.id_cargo = c.id_cargo INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr WHERE s.id_doc = :id";
+    
+    $result=$db->prepare($sql);
+
+     $result->bindValue(":id",$id);
+
+    imprimir_usuarios($result);                                    
+
+}
+
+function mostrar_users_todos(){
+    global $db;
+            $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,c.descripcion cargo,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN cargos c ON a.id_cargo = c.id_cargo INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr ORDER BY s.ult_sesion DESC";
+
+            $result=$db->prepare($sql);
+
+            imprimir_usuarios($result);                                    
+}
+
+    function imprimir_usuarios ($result){
+        $result->execute();
+
+
+echo "          <div>
+                <table class='tabla' border='1'>
+                    <thead>
+                        <tr>
+                         <th>Cédula</th> 
+                         <th>Nombres</th> 
+                         <th>Apellidos</th> 
+                         <th>Cargo</th> 
+                         <th>Ultimo Inicio de Sesion</th> 
+                         <th>Tipo de Usuario</th>
+                        <th></th>
+                        </tr>
+                    </thead>
+                  <tr>
+";
+                     while($registro=$result->fetch(PDO::FETCH_ASSOC)){
+
+                        $id_usr=$registro['id_doc'];
+
+                        $ult_sesion = $registro['ult_sesion'];
+                        if ($ult_sesion == '0000-00-00') {
+                            $ult_sesion = 'No ha iniciado por primera vez';
+                        }
+
+echo "                  <td>".$id_usr."</td>
+                        <td>".$registro['nombre']."</td>
+                        <td>".$registro['apellido_p']." ".$registro['apellido_m']."</td> 
+                        <td>".$registro['cargo']."</td>
+                        <td>".$ult_sesion."</td>
+                        <td>".$registro['nivel']."</td>
+
+                         <td> 
+
+                        <form action=".$_SERVER['PHP_SELF']." method='post'>
+                        
+
+                            <button type='submit' value=".$id_usr." name='modificar'>Modificar</button>
+
+
+                         <br><br>
+                            
+                        <button type='submit' value=".$id_usr." name='reiniciar' class='icon-cancel' id='button-modi'>Reiniciar</button>
+
+                        </td>
+                          </tr>";
+
+      }
+
+      echo "</table>
+            </div>";
+    }
+
+function modificar_user($id_usr,$tipo_usr){
+
+
+    global $db;
+
+$sql = disable_foreing()."UPDATE `usuarios` SET id_tip_usr=:tipo_usr WHERE id_doc = :id_usr; ".enable_foreing();
+
+$parameters = array(
+    ':tipo_usr'=>$tipo_usr,    
+    ':id_usr'=>$id_usr);
+
+
+$result=$db->prepare($sql); 
+
+$result->execute($parameters);
+        
+    }
+
+    function delete_usr($id_usr){
+
+         global $db;
+
+    delete_answers($id_usr);
+
+
+         $sql = disable_foreing()." DELETE FROM `usuarios` WHERE id_doc = :id_usr; ".enable_foreing();
+
+    $result=$db->prepare($sql);
+
+    $result->bindValue("id_usr",$id_usr);
+ 
+    $result->execute();
+
+    }
+
+function delete_answers($id_usr){
+    global $db;
+            
+$sql = disable_foreing()." DELETE FROM `preguntas_usuarios`WHERE id_usr = :id_usr; ".enable_foreing();
+
+            
+    $result = $db->prepare($sql);
+
+    $result->bindValue("id_usr",$id_usr);
+
+        $result->execute();
+}
+
+function mostrar_users_tipos($id_tipo){
+    global $db;
+            $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,c.descripcion cargo,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN cargos c ON a.id_cargo = c.id_cargo INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr
+            WHERE s.id_tip_usr = :id_tipo
+            ORDER BY s.ult_sesion DESC";
+
+            $result=$db->prepare($sql);
+
+        $result->bindValue(":id_tipo",$id_tipo);
+
+            imprimir_usuarios($result);  
+
+}
+
+        function exist_tipo_user($id_tip_usr){
+     global $db;
+   $sql='SELECT id_tip_usr FROM usuarios WHERE id_tip_usr = :id_tip_usr';
+
+       $result=$db->prepare($sql);
+
+        $result->bindValue("id_tip_usr",$id_tip_usr);
+ 
+    $result->execute();
+
+   $count=$result->rowCount();
+    if($count > 0){ 
+        return true;
+    }else{
+         return false;
+
+    }
+}
+
+
+function preguntas_usrs($id,$respuesta1,$respuesta2){
+
+
+    global $db;
+       $sql="SELECT pusr.respuesta,usr.id_doc,pusr.id_pregunta FROM usuarios usr
+INNER JOIN preguntas_usuarios pusr ON usr.id_doc = pusr.id_usr
+INNER JOIN preguntas_disponible pd ON pusr.id_pregunta = pd.id_pregunta 
+WHERE usr.id_doc = :id AND pusr.id_pregunta = '1';
+ ";
+                             
+    $result=$db->prepare($sql);
+                            
+    $result->bindValue("id",$id);
+    
+    $result->execute();
+    
+
+  while($registro=$result->fetch(PDO::FETCH_ASSOC)){
+    $respuesta1_confirm = $registro['respuesta'];
+    }
+
+    global $db;
+       $sql="SELECT pusr.respuesta,usr.id_doc,pusr.id_pregunta FROM usuarios usr
+INNER JOIN preguntas_usuarios pusr ON usr.id_doc = pusr.id_usr
+INNER JOIN preguntas_disponible pd ON pusr.id_pregunta = pd.id_pregunta 
+WHERE usr.id_doc = :id AND pusr.id_pregunta = '2';";
+                             
+    $result=$db->prepare($sql);
+                            
+    $result->bindValue("id",$id);
+    
+    $result->execute();
+    
+
+  while($registro=$result->fetch(PDO::FETCH_ASSOC)){
+    $respuesta2_confirm = $registro['respuesta'];
+
+    }
+
+    $error=array();
+
+    if (strcmp($respuesta1, $respuesta1_confirm) != 0){
+        $error[]='La Repuesta uno es incorrecta';
+    }
+
+    if (strcmp($respuesta2, $respuesta2_confirm) != 0) {
+        $error[]='La Repuesta dos es incorrecta';
+    }    
+    return $error;
+}
+
+function cambiar_pass($id_usr,$pass_hash){
+
+
+    global $db;
+
+$sql = "UPDATE usuarios SET pass = :pass_hash WHERE id_doc = :id_usr; ";
+
+$parameters = array(
+    ':pass_hash'=>$pass_hash,    
+    ':id_usr'=>$id_usr);
+
+
+$result=$db->prepare($sql); 
+
+$result->execute($parameters);
+        
+    }
+
+function mostrar_docentes(){
+
+    $sql="SELECT in_p.id_doc,
+            in_p.nombre,
+            in_p.apellido_p,
+            in_p.apellido_m,
+            tr.descripcion descripcion_turno,
+            tp.descripcion descripcion_tip_docent,
+            est.descripcion descripcion_estado,
+            cb.tlf_cel,
+            cb.tlf_local,
+            cb.correo,
+            doc.fecha_ingreso,
+            doc.fecha_inabilitacion
+            
+           FROM docentes doc 
+           
+           INNER JOIN info_personal in_p ON doc.id_doc_docent = in_p.id_doc 
+           
+           INNER JOIN tipos_docentes tp ON doc.id_tipo_docent = tp.id_tipo_docent
+           
+           INNER JOIN contact_basic cb ON doc.id_doc_docent = cb.id_doc
+           
+           INNER JOIN estado est ON doc.id_estado = est.id_estado
+           
+           INNER JOIN turnos tr ON doc.id_turno = tr.id_turno ";
+    
+    return $sql;
+
+}
+
+function mostrar_docente_tipos($id_tipo_docent){
+global $db;
+     $sql = mostrar_docentes()." WHERE tp.id_tipo_docent = :id_tipo_docent;";
+
+    $result=$db->prepare($sql);
+    
+    $result->bindValue(":id_tipo_docent",$id_tipo_docent);
+    $result->execute();
+
+    imprimir_docentes($result); 
+
+    return $result;
+}
+
+function mostrar_docente_estado($id_estado){
+global $db;
+     $sql = mostrar_docentes()." WHERE     est.id_estado = :id_estado;";
+
+    $result=$db->prepare($sql);
+    
+    $result->bindValue("id_estado",$id_estado);
+    $result->execute();
+
+    imprimir_docentes($result); 
+
+    return $result;
+}
+
+
+function mostrar_docente_turno($id_turno){
+global $db;
+     $sql = mostrar_docentes()." WHERE     tr.id_turno = :id_turno;";
+
+    $result=$db->prepare($sql);
+    
+    $result->bindValue("id_turno",$id_turno);
+    $result->execute();
+
+    imprimir_docentes($result); 
+
+    return $result;
+}
+
+
+function mostrar_docente_todos(){
+global $db;
+     $sql = mostrar_docentes();
+
+    $result=$db->prepare($sql);
+    
+    $result->execute();
+
+    imprimir_docentes($result); 
+
+    return $result;
+}
+
+function mostrar_docente_cedula($id_doc){
+global $db;
+     $sql = mostrar_docentes()." WHERE doc.id_doc_docent = :id_doc;";
+
+    $result=$db->prepare($sql);
+    
+    $result->bindValue(":id_doc",$id_doc);
+    $result->execute();
+
+    imprimir_docentes($result); 
+
+    return $result;
+}
+//      
+
+function imprimir_docentes($result){ 
+
+echo "
+        <div>
+                <table class='tabla'>
+                    <thead>
+                        <tr>
+                         <th>Cedula</th> 
+                         <th>Nombre</th> 
+                         <th>Apellidos</th> 
+                         <th>Turno</th> 
+                         <th>Tipo Docente</th>
+                         <th>Estado</th>
+                         <th>Telefono Celular</th>
+                         <th>Telefono Local</th>
+                         <th>Correo</th>
+                         <th>Fecha Ingreso</th>
+                         <th>Fecha Inabilitacion</th>
+
+                         <th></th>
+                        </tr>
+                    </thead>";
+
+            while($registro=$result->fetch(PDO::FETCH_ASSOC)){  
+                                    $fecha_inabilitacion = $registro['fecha_inabilitacion'];
+                        if ($fecha_inabilitacion == '0000-00-00') {
+                            $fecha_inabilitacion = 'El Docente sigue activo';
+                        }
+                  
+                    echo " <td>".$registro['id_doc']."</td> 
+                        
+                        <td>".$registro['nombre']."</td>
+                        
+                        <td>".$registro['apellido_p']." ".$registro['apellido_m'] ."</td> 
+                        
+                        <td>".$registro['descripcion_turno']."</td>
+
+                        <td>".$registro['descripcion_tip_docent']."</td>
+
+                        <td>".$registro['descripcion_estado']."</td>
+                        
+                        <td>".$registro['tlf_cel']."</td>
+
+                        <td>".$registro['tlf_local']."</td>
+
+                        <td>".$registro['correo']."</td>
+
+                        <td>".$registro['fecha_ingreso']."</td>
+
+                        <td>".$fecha_inabilitacion."</td>
+
+                            <td><a href='modificar.php' id=button-modi class='icon-compose'> Modificar </a>
+                            <br><br>
+                        <a href='info_docent.php' class='icon-list1' id='button-modi'>MasInformacion</a>
+                        <br><br>
+                    
+                        <form action='clases_asignadas.php' method='post'>
+
+                        <button type='submit' id='button-modi' value=".$registro['id_doc']." name ='sus_clases' >Sus Clases</button>
+
+
+                        </form>
+                        
+                         <br><br>
+                         <a href='d.php' class='icon-cancel' id='button-modi'> Eliminar </a>
+                        </td>    
+           </tr>";
+     }
+   echo " </table>
+            </div>";
+            
+ }
+
+
+3
 ?>
+

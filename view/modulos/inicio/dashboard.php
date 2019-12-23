@@ -21,7 +21,7 @@ session_start();
 ?>
   <h3>Bienvenido Usuario: <?php echo $ci;
     
-    imprimir_usuario($ci);
+    imprimir_usuario_bienvenida($ci);
 
   ?> </h3>
 

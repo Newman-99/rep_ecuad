@@ -1,6 +1,7 @@
 <?php
 require '../../includes/head.php';
-if (!empty($_POST)) {
+
+if (!empty($_POST['enviar'])) {
 
     $ci = htmlentities(addslashes($_POST['ci']));
     
@@ -10,10 +11,14 @@ if (!empty($_POST)) {
         
     $pass_confirm = htmlentities(addslashes($_POST['pass_confirm']));
 
-        $errors_total=register_user($ci,$pass,$pass_confirm);
+    $pregunta1 = htmlentities(addslashes($_POST['pregunta1']));
+
+    $pregunta2 = htmlentities(addslashes($_POST['pregunta2']));
+
+        $errors_total=register_user($ci,$pass,$pass_confirm,$pregunta1,$pregunta2);
 
         if (!comprobar_msjs_array($errors_total)) {
-            register_user($ci,$pass,$pass_confirm);
+            register_user($ci,$pass,$pass_confirm,$pregunta1,$pregunta2);
         }
 
     }else{
@@ -66,6 +71,10 @@ if (!empty($_POST)) {
 
     <input type="password" name="pass_confirm" value="<?php if(isset($pass_confirm)) echo $pass_confirm; ?>" placeholder="Confirmar Contraseña" required>
 
+
+    <input type="password" name="pregunta1" value="<?php if(isset($pregunta1)) echo $pregunta1; ?>" placeholder="   ¿Cual es su artista favorito?" required>
+
+    <input type="password" name="pregunta2" value="<?php if(isset($pregunta2)) echo $pregunta2; ?>" placeholder="¿Cual es el nombre de su primera mascota?" required>
                                 
  <input type="submit" value="crear" name="enviar">
             </form>
@@ -82,8 +91,12 @@ if (!empty($_POST)) {
                     ?>
 
                     <br><br>
+
+
         <div class="reset-password">
-            <a href="#">Olvide mi Contraseña?</a>
+        
+        <a href='recover_pass.php'>Se me olvido mi contraseña?</a>
+
         </div>
     </div>
     

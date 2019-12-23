@@ -1,15 +1,7 @@
 <?php
+ valid_inicio_sesion('2');
 
 require '../../includes/head.php';
-
-session_start();
-
-    if(!isset($_SESSION["id_user"])){
-       header("Location:../../../index.php");
-        
-   }else{
-    $nivel_permiso=$_SESSION['nivel_usuario'];
-
 
 global $db;
 $errors = array();
@@ -185,8 +177,6 @@ Turno:
 <br>
 <a href="clases.php">Volver</a>
         
-
-<?php } ?>
 
     <?php
     if(!empty($errors)){

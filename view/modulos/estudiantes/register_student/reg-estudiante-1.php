@@ -2,14 +2,7 @@
 require '../../database/connect.php';
 require '../../functions/functions.php';
 
-session_start();
-
-    if(!isset($_SESSION["id_user"])){
-       header("Location:../index.php");
-        
-   }else{
-	$nivel_permiso=$_SESSION['nivel_usuario'];
-
+ valid_inicio_sesion('2');
         ?>
 
 <!DOCTYPE html>
@@ -272,7 +265,5 @@ session_start();
     <script src="js/bootstrap.bundle.min.js"></script>
     
 </body>
-
-<?php } ?>
 
 </html>

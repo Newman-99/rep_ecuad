@@ -2,19 +2,11 @@
 require './functions/functions.php';
 require './database/connect.php';
 
-/*
-
-$id_clase = '6-A-2018-2019-1';
- echo $id_contrato_clase =generador_id_contrato_clase($id_clase,"1909022",'1');
-
-echo "<hr>";
-
-asignar_docente_clase($id_clase,$id_contrato_clase,'6','A','1909022','1','1');
-*/
+$fecha = '12/11/2009';
+$fecha2 = '2019-12-03';
 
 
+//var_dump(validar_sintaxis1($fecha2));
 
 
-
-var_dump(exist_nro_contrato_clase('2'))."<hr>";
 ?>

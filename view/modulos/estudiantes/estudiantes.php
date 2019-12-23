@@ -1,13 +1,8 @@
 <?php 
 require '../../includes/head.php';
+ 
+ valid_inicio_sesion('3');
 
-session_start();
-
-    if(!isset($_SESSION["id_user"])){
-       header("Location:../index.php");
-        
-   }else{
-    $nivel_permiso=$_SESSION['nivel_usuario'];
 ?>
 	    <title>Estudiantes</title>
 	    
@@ -94,12 +89,7 @@ session_start();
         foreach ($errors as $msjs) {
             echo "<h4 style = 'margin-top:40%;'>$msjs</h4>";
         }
-    }
-
-
- } ?>
-
- <?php 
+    } 
 
 require'../../includes/footer.php';
 ?>

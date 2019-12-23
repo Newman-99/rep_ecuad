@@ -1,13 +1,7 @@
 <?php
 require '../../includes/head.php';
 
-session_start();
-
-    if(!isset($_SESSION["id_user"])){
-       header("Location:../../../index.php");
-        
-   }else{
-    $nivel_permiso=$_SESSION['nivel_usuario'];
+ valid_inicio_sesion('2');
         
 $errors = array();
 
@@ -21,6 +15,7 @@ if (!empty($_POST)) {
     $sexo = htmlentities(addslashes($_POST["sexo"]));    
     $tipo_docent = htmlentities(addslashes($_POST["tipo_docent"]));    
     $fecha_nac = htmlentities(addslashes($_POST["fecha_nac"]));    
+     $fecha_ingreso = htmlentities(addslashes($_POST["fecha_ingreso"]));    
     $lugar_nac = htmlentities(addslashes($_POST["lugar_nac"]));    
     $direcc_hab = htmlentities(addslashes($_POST["direcc_hab"]));    
     $tlf_cel = htmlentities(addslashes($_POST["tlf_cel"]));    
@@ -30,7 +25,7 @@ if (!empty($_POST)) {
     $turno = htmlentities(addslashes($_POST["turno"])); 
 
     
-if(validar_datos_vacios_sin_espacios($nacionalidad, $id_doc,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno) || validar_datos_vacios($nombres,$tipo_docent,$apellido_p,$apellido_m,$lugar_nac,$direcc_hab,$turno)){
+if(validar_datos_vacios_sin_espacios($nacionalidad, $id_doc,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$fecha_ingreso) || validar_datos_vacios($nombres,$tipo_docent,$apellido_p,$apellido_m,$lugar_nac,$direcc_hab,$turno)){
     $errors[]= "Se deben evitar campos vacios
     <p>Los Siguientes campos no Pueden poseer espacios:</p>
     <p><ul>
@@ -46,12 +41,39 @@ if(validar_datos_vacios_sin_espacios($nacionalidad, $id_doc,$sexo,$tlf_cel,$tlf_
 
 }else{
 
-    
-    registrar_docentes($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$tipo_docent,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,'1');
-    header("Location:docentes.php");
-}
+$errors[] = valid_ci($id_doc);
+
+$errors[]= validar_fecha_registro($fecha_ingreso);
+
+$errors[]=validar_nombres_apellidos($nombres,$apellido_p,$apellido_m);
+
+if (!is_valid_email($correo)) { $errors[]='El Correo electronico ingresado es invalido';}
+
+if (!is_valid_num_tlf($tlf_local,$tlf_cel)) { $errors[]='El numero de telefono ingresado es invalido';}
+
+
+if (!comprobar_msjs_array($errors)) {    
+    echo "correct";
+
+$lugar_nac=trim($lugar_nac);
+$direcc_hab=trim($direcc_hab);
+ 
+$correo = filter_var($correo, FILTER_SANITIZE_EMAIL);
+
+$nombres=filtrar_nombres_apellidos($nombres);
+
+$apellido_p=filtrar_nombres_apellidos($apellido_p);
+
+$apellido_m=filtrar_nombres_apellidos($apellido_m);
+
+ registrar_docentes($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$tipo_docent,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,'1',$fecha_ingreso,'0000-00-00');
+
+ header("Location:docentes.php");
+
 }
 
+}
+}
 ?>
 
     <title>Registro de Docentes</title>
@@ -63,14 +85,14 @@ if(validar_datos_vacios_sin_espacios($nacionalidad, $id_doc,$sexo,$tlf_cel,$tlf_
     <h2>Registro de Docentes</h2>
     <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
         <br>
-        Nacionalidad:
+
+        Documento de Identidad
         <select name="nacionalidad" id="" autocomplete="on">
-            <option value="1">Venezolano/a</option>
-            <option value="2">Extrangero/a</option>
+            <option value="1">V</option>
+            <option value="2">E</option>
         </select>
 
-        <br>
-        Documento de Identidad <input type="number" name="id_doc" id="" value="<?php if(isset($id_doc)) echo $id_doc; ?>">
+         <input type="number" name="id_doc" id="" value="<?php if(isset($id_doc)) echo $id_doc; ?>">
 
         <br>
         Nombres:
@@ -95,14 +117,19 @@ if(validar_datos_vacios_sin_espacios($nacionalidad, $id_doc,$sexo,$tlf_cel,$tlf_
         <br>
         Tipo de Docente: 
         <select name="tipo_docent" id="">
-            <option value="1">Normal</option>
+            <option value="1">En aula</option>
+
             <option value="2">Educuacion Fisica</option>
             <option value="3">Arte y Cultura</option>
         </select>
         <br>
 
         Fecha de Nacimiento:
-        <input type="date" name="fecha_nac" id="" value="<?php if(isset($fecha_nac)) echo $lugar_nac; ?>">
+        <input type="date" name="fecha_nac" id="" value="<?php if(isset($fecha_nac)) echo $fecha_nac; ?>">
+        <br>
+        Fecha de Ingreso:
+        <input type="date" name="fecha_ingreso" id="" value="<?php if(isset($fecha_ingreso)) echo $fecha_ingreso; ?>">
+
         <br>
         Lugar de Nacimiento:
         <input type="text" name="lugar_nac" id="" value="<?php if(isset($lugar_nac)) echo $lugar_nac; ?>">
@@ -159,4 +186,4 @@ if(validar_datos_vacios_sin_espacios($nacionalidad, $id_doc,$sexo,$tlf_cel,$tlf_
 
 require'../../includes/footer.php';
 
-} ?>
+ ?>

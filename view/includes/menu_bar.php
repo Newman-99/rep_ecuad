@@ -8,12 +8,12 @@
 
 <li><a href="../clases/clases.php">Clases</a></li>
 
-<li><a href="#">Aministrativos</a></li>
+<li><a href="#">Administrativos</a></li>
 
 <li><a href="../inicio/dashboard.php">Inicio</a></li>
 
 <?php if ($nivel_permiso === "1") {
-echo "<li><a href='#'>Administracion de Usuarios </a></li>
+echo "<li><a href='../usuarios/usuarios.php'>Administracion de Usuarios </a></li>
 <li><a href='#'>Configuraciones</a></li>
 
 ";} ?>
