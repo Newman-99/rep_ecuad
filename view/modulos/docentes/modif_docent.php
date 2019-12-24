@@ -55,7 +55,6 @@ if (!is_valid_email($correo)) { $errors[]='El Correo electronico ingresado es in
 
 if (!is_valid_num_tlf($tlf_local,$tlf_cel)) { $errors[]='El numero de telefono ingresado es invalido';}
 
-
 if (!comprobar_msjs_array($errors)) {    
     echo "correct";
 
@@ -98,6 +97,7 @@ $apellido_m=filtrar_nombres_apellidos($apellido_m);
             tr.descripcion descripcion_turno,
             tp.descripcion descripcion_tip_docent,
             est.descripcion descripcion_estado,
+            est.id_estado,
             cb.tlf_cel,
             cb.tlf_local,
             cb.correo,
@@ -144,6 +144,8 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
 
  
 ?>
+         
+    <?php endif ?>
         Documento de Identidad
         <select name='nacionalidad' id='' autocomplete='on'>
             <option <?php if($registro['id_nacionalidad'] == '1') echo 'selected';?>
@@ -195,6 +197,11 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
         <input type='date' name='fecha_ingreso' id='' value='<?php echo $registro['fecha_ingreso']; ?>'>
 
         <br>
+        Fecha de Inabilitacion:
+        <input type='date' name='fecha_ingreso' id='' value='<?php echo $registro['fecha_inabilitacion']; ?>'>
+
+        <br>
+
         Lugar de Nacimiento:
         <input type='text' name='lugar_nac' id='' value='<?php echo $registro['lugar_nac']; ?>'>
         
@@ -228,12 +235,19 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
         <br>
         Turno:
         <select name='turno' id=''>
-            <option value='1'>Mañana</option>
-            <option value='2'>Tarde</option>
+            <option <?php if($registro['id_turno'] == '1') echo 'selected';?> value='1'>Mañana</option>
+            <option <?php if($registro['id_turno'] == '2') echo 'selected';?>  value='2'>Tarde</option>
         </select> 
         <br>
+    Estado
+            <select name='estado' id=''>
+            <option <?php if($registro['id_estado'] == '1') echo 'selected';?> value='1'>Activo</option>
 
-        <input type='submit' value='modif_docent' name='modif_docent'>
+            <option <?php if($registro['id_estado'] == '2') echo 'selected';?> value='2'>Inactivo</option>
+        </select>
+<br>
+
+                        <button type='submit' id='button-modi' value='' >Guardar</button>
     </form>
     <?php } ?>
 

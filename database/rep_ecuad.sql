@@ -3,11 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
-<<<<<<< HEAD
--- Tiempo de generación: 28-11-2019 a las 05:10:53
-=======
--- Tiempo de generación: 10-12-2019 a las 14:35:54
->>>>>>> test
+-- Tiempo de generación: 24-12-2019 a las 08:35:49
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.3.1
 
@@ -49,16 +45,35 @@ CREATE TABLE `actualizacion` (
 
 CREATE TABLE `administrativos` (
   `id_doc_admin` varchar(15) NOT NULL,
-  `cargo` varchar(30) NOT NULL,
-  `id_turno` int(1) NOT NULL
+  `id_turno` int(1) NOT NULL,
+  `id_cargo` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `administrativos`
 --
 
-INSERT INTO `administrativos` (`id_doc_admin`, `cargo`, `id_turno`) VALUES
-('28117208', 'Director', 1);
+INSERT INTO `administrativos` (`id_doc_admin`, `id_turno`, `id_cargo`) VALUES
+('28117200', 1, 1),
+('28117208', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `areas`
+--
+
+CREATE TABLE `areas` (
+  `id_area` int(2) NOT NULL,
+  `descripcion` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `areas`
+--
+
+INSERT INTO `areas` (`id_area`, `descripcion`) VALUES
+(1, 'Directivo');
 
 -- --------------------------------------------------------
 
@@ -89,6 +104,25 @@ CREATE TABLE `calificaciones` (
   `observs` varchar(200) NOT NULL,
   `periodo` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cargos`
+--
+
+CREATE TABLE `cargos` (
+  `id_cargo` int(3) NOT NULL,
+  `descripcion` varchar(30) CHARACTER SET utf8 NOT NULL,
+  `id_area` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `cargos`
+--
+
+INSERT INTO `cargos` (`id_cargo`, `descripcion`, `id_area`) VALUES
+(1, 'Director', 1);
 
 -- --------------------------------------------------------
 
@@ -628,6 +662,8 @@ CREATE TABLE `clases` (
 --
 
 INSERT INTO `clases` (`id_clase`, `grado`, `seccion`, `no_aula`, `id_turno`, `anio_escolar1`, `anio_escolar2`) VALUES
+('1-A-2011-2012-2', 1, 'A', 223, 2, 2011, 2012),
+('1-A-2018-2019-1', 1, 'A', 12, 1, 2018, 2019),
 ('1-A-2019-2020-1', 1, 'A', 17, 1, 2019, 2020),
 ('1-D-2018-2019-1', 1, 'D', 5, 1, 2018, 2019),
 ('2-B-2018-2019-1', 2, 'B', 21, 1, 2018, 2019);
@@ -652,11 +688,17 @@ CREATE TABLE `clases_asignadas` (
 --
 
 INSERT INTO `clases_asignadas` (`id_contrato_clase`, `id_estado`, `id_clase`, `id_doc_docent`, `id_tipo_docent`, `nro_contrato`) VALUES
+('1-A-2011-2012-2-28117200-2-1', 1, '1-A-2011-2012-2', '28117200', 2, 1),
+('1-A-2011-2012-2-28117208-1-1', 2, '1-A-2011-2012-2', '28117208', 1, 1),
+('1-A-2011-2012-2-No Asignado-3-', 1, '1-A-2011-2012-2', 'No Asignado', 3, 1),
+('1-A-2018-2019-1-28117200-1-1', 1, '1-A-2018-2019-1', '28117200', 1, 1),
+('1-A-2018-2019-1-28117200-2-1', 1, '1-A-2018-2019-1', '28117200', 2, 1),
+('1-A-2018-2019-1-28117200-3-1', 1, '1-A-2018-2019-1', '28117200', 3, 1),
 ('1-A-2019-2020-1-No Asignado-1-', 1, '1-A-2019-2020-1', 'No Asignado', 1, 1),
 ('1-A-2019-2020-1-No Asignado-2-', 1, '1-A-2019-2020-1', 'No Asignado', 2, 1),
 ('1-A-2019-2020-1-No Asignado-3-', 1, '1-A-2019-2020-1', 'No Asignado', 3, 1),
 ('1-D-2018-2019-1-14117206-2-1', 1, '1-D-2018-2019-1', '14117206', 2, 1),
-('1-D-2018-2019-1-28117204-1-1', 1, '1-D-2018-2019-1', '28117204', 1, 1),
+('1-D-2018-2019-1-28117204-1-1', 1, '1-D-2018-2019-1', '28117208', 1, 1),
 ('1-D-2018-2019-1-No Asignado-3-', 1, '1-D-2018-2019-1', 'No Asignado', 3, 1),
 ('2-B-2018-2019-1-1023102-1-1', 1, '2-B-2018-2019-1', '1023102', 1, 1),
 ('2-B-2018-2019-1-14117206-2-1', 1, '2-B-2018-2019-1', '14117206', 2, 1),
@@ -681,7 +723,11 @@ CREATE TABLE `contact_basic` (
 --
 
 INSERT INTO `contact_basic` (`id_doc`, `tlf_local`, `tlf_cel`, `tlf_emergecia`, `correo`) VALUES
-('28117208', '02390172334', '04120172922', '', 'newmanrodriguez1999@gmail.com');
+('28117200', '02390299888', '412023029', '', 'nem@gmail.com'),
+('28117208', '02390172334', '04120172922', '', 'newmanrodriguez1999@gmail.com'),
+('28117300', '12345678911', '12345678911', '', 'n@gmail.com'),
+('28117700', '02392890290', '043789379', '', 'lusso@gmail.com'),
+('28117900', '04121233657', '04121233657', '', 'demian@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -695,19 +741,23 @@ CREATE TABLE `docentes` (
   `id_turno` int(1) NOT NULL,
   `id_estado` int(1) NOT NULL,
   `fecha_ingreso` date DEFAULT NULL,
-  `fecha_inabilitacion` date DEFAULT NULL
+  `fecha_inabilitacion` date DEFAULT NULL,
+  `id_nacionalidad` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `docentes`
 --
 
-INSERT INTO `docentes` (`id_doc_docent`, `id_tipo_docent`, `id_turno`, `id_estado`, `fecha_ingreso`, `fecha_inabilitacion`) VALUES
-('1023102', 1, 1, 1, '2005-01-20', '0000-00-00'),
-('14117206', 2, 1, 1, '2010-01-05', '0000-00-00'),
-('1909022', 3, 1, 1, '2016-02-01', '0000-00-00'),
-('28117204', 1, 2, 2, '2017-02-08', '0000-00-00'),
-('28117208', 1, 1, 1, '2019-11-06', '0000-00-00');
+INSERT INTO `docentes` (`id_doc_docent`, `id_tipo_docent`, `id_turno`, `id_estado`, `fecha_ingreso`, `fecha_inabilitacion`, `id_nacionalidad`) VALUES
+('1023102', 1, 1, 1, '2005-01-20', '0000-00-00', 1),
+('14117206', 2, 1, 1, '2010-01-05', '0000-00-00', 1),
+('1909022', 3, 1, 1, '2016-02-01', '0000-00-00', 1),
+('28117200', 2, 1, 1, '0000-00-00', '0000-00-00', 1),
+('28117204', 1, 2, 2, '2017-02-08', '0000-00-00', 1),
+('28117208', 1, 1, 1, '2019-11-06', '0000-00-00', 1),
+('28117300', 1, 1, 1, '2019-12-02', '0000-00-00', 1),
+('28117900', 1, 1, 1, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -855,8 +905,12 @@ INSERT INTO `info_personal` (`id_doc`, `nombre`, `apellido_p`, `apellido_m`, `fe
 ('1023102', 'Diana Kimberly', 'Uzcategui', 'Sanchez', '1980-11-14', 'Caracas, San Benardino', 'Caracas, Catia', 1, 1, 2),
 ('14117206', 'Carlos Gabriel', 'Sanchez', 'Otero', '1994-10-08', 'Caracas', 'Los Teques', 2, 1, 1),
 ('1909022', 'Jose Gregorio', 'Varaon', '', '1990-02-22', 'Caracas', 'Parroquia La vega', 1, 1, 1),
+('28117200', 'Luis Dias', 'Guerra', 'Gonasalez', '2019-11-29', 'Caracas', 'Caracas', 1, 1, 1),
 ('28117204', 'Carlos Alexander', 'Rodriguez', 'Alvarado', '1978-11-07', 'Caracas. San Martin', 'Caracas, San Benardino', 1, 1, 1),
 ('28117208', 'Newman Louis', 'Rodriguez', 'Robles', '1999-08-17', 'Caracas San Martin, Maternidad Concepción Palacios', 'Miranda Cristobal Rojas Concepcion Palacios', 1, 1, 1),
+('28117300', 'Newman', 'Rodriguez', 'Perez', '2019-12-05', 'caracs', 'caracas', 1, 1, 1),
+('28117700', 'Pedro', 'Lusso', 'Petit', '2019-12-04', 'Vargas', 'Caracas', 1, 1, 1),
+('28117900', 'Demian', 'Zapatero', 'Gonzales', '2019-12-05', 'Caracas', 'yare', 1, 1, 1),
 ('32020390', 'Andrea Mariella', 'Sanchez', 'Giordano', '2014-11-01', 'Italia, Roma', 'Caracas, Chacao', 2, 1, 2),
 ('34117206', 'Andres Enrique', 'Rodriguez', 'Murcia', '2010-11-01', 'Miranda, Los Teques', 'Miranda, Los Teques', 1, 1, 1),
 ('34289190', 'Maria Valentina', 'Robles', 'Jimenes', '2010-05-29', 'Dpto Capital, San Benardino', 'Dpto Capital, La pastora', 1, 1, 2),
@@ -2498,6 +2552,37 @@ CREATE TABLE `plantillas` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `preguntas_disponible`
+--
+
+CREATE TABLE `preguntas_disponible` (
+  `id_pregunta` int(1) NOT NULL,
+  `nombre_pregunta` varchar(50) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `preguntas_disponible`
+--
+
+INSERT INTO `preguntas_disponible` (`id_pregunta`, `nombre_pregunta`) VALUES
+(1, '¿Cual es su artista favorito?'),
+(2, '¿Cual es el nombre de su primera mascota?');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `preguntas_usuarios`
+--
+
+CREATE TABLE `preguntas_usuarios` (
+  `id_usr` varchar(15) CHARACTER SET utf8 NOT NULL,
+  `id_pregunta` int(1) NOT NULL,
+  `respuesta` varchar(30) CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `recursos_public`
 --
 
@@ -2543,14 +2628,14 @@ CREATE TABLE `salud` (
 
 CREATE TABLE `sexo` (
   `id_sexo` int(11) NOT NULL,
-  `descripción` varchar(20) NOT NULL
+  `descripcion` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `sexo`
 --
 
-INSERT INTO `sexo` (`id_sexo`, `descripción`) VALUES
+INSERT INTO `sexo` (`id_sexo`, `descripcion`) VALUES
 (1, 'Masculino'),
 (2, 'Femenino');
 
@@ -2590,7 +2675,7 @@ CREATE TABLE `tip_user` (
 --
 
 INSERT INTO `tip_user` (`id_tip_usr`, `descripcion`) VALUES
-(0, 'Inabilidado'),
+(0, 'Inabilitado'),
 (1, 'Administrador'),
 (2, 'Normal'),
 (3, 'Invitado');
@@ -2612,7 +2697,8 @@ CREATE TABLE `turnos` (
 
 INSERT INTO `turnos` (`id_turno`, `descripcion`) VALUES
 (1, 'Mañana'),
-(2, 'Tarde');
+(2, 'Tarde'),
+(3, 'Mixto');
 
 -- --------------------------------------------------------
 
@@ -2632,7 +2718,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_doc`, `id_tip_usr`, `pass`, `ult_sesion`) VALUES
-('28117208', 1, '$2y$10$i8Vrf/tmlVV5BCLUOMcoCeQLawaXzw19IXIt1GiBzzxZ7raGyjNJa', '2019-11-27');
+('28117208', 1, '$2y$10$b3q2qCzXGt5hAON2OyVK0Oca5ymf4.6VvOBXoqsicgz9nUWWShX0K', '2019-12-23');
 
 --
 -- Índices para tablas volcadas
@@ -2652,7 +2738,14 @@ ALTER TABLE `actualizacion`
 ALTER TABLE `administrativos`
   ADD PRIMARY KEY (`id_doc_admin`),
   ADD KEY `id_doc_admin` (`id_doc_admin`),
-  ADD KEY `id_turno` (`id_turno`);
+  ADD KEY `id_turno` (`id_turno`),
+  ADD KEY `id_cargo` (`id_cargo`);
+
+--
+-- Indices de la tabla `areas`
+--
+ALTER TABLE `areas`
+  ADD PRIMARY KEY (`id_area`);
 
 --
 -- Indices de la tabla `asistencias`
@@ -2668,6 +2761,13 @@ ALTER TABLE `calificaciones`
   ADD KEY `ci_escolar` (`ci_escolar`),
   ADD KEY `id_clase` (`id_clase`),
   ADD KEY `id_doc_docent` (`id_doc_docent`);
+
+--
+-- Indices de la tabla `cargos`
+--
+ALTER TABLE `cargos`
+  ADD PRIMARY KEY (`id_cargo`),
+  ADD KEY `id_area` (`id_area`);
 
 --
 -- Indices de la tabla `ciudades`
@@ -2707,7 +2807,8 @@ ALTER TABLE `docentes`
   ADD PRIMARY KEY (`id_doc_docent`),
   ADD KEY `docentes` (`id_tipo_docent`),
   ADD KEY `id_turno` (`id_turno`),
-  ADD KEY `id_estado` (`id_estado`);
+  ADD KEY `id_estado` (`id_estado`),
+  ADD KEY `id_nacionalidad` (`id_nacionalidad`);
 
 --
 -- Indices de la tabla `estado`
@@ -2816,6 +2917,19 @@ ALTER TABLE `plantillas`
   ADD PRIMARY KEY (`id_planilla`);
 
 --
+-- Indices de la tabla `preguntas_disponible`
+--
+ALTER TABLE `preguntas_disponible`
+  ADD PRIMARY KEY (`id_pregunta`);
+
+--
+-- Indices de la tabla `preguntas_usuarios`
+--
+ALTER TABLE `preguntas_usuarios`
+  ADD PRIMARY KEY (`id_pregunta`),
+  ADD KEY `id_usr` (`id_usr`);
+
+--
 -- Indices de la tabla `recursos_public`
 --
 ALTER TABLE `recursos_public`
@@ -2909,7 +3023,8 @@ ALTER TABLE `actualizacion`
 ALTER TABLE `administrativos`
   ADD CONSTRAINT `administrativos_ibfk_1` FOREIGN KEY (`id_doc_admin`) REFERENCES `info_personal` (`id_doc`),
   ADD CONSTRAINT `administrativos_ibfk_2` FOREIGN KEY (`id_doc_admin`) REFERENCES `contact_basic` (`id_doc`),
-  ADD CONSTRAINT `administrativos_ibfk_3` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id_turno`);
+  ADD CONSTRAINT `administrativos_ibfk_3` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id_turno`),
+  ADD CONSTRAINT `administrativos_ibfk_4` FOREIGN KEY (`id_cargo`) REFERENCES `cargos` (`id_cargo`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `asistencias`
@@ -2925,15 +3040,18 @@ ALTER TABLE `calificaciones`
   ADD CONSTRAINT `calificaciones_ibfk_1` FOREIGN KEY (`id_doc_docent`) REFERENCES `docentes` (`id_doc_docent`),
   ADD CONSTRAINT `calificaciones_ibfk_2` FOREIGN KEY (`id_clase`) REFERENCES `clases` (`id_clase`),
   ADD CONSTRAINT `calificaciones_ibfk_3` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`);
-<<<<<<< HEAD
-=======
+
+--
+-- Filtros para la tabla `cargos`
+--
+ALTER TABLE `cargos`
+  ADD CONSTRAINT `cargos_ibfk_1` FOREIGN KEY (`id_area`) REFERENCES `areas` (`id_area`);
 
 --
 -- Filtros para la tabla `ciudades`
 --
 ALTER TABLE `ciudades`
   ADD CONSTRAINT `ciudades_ibfk_1` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id_estado`) ON DELETE CASCADE ON UPDATE CASCADE;
->>>>>>> test
 
 --
 -- Filtros para la tabla `clases`
@@ -2966,7 +3084,8 @@ ALTER TABLE `docentes`
   ADD CONSTRAINT `docentes_ibfk_1` FOREIGN KEY (`id_doc_docent`) REFERENCES `info_personal` (`id_doc`),
   ADD CONSTRAINT `docentes_ibfk_2` FOREIGN KEY (`id_doc_docent`) REFERENCES `contact_basic` (`id_doc`),
   ADD CONSTRAINT `docentes_ibfk_3` FOREIGN KEY (`id_turno`) REFERENCES `turnos` (`id_turno`),
-  ADD CONSTRAINT `docentes_ibfk_4` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`);
+  ADD CONSTRAINT `docentes_ibfk_4` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`),
+  ADD CONSTRAINT `docentes_ibfk_5` FOREIGN KEY (`id_nacionalidad`) REFERENCES `nacionalidad` (`id_nacionalidad`);
 
 --
 -- Filtros para la tabla `estudiantes`
@@ -3022,21 +3141,25 @@ ALTER TABLE `parentescos_asignados`
   ADD CONSTRAINT `parentescos_asignados_ibfk_3` FOREIGN KEY (`id_parentesco`) REFERENCES `parenteco` (`id_parentesco`);
 
 --
-<<<<<<< HEAD
-=======
 -- Filtros para la tabla `parroquias`
 --
 ALTER TABLE `parroquias`
   ADD CONSTRAINT `parroquias_ibfk_1` FOREIGN KEY (`id_municipio`) REFERENCES `municipios` (`id_municipio`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
->>>>>>> test
 -- Filtros para la tabla `pers_est`
 --
 ALTER TABLE `pers_est`
   ADD CONSTRAINT `pers_est_ibfk_1` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`),
   ADD CONSTRAINT `pers_est_ibfk_2` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`),
   ADD CONSTRAINT `pers_est_ibfk_3` FOREIGN KEY (`id_doc`) REFERENCES `info_personal` (`id_doc`);
+
+--
+-- Filtros para la tabla `preguntas_usuarios`
+--
+ALTER TABLE `preguntas_usuarios`
+  ADD CONSTRAINT `preguntas_usuarios_ibfk_1` FOREIGN KEY (`id_pregunta`) REFERENCES `preguntas_disponible` (`id_pregunta`),
+  ADD CONSTRAINT `preguntas_usuarios_ibfk_2` FOREIGN KEY (`id_usr`) REFERENCES `usuarios` (`id_doc`);
 
 --
 -- Filtros para la tabla `recursos_public`
