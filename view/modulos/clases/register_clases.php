@@ -1,4 +1,5 @@
 <?php
+    session_start();
  valid_inicio_sesion('2');
 
 require '../../includes/head.php';

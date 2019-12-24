@@ -12,7 +12,9 @@
 
 <li><a href="../inicio/dashboard.php">Inicio</a></li>
 
-<?php if ($nivel_permiso === "1") {
+ 
+
+<?php if (valid_inicio_sesion('1')) {
 echo "<li><a href='../usuarios/usuarios.php'>Administracion de Usuarios </a></li>
 <li><a href='#'>Configuraciones</a></li>
 

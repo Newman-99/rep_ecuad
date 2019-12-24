@@ -1,42 +1,28 @@
 <?php
 require '../../includes/head.php';
 
-session_start();
+    session_start();
 
-    if(!isset($_SESSION["id_user"])){
-       header("Location:../index.php");
-        
-   }else{
-    $nivel_permiso=$_SESSION['nivel_usuario'];
-?>
+ valid_inicio_sesion('3');
+
+ ?>
+
 
     <title>Inicio</title>
 
-<?php require '../../includes/header.php'; ?>    
-
-<?php
+<?php require '../../includes/header.php'; 
 
     $ci = $_SESSION["id_user"];
-    $nivel_permiso=$_SESSION['nivel_usuario'];
 ?>
+
   <h3>Bienvenido Usuario: <?php echo $ci;
     
     imprimir_usuario_bienvenida($ci);
 
-  ?> </h3>
+    
+  
+  require '../../includes/menu_bar.php';
 
-     <?php 
-       if ($nivel_permiso === "0") {
-        echo "<h3>Usuario  inhabilitado o por confirmar comuniquese con el Administrador</h3>";
 
-        echo "<a href='../login/logout.php'>Cerrar Sesion</a>";    
-       }else{  require '../../includes/menu_bar.php'; ?>
-
-   
-<?php 
-
-        }
-
-      }
   require '../../includes/footer.php';
  ?>

@@ -1,11 +1,15 @@
 <?php
 require '../../includes/head.php';
+    session_start();
 
  valid_inicio_sesion('2');
         
 $errors = array();
 
-if (!empty($_POST)) {
+if (!empty($_POST['modificar'])) {
+    $id_doc=$_POST['modificar'];
+}
+if (!empty($_POST['modif_docent'])) {
 
     $nacionalidad = htmlentities(addslashes($_POST["nacionalidad"]));
     $id_doc = htmlentities(addslashes($_POST["id_doc"]));
@@ -82,7 +86,7 @@ $apellido_m=filtrar_nombres_apellidos($apellido_m);
 <?php require '../../includes/header.php' ?>
 
 
-    <h2>Registro de Docentes</h2>
+    <h2>Modificacion de Docentes</h2>
     <form action='<?php htmlspecialchars($_SERVER['PHP_SELF'])?>' method='post'>
         <br>
 <?php
@@ -98,7 +102,18 @@ $apellido_m=filtrar_nombres_apellidos($apellido_m);
             cb.tlf_local,
             cb.correo,
             doc.fecha_ingreso,
-            doc.fecha_inabilitacion
+            doc.fecha_inabilitacion,
+            nc.id_nacionalidad,
+            nc.descripcion nacionalidad,
+            in_p.id_sexo,
+            sx.descripcion sexo,
+            doc.id_tipo_docent,
+            in_p.fecha_nac,
+            in_p.lugar_nac,
+            in_p.direcc_hab,
+            in_p.id_estado_civil,
+            esc.descrpcion est_civil,
+            doc.id_turno
             
            FROM docentes doc 
            
@@ -110,7 +125,15 @@ $apellido_m=filtrar_nombres_apellidos($apellido_m);
            
            INNER JOIN estado est ON doc.id_estado = est.id_estado
            
-           INNER JOIN turnos tr ON doc.id_turno = tr.id_turno  WHERE doc.id_doc_docent = '28117200'";
+           INNER JOIN turnos tr ON doc.id_turno = tr.id_turno  
+           
+           INNER JOIN nacionalidad nc ON doc.id_nacionalidad = nc.id_nacionalidad
+
+            INNER JOIN sexo sx ON in_p.id_sexo = sx.id_sexo
+            
+            INNER JOIN est_civil esc ON in_p.id_estado_civil = esc.id_estado_civil
+            
+           WHERE doc.id_doc_docent = '28117200';";
     
     $result=$db->prepare($sql);
     //$result->bindValue(":id_doc",$id_doc);
@@ -120,79 +143,86 @@ $apellido_m=filtrar_nombres_apellidos($apellido_m);
 while($registro=$result->fetch(PDO::FETCH_ASSOC)){
 
  
-     echo "
+?>
         Documento de Identidad
         <select name='nacionalidad' id='' autocomplete='on'>
-            <option value='1'>V</option>
-            <option value='2'>E</option>
+            <option <?php if($registro['id_nacionalidad'] == '1') echo 'selected';?>
+             value='1'>V</option>
+
+            <option <?php if($registro['id_nacionalidad'] == '2') echo 'selected';?> value='2'>E</option>
         </select>
 
-        ".$registro."
 
-         <input type='number' name='id_doc' id='' value='<?php if(isset($id_doc)) echo $id_doc; ?>'>
+         <input type='number' name='id_doc' id='' value='<?php echo $registro['id_doc']; ?>'>
 
         <br>
         Nombres:
-        <input type='text' name='nombre' id='' value='<?php if(isset($nombres)) echo $nombres; ?>' >
+        <input type='text' name='nombre' id='' value='<?php echo $registro['nombre']; ?>' >
         
          <br>
         Apellido Paterno:
-        <input type='text' name='apellido_p' id='' value='<?php if(isset($apellido_p)) echo $apellido_p; ?>'>
+        <input type='text' name='apellido_p' id='' value='<?php echo $registro['apellido_p']; ?>'>
         
 
         <br>
         Apellido Materno:
-        <input type='text' name='apellido_m' id='' value='<?php if(isset($apellido_m)) echo $apellido_m; ?>'>
+        <input type='text' name='apellido_m' id='' value='<?php echo $registro['apellido_m']; ?>'>
        
         <br>
         Sexo:
         <select name='sexo' id=''>
-            <option value='1'>Masculino</option>
-            <option value='2'>Femenino</option>
+            <option <?php if($registro['id_sexo'] == '1') echo 'selected';?> value='1'>Masculino</option>
+
+            <option <?php if($registro['id_sexo'] == '2') echo 'selected';?> value='2'>Femenino</option>
         </select>
 
         <br>
         Tipo de Docente: 
         <select name='tipo_docent' id=''>
-            <option value='1'>En aula</option>
+            <option <?php if($registro['id_tipo_docent'] == '1') echo 'selected';?> value='1'>En aula</option>
 
-            <option value='2'>Educuacion Fisica</option>
-            <option value='3'>Arte y Cultura</option>
+            <option <?php if($registro['id_tipo_docent'] == '2') echo 'selected';?> value='2'>Educuacion Fisica</option>
+
+            <option <?php if($registro['id_tipo_docent'] == '3') echo 'selected';?> value='3'>Arte y Cultura</option>
         </select>
         <br>
 
         Fecha de Nacimiento:
-        <input type='date' name='fecha_nac' id='' value='<?php if(isset($fecha_nac)) echo $fecha_nac; ?>'>
+        <input type='date' name='fecha_nac' id='' value='<?php echo $registro['fecha_nac']; ?>'>
+
         <br>
         Fecha de Ingreso:
-        <input type='date' name='fecha_ingreso' id='' value='<?php if(isset($fecha_ingreso)) echo $fecha_ingreso; ?>'>
+        <input type='date' name='fecha_ingreso' id='' value='<?php echo $registro['fecha_ingreso']; ?>'>
 
         <br>
         Lugar de Nacimiento:
-        <input type='text' name='lugar_nac' id='' value='<?php if(isset($lugar_nac)) echo $lugar_nac; ?>'>
+        <input type='text' name='lugar_nac' id='' value='<?php echo $registro['lugar_nac']; ?>'>
         
         <br>
         Direccion de Habitacion:
-        <input type='text' name='direcc_hab' id='' value='<?php if(isset($direcc_hab)) echo $direcc_hab; ?>'>
+        <input type='text' name='direcc_hab' id='' value='<?php echo $registro['direcc_hab'] ?>'>
 
         <br>
         Telefono Celular:
-        <input type='number' name='tlf_cel' id='' value='<?php if(isset($tlf_cel)) echo $tlf_cel; ?>'>
+        <input type='number' name='tlf_cel' id='' value='<?php echo $registro['tlf_cel'] ?>'>
 
         <br>
         Telefono Local:
-        <input type='number' name='tlf_local' id='' value='<?php if(isset($tlf_local)) echo $tlf_local; ?>'>
+        <input type='number' name='tlf_local' id='' value='<?php echo $registro['tlf_local'] ?>'>
         <br>
         Correo:
-        <input type='email' name='correo' id='' value='<?php if(isset($correo)) echo $correo; ?>'>
+        <input type='email' name='correo' id='' value='<?php echo $registro['correo']; ?>'>
         
         <br>
         Estado Civil:
         <select name='estado_civil' id=''>
-            <option value='1'>Soltero/a</option>
-            <option value='2'>Casado/a</option>
-            <option value='3'>Divorciado/a</option>
-            <option value='4'>Viudo/a</option>
+            <option <?php if($registro['id_estado_civil'] == '1') echo 'selected';?> value='1'>Soltero/a</option>
+
+            <option <?php if($registro['id_estado_civil'] == '2') echo 'selected';?> value='2'>Casado/a</option>
+
+            <option <?php if($registro['id_estado_civil'] == '3') echo 'selected';?> value='3'>Divorciado/a</option>
+
+            <option <?php if($registro['id_estado_civil'] == '4') echo 'selected';?> value='4'>Viudo/a</option>
         </select>
         
         <br>
@@ -203,9 +233,9 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
         </select> 
         <br>
 
-        <input type='submit' value='Registrar' name='registrar'>
+        <input type='submit' value='modif_docent' name='modif_docent'>
     </form>
-     } ?>
+    <?php } ?>
 
     <br>
     <a href='docentes.php'>volver</a>

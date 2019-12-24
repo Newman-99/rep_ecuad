@@ -149,8 +149,6 @@ function valid_inicio_sesion($nivel_requerido = '3'){
 
     $comprobador = NULL;
 
-    session_start();
-
     if(!isset($_SESSION["id_user"])){
       
       header("Location:../../../index.php");
@@ -165,10 +163,9 @@ function valid_inicio_sesion($nivel_requerido = '3'){
            
     header("Location:../../../index.php");
     
-    }
+    }else{
       return true;
-
-
+    }
 }
 }    
 
@@ -1291,11 +1288,19 @@ echo "
 
                         <td>".$fecha_inabilitacion."</td>
 
-                            <td><a href='modificar.php' id=button-modi class='icon-compose'> Modificar </a>
-                            <br><br>
+<td>
+
+                    <form action='modif_docent.php' method='post'>
+                        
+                        <button type='submit' id='button-modi' value=".$registro['id_doc']." name ='modificar'> Modificar</button>
+
+                    </form>
+
+                        
                         <a href='info_docent.php' class='icon-list1' id='button-modi'>MasInformacion</a>
                         <br><br>
                     
+                        
                         <form action='clases_asignadas.php' method='post'>
 
                         <button type='submit' id='button-modi' value=".$registro['id_doc']." name ='sus_clases' >Sus Clases</button>

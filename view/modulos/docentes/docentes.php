@@ -1,6 +1,6 @@
 <?php
 require '../../includes/head.php';
-
+    session_start();
  valid_inicio_sesion('3');
 ?>
 	    <title>Docentes</title>
@@ -135,7 +135,7 @@ require '../../includes/head.php';
     } 
 
 include '../../includes/footer.php';
- }
+ 
 ?>
 
 
