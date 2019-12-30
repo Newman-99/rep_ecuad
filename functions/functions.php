@@ -80,6 +80,22 @@ function validar_fecha_sintaxis(...$fechas){
     }
     return true;*/
 
+
+function obten_estado_docente($id_doc_docent){
+
+    global $db;
+
+$sql="SELECT id_estado FROM docentes WHERE id_doc_docent = :id_doc_docent;"; 
+                                
+$result=$db->prepare($sql);
+                        
+$result->bindValue(":id_doc_docent",$id_doc_docent);
+
+$result->execute();
+
+return $id_estado=$result->fetchColumn();
+
+}
 foreach ($fechas as $fecha) {
     # code...
         $pattern="/^(0?[1-9]|[12][0-9]|3[01])[\/|-](0?[1-9]|[1][012])[\/|-]((19|20)?[0-9]{2})$/";

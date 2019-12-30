@@ -19,21 +19,6 @@ $fecha_ingreso = '2019-12-04';
 $fecha_inabilitacion='0000-00-00';
 
 
-function obten_estado($id_contrato_clase){
-
-    global $db;
-
-$sql="SELECT id_funcion_docent FROM clases_asignadas WHERE id_contrato_clase = :id_contrato_clase;"; 
-                                
-$result=$db->prepare($sql);
-                        
-$result->bindValue(":id_contrato_clase",$id_contrato_clase);
-
-$result->execute();
-
-return $id_funcion_docent=$result->fetchColumn();
-
-}
 
 
 
