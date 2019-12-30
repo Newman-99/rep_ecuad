@@ -1,8 +1,8 @@
 <?php
-    session_start();
- valid_inicio_sesion('2');
 
 require '../../includes/head.php';
+    session_start();
+ valid_inicio_sesion('2');
 
 global $db;
 $errors = array();
@@ -34,52 +34,45 @@ if(validar_datos_vacios_sin_espacios($grado,$turno,$no_aula,$anio_escolar1,$anio
 }else{
 
     $errors[]= validar_grado($grado);
+
     $errors[]= validar_seccion($seccion);
 
     $errors[]= validar_anio_escolar($anio_escolar1,$anio_escolar2);
 
     $errors[] = comprobar_no_aula($no_aula); 
 
+if (validar_datos_vacios($id_doc_docent_normal)){$id_doc_docent_normal="No asignado";}else{if(is_string(valid_ci($id_doc_docent_normal))){$errors[]="La Cedula del docente en aula es inavlida";}}
 
-}
-if (!comprobar_msjs_array($errors)) {
+if (validar_datos_vacios($id_doc_educ_fisica)){$id_doc_educ_fisica="No asignado";}else{if (is_string(valid_ci($id_doc_educ_fisica))){$errors[]="La Cedula del docente de Educacion fisica es inavlida";}}
 
-    $id_clase= generador_id_clases($grado,$seccion,$anio_escolar1,$anio_escolar2,$turno);
-
-if(exist_clase($id_clase)){$errors[]="Esta clase ya existe ";}else{
-
-        if (validar_datos_vacios($id_doc_docent_normal)){$id_doc_docent_normal="No Asignado";}else{if(is_string(valid_ci($id_doc_docent_normal))){$errors[]="La Cedula del docente en aula es inavlida";}}
-
-        if (validar_datos_vacios($id_doc_educ_fisica)){$id_doc_educ_fisica="No Asignado";}else{if (is_string(valid_ci($id_doc_educ_fisica))){$errors[]="La Cedula del docente de Educacion fisica es inavlida";}}}
-
-        if (validar_datos_vacios($id_doc_docent_arte_cultura)){$id_doc_docent_arte_cultura="No Asignado";}else{if (is_string(valid_ci($id_doc_docent_arte_cultura))){$errors[]="La Cedula del docente de Arte y Cultura es inavlida";}}
+if (validar_datos_vacios($id_doc_docent_arte_cultura)){$id_doc_docent_arte_cultura="No Asignado";}else{if (is_string(valid_ci($id_doc_docent_arte_cultura))){$errors[]="La Cedula del docente de Arte y Cultura es inavlida";}}
 
             // Si Hay Una Cedula se procedera a buscar si existe el docent
-            if (is_numeric($id_doc_docent_normal)) {
-                if (!validar_exist_docente($id_doc_docent_normal)) {
-                    $errors[]="No hay ningun docente en Aula con esta cedula registrado";}
-                }
+if (is_numeric($id_doc_docent_normal)) {
+    if (!validar_exist_docente($id_doc_docent_normal)) {
+    $errors[]="No hay ningun docente en Aula con esta cedula registrado";}}
             
+if (is_numeric($id_doc_educ_fisica)) {
+    if(!validar_exist_docente($id_doc_educ_fisica)) {
+    $errors[]="No hay ningun docente de educacion fisica con esta cedula registrado";}}
 
-            if (is_numeric($id_doc_educ_fisica)) {
-                if (!validar_exist_docente($id_doc_educ_fisica)) {
-                    $errors[]="No hay ningun docente de educacion fisica con esta cedula registrado";}
-                }
+if (is_numeric($id_doc_docent_arte_cultura)) {
+    if (!validar_exist_docente($id_doc_docent_arte_cultura)) {
+    $errors[]="No hay ningun docente de Arte y Cultura con esta cedula registrado";}}
 
-            if (is_numeric($id_doc_docent_arte_cultura)) {
-                if (!validar_exist_docente($id_doc_docent_arte_cultura)) {
-                    $errors[]="No hay ningun docente de Arte y Cultura con esta cedula registrado";}
-                }
 
 if (!comprobar_turno_docent_clase($id_doc_docent_normal,$turno)){
     $errors[]="El Docente en Aula ya tiene este turno ocupado";}
 
-
 if (comprobar_aula_ocupada($no_aula)){$errors[]="El Aula ya esta Ocupada";}
-    
+
+$id_clase= generador_id_clases($grado,$seccion,$anio_escolar1,$anio_escolar2,$turno);
+
+if(is_exist_clase($id_clase)){$errors[]="Esta clase ya existe ";}
+
+}
 
 if (!comprobar_msjs_array($errors)) {
-
     registrar_clases(/*$id_doc_docent,
         $id_doc_docent_fis,
         $id_doc_docent_cult,*/
@@ -96,26 +89,21 @@ if (!comprobar_msjs_array($errors)) {
         //Asignacion de clase
     
         // Registro Docente Normal
-        $id_contrato_clase=generador_id_contrato_clase($id_clase,$id_doc_docent_normal,'1');
 
-        asignar_docente_clase($id_clase,$id_contrato_clase,$grado,$seccion,$id_doc_docent_normal,'1','1','1');
+        asignar_docente_clase($id_clase,$grado,$seccion,$id_doc_docent_normal,'1','1');
 
         //Registro Docente de Educacion Fisica
-        $id_contrato_clase=generador_id_contrato_clase($id_clase,$id_doc_educ_fisica,'2','1');
 
-        asignar_docente_clase($id_clase,$id_contrato_clase,$grado,$seccion,$id_doc_educ_fisica,'2','1','1');
+        asignar_docente_clase($id_clase,$grado,$seccion,$id_doc_educ_fisica,'2','1');
 
         //Registro Docente de Arte y Cultura
-        $id_contrato_clase=generador_id_contrato_clase($id_clase,$id_doc_docent_arte_cultura,'3','1');
 
-        asignar_docente_clase($id_clase,$id_contrato_clase,$grado,$seccion,$id_doc_docent_arte_cultura,'3','1','1');
+        asignar_docente_clase($id_clase,$grado,$seccion,$id_doc_docent_arte_cultura,'3','1');
 
                 
-        }
-///////////////////////////
- 
+        } 
 }
-}
+
 
 ?>
 

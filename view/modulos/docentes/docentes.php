@@ -63,7 +63,7 @@ require '../../includes/head.php';
 
 
 			<br>
-			<a href="register_docent.php" style="float:right;margin-top:80px;margin-right:180px;" id=registrer class="icon-add">Registrar Nuevo Docente</a>
+			<a href="register_docent.php" style="" id=registrer class="icon-add">Registrar Nuevo Docente</a>
 
 			<br>
 	

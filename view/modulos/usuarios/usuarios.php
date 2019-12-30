@@ -185,8 +185,6 @@ if (!empty($_POST['guardar'])) {
     }
 
 
-}
-
 ?>
 
 <?php require '../../includes/footer.php'; ?>

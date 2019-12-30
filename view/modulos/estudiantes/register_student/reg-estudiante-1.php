@@ -1,8 +1,8 @@
 <?php
-require '../../database/connect.php';
-require '../../functions/functions.php';
+require '../../../../database/connect.php';
+require '../../../../functions/functions.php';
 
- valid_inicio_sesion('2');
+// valid_inicio_sesion('2');
         ?>
 
 <!DOCTYPE html>
@@ -11,7 +11,7 @@ require '../../functions/functions.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
-    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="../../../style/css/estilos_gregorio.css">
     <!--Boostrap-->
     
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">

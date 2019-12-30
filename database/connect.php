@@ -1,7 +1,7 @@
 <?php
 
 try{
-$db = new PDO('mysql:host=localhost;dbname=rep_ecuador;charset=utf8','root','');
+$db = new PDO('mysql:host=localhost;dbname=rep_ecuador2;charset=utf8','root','');
 return 'Conexion Correcta';
 $db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 }catch(Exception $e){

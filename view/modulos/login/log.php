@@ -1,5 +1,7 @@
 <?php
-require '../../includes/head.php';
+require  '../../../database/connect.php';
+
+require '../../../functions/functions.php';
 
 if (!empty($_POST['enviar'])) {
 
@@ -36,6 +38,13 @@ if (!empty($_POST['enviar'])) {
     
    
 ?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial -scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <link rel="stylesheet" href="../../style/css/estilos_login.css">
     <title>Inicio</title>
 </head>
 <body>

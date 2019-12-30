@@ -14,7 +14,9 @@ if (!empty($_POST)) {
     $apellido_p = htmlentities(addslashes($_POST["apellido_p"]));
     $apellido_m = htmlentities(addslashes($_POST["apellido_m"]));
     $sexo = htmlentities(addslashes($_POST["sexo"]));    
-    $tipo_docent = htmlentities(addslashes($_POST["tipo_docent"]));    
+
+    $funcion_docent = htmlentities(addslashes($_POST["funcion_docent"]));    
+    
     $fecha_nac = htmlentities(addslashes($_POST["fecha_nac"]));    
      $fecha_ingreso = htmlentities(addslashes($_POST["fecha_ingreso"]));    
     $lugar_nac = htmlentities(addslashes($_POST["lugar_nac"]));    
@@ -24,9 +26,10 @@ if (!empty($_POST)) {
     $correo = htmlentities(addslashes($_POST["correo"])); 
     $estado_civil = htmlentities(addslashes($_POST["estado_civil"])); 
     $turno = htmlentities(addslashes($_POST["turno"])); 
-
     
-if(validar_datos_vacios_sin_espacios($nacionalidad, $id_doc,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$fecha_ingreso) || validar_datos_vacios($nombres,$tipo_docent,$apellido_p,$apellido_m,$lugar_nac,$direcc_hab,$turno)){
+
+
+if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$fecha_ingreso) || validar_datos_vacios($nombres,$funcion_docent,$apellido_p,$apellido_m,$lugar_nac,$direcc_hab,$turno)){
     $errors[]= "Se deben evitar campos vacios
     <p>Los Siguientes campos no Pueden poseer espacios:</p>
     <p><ul>
@@ -44,6 +47,7 @@ if(validar_datos_vacios_sin_espacios($nacionalidad, $id_doc,$sexo,$tlf_cel,$tlf_
 
 $errors[] = valid_ci($id_doc);
 
+
 $errors[]= validar_fecha_registro($fecha_ingreso);
 
 $errors[]=validar_nombres_apellidos($nombres,$apellido_p,$apellido_m);
@@ -53,8 +57,8 @@ if (!is_valid_email($correo)) { $errors[]='El Correo electronico ingresado es in
 if (!is_valid_num_tlf($tlf_local,$tlf_cel)) { $errors[]='El numero de telefono ingresado es invalido';}
 
 
+
 if (!comprobar_msjs_array($errors)) {    
-    echo "correct";
 
 $lugar_nac=trim($lugar_nac);
 $direcc_hab=trim($direcc_hab);
@@ -67,7 +71,7 @@ $apellido_p=filtrar_nombres_apellidos($apellido_p);
 
 $apellido_m=filtrar_nombres_apellidos($apellido_m);
 
- registrar_docentes($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$tipo_docent,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,'1',$fecha_ingreso,'0000-00-00');
+ registrar_docentes($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$funcion_docent,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,'1',$fecha_ingreso,'0000-00-00');
 
  header("Location:docentes.php");
 
@@ -116,8 +120,8 @@ $apellido_m=filtrar_nombres_apellidos($apellido_m);
         </select>
 
         <br>
-        Tipo de Docente: 
-        <select name="tipo_docent" id="">
+        Funcion predeterminada del docente: 
+        <select name="funcion_docent" id="">
             <option value="1">En aula</option>
 
             <option value="2">Educuacion Fisica</option>

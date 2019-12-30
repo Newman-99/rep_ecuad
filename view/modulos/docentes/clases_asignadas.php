@@ -5,23 +5,22 @@ require '../../includes/head.php';
  valid_inicio_sesion('3');
 
 if (!empty($_POST['sus_clases'])) {
-
 $_SESSION['id_doc'] = $_POST['sus_clases']; 
 }
-
 $id_doc = $_SESSION['id_doc'];
+
 ?>
 
-	    <title>Clases Asignadas</title>
+	    <title>Clases del Docentes</title>
 		
 		<?php require '../../includes/header.php' ?>
 
+		<h3>Clases del Docente</h3>
 <?php
 
 $orden_grado = 'ORDER BY cl.grado';
 
-$orden_seccion = 'ORDER BY cl.seccion
-';
+$orden_seccion = 'ORDER BY cl.seccion';
 $orden_estado_contrato = 'ORDER BY ca.id_estado';
 
 $orden_turno = 'ORDER BY tr.id_turno';
@@ -30,8 +29,9 @@ $orden_anio="ORDER BY cl.anio_escolar1 AND cl.anio_escolar2;";
 ?>
 
 		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
+		
 		<select name="orden">
-				
+			
 				<option value="<?php echo $orden_estado_contrato; ?>">Estado del Contrato</option>
 
 				<option value="<?php echo $orden_anio; ?>">Año Escolar</option>
@@ -65,8 +65,14 @@ if (!is_exist_clases_asignadas($id_doc)){
 
 }else{
  
+$id_doc = $_SESSION['id_doc'];
 
-$sql="SELECT doc.id_doc_docent,cl.grado,cl.seccion,cl.no_aula,tr.descripcion turno, cl.anio_escolar1,cl.anio_escolar2,tp.descripcion cargo, est.descripcion estado FROM docentes doc INNER JOIN clases_asignadas ca ON doc.id_doc_docent = ca.id_doc_docent INNER JOIN clases cl ON ca.id_clase = cl.id_clase INNER JOIN estado est ON ca.id_estado = est.id_estado INNER JOIN turnos tr ON cl.id_turno = tr.id_turno INNER JOIN tipos_docentes tp ON ca.id_tipo_docent = tp.id_tipo_docent
+$sql="SELECT doc.id_doc_docent,cl.grado,cl.seccion,cl.no_aula,tr.descripcion turno, cl.anio_escolar1,cl.anio_escolar2,fd.descripcion funcion, est.descripcion estado FROM docentes doc 
+INNER JOIN clases_asignadas ca ON doc.id_doc_docent = ca.id_doc_docent 
+INNER JOIN clases cl ON ca.id_clase = cl.id_clase 
+INNER JOIN estado est ON ca.id_estado = est.id_estado 
+INNER JOIN turnos tr ON cl.id_turno = tr.id_turno 
+INNER JOIN funciones_docentes fd ON ca.id_funcion_docent = fd.id_funcion_docent
 
 			WHERE doc.id_doc_docent = :id_doc ".$orden;
 					 

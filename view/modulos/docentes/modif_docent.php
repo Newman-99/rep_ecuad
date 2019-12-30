@@ -9,17 +9,19 @@ $errors = array();
 if (!empty($_POST['modificar'])) {
     $id_doc=$_POST['modificar'];
 }
-if (!empty($_POST['modif_docent'])) {
+if (!empty($_POST['save_docent'])) {
 
     $nacionalidad = htmlentities(addslashes($_POST["nacionalidad"]));
-    $id_doc = htmlentities(addslashes($_POST["id_doc"]));
+    $id_doc = htmlentities(addslashes($_POST["save_docent"]));
+    $id_doc_new = htmlentities(addslashes($_POST["id_doc"]));
     $nombres = htmlentities(addslashes($_POST["nombre"]));
     $apellido_p = htmlentities(addslashes($_POST["apellido_p"]));
     $apellido_m = htmlentities(addslashes($_POST["apellido_m"]));
     $sexo = htmlentities(addslashes($_POST["sexo"]));    
-    $tipo_docent = htmlentities(addslashes($_POST["tipo_docent"]));    
+    $funcion_docent = htmlentities(addslashes($_POST["funcion_docent"]));    
     $fecha_nac = htmlentities(addslashes($_POST["fecha_nac"]));    
      $fecha_ingreso = htmlentities(addslashes($_POST["fecha_ingreso"]));    
+     $fecha_inabilitacion = htmlentities(addslashes($_POST["fecha_inabilitacion"]));    
     $lugar_nac = htmlentities(addslashes($_POST["lugar_nac"]));    
     $direcc_hab = htmlentities(addslashes($_POST["direcc_hab"]));    
     $tlf_cel = htmlentities(addslashes($_POST["tlf_cel"]));    
@@ -27,9 +29,11 @@ if (!empty($_POST['modif_docent'])) {
     $correo = htmlentities(addslashes($_POST["correo"])); 
     $estado_civil = htmlentities(addslashes($_POST["estado_civil"])); 
     $turno = htmlentities(addslashes($_POST["turno"])); 
-
     
-if(validar_datos_vacios_sin_espacios($nacionalidad, $id_doc,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$fecha_ingreso) || validar_datos_vacios($nombres,$tipo_docent,$apellido_p,$apellido_m,$lugar_nac,$direcc_hab,$turno)){
+    $id_estado = htmlentities(addslashes($_POST["id_estado"])); 
+
+
+if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc_new,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$fecha_ingreso) || validar_datos_vacios($nombres,$funcion_docent,$apellido_p,$apellido_m,$lugar_nac,$direcc_hab,$turno)){
     $errors[]= "Se deben evitar campos vacios
     <p>Los Siguientes campos no Pueden poseer espacios:</p>
     <p><ul>
@@ -47,6 +51,7 @@ if(validar_datos_vacios_sin_espacios($nacionalidad, $id_doc,$sexo,$tlf_cel,$tlf_
 
 $errors[] = valid_ci($id_doc);
 
+
 $errors[]= validar_fecha_registro($fecha_ingreso);
 
 $errors[]=validar_nombres_apellidos($nombres,$apellido_p,$apellido_m);
@@ -55,8 +60,9 @@ if (!is_valid_email($correo)) { $errors[]='El Correo electronico ingresado es in
 
 if (!is_valid_num_tlf($tlf_local,$tlf_cel)) { $errors[]='El numero de telefono ingresado es invalido';}
 
+
+
 if (!comprobar_msjs_array($errors)) {    
-    echo "correct";
 
 $lugar_nac=trim($lugar_nac);
 $direcc_hab=trim($direcc_hab);
@@ -69,9 +75,10 @@ $apellido_p=filtrar_nombres_apellidos($apellido_p);
 
 $apellido_m=filtrar_nombres_apellidos($apellido_m);
 
- registrar_docentes($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$tipo_docent,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,'1',$fecha_ingreso,'0000-00-00');
 
- header("Location:docentes.php");
+actualizar_docentes($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellido_p,$apellido_m,$sexo,$funcion_docent,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion);
+
+$errors[]= 'Cambios registrados con exito';
 
 }
 
@@ -79,7 +86,7 @@ $apellido_m=filtrar_nombres_apellidos($apellido_m);
 }
 ?>
 
-    <title>Registro de Docentes</title>
+    <title>Modificacion de Docentes</title>
 
 
 <?php require '../../includes/header.php' ?>
@@ -90,53 +97,14 @@ $apellido_m=filtrar_nombres_apellidos($apellido_m);
         <br>
 <?php
 
-    $sql="SELECT in_p.id_doc,
-            in_p.nombre,
-            in_p.apellido_p,
-            in_p.apellido_m,
-            tr.descripcion descripcion_turno,
-            tp.descripcion descripcion_tip_docent,
-            est.descripcion descripcion_estado,
-            est.id_estado,
-            cb.tlf_cel,
-            cb.tlf_local,
-            cb.correo,
-            doc.fecha_ingreso,
-            doc.fecha_inabilitacion,
-            nc.id_nacionalidad,
-            nc.descripcion nacionalidad,
-            in_p.id_sexo,
-            sx.descripcion sexo,
-            doc.id_tipo_docent,
-            in_p.fecha_nac,
-            in_p.lugar_nac,
-            in_p.direcc_hab,
-            in_p.id_estado_civil,
-            esc.descrpcion est_civil,
-            doc.id_turno
-            
-           FROM docentes doc 
-           
-           INNER JOIN info_personal in_p ON doc.id_doc_docent = in_p.id_doc 
-           
-           INNER JOIN tipos_docentes tp ON doc.id_tipo_docent = tp.id_tipo_docent
-           
-           INNER JOIN contact_basic cb ON doc.id_doc_docent = cb.id_doc
-           
-           INNER JOIN estado est ON doc.id_estado = est.id_estado
-           
-           INNER JOIN turnos tr ON doc.id_turno = tr.id_turno  
-           
-           INNER JOIN nacionalidad nc ON doc.id_nacionalidad = nc.id_nacionalidad
+    $sql = mostrar_docentes()." WHERE doc.id_doc_docent = :id_doc;";
 
-            INNER JOIN sexo sx ON in_p.id_sexo = sx.id_sexo
-            
-            INNER JOIN est_civil esc ON in_p.id_estado_civil = esc.id_estado_civil
-            
-           WHERE doc.id_doc_docent = '28117200';";
-    
     $result=$db->prepare($sql);
-    //$result->bindValue(":id_doc",$id_doc);
+        
+if (!empty($id_doc_new)) {
+  $id_doc =  $id_doc_new;
+}
+    $result->bindValue(":id_doc",$id_doc);
     $result->execute();
 
 
@@ -145,7 +113,6 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
  
 ?>
          
-    <?php endif ?>
         Documento de Identidad
         <select name='nacionalidad' id='' autocomplete='on'>
             <option <?php if($registro['id_nacionalidad'] == '1') echo 'selected';?>
@@ -179,13 +146,13 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
         </select>
 
         <br>
-        Tipo de Docente: 
-        <select name='tipo_docent' id=''>
-            <option <?php if($registro['id_tipo_docent'] == '1') echo 'selected';?> value='1'>En aula</option>
+        Funcion predeterminada del docente: 
+        <select name='funcion_docent' id=''>
+            <option <?php if($registro['id_funcion_docent'] == '1') echo 'selected';?> value='1'>En aula</option>
 
-            <option <?php if($registro['id_tipo_docent'] == '2') echo 'selected';?> value='2'>Educuacion Fisica</option>
+            <option <?php if($registro['id_funcion_docent'] == '2') echo 'selected';?> value='2'>Educuacion Fisica</option>
 
-            <option <?php if($registro['id_tipo_docent'] == '3') echo 'selected';?> value='3'>Arte y Cultura</option>
+            <option <?php if($registro['id_funcion_docent'] == '3') echo 'selected';?> value='3'>Arte y Cultura</option>
         </select>
         <br>
 
@@ -198,7 +165,7 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
 
         <br>
         Fecha de Inabilitacion:
-        <input type='date' name='fecha_ingreso' id='' value='<?php echo $registro['fecha_inabilitacion']; ?>'>
+        <input type='date' name='fecha_inabilitacion' id='' value='<?php echo $registro['fecha_inabilitacion']; ?>'>
 
         <br>
 
@@ -240,14 +207,15 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
         </select> 
         <br>
     Estado
-            <select name='estado' id=''>
+            <select name='id_estado' id=''>
             <option <?php if($registro['id_estado'] == '1') echo 'selected';?> value='1'>Activo</option>
 
             <option <?php if($registro['id_estado'] == '2') echo 'selected';?> value='2'>Inactivo</option>
         </select>
 <br>
 
-                        <button type='submit' id='button-modi' value='' >Guardar</button>
+    <?php echo "<button type='submit' id='button-modi' name='save_docent' value=".$id_doc.">Guardar</button>";?>
+
     </form>
     <?php } ?>
 
@@ -259,7 +227,7 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
     <?php
     if(!empty($errors)){
         foreach ($errors as $msjs) {
-            echo '<p>$msjs<p>';
+            echo "<p>".$msjs."</p>";
         }
     }
 

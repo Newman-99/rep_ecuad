@@ -131,6 +131,7 @@ foreach ($fechas as $fecha) {
 }
 
 
+
 function validar_fecha_sistema($fecha){
     date_default_timezone_set("America/Caracas");
     $fecha_actual = strtotime(date("Y-m-d H:i:s"));
@@ -285,6 +286,25 @@ function valid_user($ci){
     return true;
     }else{
         return false;
+    }
+}
+
+function is_exist_ci($ci){
+    global $db;
+
+    $sql="SELECT * FROM info_personal WHERE id_doc = :id";
+                                    
+    $result=$db->prepare($sql);
+                            
+    $result->bindValue(":id",$ci);
+
+    $result->execute();
+
+   $count=$result->rowCount();
+    if($count == 0){ 
+    return false;
+    }else{
+        return true;
     }
 }
 
@@ -480,14 +500,14 @@ function validar_exist_docente($ci){
 }
 
 function disable_foreing(){
-    return "SET FOREIGN_KEY_CHECKS=0;";
+    return "SET FOREIGN_KEY_CHECKS=0; ";
 }
 
 function enable_foreing(){
-    return "SET FOREIGN_KEY_CHECKS=1;";
+    return " SET FOREIGN_KEY_CHECKS=1; ";
 }
 
-function registrar_docentes($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$tipo_docent,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion){
+function registrar_docentes($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$funcion_docent,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion){
 
     global $db;
 
@@ -512,14 +532,95 @@ $result->execute(array("id_doc"=>$id_doc,"tlf_local"=>$tlf_local,
 
 // Insertando datos de la persona como docente
 
-$sql =disable_foreing()."INSERT INTO docentes(id_doc_docent,id_tipo_docent,id_turno,id_estado,fecha_ingreso,fecha_inabilitacion) VALUES (:id_doc_docent,:id_tipo_docent,:id_turno,:id_estado,:fecha_ingreso,:fecha_inabilitacion);".enable_foreing();
+$sql =disable_foreing()."INSERT INTO docentes(id_doc_docent,id_funcion_predet,id_turno,id_estado,fecha_ingreso,fecha_inabilitacion) VALUES (:id_doc_docent,:id_funcion_predet,:id_turno,:id_estado,:fecha_ingreso,:fecha_inabilitacion);".enable_foreing();
 
 $result=$db->prepare($sql);
 
-$result->execute(array("id_doc_docent"=>$id_doc,"id_tipo_docent"=>$tipo_docent,"id_turno"=>$turno,"id_estado"=>$id_estado,"fecha_ingreso"=>$fecha_ingreso,"fecha_inabilitacion"=>$fecha_inabilitacion));
+$result->execute(array("id_doc_docent"=>$id_doc,"id_funcion_predet"=>$funcion_docent,"id_turno"=>$turno,"id_estado"=>$id_estado,"fecha_ingreso"=>$fecha_ingreso,"fecha_inabilitacion"=>$fecha_inabilitacion));
 
 }
-  
+
+function actualizar_docentes($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellido_p,$apellido_m,$sexo,$id_funcion_predet,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion){
+
+    global $db;
+
+    // Insertando datos personales genericos
+    
+$sql = disable_foreing()." UPDATE info_personal SET id_doc =:id_doc_new, nombre = :nombre, apellido_p = :apellido_p, apellido_m = :apellido_m, fecha_nac = :fecha_nac, lugar_nac = :lugar_nac,direcc_hab = :direcc_hab, id_nacionalidad = :id_nacionalidad, id_estado_civil = :id_estado_civil, id_sexo = :id_sexo WHERE id_doc = :id_doc; ".enable_foreing();
+
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("id_doc"=>$id_doc,"id_doc_new"=>$id_doc_new,"nombre"=>$nombres,
+"apellido_p"=>$apellido_p,"apellido_m"=>$apellido_m,"fecha_nac"=>$fecha_nac,"lugar_nac"=>$lugar_nac,"direcc_hab"=>$direcc_hab,"id_nacionalidad"=>$nacionalidad,"id_estado_civil"=>$estado_civil,"id_sexo"=>$sexo));
+
+
+$sql = disable_foreing()." UPDATE contact_basic SET id_doc = :id_doc_new, tlf_local = :tlf_local,tlf_cel = :tlf_cel, correo = :correo where id_doc = :id_doc; ".enable_foreing();
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("id_doc"=>$id_doc,"id_doc_new"=>$id_doc_new,"tlf_local"=>$tlf_local,
+"tlf_cel"=>$tlf_cel,"correo"=>$correo));
+
+$sql =disable_foreing()."UPDATE docentes SET id_doc_docent = :id_doc_new,id_funcion_predet = :id_funcion_predet,id_turno = :id_turno,id_estado = :id_estado,fecha_ingreso = :fecha_ingreso,fecha_inabilitacion = :fecha_inabilitacion where id_doc_docent = :id_doc_docent; ".enable_foreing();
+
+$result=$db->prepare($sql);
+
+$result->execute(array("id_doc_docent"=>$id_doc,"id_doc_new"=>$id_doc_new,"id_funcion_predet"=>$id_funcion_predet,"id_turno"=>$turno,"id_estado"=>$id_estado,"fecha_ingreso"=>$fecha_ingreso,"fecha_inabilitacion"=>$fecha_inabilitacion));
+
+}
+
+
+function eliminar_docente($id_doc){
+
+global $db;
+
+$sql = disable_foreing()."DELETE FROM `info_personal` WHERE id_doc = :id_doc; ".enable_foreing();
+
+$result=$db->prepare($sql);
+                            
+  $result->bindValue(":id_doc",$id_doc);
+
+ $result->execute();
+
+
+$sql = disable_foreing()." DELETE FROM contact_basic WHERE id_doc = :id_doc; " .enable_foreing();
+
+$result=$db->prepare($sql);
+                            
+ $result->bindValue(":id_doc",$id_doc);
+
+ $result->execute();
+
+
+$sql =disable_foreing()." DELETE FROM docentes WHERE id_doc_docent = :id_doc; ".enable_foreing();
+
+$result=$db->prepare($sql);
+
+ $result->bindValue(":id_doc",$id_doc);
+
+ $result->execute();
+
+
+}
+
+
+function cantidad_estudent($id_clase,$id_estado){
+    global $db;
+
+    $sql="SELECT cl.id_clase,esa.ci_escolar FROM clases cl INNER JOIN estudiantes_asignados esa ON cl.id_clase = esa.id_clase WHERE esa.id_estado = :id_estado AND cl.id_clase = :id_clase";
+                                    
+    $result=$db->prepare($sql);
+                            
+    $result->execute(array(":id_estado"=>$id_estado,":id_clase"=>$id_clase));
+    
+   $count=$result->rowCount();
+
+   return $count;
+   
+}
+
+
 function validar_exist_estudiante($ci){
     global $db;
     
@@ -581,23 +682,27 @@ $result->execute($parameters);
     }
 
 
-function exist_clase($id_clase){
-    global $db;
-    
-        $sql="SELECT id_clase FROM clases WHERE id_clase = :id";
-                                        
-        $result=$db->prepare($sql);
-                                
-        $result->bindValue(":id",$id_clase);
-        $result->execute();
-    
+
+
+function is_exist_contrato_clase($id_clase,$id_doc_docent,$id_tipo_docent){
+
+      global $db;
+      
+    $sql="SELECT * FROM `clases_asignadas` WHERE id_doc_docent = :id_doc_docent AND id_tipo_docent = :id_tipo_docent AND id_clase = :id_clase;";
+
+    $result=$db->prepare($sql);
+
+      $result->execute(array("id_doc_docent"=>$id_doc_docent,":id_tipo_docent"=>$id_tipo_docent,"id_clase"=>$id_clase));
+
+    $result->execute();
+
    $count=$result->rowCount();
     if(!$count == 0){ 
     return true;
     }else{
         return false;
     }
-    }
+}
 
 function validar_grado($grado){
 
@@ -697,7 +802,7 @@ function generador_id_clases($grado,$seccion,$anio_escolar1,$anio_escolar2,$turn
 
 function comprobar_turno_docent_clase($id_doc_docent,$id_turno){
     global $db;
-   $sql="SELECT d.id_doc_docent,c_a.id_clase,c.id_turno FROM docentes d INNER JOIN clases_asignadas c_a ON d.id_doc_docent = c_a.id_doc_docent INNER JOIN clases c ON c_a.id_clase = c.id_clase WHERE d.id_doc_docent = :id_doc AND c.id_turno = :id_turno ";
+   $sql="SELECT d.id_doc_docent,c_a.id_clase,c.id_turno FROM docentes d INNER JOIN clases_asignadas c_a ON d.id_doc_docent = c_a.id_doc_docent INNER JOIN clases c ON c_a.id_clase = c.id_clase WHERE d.id_doc_docent = :id_doc AND c.id_turno = :id_turno  AND d.id_doc_docent != 'No asignado'";
 
        $result=$db->prepare($sql);
 
@@ -716,7 +821,7 @@ function comprobar_turno_docent_clase($id_doc_docent,$id_turno){
 
 
 
- 
+ /*
  function asignar_docente_clase($id_clase,$id_contrato_clase,$grado,$seccion,$id_doc_docent,$id_tipo_docent,$id_estado,$nro_contrato){
 
     global $db;
@@ -728,12 +833,43 @@ $sql = disable_foreing()." INSERT INTO `clases_asignadas`(`id_contrato_clase`, `
  $result->execute(array("id_contrato_clase"=>$id_contrato_clase,"id_estado"=>$id_estado,"id_clase"=>$id_clase,"id_doc_docent"=>$id_doc_docent,"id_tipo_docent"=>$id_tipo_docent,"nro_contrato"=>$nro_contrato));
 
 }
+*/
+ function asignar_docente_clase($id_clase,$grado,$seccion,$id_doc_docent,$id_funcion_docent,$id_estado){
+
+    global $db;
+
+$sql = disable_foreing()." INSERT INTO `clases_asignadas`(`id_estado`, `id_clase`, `id_doc_docent`, `id_funcion_docent`) VALUES (:id_estado,:id_clase,:id_doc_docent,:id_funcion_docent); ".enable_foreing();
+            
+ $result = $db->prepare($sql);
+            
+ $result->execute(array("id_estado"=>$id_estado,"id_clase"=>$id_clase,"id_doc_docent"=>$id_doc_docent,"id_funcion_docent"=>$id_funcion_docent));
+
+}
+
+
 
 
 function generador_id_contrato_clase($id_clase,$id_doc_docent,$tipo_docent,$nro_contrato=1){
 
 $id_contrato_clase=$id_clase.'-'.$id_doc_docent.'-'.$tipo_docent.'-'.$nro_contrato;
 return $id_contrato_clase;
+}
+
+
+function obten_func_docent_x_contrato($id_contrato_clase){
+
+    global $db;
+
+$sql="SELECT id_funcion_docent FROM clases_asignadas WHERE id_contrato_clase = :id_contrato_clase;"; 
+                                
+$result=$db->prepare($sql);
+                        
+$result->bindValue(":id_contrato_clase",$id_contrato_clase);
+
+$result->execute();
+
+return $id_funcion_docent=$result->fetchColumn();
+
 }
 
 
@@ -804,6 +940,9 @@ function register_user($ci,$pass,$pass_confirm,$respuesta1,$respuesta2){
             return $errors_total;
         }else{
 
+        if (is_exist_ci($ci)) {
+       $errors_total[]='La cedula ya esta registrada en el sistema';
+        }
 
         if(is_string(valid_ci_admin($ci)) || is_string(valid_ci($ci)) || is_array(valid_pass($pass)) || is_string(valid_pass_par($pass,$pass_confirm)) || is_string(valid_repuest_usrs($respuesta1,$respuesta2))) {            
             
@@ -840,6 +979,7 @@ function login_users($ci,$pass){
     if(validar_datos_vacios_sin_espacios($pass,$ci)){
         return $errors[]= "Debe llenar todos los campos y evitar los espacios";
     }
+
                 elseif(is_string(valid_ci($ci))){
                return $errors[]= valid_ci($ci);
         }else{
@@ -903,6 +1043,27 @@ INNER JOIN clases cl ON ca.id_clase = cl.id_clase
     }
 }
 
+function is_exist_clase($id_clase){
+
+     global $db;
+
+   $sql='SELECT id_clase FROM clases
+            WHERE id_clase = :id_clase';
+
+       $result=$db->prepare($sql);
+
+        $result->bindValue("id_clase",$id_clase);
+ 
+    $result->execute();
+
+   $count=$result->rowCount();
+
+    if($count > 0){ 
+        return true;
+    }else{
+         return false;
+    }
+}
 
 function mostrar_user_especifico($id){
 
@@ -969,9 +1130,8 @@ echo "                  <td>".$id_usr."</td>
 
                             <button type='submit' value=".$id_usr." name='modificar'>Modificar</button>
 
-
                          <br><br>
-                            
+
                         <button type='submit' value=".$id_usr." name='reiniciar' class='icon-cancel' id='button-modi'>Reiniciar</button>
 
                         </td>
@@ -1141,25 +1301,45 @@ function mostrar_docentes(){
             in_p.apellido_p,
             in_p.apellido_m,
             tr.descripcion descripcion_turno,
-            tp.descripcion descripcion_tip_docent,
+            fd.descripcion funcion,
+            fd.id_funcion_docent,
             est.descripcion descripcion_estado,
+            est.id_estado,
             cb.tlf_cel,
             cb.tlf_local,
             cb.correo,
             doc.fecha_ingreso,
-            doc.fecha_inabilitacion
+            doc.fecha_inabilitacion,
+            nc.id_nacionalidad,
+            nc.descripcion nacionalidad,
+            in_p.id_sexo,
+            sx.descripcion sexo,
+            doc.id_funcion_predet,
+            in_p.fecha_nac,
+            in_p.lugar_nac,
+            in_p.direcc_hab,
+            in_p.id_estado_civil,
+            esc.descrpcion est_civil,
+            doc.id_turno
             
            FROM docentes doc 
            
            INNER JOIN info_personal in_p ON doc.id_doc_docent = in_p.id_doc 
            
-           INNER JOIN tipos_docentes tp ON doc.id_tipo_docent = tp.id_tipo_docent
+           INNER JOIN funciones_docentes fd ON doc.id_funcion_predet = fd.id_funcion_docent
            
            INNER JOIN contact_basic cb ON doc.id_doc_docent = cb.id_doc
            
            INNER JOIN estado est ON doc.id_estado = est.id_estado
            
-           INNER JOIN turnos tr ON doc.id_turno = tr.id_turno ";
+           INNER JOIN turnos tr ON doc.id_turno = tr.id_turno  
+           
+           INNER JOIN nacionalidad nc ON in_p.id_nacionalidad = nc.id_nacionalidad
+
+            INNER JOIN sexo sx ON in_p.id_sexo = sx.id_sexo
+            
+            INNER JOIN est_civil esc ON in_p.id_estado_civil = esc.id_estado_civil
+            ";
     
     return $sql;
 
@@ -1167,11 +1347,11 @@ function mostrar_docentes(){
 
 function mostrar_docente_tipos($id_tipo_docent){
 global $db;
-     $sql = mostrar_docentes()." WHERE tp.id_tipo_docent = :id_tipo_docent;";
+     $sql = mostrar_docentes()." WHERE id_funcion_predet = :id_funcion_predet;";
 
     $result=$db->prepare($sql);
     
-    $result->bindValue(":id_tipo_docent",$id_tipo_docent);
+    $result->bindValue(":id_funcion_predet",$id_tipo_docent);
     $result->execute();
 
     imprimir_docentes($result); 
@@ -1181,7 +1361,7 @@ global $db;
 
 function mostrar_docente_estado($id_estado){
 global $db;
-     $sql = mostrar_docentes()." WHERE     est.id_estado = :id_estado;";
+     $sql = mostrar_docentes()." WHERE est.id_estado = :id_estado;";
 
     $result=$db->prepare($sql);
     
@@ -1248,25 +1428,19 @@ echo "
                          <th>Nombre</th> 
                          <th>Apellidos</th> 
                          <th>Turno</th> 
-                         <th>Tipo Docente</th>
+                         <th>Funcion Predeterminada</th>
                          <th>Estado</th>
                          <th>Telefono Celular</th>
                          <th>Telefono Local</th>
                          <th>Correo</th>
                          <th>Fecha Ingreso</th>
-                         <th>Fecha Inabilitacion</th>
-
                          <th></th>
                         </tr>
                     </thead>";
 
             while($registro=$result->fetch(PDO::FETCH_ASSOC)){  
-                                    $fecha_inabilitacion = $registro['fecha_inabilitacion'];
-                        if ($fecha_inabilitacion == '0000-00-00') {
-                            $fecha_inabilitacion = 'El Docente sigue activo';
-                        }
                   
-                    echo " <td>".$registro['id_doc']."</td> 
+                    echo "<tr><td>".$registro['id_doc']."</td> 
                         
                         <td>".$registro['nombre']."</td>
                         
@@ -1274,9 +1448,16 @@ echo "
                         
                         <td>".$registro['descripcion_turno']."</td>
 
-                        <td>".$registro['descripcion_tip_docent']."</td>
+                        <td>".$registro['funcion']."</td>
 
-                        <td>".$registro['descripcion_estado']."</td>
+                        <td><center>".$registro['descripcion_estado']."</center>";
+
+                        if ($registro['id_estado'] === '2') {
+                                echo "<br><br> <center><b>Fecha Inabilitacion</b></center><br>
+                                 ".$registro['fecha_inabilitacion']."<br>";
+                        }
+
+                        echo "</td>
                         
                         <td>".$registro['tlf_cel']."</td>
 
@@ -1284,41 +1465,54 @@ echo "
 
                         <td>".$registro['correo']."</td>
 
-                        <td>".$registro['fecha_ingreso']."</td>
+                        <td>".$registro['fecha_ingreso']."</td>";
 
-                        <td>".$fecha_inabilitacion."</td>
 
-<td>
-
+        echo "
+                <td>
                     <form action='modif_docent.php' method='post'>
                         
                         <button type='submit' id='button-modi' value=".$registro['id_doc']." name ='modificar'> Modificar</button>
+                    </form>";
 
-                    </form>
+                        if(valid_inicio_sesion('2')) {
+                        echo "
 
+                        <form action='mas_info_docent.php' method='post'>
                         
-                        <a href='info_docent.php' class='icon-list1' id='button-modi'>MasInformacion</a>
-                        <br><br>
-                    
-                        
+                        <button type='submit' class='icon-list1' id='button-modi' value=".$registro['id_doc']." name ='mas_info_docent' >Mas Informacion</button>
+                         
+                         </form>";
+
+                        }
+
+                        echo"
                         <form action='clases_asignadas.php' method='post'>
 
                         <button type='submit' id='button-modi' value=".$registro['id_doc']." name ='sus_clases' >Sus Clases</button>
 
-
-                        </form>
+                        </form>";
                         
-                         <br><br>
-                         <a href='d.php' class='icon-cancel' id='button-modi'> Eliminar </a>
-                        </td>    
-           </tr>";
-     }
+                        if(valid_inicio_sesion('2')) {
+                        echo "
+
+                        <form action='eliminar_docent.php' method='post'>
+                        
+                        <button type='submit' icon='button-cancel' id='button-modi' value=".$registro['id_doc']." name ='eliminar_docent' >Eliminar</button>
+                         
+                         <form>"
+
+                         ;
+                     }
+                    echo  "<br><br></td></tr>";
+                 }
+                         
    echo " </table>
             </div>";
             
  }
 
 
-3
+
 ?>
 
