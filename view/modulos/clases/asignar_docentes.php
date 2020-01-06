@@ -34,6 +34,7 @@ $id_funcion_docent = $datos_asignacion_array[0][1];
 $id_doc_docent = $datos_asignacion_array[0][2];
 
 
+
  $sql = "UPDATE `clases_asignadas` SET `id_estado` = :id_estado WHERE `clases_asignadas`.`id_contrato_clase` = :id_contrato_clase;";
 
 			$result=$db->prepare($sql);
@@ -42,7 +43,10 @@ $id_doc_docent = $datos_asignacion_array[0][2];
 	$result->execute(array("id_estado"=>'2',"id_contrato_clase"=>$id_contrato_clase));
 
 
+
 if(!is_exist_contrato_clase($_SESSION['id_clase'],'No asignado',$id_funcion_docent)){
+
+
 
  $sql = disable_foreing()." INSERT INTO `clases_asignadas`(`id_estado`, `id_clase`, `id_doc_docent`, `id_funcion_docent`) VALUES (:id_estado,:id_clase,:id_doc_docent,:id_funcion_docent); ".enable_foreing();
 
@@ -51,15 +55,13 @@ if(!is_exist_contrato_clase($_SESSION['id_clase'],'No asignado',$id_funcion_doce
 						
 	$result->execute(array("id_doc_docent"=>'No asignado',"id_estado"=>'1',":id_funcion_docent"=>$id_funcion_docent,"id_clase"=>$_SESSION['id_clase']));
 
+			}
 
 			$errors[]="El contrato del docente ".$id_doc_docent." ha sido inabilitado" ;
 
-			}
-
-}
+		}
 
 if (!empty($_POST['habilitar_contrato'])) {
-
 	 $datos_asignacion = $_POST['habilitar_contrato'];
 
 $datos_asignacion_array[] = preg_split("/-/",$datos_asignacion);
@@ -71,7 +73,11 @@ $id_funcion_docent = $datos_asignacion_array[0][1];
 
 $id_doc_docent = $datos_asignacion_array[0][2];
 
+$id_estado_docent = obten_estado_docente($id_doc_docent);
 
+if ($id_estado_docent == '2') {
+	$errors[] = "No se le puede asignar esta clase, El docente: ".$id_doc_docent." esta inabilitado ";
+}else{
 
  $sql = "UPDATE `clases_asignadas` SET `id_estado` = :id_estado WHERE `clases_asignadas`.`id_contrato_clase` = :id_contrato_clase;";
 
@@ -90,7 +96,7 @@ $id_doc_docent = $datos_asignacion_array[0][2];
 
 
 			$errors[]="El contrato del docente ".$id_doc_docent." ha sido habilitado" ;
-
+}
 }
 
 
@@ -107,6 +113,8 @@ $id_funcion_docent = $datos_asignacion_array[0][1];
 $id_doc_docent = $datos_asignacion_array[0][2];
 
 
+if(is_exist_nro_contrato_clase($id_contrato_clase)){
+
 	$sql = disable_foreing()." DELETE FROM `clases_asignadas` WHERE id_contrato_clase = :id_contrato_clase; ".enable_foreing();
 
 	$result=$db->prepare($sql);
@@ -116,7 +124,6 @@ $id_doc_docent = $datos_asignacion_array[0][2];
 
  $result->execute();
 
-if(!is_exist_contrato_clase($_SESSION['id_clase'],'No asignado',$id_funcion_docent)){
 
   $sql = disable_foreing()." INSERT INTO `clases_asignadas`(`id_estado`, `id_clase`, `id_doc_docent`, `id_funcion_docent`) VALUES (:id_estado,:id_clase,:id_doc_docent,:id_funcion_docent); ".enable_foreing();
 
@@ -125,7 +132,9 @@ if(!is_exist_contrato_clase($_SESSION['id_clase'],'No asignado',$id_funcion_doce
 						
 	$result->execute(array("id_doc_docent"=>'No asignado',"id_estado"=>'1',":id_funcion_docent"=>$id_funcion_docent,"id_clase"=>$_SESSION['id_clase']));
 
+
 }
+
 			$errors[]="El contrato del docente ".$id_doc_docent." ha sido eliminado" ;
 
 

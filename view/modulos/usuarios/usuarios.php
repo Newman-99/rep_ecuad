@@ -31,7 +31,7 @@ require '../../includes/head.php';
 
 			</select>
 
-						<button id=button class="icon-search" type="submit" name="busc_tip_usr" value="busc_tip_usr">Tipo de Usuario</button>
+						<button id=button class="icon-search" type="submit" name="busc_tip_usr" value="busc_tip_usr">Buscar</button>
 
 
 

@@ -9,16 +9,16 @@ $errors = array();
 if (!empty($_POST['modificar'])) {
     $id_doc=$_POST['modificar'];
 }
-if (!empty($_POST['save_docent'])) {
+if (!empty($_POST['save_admin'])) {
 
-    $nacionalidad = htmlentities(addslashes($_POST["nacionalidad"]));
-    $id_doc = htmlentities(addslashes($_POST["save_docent"]));
+    $id_doc = htmlentities(addslashes($_POST["save_admin"]));
     $id_doc_new = htmlentities(addslashes($_POST["id_doc"]));
+    $nacionalidad = htmlentities(addslashes($_POST["nacionalidad"]));
     $nombres = htmlentities(addslashes($_POST["nombre"]));
     $apellido_p = htmlentities(addslashes($_POST["apellido_p"]));
     $apellido_m = htmlentities(addslashes($_POST["apellido_m"]));
     $sexo = htmlentities(addslashes($_POST["sexo"]));    
-    $funcion_docent = htmlentities(addslashes($_POST["funcion_docent"]));    
+    $area = htmlentities(addslashes($_POST["area"]));    
     $fecha_nac = htmlentities(addslashes($_POST["fecha_nac"]));    
      $fecha_ingreso = htmlentities(addslashes($_POST["fecha_ingreso"]));    
      $fecha_inabilitacion = htmlentities(addslashes($_POST["fecha_inabilitacion"]));    
@@ -29,11 +29,10 @@ if (!empty($_POST['save_docent'])) {
     $correo = htmlentities(addslashes($_POST["correo"])); 
     $estado_civil = htmlentities(addslashes($_POST["estado_civil"])); 
     $turno = htmlentities(addslashes($_POST["turno"])); 
-    
     $id_estado = htmlentities(addslashes($_POST["id_estado"])); 
 
 
-if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc_new,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$fecha_ingreso) || validar_datos_vacios($nombres,$funcion_docent,$apellido_p,$apellido_m,$lugar_nac,$direcc_hab,$turno)){
+if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc_new,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$fecha_ingreso) || validar_datos_vacios($nombres,$area,$apellido_p,$apellido_m,$lugar_nac,$direcc_hab,$turno)){
     $errors[]= "Se deben evitar campos vacios
     <p>Los Siguientes campos no Pueden poseer espacios:</p>
     <p><ul>
@@ -53,11 +52,15 @@ $errors[] = valid_ci($id_doc);
 
 if (strcmp($id_doc, $id_doc_new) != 0) {
 
-if (is_exist_ci($id_doc_new)) {
+    if (is_exist_ci($id_doc_new)) {
        $errors_total[]='La cedula ya esta registrada en el sistema';
         }
 
-    if(is_exist_docente($id_doc_new)){$errors[] = "Ya hay un docente registrado con esta cedula";} }
+        if (!is_exist_admin($id_doc_new)){
+    $errors[]= "Un Administrativo con esta cedula ya esta registrado";
+}
+}
+
 
 $errors[]= validar_fecha_registro($fecha_ingreso);
 
@@ -83,13 +86,13 @@ $apellido_p=filtrar_nombres_apellidos($apellido_p);
 $apellido_m=filtrar_nombres_apellidos($apellido_m);
 
 
-actualizar_persona($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil);
-
-actualizar_docentes($id_doc,$id_doc_new,$funcion_docent,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion);
-$errors[]= 'Cambios registrados con exito';
+ actualizar_admins($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellido_p,$apellido_m,$sexo,$area,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion);
 
   $id_doc =  $id_doc_new;
 
+
+
+$errors[]= 'Cambios registrados con exito';
 
 }
 
@@ -97,17 +100,18 @@ $errors[]= 'Cambios registrados con exito';
 }
 ?>
 
-    <title>Modificacion de Docentes</title>
+    <title>Modificacion de Administrativos</title>
+
 
 <?php require '../../includes/header.php' ?>
 
-    
-    <h2>Modificacion de Docentes</h2>
+
+    <h2>Modificacion de Administrativos</h2>
     <form action='<?php htmlspecialchars($_SERVER['PHP_SELF'])?>' method='post'>
         <br>
 <?php
 
-    $sql = consulta_docentes()." WHERE doc.id_doc_docent = :id_doc;";
+    $sql = consulta_admins()." WHERE adm.id_doc_admin = :id_doc;";
 
     $result=$db->prepare($sql);
         
@@ -117,9 +121,9 @@ $errors[]= 'Cambios registrados con exito';
 
 while($registro=$result->fetch(PDO::FETCH_ASSOC)){
 
- 
+$id_doc = $registro['id_doc'];
 ?>
-        Documento de Identidad
+            Documento de Identidad
         <select name='nacionalidad' id='' autocomplete='on'>
             <option <?php if($registro['id_nacionalidad'] == '1') echo 'selected';?>
              value='1'>V</option>
@@ -127,7 +131,7 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
             <option <?php if($registro['id_nacionalidad'] == '2') echo 'selected';?> value='2'>E</option>
         </select>
 
-
+    
          <input type='number' name='id_doc' id='' value='<?php echo $registro['id_doc']; ?>'>
 
         <br>
@@ -142,6 +146,7 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
         <br>
         Apellido Materno:
         <input type='text' name='apellido_m' id='' value='<?php echo $registro['apellido_m']; ?>'>
+       
         <br>
         Sexo:
         <select name='sexo' id=''>
@@ -151,13 +156,13 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
         </select>
 
         <br>
-        Funcion del docente: 
-        <select name='funcion_docent' id=''>
-            <option <?php if($registro['id_funcion_docent'] == '1') echo 'selected';?> value='1'>En aula</option>
+        Area: 
+        <select name='area' id=''>
+            <option <?php if($registro['id_area'] == '1') echo 'selected';?> value='1'>Directiva</option>
 
-            <option <?php if($registro['id_funcion_docent'] == '2') echo 'selected';?> value='2'>Educuacion Fisica</option>
+            <option <?php if($registro['id_area'] == '2') echo 'selected';?> value='2'>Estaditica</option>
 
-            <option <?php if($registro['id_funcion_docent'] == '3') echo 'selected';?> value='3'>Arte y Cultura</option>
+            <option <?php if($registro['id_area'] == '3') echo 'selected';?> value='3'>Pedagogica</option>
         </select>
         <br>
 
@@ -179,12 +184,10 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
         
         <br>
         Direccion de Habitacion:
-
         <textarea rows="3" cols="40" name="direcc_hab" id=""><?php echo $registro['direcc_hab'];?></textarea>
 
         <br>
         Telefono Celular:
-
         <input type='number' name='tlf_cel' id='' value='<?php echo $registro['tlf_cel'] ?>'>
 
         <br>
@@ -221,13 +224,13 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
         </select>
 <br>
 
-    <?php echo "<button type='submit' id='button-modi' name='save_docent' value=".$id_doc.">Guardar</button>";?>
+    <?php echo "<button type='submit' id='button-modi' name='save_admin' value=".$id_doc.">Guardar</button>";?>
 
     </form>
     <?php } ?>
 
     <br>
-    <a href='docentes.php'>volver</a>
+    <a href='admins.php'>volver</a>
     <br>
     <br>
 

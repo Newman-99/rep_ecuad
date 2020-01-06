@@ -3,16 +3,7 @@
 // Validaciones
 
 // Comprobar Variable definida o vacia o con espacios
-function validar_datos_vacios_sin_espacios(...$datos){
-    $comprobador = false;
-    
-    foreach ($datos as $dato) {
-        if(empty($dato) || preg_match('/\s/',$dato) || comprobar_var_total_espace($dato)){
-            $comprobador = true;
-        }
-}
-return $comprobador;
-}
+// 
 
 function validar_datos_vacios(...$datos){
     $comprobador = false;
@@ -24,6 +15,18 @@ function validar_datos_vacios(...$datos){
 }
 return $comprobador;
 }
+
+function validar_datos_vacios_sin_espacios(...$datos){
+    $comprobador = false;
+    
+    foreach ($datos as $dato) {
+        if(empty($dato) || preg_match('/\s/',$dato) || comprobar_var_total_espace($dato)){
+            $comprobador = true;
+        }
+}
+return $comprobador;
+}
+
 
 function filtrar_nombres_apellidos($nom_apell){
 
@@ -64,7 +67,7 @@ function validar_nombres_apellidos(...$nombres_apells){
 
     foreach ($nombres_apells as $nom_apell) {
         # code...
-       if(preg_match("/\W|\d/",$nom_apell)){
+       if(!preg_match("/^(?=.{3,36}$)[a-zñA-ZÑ](\s?[a-zñA-ZÑ])*$/",$nom_apell)){
         
         return 'El nombre o apellido ingresado es invalido'; 
          }} 
@@ -81,21 +84,7 @@ function validar_fecha_sintaxis(...$fechas){
     return true;*/
 
 
-function obten_estado_docente($id_doc_docent){
 
-    global $db;
-
-$sql="SELECT id_estado FROM docentes WHERE id_doc_docent = :id_doc_docent;"; 
-                                
-$result=$db->prepare($sql);
-                        
-$result->bindValue(":id_doc_docent",$id_doc_docent);
-
-$result->execute();
-
-return $id_estado=$result->fetchColumn();
-
-}
 foreach ($fechas as $fecha) {
     # code...
         $pattern="/^(0?[1-9]|[12][0-9]|3[01])[\/|-](0?[1-9]|[1][012])[\/|-]((19|20)?[0-9]{2})$/";
@@ -281,8 +270,29 @@ function registrar_datos_usr_bd($ci,$pass_hash,$tip_usr,$respuesta1,$respuesta2)
             
                 $result = $db->prepare($sql);
             
-                $result->execute(array("id"=>$ci,"respuesta2"=>$respuesta1));
+                $result->execute(array("id"=>$ci,"respuesta2"=>$respuesta2));
 }
+
+function modif_pass($id_usr,$pass){
+            global $db;
+                $sql = " UPDATE `usuarios` SET `pass`= :pass WHERE :id_usr = `id_doc`; ";
+            
+                $result = $db->prepare($sql);
+            
+                $result->execute(array("id_usr"=>$id_usr,":pass"=>$pass));
+}
+
+
+function modif_pregunta($id_usr,$id_pregunta,$respuesta){
+            global $db;
+                $sql = " UPDATE `preguntas_usuarios` SET `respuesta` = :respuesta WHERE `id_usr` = :id_usr AND `id_pregunta` = :id_pregunta; ";
+            
+                $result = $db->prepare($sql);
+            
+                $result->execute(array("id_usr"=>$id_usr,"respuesta"=>$respuesta,"id_pregunta"=>$id_pregunta));
+}
+
+
 
  // Comprobacion del usuario en la Base de datos
 
@@ -459,7 +469,7 @@ return $nivel=$result->fetchColumn();
 
 function imprimir_usuario_bienvenida($ci){
     global $db;
-       $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,c.descripcion cargo,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN cargos c ON a.id_cargo = c.id_cargo INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr
+       $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,ar.descripcion area,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN areas ar ON a.id_area = ar.id_area INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr
 
     WHERE s.id_doc = :id ";
                              
@@ -475,8 +485,8 @@ function imprimir_usuario_bienvenida($ci){
     <th>Cedula</th>
      <th>Nombre</th>
     <th>Apellidos</th>
-    <th>Cargo</th>
-    <th>Nivel de Usuario</th>
+    <th>Area</th>
+    <th>Tipo de Usuario</th>
     </tr>";
 
   while($registro=$result->fetch(PDO::FETCH_ASSOC)){
@@ -485,8 +495,18 @@ function imprimir_usuario_bienvenida($ci){
     <td>".$registro['id_doc']."</td>
     <td>".$registro['nombre']."</td>
     <td>".$registro['apellido_p']." ".$registro['apellido_m']."</td>
-    <td>".$registro['cargo']."</td>
+    <td>".$registro['area']."</td>
     <td>".$registro['nivel']."</td>
+    <td> 
+    
+    <form action='../usuarios/seguridad.php' method='post'>
+                        
+    <button type='submit' class='' id='' value=".$registro['id_doc']." name ='modif_pass' >Seguridad</button>
+    
+    </form>
+
+    </td>
+
     </tr>";
 
 echo "</table></p>";
@@ -496,7 +516,7 @@ echo "</table></p>";
 
 
 
-function validar_exist_docente($ci){
+function is_exist_docente($ci){
     global $db;
 
     $sql="SELECT * FROM docentes WHERE id_doc_docent = :id";
@@ -523,12 +543,11 @@ function enable_foreing(){
     return " SET FOREIGN_KEY_CHECKS=1; ";
 }
 
-function registrar_docentes($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$funcion_docent,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion){
 
+function registrar_persona($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$estado_civil,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo){
+    
     global $db;
 
-    // Insertando datos personales genericos
-    
 $sql = "INSERT INTO info_personal(id_doc, nombre, apellido_p, apellido_m, fecha_nac, lugar_nac,direcc_hab, id_nacionalidad, id_estado_civil, id_sexo) VALUES (:id_doc,:nombre,:apellido_p,:apellido_m,:fecha_nac,:lugar_nac,:direcc_hab,:id_nacionalidad,:id_estado_civil,:id_sexo)";
 
 $result=$db->prepare($sql);
@@ -546,6 +565,59 @@ $result=$db->prepare($sql);
 $result->execute(array("id_doc"=>$id_doc,"tlf_local"=>$tlf_local,
 "tlf_cel"=>$tlf_cel,"correo"=>$correo));
 
+}
+
+function actualizar_persona($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil){
+
+    global $db;
+
+$sql = disable_foreing()." UPDATE info_personal SET id_doc =:id_doc_new, nombre = :nombre, apellido_p = :apellido_p, apellido_m = :apellido_m, fecha_nac = :fecha_nac, lugar_nac = :lugar_nac,direcc_hab = :direcc_hab, id_nacionalidad = :id_nacionalidad, id_estado_civil = :id_estado_civil, id_sexo = :id_sexo WHERE id_doc = :id_doc; ".enable_foreing();
+
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("id_doc"=>$id_doc,"id_doc_new"=>$id_doc_new,"nombre"=>$nombres,
+"apellido_p"=>$apellido_p,"apellido_m"=>$apellido_m,"fecha_nac"=>$fecha_nac,"lugar_nac"=>$lugar_nac,"direcc_hab"=>$direcc_hab,"id_nacionalidad"=>$nacionalidad,"id_estado_civil"=>$estado_civil,"id_sexo"=>$sexo));
+
+
+$sql = disable_foreing()." UPDATE contact_basic SET id_doc = :id_doc_new, tlf_local = :tlf_local,tlf_cel = :tlf_cel, correo = :correo where id_doc = :id_doc; ".enable_foreing();
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("id_doc"=>$id_doc,"id_doc_new"=>$id_doc_new,"tlf_local"=>$tlf_local,
+"tlf_cel"=>$tlf_cel,"correo"=>$correo));
+
+}
+
+function eliminar_persona($id_doc){
+
+global $db;
+
+$sql = disable_foreing()."DELETE FROM `info_personal` WHERE id_doc = :id_doc; ".enable_foreing();
+
+$result=$db->prepare($sql);
+                            
+  $result->bindValue(":id_doc",$id_doc);
+
+ $result->execute();
+
+
+$sql = disable_foreing()." DELETE FROM contact_basic WHERE id_doc = :id_doc; " .enable_foreing();
+
+$result=$db->prepare($sql);
+                            
+ $result->bindValue(":id_doc",$id_doc);
+
+ $result->execute();
+
+}
+
+
+
+function registrar_docentes($id_doc,$funcion_docent,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion){
+
+    global $db;
+
 // Insertando datos de la persona como docente
 
 $sql =disable_foreing()."INSERT INTO docentes(id_doc_docent,id_funcion_predet,id_turno,id_estado,fecha_ingreso,fecha_inabilitacion) VALUES (:id_doc_docent,:id_funcion_predet,:id_turno,:id_estado,:fecha_ingreso,:fecha_inabilitacion);".enable_foreing();
@@ -556,7 +628,62 @@ $result->execute(array("id_doc_docent"=>$id_doc,"id_funcion_predet"=>$funcion_do
 
 }
 
-function actualizar_docentes($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellido_p,$apellido_m,$sexo,$id_funcion_predet,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion){
+
+function actualizar_docentes($id_doc,$id_doc_new,$id_funcion_predet,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion){
+
+    global $db;
+
+    // Insertando datos personales genericos
+    
+$sql =disable_foreing()."UPDATE docentes SET id_doc_docent = :id_doc_new,id_funcion_predet = :id_funcion_predet,id_turno = :id_turno,id_estado = :id_estado,fecha_ingreso = :fecha_ingreso,fecha_inabilitacion = :fecha_inabilitacion where id_doc_docent = :id_doc_docent; ".enable_foreing();
+
+$result=$db->prepare($sql);
+
+$result->execute(array("id_doc_docent"=>$id_doc,"id_doc_new"=>$id_doc_new,"id_funcion_predet"=>$id_funcion_predet,"id_turno"=>$turno,"id_estado"=>$id_estado,"fecha_ingreso"=>$fecha_ingreso,"fecha_inabilitacion"=>$fecha_inabilitacion));
+
+if (is_exist_admin($id_doc)) {
+actualizar_admin($id_doc,$id_doc_new);
+}
+
+}
+
+
+
+function eliminar_docente($id_doc){
+
+global $db;
+
+
+    $sql =disable_foreing()." DELETE FROM docentes WHERE id_doc_docent = :id_doc; ".enable_foreing();
+
+    $result=$db->prepare($sql);
+
+     $result->bindValue(":id_doc",$id_doc);
+
+     $result->execute();
+
+}
+
+
+function actualizar_admin($id_doc,$id_doc_new){
+
+global $db;
+
+$sql =disable_foreing()." UPDATE administrativos SET id_doc_admin = :id_doc_new where id_doc_admin = :id_doc_admin; ".enable_foreing();
+
+$result=$db->prepare($sql);
+
+$result->execute(array("id_doc_admin"=>$id_doc,"id_doc_new"=>$id_doc_new));
+
+$sql =disable_foreing()." UPDATE `usuarios` SET `id_doc`= :id_doc_new where id_doc = :id_doc_admin; ".enable_foreing();
+
+$result=$db->prepare($sql);
+
+$result->execute(array("id_doc_admin"=>$id_doc,"id_doc_new"=>$id_doc_new));
+}
+
+
+function actualizar_admins($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellido_p,$apellido_m,$sexo,$area,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion){
 
     global $db;
 
@@ -578,48 +705,114 @@ $result=$db->prepare($sql);
 $result->execute(array("id_doc"=>$id_doc,"id_doc_new"=>$id_doc_new,"tlf_local"=>$tlf_local,
 "tlf_cel"=>$tlf_cel,"correo"=>$correo));
 
-$sql =disable_foreing()."UPDATE docentes SET id_doc_docent = :id_doc_new,id_funcion_predet = :id_funcion_predet,id_turno = :id_turno,id_estado = :id_estado,fecha_ingreso = :fecha_ingreso,fecha_inabilitacion = :fecha_inabilitacion where id_doc_docent = :id_doc_docent; ".enable_foreing();
+
+$sql =disable_foreing()."UPDATE administrativos SET id_doc_admin = :id_doc_new,id_area = :id_area,id_turno = :id_turno,id_estado = :id_estado,fecha_ingreso = :fecha_ingreso,fecha_inabilitacion = :fecha_inabilitacion where id_doc_admin = :id_doc_admin; ".enable_foreing();
 
 $result=$db->prepare($sql);
 
-$result->execute(array("id_doc_docent"=>$id_doc,"id_doc_new"=>$id_doc_new,"id_funcion_predet"=>$id_funcion_predet,"id_turno"=>$turno,"id_estado"=>$id_estado,"fecha_ingreso"=>$fecha_ingreso,"fecha_inabilitacion"=>$fecha_inabilitacion));
+$result->execute(array("id_doc_admin"=>$id_doc,"id_doc_new"=>$id_doc_new,"id_area"=>$area,"id_turno"=>$turno,"id_estado"=>$id_estado,"fecha_ingreso"=>$fecha_ingreso,"fecha_inabilitacion"=>$fecha_inabilitacion));
+
+$sql =disable_foreing()."UPDATE `usuarios` SET `id_doc`= :id_doc_new where id_doc = :id_doc_admin; ".enable_foreing();
+
+$result=$db->prepare($sql);
+
+$result->execute(array("id_doc_admin"=>$id_doc,"id_doc_new"=>$id_doc_new));
+
 
 }
 
-
-function eliminar_docente($id_doc){
+function eliminar_admin($id_doc){
 
 global $db;
 
-$sql = disable_foreing()."DELETE FROM `info_personal` WHERE id_doc = :id_doc; ".enable_foreing();
 
-$result=$db->prepare($sql);
-                            
-  $result->bindValue(":id_doc",$id_doc);
+    $sql =disable_foreing()." DELETE FROM `administrativos` WHERE `id_doc_admin` = :id_doc; ".enable_foreing();
 
- $result->execute();
+    $result=$db->prepare($sql);
 
+     $result->bindValue(":id_doc",$id_doc);
 
-$sql = disable_foreing()." DELETE FROM contact_basic WHERE id_doc = :id_doc; " .enable_foreing();
+     $result->execute();
 
-$result=$db->prepare($sql);
-                            
- $result->bindValue(":id_doc",$id_doc);
+    $sql =disable_foreing()." DELETE FROM `usuarios` WHERE `id_doc` = :id_doc; ".enable_foreing();
 
- $result->execute();
+    $result=$db->prepare($sql);
 
+     $result->bindValue(":id_doc",$id_doc);
 
-$sql =disable_foreing()." DELETE FROM docentes WHERE id_doc_docent = :id_doc; ".enable_foreing();
-
-$result=$db->prepare($sql);
-
- $result->bindValue(":id_doc",$id_doc);
-
- $result->execute();
-
+     $result->execute();
+     
 
 }
 
+
+
+function regist_admins($id_doc,$id_area,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion){
+
+    global $db;
+
+$sql =disable_foreing()." INSERT INTO `administrativos`(`id_doc_admin`, `id_turno`, `id_area`, fecha_ingreso,fecha_inabilitacion,id_estado) VALUES (:id_doc,:id_turno,:id_area,:fecha_ingreso,:fecha_inabilitacion,:id_estado);".enable_foreing();
+
+$result=$db->prepare($sql);
+
+$result->execute(array("id_doc"=>$id_doc,"id_area"=>$id_area,"id_turno"=>$turno,"id_estado"=>$id_estado,"fecha_ingreso"=>$fecha_ingreso,"fecha_inabilitacion"=>$fecha_inabilitacion));
+
+}
+
+
+    function actualizar_clases($id_clase,
+        $id_new_clase,
+        $grado,
+        $seccion,
+        $no_aula,
+        $id_turno,
+        $anio_escolar1,
+        $anio_escolar2){
+
+    global $db;
+
+    $seccion=strtoupper($seccion);
+  
+
+$parameters = array(
+    ':id_new_clase'=>$id_new_clase,    
+    ':id_clase'=>$id_clase,
+    ':grad'=>$grado,
+    ':secc'=>$seccion,
+    ':aula'=>$no_aula,
+    ':turno'=>$id_turno,
+    ':anio_1'=>$anio_escolar1,
+    ':anio_2'=>$anio_escolar2);
+
+$sql = disable_foreing()." UPDATE `clases` SET `id_clase`=:id_new_clase,`grado`= :grad,`seccion` = :secc,`no_aula`= :aula,`id_turno` = :turno, `anio_escolar1` = :anio_1,`anio_escolar2` = :anio_2 WHERE id_clase = :id_clase; ".enable_foreing();
+
+$result=$db->prepare($sql);
+
+$result->execute($parameters);
+
+
+$sql = "UPDATE `clases_asignadas` SET `id_clase` = :id_new_clase WHERE `id_clase` = :id_clase";
+
+$parameters = array(
+    ':id_new_clase'=>$id_new_clase,    
+    ':id_clase'=>$id_clase);
+
+$result=$db->prepare($sql);
+
+$result->execute($parameters);
+
+
+$sql = "UPDATE `estudiantes_asignados` SET `id_clase` = :id_new_clase WHERE `id_clase` = :id_clase";
+
+$parameters = array(
+    ':id_new_clase'=>$id_new_clase,    
+    ':id_clase'=>$id_clase);
+
+$result=$db->prepare($sql);
+
+$result->execute($parameters);
+        
+    }
 
 function cantidad_estudent($id_clase,$id_estado){
     global $db;
@@ -637,7 +830,8 @@ function cantidad_estudent($id_clase,$id_estado){
 }
 
 
-function validar_exist_estudiante($ci){
+
+function is_exist_student($ci){
     global $db;
     
         $sql="SELECT * FROM estudiantes WHERE ci_escolar = :id";
@@ -656,6 +850,28 @@ function validar_exist_estudiante($ci){
     }
 
     }
+
+
+function is_exist_admin($ci){
+    global $db;
+    
+        $sql="SELECT * FROM administrativos WHERE id_doc_admin = :id";
+                                        
+        $result=$db->prepare($sql);
+                                
+        $result->bindValue(":id",$ci);
+    
+        $result->execute();
+    
+   $count=$result->rowCount();
+    if($count == 0){ 
+    return true;
+    }else{
+        return false;
+    }
+
+    }
+
 
     function registrar_clases(/*$id_doc_docent,
         $id_doc_docent_fis,
@@ -700,15 +916,35 @@ $result->execute($parameters);
 
 
 
-function is_exist_contrato_clase($id_clase,$id_doc_docent,$id_tipo_docent){
+function is_exist_contrato_clase($id_clase,$id_doc_docent,$id_funcion_docent){
 
       global $db;
       
-    $sql="SELECT * FROM `clases_asignadas` WHERE id_doc_docent = :id_doc_docent AND id_tipo_docent = :id_tipo_docent AND id_clase = :id_clase;";
+    $sql="SELECT * FROM `clases_asignadas` WHERE id_doc_docent = :id_doc_docent AND id_funcion_docent = :id_funcion_docent AND id_clase = :id_clase;";
 
     $result=$db->prepare($sql);
 
-      $result->execute(array("id_doc_docent"=>$id_doc_docent,":id_tipo_docent"=>$id_tipo_docent,"id_clase"=>$id_clase));
+      $result->execute(array("id_doc_docent"=>$id_doc_docent,":id_funcion_docent"=>$id_funcion_docent,"id_clase"=>$id_clase));
+
+    $result->execute();
+
+   $count=$result->rowCount();
+    if(!$count == 0){ 
+    return true;
+    }else{
+        return false;
+    }
+}
+
+function is_exist_nro_contrato_clase($id_contrato_clase){
+
+      global $db;
+      
+    $sql="SELECT * FROM `clases_asignadas` WHERE id_contrato_clase = :id_contrato_clase;";
+
+    $result=$db->prepare($sql);
+
+$result->bindValue(":id_contrato_clase",$id_contrato_clase);
 
     $result->execute();
 
@@ -889,6 +1125,22 @@ return $id_funcion_docent=$result->fetchColumn();
 }
 
 
+function obten_estado_docente($id_doc_docent){
+
+    global $db;
+
+$sql="SELECT id_estado FROM docentes WHERE id_doc_docent = :id_doc_docent;"; 
+                                
+$result=$db->prepare($sql);
+                        
+$result->bindValue(":id_doc_docent",$id_doc_docent);
+
+$result->execute();
+
+return $id_estado=$result->fetchColumn();
+
+}
+
 
 function comprobar_msjs_array($array){
     $comprobador=FALSE;
@@ -940,6 +1192,37 @@ function exist_nro_contrato_clase($nro_contrato){
     }
 }
 
+function registrar_estudiante($nacionalidad ,$id_doc_estd,$ci_escolar,$nombre1,$nombre2,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,$colecc_bicent,$canaima,$contrato){
+ 
+     global $db;
+    if(empty($id_doc_estd) || is_null($id_doc_estd)) {
+ registrar_persona($nacionalidad ,$ci_escolar,$nombre1." ".$nombre2,$apellido_p,$apellido_m,$sexo,$fecha_nac,'1',$lugar_nac,$direcc_hab,NULL,NULL,NULL);
+    }else{
+
+ registrar_persona($nacionalidad ,$id_doc_estd,$nombre1." ".$nombre2,$apellido_p,$apellido_m,$sexo,$fecha_nac,'1',$lugar_nac,$direcc_hab,NULL,NULL,NULL);
+ $ci_escolar = $id_doc_estd;
+}
+
+$sql = "INSERT INTO `estudiantes`(`ci_escolar`, `id_doc_est`, `id_estado`) VALUES (:ci_escolar,:id_doc_est ,:id_estado);";
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("ci_escolar" => $ci_escolar,"id_doc_est"=>$id_doc_estd,
+"id_estado"=>'1'));
+
+$sql = "INSERT INTO `recursos_public`(`ci_escolar`, `colecc_bicent`, `canaima`, `contrato`) VALUES (:ci_escolar,:colecc_bicent,:canaima,:contrato);";
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("ci_escolar" => $ci_escolar,"colecc_bicent"=>$colecc_bicent,
+"canaima"=>$canaima,"contrato"=>$contrato));
+
+
+
+}
+
+
+
 function register_user($ci,$pass,$pass_confirm,$respuesta1,$respuesta2){
 
     global $db;
@@ -947,8 +1230,8 @@ function register_user($ci,$pass,$pass_confirm,$respuesta1,$respuesta2){
     $tip_usr=0;    
 
     //Validacion de datos vacios y espacios
-        if(validar_datos_vacios_sin_espacios($ci,$pass,$pass_confirm) || validar_datos_vacios($respuesta2,$respuesta2) ){
-            $errors_total[] = "Debe llenar todos los campos, evitando espacios en la cedula y contraseña";    
+        if(validar_datos_vacios_sin_espacios($ci) || validar_datos_vacios($respuesta1,$respuesta2,$pass,$pass_confirm)){
+            $errors_total[] = "Debe llenar todos los campos, evitando espacios en la cedula";    
     }else{
         if(!valid_user($ci)){
             $errors_total[] = "<p>El usuario ya existe</p> 
@@ -1085,7 +1368,8 @@ function mostrar_user_especifico($id){
 
 global $db;
 
-    $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,c.descripcion cargo,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN cargos c ON a.id_cargo = c.id_cargo INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr WHERE s.id_doc = :id";
+    $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,ar.descripcion cargo,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN areas ar ON a.id_area = ar.id_area INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr ORDER BY s.ult_sesion DESC
+ WHERE s.id_doc = :id";
     
     $result=$db->prepare($sql);
 
@@ -1097,7 +1381,7 @@ global $db;
 
 function mostrar_users_todos(){
     global $db;
-            $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,c.descripcion cargo,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN cargos c ON a.id_cargo = c.id_cargo INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr ORDER BY s.ult_sesion DESC";
+            $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,ar.descripcion cargo,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN areas ar ON a.id_area = ar.id_area INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr ORDER BY s.ult_sesion DESC";
 
             $result=$db->prepare($sql);
 
@@ -1310,7 +1594,7 @@ $result->execute($parameters);
         
     }
 
-function mostrar_docentes(){
+function consulta_docentes(){
 
     $sql="SELECT in_p.id_doc,
             in_p.nombre,
@@ -1361,66 +1645,11 @@ function mostrar_docentes(){
 
 }
 
-function mostrar_docente_tipos($id_tipo_docent){
-global $db;
-     $sql = mostrar_docentes()." WHERE id_funcion_predet = :id_funcion_predet;";
 
-    $result=$db->prepare($sql);
-    
-    $result->bindValue(":id_funcion_predet",$id_tipo_docent);
-    $result->execute();
-
-    imprimir_docentes($result); 
-
-    return $result;
-}
-
-function mostrar_docente_estado($id_estado){
-global $db;
-     $sql = mostrar_docentes()." WHERE est.id_estado = :id_estado;";
-
-    $result=$db->prepare($sql);
-    
-    $result->bindValue("id_estado",$id_estado);
-    $result->execute();
-
-    imprimir_docentes($result); 
-
-    return $result;
-}
-
-
-function mostrar_docente_turno($id_turno){
-global $db;
-     $sql = mostrar_docentes()." WHERE     tr.id_turno = :id_turno;";
-
-    $result=$db->prepare($sql);
-    
-    $result->bindValue("id_turno",$id_turno);
-    $result->execute();
-
-    imprimir_docentes($result); 
-
-    return $result;
-}
-
-
-function mostrar_docente_todos(){
-global $db;
-     $sql = mostrar_docentes();
-
-    $result=$db->prepare($sql);
-    
-    $result->execute();
-
-    imprimir_docentes($result); 
-
-    return $result;
-}
 
 function mostrar_docente_cedula($id_doc){
 global $db;
-     $sql = mostrar_docentes()." WHERE doc.id_doc_docent = :id_doc;";
+     $sql = consulta_docentes()." WHERE doc.id_doc_docent = :id_doc;";
 
     $result=$db->prepare($sql);
     
@@ -1444,7 +1673,7 @@ echo "
                          <th>Nombre</th> 
                          <th>Apellidos</th> 
                          <th>Turno</th> 
-                         <th>Funcion Predeterminada</th>
+                         <th>Funcion</th>
                          <th>Estado</th>
                          <th>Telefono Celular</th>
                          <th>Telefono Local</th>
@@ -1484,14 +1713,16 @@ echo "
                         <td>".$registro['fecha_ingreso']."</td>";
 
 
-        echo "
-                <td>
+
+                        if(valid_inicio_sesion('2')) {
+
+                        echo "
+                    <td>
                     <form action='modif_docent.php' method='post'>
                         
                         <button type='submit' id='button-modi' value=".$registro['id_doc']." name ='modificar'> Modificar</button>
                     </form>";
 
-                        if(valid_inicio_sesion('2')) {
                         echo "
 
                         <form action='mas_info_docent.php' method='post'>
@@ -1516,7 +1747,7 @@ echo "
                         
                         <button type='submit' icon='button-cancel' id='button-modi' value=".$registro['id_doc']." name ='eliminar_docent' >Eliminar</button>
                          
-                         <form>"
+                         </form>"
 
                          ;
                      }
@@ -1528,6 +1759,159 @@ echo "
             
  }
 
+
+
+function mostrar_cedula_admin($id_doc){
+global $db;
+     $sql = consulta_admins()." WHERE adm.id_doc_admin = :id_doc;";
+
+    $result=$db->prepare($sql);
+    
+    $result->bindValue(":id_doc",$id_doc);
+    $result->execute();
+
+    imprimir_admins($result); 
+
+    return $result;
+}
+
+
+function imprimir_admins($result){ 
+
+echo "
+        <div>
+                <table class='tabla'>
+                    <thead>
+                        <tr>
+                         <th>Cedula</th> 
+                         <th>Nombre</th> 
+                         <th>Apellidos</th> 
+                         <th>Turno</th> 
+                         <th>Area</th>
+                         <th>Estado</th>
+                         <th>Telefono Celular</th>
+                         <th>Telefono Local</th>
+                         <th>Correo</th>
+                         <th>Fecha Ingreso</th>
+                         <th></th>
+                        </tr>
+                    </thead>";
+
+            while($registro=$result->fetch(PDO::FETCH_ASSOC)){  
+                  
+                    echo "<tr><td>".$registro['id_doc']."</td> 
+                        
+                        <td>".$registro['nombre']."</td>
+                        
+                        <td>".$registro['apellido_p']." ".$registro['apellido_m'] ."</td> 
+                        
+                        <td>".$registro['turno']."</td>
+
+                        <td>".$registro['area']."</td>
+
+                        <td><center>".$registro['estado']."</center>";
+
+                        if ($registro['id_estado'] === '2') {
+                                echo "<br><br> <center><b>Fecha Inabilitacion</b></center><br>
+                                 ".$registro['fecha_inabilitacion']."<br>";
+                        }
+
+                        echo "</td>
+                        
+                        <td>".$registro['tlf_cel']."</td>
+
+                        <td>".$registro['tlf_local']."</td>
+
+                        <td>".$registro['correo']."</td>
+    
+                        <td>".$registro['fecha_ingreso']."</td><td>";
+
+
+                        if(valid_inicio_sesion('2')){
+                        echo "
+                        <form action='mas_info_admin.php' method='post'>
+                        
+                        <button type='submit' class='icon-list1' id='button-modi' value=".$registro['id_doc']." name ='mas_info_admin' >Mas Informacion</button>
+                         
+                         </form>";
+
+
+                echo "
+                    <form action='modif_admin.php' method='post'>
+                        
+                        <button type='submit' id='button-modi' value=".$registro['id_doc']." name ='modificar'> Modificar</button>
+                    </form>";
+
+                  }
+                        if(valid_inicio_sesion('1')) {
+                        echo "
+
+                        <form action='eliminar_admin.php' method='post'>
+                        
+                        <button type='submit' icon='button-cancel' id='button-modi' value=".$registro['id_doc']." name ='eliminar_admin' >Eliminar</button>
+                         
+                         </form>"
+
+                         ;
+                     }
+                    echo  "<br><br></td></tr>";
+                 }
+                         
+   echo " </table>
+            </div>";
+            
+ }
+
+
+function consulta_admins(){
+
+    $sql="SELECT in_p.id_doc,
+            in_p.nombre,
+            in_p.apellido_p,
+            in_p.apellido_m,
+            tr.descripcion turno,
+            ar.descripcion area,
+            ar.id_area,
+            est.descripcion estado,
+            est.id_estado,
+            cb.tlf_cel,
+            cb.tlf_local,
+            cb.correo,
+            adm.fecha_ingreso,
+            adm.fecha_inabilitacion,
+            nc.id_nacionalidad,
+            nc.descripcion nacionalidad,
+            in_p.id_sexo,
+            sx.descripcion sexo,
+            adm.id_area,
+            in_p.fecha_nac,
+            in_p.lugar_nac,
+            in_p.direcc_hab,
+            in_p.id_estado_civil,
+            esc.descrpcion est_civil,
+            adm.id_turno
+            
+           FROM administrativos adm 
+           
+           LEFT OUTER JOIN info_personal in_p ON adm.id_doc_admin = in_p.id_doc 
+           
+           LEFT OUTER JOIN areas ar ON adm.id_area = ar.id_area
+           
+           LEFT OUTER JOIN contact_basic cb ON adm.id_doc_admin = cb.id_doc
+           
+           LEFT OUTER JOIN estado est ON adm.id_estado = est.id_estado
+           
+           LEFT OUTER JOIN turnos tr ON adm.id_turno = tr.id_turno  
+           
+           LEFT OUTER JOIN nacionalidad nc ON in_p.id_nacionalidad = nc.id_nacionalidad
+
+            LEFT OUTER JOIN sexo sx ON in_p.id_sexo = sx.id_sexo
+            
+            LEFT OUTER JOIN est_civil esc ON in_p.id_estado_civil = esc.id_estado_civil ";
+                
+                return $sql;
+
+}
 
 
 ?>

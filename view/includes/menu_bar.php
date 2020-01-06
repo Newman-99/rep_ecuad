@@ -8,7 +8,7 @@
 
 <li><a href="../clases/clases.php">Clases</a></li>
 
-<li><a href="#">Administrativos</a></li>
+<li><a href="../admins/admins.php">Administrativos</a></li>
 
 <li><a href="../inicio/dashboard.php">Inicio</a></li>
 

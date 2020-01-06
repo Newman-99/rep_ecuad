@@ -6,25 +6,25 @@
 $errors = array();
 
 
-if (!empty($_POST['mas_info_docent'])) {
+if (!empty($_POST['mas_info_admin'])) {
 
-    $id_doc = htmlentities(addslashes($_POST["mas_info_docent"])); 
+    $id_doc = htmlentities(addslashes($_POST["mas_info_admin"])); 
 }
 
 ?>
 
-    <title>Mas Informacion Docente</title>
+    <title>Mas Informacion Administrativo</title>
 
 
 <?php require '../../includes/header.php' ?>
 
 
-    <h2>Mas Informacion del Docente</h2>
+    <h2>Mas Informacion del Administrativo</h2>
     <form action='<?php htmlspecialchars($_SERVER['PHP_SELF'])?>' method='post'>
         <br>
 <?php
 
-    $sql = consulta_docentes()." WHERE doc.id_doc_docent = :id_doc;";
+    $sql = consulta_admins()." WHERE adm.id_doc_admin = :id_doc;";
 
     $result=$db->prepare($sql);
     
@@ -61,15 +61,7 @@ echo "
 
                          <th>Fecha Ingreso</th>
 
-                         <th>Estado</th>";
-                        
-                       /* if(isset($registro)){
-                        $fecha_inabilitacion = $registro['fecha_inabilitacion'];
-                        if(!$fecha_inabilitacion == '0000-00-00') {
-                               echo " <th>Fecha Inabilitacion</th>";}
-                        }*/
-
-                               echo "
+                         <th>Estado</th>
 
                          <th>Telefono Celular</th>
 
@@ -82,12 +74,7 @@ echo "
 
             while($registro=$result->fetch(PDO::FETCH_ASSOC)){  
                                     $fecha_inabilitacion = $registro['fecha_inabilitacion'];
-                       
-                       /* if ($fecha_inabilitacion == '0000-00-00') {
-                            $fecha_inabilitacion = 'El Docente sigue activo';
-                        }*/
-                  
-                    echo " 
+                                    echo " 
 
                     <td>".$registro['nacionalidad']."</td> 
                     
@@ -108,13 +95,13 @@ echo "
 
                         <td>".$registro['direcc_hab']."</td>
                         
-                        <td>".$registro['descripcion_turno']."</td>
+                        <td>".$registro['turno']."</td>
 
-                        <td>".$registro['funcion']."</td>
+                        <td>".$registro['area']."</td>
 
                         <td>".$registro['fecha_ingreso']."</td>
                         
-                        <td><center>".$registro['descripcion_estado']."</center>";
+                        <td><center>".$registro['estado']."</center>";
 
                         if ($registro['id_estado'] === '2') {
                                 echo "<br><br> <center><b>Fecha Inabilitacion</b></center><br>
@@ -138,7 +125,7 @@ echo "
             </div>";
 ?>
 
-    <a href='docentes.php'>volver</a>
+    <a href='admins.php'>volver</a>
 
     <?php
     if(!empty($errors)){

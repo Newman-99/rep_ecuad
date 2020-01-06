@@ -6,7 +6,8 @@ require '../../includes/head.php';
         
 $errors = array();
 
-if (!empty($_POST)) {
+if (!empty($_POST['registrar'])) {
+
 
     $nacionalidad = htmlentities(addslashes($_POST["nacionalidad"]));
     $id_doc = htmlentities(addslashes($_POST["id_doc"]));
@@ -29,7 +30,7 @@ if (!empty($_POST)) {
     
 
 
-if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$fecha_ingreso) || validar_datos_vacios($nombres,$funcion_docent,$apellido_p,$apellido_m,$lugar_nac,$direcc_hab,$turno)){
+if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$fecha_ingreso) || validar_datos_vacios($nombres,$funcion_docent,$apellido_p,$lugar_nac,$direcc_hab,$turno)){
     $errors[]= "Se deben evitar campos vacios
     <p>Los Siguientes campos no Pueden poseer espacios:</p>
     <p><ul>
@@ -45,16 +46,30 @@ if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc,$sexo,$tlf_ce
 
 }else{
 
+if (is_exist_docente($id_doc)){
+    $errors[]= "Ya existe un Docente con esta cedula registrado";
+    }    
+
 $errors[] = valid_ci($id_doc);
 
+if (!is_exist_docente($id_doc)){
+    $errors[]= "Un Docente con esta cedula ya esta registrado";
+}m
 
-$errors[]= validar_fecha_registro($fecha_ingreso);
-
-$errors[]=validar_nombres_apellidos($nombres,$apellido_p,$apellido_m);
+if (is_exist_ci($id_doc)) {
+       $errors[]='La cedula ya esta registrada en el sistema';
+        }
 
 if (!is_valid_email($correo)) { $errors[]='El Correo electronico ingresado es invalido';}
 
 if (!is_valid_num_tlf($tlf_local,$tlf_cel)) { $errors[]='El numero de telefono ingresado es invalido';}
+
+$errors[]= validar_fecha_registro($fecha_ingreso);
+
+$errors[]=validar_nombres_apellidos($nombres,$apellido_p);
+
+if(!empty($apellido_m)){
+$errors[]=validar_nombres_apellidos($apellido_m);
 
 
 
@@ -71,16 +86,18 @@ $apellido_p=filtrar_nombres_apellidos($apellido_p);
 
 $apellido_m=filtrar_nombres_apellidos($apellido_m);
 
- registrar_docentes($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$funcion_docent,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,'1',$fecha_ingreso,'0000-00-00');
+registrar_persona($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$estado_civil,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo);
 
- header("Location:docentes.php");
+ registrar_docentes($id_doc,$funcion_docent,$turno,'1',$fecha_ingreso,'0000-00-00');
+
+$errors[] = 'Docente registrado con exito';
 
 }
 
 }
 }
+
 ?>
-
     <title>Registro de Docentes</title>
 
 
@@ -93,8 +110,9 @@ $apellido_m=filtrar_nombres_apellidos($apellido_m);
 
         Documento de Identidad
         <select name="nacionalidad" id="" autocomplete="on">
-            <option value="1">V</option>
-            <option value="2">E</option>
+            <option value=""></option>
+            <option <?php if(isset($nacionalidad)) if($nacionalidad == '1') echo 'selected';?> value="1">V</option>
+            <option <?php if(isset($nacionalidad)) if($nacionalidad == '2') echo 'selected'; ?> value="2">E</option>
         </select>
 
          <input type="number" name="id_doc" id="" value="<?php if(isset($id_doc)) echo $id_doc; ?>">
@@ -115,34 +133,43 @@ $apellido_m=filtrar_nombres_apellidos($apellido_m);
         <br>
         Sexo:
         <select name="sexo" id="">
-            <option value="1">Masculino</option>
-            <option value="2">Femenino</option>
+            <option value=""></option>
+            <option <?php if(isset($sexo)) if($sexo == '1') echo 'selected'; ?> value="1">Masculino</option>
+            <option <?php if(isset($sexo)) if($sexo == '2') echo 'selected'; ?> value="2">Femenino</option>
         </select>
 
         <br>
-        Funcion predeterminada del docente: 
+        Funcion del docente: 
         <select name="funcion_docent" id="">
-            <option value="1">En aula</option>
+                        <option value=""></option>
 
-            <option value="2">Educuacion Fisica</option>
-            <option value="3">Arte y Cultura</option>
+            <option <?php if(isset($funcion_docent)) if($funcion_docent == '1') echo 'selected';?> value="1">En aula</option>
+
+            <option <?php if(isset($funcion_docent)) if($funcion_docent == '2') echo 'selected'; ?> value="2" >Educuacion Fisica</option>
+
+            <option <?php if(isset($funcion_docent)) if($funcion_docent == '3') echo 'selected';?> value="3">Arte y Cultura</option>
         </select>
         <br>
 
         Fecha de Nacimiento:
         <input type="date" name="fecha_nac" id="" value="<?php if(isset($fecha_nac)) echo $fecha_nac; ?>">
         <br>
+
         Fecha de Ingreso:
         <input type="date" name="fecha_ingreso" id="" value="<?php if(isset($fecha_ingreso)) echo $fecha_ingreso; ?>">
 
+            <br>
+            
+                Lugar de Nacimiento
         <br>
-        Lugar de Nacimiento:
-        <input type="text" name="lugar_nac" id="" value="<?php if(isset($lugar_nac)) echo $lugar_nac; ?>">
-        
-        <br>
-        Direccion de Habitacion:
-        <input type="text" name="direcc_hab" id="" value="<?php if(isset($direcc_hab)) echo $direcc_hab; ?>">
+        <textarea rows="3" cols="40" name="lugar_nac" id=""><?php if(isset($lugar_nac)) echo $lugar_nac;?></textarea>
 
+        <br>
+        Direccion de Habitacion
+        <br>
+
+        <textarea rows="3" cols="40" name="direcc_hab" id=""><?php if(isset($direcc_hab)) echo $direcc_hab; ?></textarea>        
+       
         <br>
         Telefono Celular:
         <input type="number" name="tlf_cel" id="" value="<?php if(isset($tlf_cel)) echo $tlf_cel; ?>">
@@ -157,35 +184,31 @@ $apellido_m=filtrar_nombres_apellidos($apellido_m);
         <br>
         Estado Civil:
         <select name="estado_civil" id="">
-            <option value="1">Soltero/a</option>
-            <option value="2">Casado/a</option>
-            <option value="3">Divorciado/a</option>
-            <option value="4">Viudo/a</option>
+            <option value=""></option>            
+            <option <?php if(isset($estado_civil)) if($estado_civil == '1') echo 'selected';?> value="1">Soltero/a</option>
+            <option <?php if(isset($estado_civil)) if($estado_civil == '2') echo 'selected';?> value="2">Casado/a</option>
+            <option <?php if(isset($estado_civil)) if($estado_civil == '3') echo 'selected';?> value="3">Divorciado/a</option>
+            <option <?php if(isset($estado_civil)) if($estado_civil == '4') echo 'selected';?> value="4">Viudo/a</option>
         </select>
         
         <br>
         Turno:
         <select name="turno" id="">
-            <option value="1">Mañana</option>
-            <option value="2">Tarde</option>
+            <option value=""></option>
+            <option <?php if(isset($turno)) if($turno == '1') echo 'selected';?> value="1">Mañana</option>
+            <option <?php if(isset($turno)) if($turno == '2') echo 'selected';?> value="2">Tarde</option>
         </select> 
         <br>
         <input type="submit" value="Registrar" name="registrar">
     </form>
 
     <br>
+    <a href="reg_admin_docent.php">Registrar Docente desde Administrativo</a>
+
     <a href="docentes.php">volver</a>
     <br>
     <br>
 
-    <?php
-    if(!empty($errors)){
-        foreach ($errors as $msjs) {
-            echo "<p>$msjs<p>";
-        }
-    }
-
-    ?>
 
 <?php 
 

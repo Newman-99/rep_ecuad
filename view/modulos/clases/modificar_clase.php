@@ -45,30 +45,26 @@ $id_new_clase= generador_id_clases($grado,$seccion,$anio_escolar1,$anio_escolar2
 
 
 if (strcmp($_SESSION['id_clase'], $id_new_clase) != 0) {
-if(exist_clase($id_new_clase)){$errors[]="Esta clase ya existe ";}
+if(is_exist_clase($id_new_clase)){$errors[]="Esta clase ya existe ";}
 }
 
 }
-var_dump($id_new_clase);
-var_dump($id_clase);
 
     
 if (!comprobar_msjs_array($errors)) {    
 
 
-/*
-    actualizar_clases(/*$id_doc_docent,
-        $id_doc_docent_fis,
-        $id_doc_docent_cult,*/
-      /*  $grado,
+
+actualizar_clases($id_clase,
+        $id_new_clase,
+        $grado,
         $seccion,
         $no_aula,
         $turno,
         $anio_escolar1,
         $anio_escolar2);
 
-$errors[]= 'Cambios registrados con exito';*/
-
+$errors[]= 'Cambios registrados con exito';
 }
 
 }
@@ -87,11 +83,17 @@ $errors[]= 'Cambios registrados con exito';*/
         <br>
 <?php
 
+
     $sql="SELECT * FROM clases WHERE id_clase = :id_clase;";
     
     $result=$db->prepare($sql);
+
+    if (!empty($id_new_clase)) {
+        $_SESSION['id_clase'] = $id_new_clase;
+    }
     
     $id_clase = $_SESSION['id_clase'];
+
 
     $result->bindValue(":id_clase",$id_clase);
 

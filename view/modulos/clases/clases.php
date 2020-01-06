@@ -33,7 +33,7 @@ require '../../includes/head.php';
         <br>
         Grado Escolar:
         <select name="grado" id="" autocomplete="on">
-            <option value=''></option>
+            <option value=''>Todos</option>
             <option value="1">1ro</option>
             <option value="2">2do</option>
             <option value="3">3ro</option>
@@ -49,7 +49,7 @@ require '../../includes/head.php';
 
 		Turno:
         <select name="turno" id="">
-        	 <option value=''></option>
+        	 <option value=''>Todos</option>
             <option value="1">Mañana</option>
             <option value="2">Tarde</option>
         </select> 
@@ -62,11 +62,10 @@ require '../../includes/head.php';
 		
 
 
-		<button id=button class="icon-search" type="submit">Buscar</button>
+		<button id=button class="icon-search" type="submit" name="buscar">Buscar</button>
 
-			<a href="register_clases.php" style="float:right;margin-top:80px;margin-right:180px;" id=registrer class="icon-add">Registrar Nueva Clase</a>
+			<a href="register_clases.php" style="float:right;margin-top:80px;margin-right:180px;" id='registrer' class="icon-add">Registrar Nueva Clase</a>
 
-				<button id=button class="icon-search" type="submit" name="todos" value="todos">Todos</button>			
 
 		</form>
 
@@ -76,76 +75,114 @@ require '../../includes/head.php';
 	<?php 	
 
 
-	if (!empty($_POST)) {
-		
-/*	
-    $count = 0;
-
-    $w = '';
-
-    $orden_grado='';
-	
-	$orden_seccion = '';
-
-	$orden_turno = '';
-
-	$y ='';
-
-/*	if(exist_clase($id_clase)){
-		$errors[] = "No existe esta clase";}
+	if (!empty($_POST)){
 
 
-if (!empty($grado)) {
+    $grado = htmlentities(addslashes($_POST["grado"]));
 
-		$count++;
-		
-		$orden_grado = " cl.grado = ".$grado."";
+    $seccion = htmlentities(addslashes($_POST["seccion"]));
 
+    $turno = htmlentities(addslashes($_POST["turno"]));
+    
+//    $no_aula = htmlentities(addslashes($_POST["no_aula"]));
+    
+    $anio_escolar1 = htmlentities(addslashes($_POST["año_escolar1"]));
+
+    $anio_escolar2 = htmlentities(addslashes($_POST["año_escolar2"]));
+
+    if (!empty($grado)){
+
+    		$errors[]= validar_grado($grado);
+    	}
+
+    	    if (!empty($seccion)){
+    $errors[]= validar_seccion($seccion);
     }
 
-if (!empty($seccion)) {
-
-			$count++;
-
-			if ($count>1) {
-		$y=' AND ';
-		}else{$y='';}
-		
-
-		$orden_seccion = $y." cl.seccion = '".$seccion."'";
+    if (!empty($anio_escolar1) ||  !empty($anio_escolar2)){
+    $errors[]= validar_anio_escolar($anio_escolar1,$anio_escolar2);
     }
 
-if (!empty($turno)) {
-
-	$count++;
-
-	if ($count>1) {
-		$y=' AND ';
-		}else{$y='';}
+    // $errors[] = comprobar_no_aula($no_aula); 
 		
-		$orden_turno = $y." cl.id_turno =".$turno;
-
-    }
-
-
-if ($count>0) {
-	$w=' WHERE ';
-}*/
 
 			if(!comprobar_msjs_array($errors)){
+
+
 
 		$sql="SELECT cl.grado,cl.id_clase,cl.seccion,cl.no_aula,cl.id_clase,
 tr.descripcion, 
 cl.anio_escolar1,cl.anio_escolar2
 FROM 
 clases cl
-INNER JOIN turnos tr ON cl.id_turno = tr.id_turno;";
-					
-			$result=$db->prepare($sql);
-									
-			
-			 $result->execute();/*(array("grado"=>$grado/*,"turno"=>$turno,"anio_escolar1"=>$anio_escolar1,"anio_escolar2"=>$anio_escolar2));*/
+INNER JOIN turnos tr ON cl.id_turno = tr.id_turno";
 
+
+  $where = [];
+
+  $campos = [];
+
+  if (!empty($grado)) {
+    /* Agregamos al WHERE la comparación */
+    array_push($where,'grado = :grado');
+    /* Preparamos los datos para la variable preparada */
+    $campos[':grado'] = [
+      'valor' => $grado,
+      'tipo' => \PDO::PARAM_INT,
+    ];
+  }
+
+    if (!empty($seccion)) {
+    array_push($where, 'seccion = :seccion');
+    $campos[':seccion'] = [
+      'valor' => $seccion,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+
+    if (!empty($turno)) {
+    array_push($where, 'id_turno = :turno');
+    $campos[':turno'] = [
+      'valor' => $turno,
+      'tipo' => \PDO::PARAM_INT,
+    ];
+  }
+
+ if (!empty($anio_escolar1)) {
+    array_push($where, 'anio_escolar1 = :anio_escolar1');
+    $campos[':anio_escolar1'] = [
+      'valor' => $anio_escolar1,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+  if (!empty($anio_escolar2)) {
+    array_push($where, 'anio_escolar2 = :anio_escolar2');
+    $campos[':anio_escolar2'] = [
+      'valor' => $anio_escolar2,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+  if (!empty($where)) {
+    $sql .= ' WHERE ' . implode(' AND ', $where);
+  }
+  $result = $db->prepare($sql);
+
+  foreach($campos as $clave => $valores) {
+    $result->bindParam($clave, $valores['valor'], $valores['tipo']);
+  }
+  //$resultado = 
+  $result->execute();
+/*
+$count=$result->num_rows;
+
+var_dump($count);
+*/
+if ($result->rowCount() == 0) {
+	$errors[] = "No hay criterios que concidan con su busqueda";
+	}else{
 					?>
 
 
@@ -159,7 +196,7 @@ INNER JOIN turnos tr ON cl.id_turno = tr.id_turno;";
 						 <th> Turno </th> 
 						 <th> Año Escolar </th> 
 						 <th> Estudiantes Activos </th>
-						 <th> Estudiantes Inactivos </th>
+						 <th> Estudiantes Irregulares </th>
 						 <th> Estudiantes Retirados </th>
 
 						 <th></th>
@@ -193,23 +230,26 @@ INNER JOIN turnos tr ON cl.id_turno = tr.id_turno;";
 					</form>
 					
 					<form action="modificar_clase.php" method="post">
-					<button id="button-modi" type="submit" name='modif' value="<?php echo $registro['id_clase'] ?>">Modificar</button>
+					<button id="button-modi" type="submit" name='modif_clas' value="<?php echo $registro['id_clase'] ?>">Modificar</button>
 					</form>
 
 
 					<br><br>
 				</td>
 
-				<?php } ?>
+				<?php }
 
-	<?php } 
+				}
+
+			}
+
+	 } 
 	
 	?>
 
 			</table>
            	</div>
 
-	<?php } ?>
 				<?php include '../../includes/menu_bar.php' ?>
 
 <?php

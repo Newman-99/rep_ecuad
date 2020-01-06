@@ -7,7 +7,7 @@ require '../../includes/head.php';
 global $db;
 $errors = array();
 
-if(!empty($_POST)){
+if(!empty($_POST['registrar'])){
 
     $grado = htmlentities(addslashes($_POST["grado"]));
 
@@ -85,6 +85,13 @@ if (!comprobar_msjs_array($errors)) {
 
          $errors[] ="Felicidades clase ya Registrada";
 
+    $errors[]= validar_grado($grado);
+
+    $errors[]= validar_seccion($seccion);
+
+    $errors[]= validar_anio_escolar($anio_escolar1,$anio_escolar2);
+
+    $errors[] = comprobar_no_aula($no_aula); 
 
         //Asignacion de clase
     

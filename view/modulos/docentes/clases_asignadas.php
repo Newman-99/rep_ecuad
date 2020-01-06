@@ -92,7 +92,7 @@ INNER JOIN funciones_docentes fd ON ca.id_funcion_docent = fd.id_funcion_docent
 						 <th>Numero de Aula </th> 
 						 <th>Turno </th> 
 						 <th>Año Escolar </th> 
-						 <th>Cargo</th> 
+						 <th>Funcion</th> 
 						 <th>Estado del Contrato</th>";
  			            
  			           echo "</tr>
@@ -106,7 +106,7 @@ INNER JOIN funciones_docentes fd ON ca.id_funcion_docent = fd.id_funcion_docent
 					    <td>".$registro['no_aula']."</td>
 					    <td>".$registro['turno']."</td>
 					    <td>".$registro['anio_escolar1']."-".$registro['anio_escolar2']."</td>
-					    <td>".$registro['cargo']."</td>
+					    <td>".$registro['funcion']."</td>
 					    <td>".$registro['estado']."</td>
  		            </tr>";
 

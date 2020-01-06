@@ -11,7 +11,11 @@ require  '../../includes/head.php';
 		<?php 
 		if(!empty($_POST)){
 			$ci = htmlentities(addslashes($_POST['ci_estudiante']));
-			if(validar_exist_estudiante($ci)){
+			if(!validar_exist_estudiante($ci)){
+
+			}
+
+				if (!comprobar_msjs_array($errors)) {
 
 			$sql="SELECT est.ci_escolar, est.id_doc_est,info_p.nombre,info_p.apellido_p,info_p.apellido_m,edo.descripcion descripcion_estado,clas.grado,clas.seccion,tr.descripcion descripcion_turn FROM estudiantes est
 			INNER JOIN info_personal info_p ON est.ci_escolar = info_p.id_doc
@@ -63,9 +67,10 @@ require  '../../includes/head.php';
  		            </tr>
  	            </table>
             </div>
-	<?php  }}else{
-		$errors[] = "No existe el Estudiante";}
-}?>
+	<?php  }
+}
+}
+	?>
 
 	<section>
 		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
@@ -74,7 +79,7 @@ require  '../../includes/head.php';
 			
 			<button id=button class="icon-search" type="submit">Buscar</button>
 			<br>
-			<a href="./register_student/reg_alumno.php" style="float:right;margin-top:80px;margin-right:180px;">Registrar Nuevo Estudiante</a>
+			<a href="./register_student/reg-estudiante-1.php" style="float:right;margin-top:80px;margin-right:180px;">Registrar Nuevo Estudiante</a>
 
 		</form>
 		

@@ -6,17 +6,17 @@ require '../../includes/head.php';
 	
 			<?php  
 
-if (!empty($_POST['eliminar_docent'])) {
+if (!empty($_POST['eliminar_admin'])) {
 
 
 
-	$id_doc = $_POST['eliminar_docent'];
+	$id_doc = $_POST['eliminar_admin'];
 
 
-			$errors[] = "El proceso de eliminar docentes es delicado, solo esta disponible para usuarios nivel administrador y para casos extraordinarios. No se debe proceder si ya tiene clases asignadas debido a que se perdera informacion del contrato. Si el docente tiene informacion como administrador esta no se elimnara.
+			$errors[] = "El proceso de eliminar personal administrativo es delicado, solo esta disponible para usuarios nivel administrador y para casos extraordinarios. No se debe proceder si este ya ha interectuado con demas informacion del sistema debido a que se podra perder. Si el administrativo tiene informacion como docente, esta no se elimnara.
 				<br>
 				<br>
-				Esta seguro de elminar el docente: ".$id_doc."
+				Esta seguro de elminar el Administrador: ".$id_doc."
 
 				<br><br>
 				
@@ -35,17 +35,17 @@ if (!empty($_POST['confirmar'])) {
 
 	$id_doc = $_POST['confirmar'];
 
-	eliminar_docente($id_doc);
+	eliminar_admin($id_doc);
 	$errors = NULL;	
 
-	$errors[] = "Eliminacion del docente: ".$id_doc." Exitosa";
+	$errors[] = "Eliminacion del administrativo: ".$id_doc." Exitosa";
 
 
-if (is_exist_admin($id_doc)) {
-	echo "se activo esto";
+if (!is_exist_docente($id_doc)) {
+
 	eliminar_persona($id_doc);
 }else{
-	$errors[] = "Pero no se elimino sus datos como administrativo";	
+	$errors[] = "Pero no se elimino sus datos como Docente";	
 }
 	
 
@@ -54,13 +54,12 @@ if (is_exist_admin($id_doc)) {
 			?>
 
 
-    <title>Eliminar Docente</title>
+    <title>Eliminar Administrativo</title>
 		
 		<?php require '../../includes/header.php' ?>
-		    <h2>Eliminar docente</h2>
-
+    <h2>Eliminar Administrativo</h2>
 		
-	<a href='docentes.php'>Volver</a>
+	<a href='admins	.php'>Volver</a>
 		    	<br><br>
 
             </div>

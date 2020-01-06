@@ -1,90 +1,91 @@
-<?php
-require '../../../../database/connect.php';
-require '../../../../functions/functions.php';
 
-// valid_inicio_sesion('2');
-        ?>
+<?php require '../../../includes/head_reg_est.php'; ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
-    <link rel="stylesheet" href="../../../style/css/estilos_gregorio.css">
-    <!--Boostrap-->
-    
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
-    <!--
-    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-grid.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-grid.min.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-reboot.min.css">
-    -->
-    <title>Registro de Estudiante</title>
-</head>
-<body>
+<?php require '../../../includes/header_reg_est.php'; ?>
 
-           <script language="javascript" src="js/jquery-3.4.1.min.js"></script>
+<?php 
 
+if (!empty($_POST['datos_student'])) {
 
-	   		<script language="javascript">
-			$(document).ready(function(){
-				$("#dir_estado").change(function () {
+    $nacionalidad = htmlentities(addslashes($_POST["nacionalidad"]));
+    $id_doc_estd = htmlentities(addslashes($_POST["id_doc_estd"]));
+    $nombre1 = htmlentities(addslashes($_POST["nombre1"]));
+    $nombre2 = htmlentities(addslashes($_POST["nombre2"]));
+    $apellido_p = htmlentities(addslashes($_POST["apellido_p"]));
+    $apellido_m = htmlentities(addslashes($_POST["apellido_m"]));
+    // $sexo = htmlentities(addslashes($_POST["sexo"]));        
+    $fecha_nac = htmlentities(addslashes($_POST["fecha_nac"]));    
+    $lugar_nac = htmlentities(addslashes($_POST["lugar_nac"]));    
+    $direcc_hab = htmlentities(addslashes($_POST["direcc_hab"]));    
+//    $canaima = htmlentities(addslashes($_POST["canaima"]));    
+  $contrato_canaima = htmlentities(addslashes($_POST["contrato_canaima"]));    
+ //   $colecc_bicent = htmlentities(addslashes($_POST["colecc_bicent"]));    
 
-					$('#dir_parroquia').find('option').remove().end().append('<option value="whatever"></option>').val('whatever');
-					
-					$("#dir_estado option:selected").each(function () {
-						id_estado = $(this).val();
-						$.post("../includes/getMunicipio.php", { id_estado: id_estado }, function(data){
-							$("#dir_municipio").html(data);
-						});            
-					});
-				})
-			});
-			
+if(validar_datos_vacios_sin_espacios($nacionalidad,$contrato_canaima) || validar_datos_vacios($nombre1,$apellido_p,$lugar_nac,$direcc_hab) || !isset($_POST["canaima"],$_POST["colecc_bicent"],$_POST["sexo"])){
+    $errors[]= "
+    Se debe evitar campos vacios a exepcion del documento de identidad, el segundo nombre y apellido
 
-			$(document).ready(function(){
-				$("#dir_municipio").change(function () {
-					$("#dir_municipio option:selected").each(function () {
-						id_municipio = $(this).val();
-						$.post("../includes/getParroquia.php", { id_municipio:id_municipio }, function(data){
-							$("#dir_parroquia").html(data);
-						});            
-					});
-				})
-			});
+    <p>Los Siguientes campos no Pueden poseer espacios:</p>
+    <p>
+    Documento de Identidad
+    <br>
+    Contrato Canaima   
+    </p>";
 
-			$(document).ready(function(){
-				$("#dir_estado").change(function () {					
-					$("#dir_estado option:selected").each(function () {
-						id_estado = $(this).val();
-						$.post("../includes/getCiudad.php", { id_estado: id_estado }, function(data){
-							$("#dir_ciudad").html(data);
-						});            
-					});
-				})
-			});
-			
+}else{
+
+$canaima = htmlentities(addslashes($_POST["canaima"]));    
+ $colecc_bicent = htmlentities(addslashes($_POST["colecc_bicent"]));    
+ $sexo = htmlentities(addslashes($_POST["sexo"]));        
 
 
-		</script>
+if(!empty($id_doc_estd)){
 
+$errors[] = valid_ci($id_doc_estd);
 
-		<?php 
-	$sql = "SELECT id_estado,estado FROM estados ORDER BY 'iso_3166-2' ASC ";
-	$result=$db->prepare($sql);
-			$result->execute();
-		 ?>			
+if (is_exist_student($id_doc_estd)){
+    $errors[]= "Un Estudiante con esta cedula ya esta registrado";
+}
 
-        <header>
-                <ul class="nav_reg">
-                    <li><a href="menu.html">Menú principal</a></li>
-                    <ul>
-                        <li><a href="alumno.html" >Volver a control de alumnos</a></li>
-                    </ul>
-                </ul>
-                <h2>REGISTRO ESTUDIANTIL</h2>
-            </header>
+    if(is_exist_ci($id_doc_estd)) {
+       $errors[]='La cedula ya esta registrada en el sistema';
+        }
+}else{
+   $id_doc_estd = ''; 
+}
+
+$errors[]= validar_fecha_registro($fecha_nac);
+
+$err_nom_apell =validar_nombres_apellidos($nombre1,$apellido_p);
+
+if(!empty($apellido_m)){
+$err_nom_apell = validar_nombres_apellidos($apellido_m);
+$apellido_m=filtrar_nombres_apellidos($apellido_m);
+}else{
+    $apellido_m="";
+}
+
+if(!empty($nombre2)){
+$err_nom_apell=validar_nombres_apellidos($nombre2);
+$nombre2=filtrar_nombres_apellidos($nombre2);
+}else{
+    $nombre2 = "";
+}
+
+$errors[] = $err_nom_apell;
+
+    if (!comprobar_msjs_array($errors)) {    
+
+session_start();
+foreach ($_POST as $clave => $valor) {
+$_SESSION['sesionform1'][$clave] = $valor;
+}
+}
+
+}
+
+}
+ ?>
 
     <!--formularios-->
             <div class="container">
@@ -93,7 +94,7 @@ require '../../../../functions/functions.php';
                 <div class="row">    
                     <div class="col-lg-12">
                     <!--<div id="ui">-->
-                            <form action="" class="form-group text-center">
+                            <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>"  method="POST" class="form-group text-center">
 
     <!------------------------------------------- PRIMER Y SEGUNDO  APELLIDO/NOMBRE ----------------------->
                                 <div class="row">
@@ -102,22 +103,22 @@ require '../../../../functions/functions.php';
                                     </div>
                                     <div class="col-lg-6 my-2">
                                         <label>Primer Apellido:</label>
-                                        <input type="text" name="p-apellido" id="" placeholder="Apellido" class="form-control" required>
+                                        <input type="text" value="<?php if(isset($apellido_p)) echo $apellido_p; ?>" name="apellido_p" id="" placeholder="Apellido" class="form-control">
                                     </div>
                                     <div class="col-lg-6 my-2">
                                         <label>Segundo Apellido:</label>
-                                        <input type="text" name="s-apellido" id="" placeholder="Apellido" class="form-control" required>
+                                        <input type="text" name="apellido_m" value="<?php if(isset($apellido_m)) echo $apellido_m; ?>" id="" placeholder="Apellido" class="form-control">
                                     </div>
                                 </div>
                                 
                                 <div class="row">
                                     <div class="col-lg-6 my-2">
                                         <label>Primer Nombre:</label>
-                                        <input type="text" name="" id="" placeholder="Nombre" class="form-control" required>
+                                        <input type="text" name="nombre1" id="" placeholder="Nombre" value="<?php if(isset($nombre1)) echo $nombre1; ?>" class="form-control>
                                     </div>
                                     <div class="col-lg-6 my-2">
                                         <label>Segundo Nombre:</label>
-                                        <input type="text" name="" id="" placeholder="Nombre" class="form-control" required>
+                                        <input type="text" name="nombre2" value="<?php if(isset($nombre2)) echo $nombre2; ?>" id="" placeholder="Nombre" class="form-control">
                                     </div>
                                 </div>
 
@@ -125,28 +126,19 @@ require '../../../../functions/functions.php';
                                 <div class="row">
                                     <div class="col-lg-6 my-2">
                                         <label>Cedula:</label>
-                                        <select name="cedula" id="cedula" class="form-control"  required>
-                                            <option value="0">-- Seleccione --</option>
-                                            <option value="V">V - Venezolano/a </option>
-                                            <option value="E">E - Escolar</option>
+                                        <select name="nacionalidad" id="cedula" class="form-control" >
+                                            <option value="">-- Seleccione --</option>
+                                            <option <?php if(isset($nacionalidad)) if($nacionalidad == '1') echo 'selected';?> value="1">V</option>
+                                            <option <?php if(isset($nacionalidad)) if($nacionalidad == '2') echo 'selected';?> value="2">E</option>
                                         </select>
-                                        <input type="number" maxlength="8" placeholder="C.I" class="form-control" required>
-                                        <p class="">Cedula Escolar(De no poseer cedula de identidad seleccione)</p>
-                                    </div>
+                                        <input type="number" maxlength="8" placeholder="Cedula" class="form-control" value="<?php if(isset($id_doc_estd)) echo $id_doc_estd; ?>" name="id_doc_estd">
+                                         </div>
 
-                                    <div class="col-lg-6 my-2">
-                                        <label>Nacionalidad:</label>
-                                        <select name="nacionalidad" id="nacionalidad" class="form-control"  required>
-                                            <option value="0">-- Seleccione --</option>
-                                            <option value="V">V - Venezolano/a </option>
-                                            <option value="E">E - Extranjero/a</option>
-                                        </select>
-                                    </div>
                                         
                                     <!------ OPCIONAL SI hay que colocar manual la nacionalidad de procedencia ((((No SELECT ))))
                                     <div class="col-lg-6 my-2">
                                         <label for="" class="">Nacionalidad:</label>
-                                        <input type="text" name="" id="" placeholder="Ingresar nacionalidad" class="form-control" required>
+                                        <input type="text" name="" id="" placeholder="Ingresar nacionalidad" class="form-control">
                                     </div>
                                     -->
                                 </div>
@@ -156,40 +148,25 @@ require '../../../../functions/functions.php';
                                     <div class="col-lg-3 my-2">
                                         <p for="" class="">Sexo:</p>
                                         <label for="" class="">Niño</label>
-                                        <input type="radio" name="sexo" value="niño" id="" required>
+                                        
+                                        <input type="radio" <?php if(isset($_POST["sexo"])) if($_POST["sexo"] == '1') echo 'checked';?> name="sexo" value="1" id="">
+
                                         <label for="sexo" class="">Niña</label>
-                                        <input type="radio" name="sexo" value="niña" id="" required>
+
+                                        <input type="radio" name="sexo" <?php if(isset($_POST["sexo"])) if($_POST["sexo"] == '2') echo 'checked';?> value="2" id="">
                                     </div>
 
                                     <div class="col-lg-3 my-2">
                                         <label for="">Fecha de Nacimiento:</label>
-                                        <input type="date" name="" id="" class="form-control" required>
+                                        <input type="text" name="fecha_nac" value="<?php if(isset($fecha_nac)) echo $fecha_nac; ?>" id="" class="form-control">
                                     </div>
 
                                     <div class="col-lg-6 my-2">
 			
 			<label for="">Lugar de Nacimiento:</label>
-			<br>
-			Estado <select id="dir_estado" name="dir_estado">
-				<option value="0"> Estado</option>
+        <br>
+        <textarea rows="3" cols="40" name="lugar_nac" id=""><?php if(isset($lugar_nac)) echo $lugar_nac;?></textarea>
 
-				<?php while($registro=$result->fetch(PDO::FETCH_ASSOC)){ ?>
-
-				<option value="<?php echo $registro['id_estado'] ?>"> <?php echo $registro['estado'] ?> </option>
-		<?php  } ?>
-					</select>
-
-					<br>
-	
-				 Municipio
-				<select id="dir_municipio" name="dir_municipio"></select>
-						<br>
-				 Parroquia
-				<select id="dir_parroquia" name="dir_parroquia"></select>
-					<br>
-				 Ciudad
-				<select id="dir_ciudad" name="dir_ciudad"></select>
-					
                                     </div>
                                 </div>
 
@@ -199,25 +176,7 @@ require '../../../../functions/functions.php';
                                     <div class="col-lg-6 my-5">
                                         <label for="">Direccion de Habitacion:</label>
 			<br>
-			Estado <select id="dir_estado" name="dir_estado">
-				<option value="0"> Estado</option>
-
-				<?php while($registro=$result->fetch(PDO::FETCH_ASSOC)){ ?>
-
-				<option value="<?php echo $registro['id_estado'] ?>"> <?php echo $registro['estado'] ?> </option>
-		<?php  } ?>
-					</select>
-
-					<br>
-	
-				 Municipio
-				<select id="dir_municipio" name="dir_municipio"></select>
-						<br>
-				 Parroquia
-				<select id="dir_parroquia" name="dir_parroquia"></select>
-					<br>
-				 Ciudad
-				<select id="dir_ciudad" name="dir_ciudad"></select>
+        <textarea rows="3" cols="40" name="direcc_hab" id=""><?php if(isset($direcc_hab)) echo $direcc_hab; ?></textarea>        
                                     </div>
 
                                 </div>
@@ -226,28 +185,40 @@ require '../../../../functions/functions.php';
                                 <div class="row">
                                     <div class="col-lg-6 my-2">
                                         <p for="" class="">Posee Canaima:</p>
+
                                         <label for="" class="">Si:</label>
-                                        <input type="radio" name="seleccion" value="si" id="">
+                                        <input type="radio" name="canaima" <?php if(isset($_POST['canaima'])) if($_POST['canaima'] == '1') echo 'checked';?> value="1" id="">
+
                                         <label for="" class="">No:</label>
-                                        <input type="radio" name="seleccion" value="no" id="">
+                                        <input type="radio" name="canaima" <?php if(isset($_POST['canaima'])) if($_POST['canaima'] == '0') echo 'checked';?> value="2" id="">
                                         <label for="" class="">Contrato:</label>
-                                        <input type="radio" name="seleccion" value="contrato" id="">
+
+                                        <input type="text" name="contrato_canaima" value="<?php if(isset($contrato_canaima)) echo $contrato_canaima; ?>" id="" placeholder="Contrato">
                                     </div>
+
+                                    
 
                                     <div class="col-lg-6 my-2">
                                         <p for="" class="">Posee coleccion bicentenaria:</p>
                                         <label for="" class="">Si:</label>
-                                        <input type="radio" name="seleccion2" value="si" id="">
+                                        <input type="radio" name="colecc_bicent" 
+                                        <?php if(isset($_POST["colecc_bicent"])) if($_POST["colecc_bicent"] == '1') echo 'checked';?> value="1" id="">
+
                                         <label for="" class="">No:</label>
-                                        <input type="radio" name="seleccion2" value="si" id="">
+                                        <input type="radio" name="colecc_bicent" <?php if(isset($_POST["colecc_bicent"])) if($_POST["colecc_bicent"] == '0') echo 'checked';?> value="0" id="">
                                     </div>
                                 </div>
 
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
 
-                                <a href="reg-estudiante-2.html" class="btn btn-primary btn-block btn-lg">CONTINUAR</a>
+                        
+                        
+                        <button type='submit' class="btn btn-primary btn-block btn-lg"value="datos_student" name ='datos_student'>Continuar</button>
+                         
                                 <!-- <input type="submit" name="continuar" value="CONTINUAR" class="btn btn-primary btn-block btn-lg" id="boton-enviar"> --> 
-                                
+                    <br><br>
+                    <?php require '../../../includes/recib_errors.php'; ?>
+
                             </form>
                     <!--</div>-->
                     </div>
@@ -259,11 +230,5 @@ require '../../../../functions/functions.php';
             </div>
 
     <!--jquery, boostrap.min.js, bundle.min.js-->
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    
-</body>
 
-</html>
+<?php require '../../../includes/footer_reg_est.php'; ?>
