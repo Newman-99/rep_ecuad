@@ -37,11 +37,7 @@ if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc,$sexo,$tlf_ce
 
     <li>Nacionalidad</li>
     <li>Documento de Identidad</li>
-    <li>Sexo</li>
-    <li>Telefono Celular</li>
-    <li>Telefono Local</li>
-    <li>Correo</li>
-    <li>Estado Civil</li>
+    
     </ul></p>";
 
 }else{

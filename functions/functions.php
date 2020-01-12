@@ -260,7 +260,7 @@ function registrar_datos_usr_bd($ci,$pass_hash,$tip_usr,$respuesta1,$respuesta2)
                 "tip_usr"=>$tip_usr));
 
 //////////
-            $sql = "INSERT INTO `preguntas_usuarios`(`id_usr`, `id_pregunta`, `respuesta`) VALUES (:id,'1',:respuesta1);";
+            $sql = "INSERT INTO preguntas_usuarios(`id_usr`, `id_pregunta`, `respuesta`) VALUES (:id,'1',:respuesta1);";
             
                 $result = $db->prepare($sql);
             
@@ -548,6 +548,8 @@ function registrar_persona($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido
     
     global $db;
 
+$nombres=trim($nombres);
+
 $sql = "INSERT INTO info_personal(id_doc, nombre, apellido_p, apellido_m, fecha_nac, lugar_nac,direcc_hab, id_nacionalidad, id_estado_civil, id_sexo) VALUES (:id_doc,:nombre,:apellido_p,:apellido_m,:fecha_nac,:lugar_nac,:direcc_hab,:id_nacionalidad,:id_estado_civil,:id_sexo)";
 
 $result=$db->prepare($sql);
@@ -588,6 +590,56 @@ $result->execute(array("id_doc"=>$id_doc,"id_doc_new"=>$id_doc_new,"tlf_local"=>
 "tlf_cel"=>$tlf_cel,"correo"=>$correo));
 
 }
+
+
+function registrar_datos_laborales($id_doc ,$prof_ofic,$lugar_trab,$direcc_trab,$tlf_ofic){
+    
+    global $db;
+
+$sql = "INSERT INTO `laboral`(`id_doc`, `prof_ofic`, `lugar_trab`, `direcc_trab`, `tlf_ofic`) VALUES (:id_doc,:prof_ofic,:lugar_trab,:direcc_trab,:tlf_ofic);";
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("id_doc"=>$id_doc,"prof_ofic"=>$prof_ofic,"lugar_trab"=>$lugar_trab,"direcc_trab"=>$direcc_trab,"tlf_ofic"=>$tlf_ofic));
+}
+
+function registrar_padres($id_doc,$tip_padre){
+    
+    global $db;
+
+$sql = "INSERT INTO `padres`(`id_doc`, `id_tip_padre`) VALUES (:id_doc,:id_tip_padre)";
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("id_doc"=>$id_doc,"id_tip_padre"=>$tip_padre));
+
+}
+
+function registrar_representantes($id_doc){
+    
+    global $db;
+
+$sql = "INSERT INTO `representantes`(`id_doc`) VALUES (:id_doc)";
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("id_doc"=>$id_doc));
+
+}
+
+function registrar_personas_estudiantes($id_doc,$ci_escolar,$convivencia,$ocupacion,$parentesco){
+    
+    global $db;
+
+
+$sql = "INSERT INTO `pers_est`(`ci_escolar`, `id_doc`, `convivencia`, `ocupacion`, `parentesco`) VALUES (:ci_escolar,:id_doc,:convivencia,:ocupacion,:parentesco)";
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar,"convivencia"=>$convivencia,"ocupacion"=>$ocupacion,"parentesco"=>$parentesco));
+}
+
+
 
 function eliminar_persona($id_doc){
 
@@ -1900,7 +1952,7 @@ function consulta_admins(){
            LEFT OUTER JOIN contact_basic cb ON adm.id_doc_admin = cb.id_doc
            
            LEFT OUTER JOIN estado est ON adm.id_estado = est.id_estado
-           
+            
            LEFT OUTER JOIN turnos tr ON adm.id_turno = tr.id_turno  
            
            LEFT OUTER JOIN nacionalidad nc ON in_p.id_nacionalidad = nc.id_nacionalidad
@@ -1913,6 +1965,234 @@ function consulta_admins(){
 
 }
 
+function imprimir_msjs($errors){
+    echo "<br>";
+    if(!empty($errors)){
+        foreach ($errors as $msjs) {
+            echo "<br><p>$msjs<p>";
+        }
+    }
+}
+
+function validar_datos_personales($nacionalidad,
+    $id_doc,
+    $sexo,
+    $nombre1, 
+    $nombre2, 
+    $apellido_p,
+    $apellido,
+    $fecha_nac,     
+    $lugar_nac,     
+    $direcc_hab,   
+    $tlf_cel,     
+    $tlf_local,     
+    $correo, 
+    $estado_civil,
+    $ocupacion,  
+    $prof_ofi,
+    $direcc_trab,
+    $lug_trab,
+    $tlf_ofic){
+
+if(validar_datos_vacios_sin_espacios($nacionalidad,$estado_civil,$correo,$tlf_cel,$tlf_local,$fecha_nac) || validar_datos_vacios($nombre1,$apellido_p,$lugar_nac,$direcc_hab,$sexo)){
+    $errors[]= "
+    Se debe evitar campos vacios a exepcion del segundo nombre y apellido
+    <br><br>
+  Los siguientes campos no pueden poseer espacios:
+      <br><br>
+    Documento de Identidad
+    <br><br>
+    Fecha de Nacimiento
+    <br><br>
+    Numeros Telefonicos
+    <br><br>
+    Correos Electronicos
+    ";
+
+
+//var_dump($nacionalidad);
+//var_dump($correo);
+//var_dump($tlf_cel);
+//var_dump($tlf_local);
+//var_dump($fecha_nac);
+//var_dump($nombre1);
+//var_dump($apellido_p);
+//var_dump($lugar_nac);
+//var_dump($direcc_hab);
+//var_dump($sexo);
+
+    return $errors;
+
+}else{
+
+    $count=0;
+
+if (!empty($prof_ofi)) {
+    $count++;
+}
+if (!empty($direcc_trab)) {
+    $count++;
+}
+if (!empty($lug_trab)) {
+    $count++;
+}
+if (!empty($tlf_ofic)) {
+    $count++;
+}
+
+
+if ($count > 0  && $count < 4) {
+    $errors[] = "Si posee datos laborales, todos deben ser llenado";
+}
+    
+if(!empty($id_doc)){
+
+$errors[] = valid_ci($id_doc);
+
+if(is_exist_ci($id_doc)) {
+    $errors[]='La cedula ya esta registrada en el sistema';
+        }
+
+if (!is_valid_email($correo)) { $errors[]='El Correo electronico ingresado es invalido';}
+
+if (!is_valid_num_tlf($tlf_local,$tlf_cel)) { $errors[]='El numero de telefono ingresado es invalido';}
+
+if (!empty($tlf_ofic)) {
+    if (!is_valid_num_tlf($tlf_ofic)) { $errors[]='Telefonos de oficina invalido';}
+}
+
+
+$errors[]= validar_fecha_registro($fecha_nac);
+
+$err_nom_apell =validar_nombres_apellidos($nombre1,$apellido_p);
+
+
+if(!empty($apellido_m)){
+$err_nom_apell = validar_nombres_apellidos($apellido_m);
+}
+
+if(!empty($nombre2_m)){
+$err_nom_apell=validar_nombres_apellidos($nombre2_m);
+}
+
+$errors[] = $err_nom_apell;
+
+
+return $errors;
+ 
+}
+
+}
+}
+
+function is_exist_pers_emergencia(){
+
+}
+
+function regist_data_salud_student($ci_escolar,
+             $est_croni, 
+             $desc_croni, 
+             $est_visual, 
+             $desc_visual, 
+             $est_auditivo, 
+             $desc_auditivo, 
+             $est_alergia, 
+             $desc_alergia, 
+             $est_condic_esp, 
+             $desc_condic_esp,
+             $est_vacuna,
+             $desc_vacuna,
+              $desc_psicopeda,
+              $desc_psicolo,
+             $desc_ter_lenguaje,
+             $otras_condic,
+             $desc_otras,
+             $desc_medicacion,
+             $est_medicacion,
+             $anex_inform
+         ){
+
+    global $db;
+            
+            $sql = "INSERT INTO salud (ci_escolar, 
+             est_croni, 
+             desc_croni, 
+             est_visual, 
+             desc_visual, 
+             est_auditivo, 
+             desc_auditivo, 
+             est_alergia, 
+             desc_alergia, 
+             est_condic_esp, 
+             desc_condic_esp,
+             est_vacuna,
+             desc_vacuna,
+               desc_psicopeda,
+               desc_psicolo,
+              desc_ter_lenguaje,
+              otras_condic,
+              desc_otras,
+              desc_medicacion,
+              est_medicacion,
+              anex_inform) VALUES (:ci_escolar, 
+             :est_croni, 
+             :desc_croni, 
+            :est_visual, 
+            :desc_visual, 
+            :est_auditivo, 
+            :desc_auditivo, 
+            :est_alergia, 
+            :desc_alergia, 
+            :est_condic_esp, 
+            :desc_condic_esp,
+            :est_vacuna,
+            :desc_vacuna,
+            :desc_psicopeda,
+            :desc_psicolo,
+            :desc_ter_lenguaje,
+            :otras_condic,
+            :desc_otras,
+            :desc_medicacion,
+            :est_medicacion,
+            :anex_inform);";
+            
+                $result = $db->prepare($sql);
+
+                $result->execute(array("est_croni"=>$est_croni,
+                    "ci_escolar"=>$ci_escolar,
+                "desc_croni"=>$desc_croni,
+                "est_visual"=>$est_visual,
+                "desc_visual"=>$desc_visual,
+                "est_auditivo"=>$est_auditivo,
+                "desc_auditivo"=>$desc_auditivo,
+                "est_alergia"=>$est_alergia,
+                "desc_alergia"=>$desc_alergia,
+                "est_condic_esp" => $est_condic_esp,
+                "desc_condic_esp" => $desc_condic_esp,
+                "desc_vacuna"=>$desc_vacuna,
+                "est_vacuna"=>$est_vacuna,
+                "desc_psicopeda"=>$desc_psicopeda,
+                "desc_psicolo"=>$desc_psicolo,
+                "desc_ter_lenguaje"=>$desc_ter_lenguaje,
+                "otras_condic"=>$otras_condic,
+                "desc_otras"=>$desc_otras,
+                "desc_medicacion"=>$desc_medicacion,
+                "est_medicacion"=>$est_medicacion,
+                "anex_inform"=>$anex_inform));
+
+}
+
+function register_movilidad_student($ci_escolar,$est_ret,$desc_ret,$est_tranport,$desc_tranport){
+
+global $db;
+
+$sql = 'INSERT INTO `movilidad`(`ci_escolar`, `est_ret`, `desc_ret`, `est_tranport`, `desc_tranport`) VALUES (:ci_escolar,:est_ret,:desc_ret,:est_tranport,:desc_tranport)';
+
+                    $result = $db->prepare($sql);
+
+    $result->execute(array("ci_escolar"=>$ci_escolar,"est_ret"=>$est_ret, "desc_ret"=>$desc_ret,"est_tranport"=>$est_tranport,"desc_tranport"=>$desc_tranport));
+
+}
 
 ?>
 

@@ -1,7 +1,18 @@
 
 <?php require '../../../includes/head_reg_est.php'; ?>
 
-<?php require '../../../includes/header_reg_est.php'; ?>
+<?php require '../../../includes/header_reg_est.php'; 
+
+    session_start();
+
+ valid_inicio_sesion('2');
+if (isset($_SESSION['sesionform2'])) {
+if (comprobar_msjs_array($_SESSION['sesionform1'])) {
+extract($_SESSION['sesionform1']);
+}
+}
+$errors = array();
+?>
 
 <?php 
 
@@ -21,7 +32,7 @@ if (!empty($_POST['datos_student'])) {
   $contrato_canaima = htmlentities(addslashes($_POST["contrato_canaima"]));    
  //   $colecc_bicent = htmlentities(addslashes($_POST["colecc_bicent"]));    
 
-if(validar_datos_vacios_sin_espacios($nacionalidad,$contrato_canaima) || validar_datos_vacios($nombre1,$apellido_p,$lugar_nac,$direcc_hab) || !isset($_POST["canaima"],$_POST["colecc_bicent"],$_POST["sexo"])){
+if(validar_datos_vacios_sin_espacios($nacionalidad) || validar_datos_vacios($nombre1,$apellido_p,$lugar_nac,$direcc_hab) || !isset($_POST["canaima"],$_POST["colecc_bicent"],$_POST["sexo"])){
     $errors[]= "
     Se debe evitar campos vacios a exepcion del documento de identidad, el segundo nombre y apellido
 
@@ -37,7 +48,6 @@ if(validar_datos_vacios_sin_espacios($nacionalidad,$contrato_canaima) || validar
 $canaima = htmlentities(addslashes($_POST["canaima"]));    
  $colecc_bicent = htmlentities(addslashes($_POST["colecc_bicent"]));    
  $sexo = htmlentities(addslashes($_POST["sexo"]));        
-
 
 if(!empty($id_doc_estd)){
 
@@ -55,6 +65,10 @@ if (is_exist_student($id_doc_estd)){
 }
 
 $errors[]= validar_fecha_registro($fecha_nac);
+
+$lugar_nac=trim($lugar_nac);
+$direcc_hab=trim($direcc_hab);
+$fecha_nac=trim($fecha_nac);
 
 $err_nom_apell =validar_nombres_apellidos($nombre1,$apellido_p);
 
@@ -76,10 +90,15 @@ $errors[] = $err_nom_apell;
 
     if (!comprobar_msjs_array($errors)) {    
 
-session_start();
 foreach ($_POST as $clave => $valor) {
 $_SESSION['sesionform1'][$clave] = $valor;
+
 }
+
+$errors[]= "<a href='reg-estudiante-2.php'>
+    Confirmar
+</a>";
+
 }
 
 }
@@ -149,11 +168,12 @@ $_SESSION['sesionform1'][$clave] = $valor;
                                         <p for="" class="">Sexo:</p>
                                         <label for="" class="">Niño</label>
                                         
-                                        <input type="radio" <?php if(isset($_POST["sexo"])) if($_POST["sexo"] == '1') echo 'checked';?> name="sexo" value="1" id="">
+                                        <input type="radio" <?php if(isset($_POST["sexo"])) if($_POST["sexo"] == '1') echo 'checked';
+                                        ?> name="sexo" value="1" id="">
 
                                         <label for="sexo" class="">Niña</label>
 
-                                        <input type="radio" name="sexo" <?php if(isset($_POST["sexo"])) if($_POST["sexo"] == '2') echo 'checked';?> value="2" id="">
+                                        <input type="radio" name="sexo" <?php if(isset($_POST["sexo"])) if($_POST["sexo"] == '2'); ?> value="2" id="">
                                     </div>
 
                                     <div class="col-lg-3 my-2">
@@ -186,11 +206,18 @@ $_SESSION['sesionform1'][$clave] = $valor;
                                     <div class="col-lg-6 my-2">
                                         <p for="" class="">Posee Canaima:</p>
 
+                                        
+
+            
                                         <label for="" class="">Si:</label>
-                                        <input type="radio" name="canaima" <?php if(isset($_POST['canaima'])) if($_POST['canaima'] == '1') echo 'checked';?> value="1" id="">
+                                        <input type="radio" name="canaima" <?php if(isset($_POST['canaima'])) if($_POST['canaima'] == '1') echo 'checked';
+                                        if(isset($canaima)) if($canaima == '1') echo 'checked';
+                                        ?> value="1" id="">
 
                                         <label for="" class="">No:</label>
-                                        <input type="radio" name="canaima" <?php if(isset($_POST['canaima'])) if($_POST['canaima'] == '0') echo 'checked';?> value="2" id="">
+                                        <input type="radio" name="canaima" <?php if(isset($_POST['canaima'])) if($_POST['canaima'] == '0') echo 'checked';
+                                        if(isset($canaima)) if($canaima == '0') echo 'checked';
+                                        ?> value="0" id="">
                                         <label for="" class="">Contrato:</label>
 
                                         <input type="text" name="contrato_canaima" value="<?php if(isset($contrato_canaima)) echo $contrato_canaima; ?>" id="" placeholder="Contrato">
@@ -202,10 +229,14 @@ $_SESSION['sesionform1'][$clave] = $valor;
                                         <p for="" class="">Posee coleccion bicentenaria:</p>
                                         <label for="" class="">Si:</label>
                                         <input type="radio" name="colecc_bicent" 
-                                        <?php if(isset($_POST["colecc_bicent"])) if($_POST["colecc_bicent"] == '1') echo 'checked';?> value="1" id="">
+                                        <?php if(isset($_POST["colecc_bicent"])) 
+                                        if($_POST["colecc_bicent"] == '1') echo 'checked'; if(isset($colecc_bicent)) if($colecc_bicent == '1') echo 'checked';?>  value="1" id="">
 
                                         <label for="" class="">No:</label>
-                                        <input type="radio" name="colecc_bicent" <?php if(isset($_POST["colecc_bicent"])) if($_POST["colecc_bicent"] == '0') echo 'checked';?> value="0" id="">
+                                        <input type="radio" name="colecc_bicent" <?php if(isset($_POST["colecc_bicent"])) if($_POST["colecc_bicent"] == '0') echo 'checked';
+                                        if(isset($colecc_bicent)) if($colecc_bicent == '0') echo 'checked';
+
+                                        ?> value="0" id="">
                                     </div>
                                 </div>
 
@@ -217,7 +248,7 @@ $_SESSION['sesionform1'][$clave] = $valor;
                          
                                 <!-- <input type="submit" name="continuar" value="CONTINUAR" class="btn btn-primary btn-block btn-lg" id="boton-enviar"> --> 
                     <br><br>
-                    <?php require '../../../includes/recib_errors.php'; ?>
+                            <?php imprimir_msjs($errors); ?>
 
                             </form>
                     <!--</div>-->
@@ -230,5 +261,6 @@ $_SESSION['sesionform1'][$clave] = $valor;
             </div>
 
     <!--jquery, boostrap.min.js, bundle.min.js-->
+
 
 <?php require '../../../includes/footer_reg_est.php'; ?>
