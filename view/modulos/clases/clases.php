@@ -68,7 +68,7 @@ require '../../includes/head.php';
 
 
 		</form>
-
+ 
 <br><br>
    
 
@@ -213,6 +213,7 @@ if ($result->rowCount() == 0) {
 						<td><?php echo $registro['descripcion'];?></td> 
 						<td><?php echo $registro['anio_escolar1']."-".$registro['anio_escolar2'];?></td>
 						<?php $id_clase=$registro['id_clase']; ?>
+
 						<td><?php echo cantidad_estudent($id_clase,'1');?></td>
 						<td><?php echo cantidad_estudent($id_clase,'2');?></td>
 						<td><?php echo cantidad_estudent($id_clase,'3');?></td>
@@ -254,12 +255,7 @@ if ($result->rowCount() == 0) {
 
 <?php
 
-    if(!empty($errors)){
-        foreach ($errors as $msjs) {
-            echo "<p>$msjs<p>";
-        }
-    }
-
+    imprimir_msjs($errors);
 
   ?>
 

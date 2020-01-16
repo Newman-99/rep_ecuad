@@ -15,7 +15,7 @@ $id_new_clase = '1-C-2018-2019-1';
 */
 /*
 $id_doc_admin = '28117208';
-$id_area = '1';
+$id_area = '1';	
 $turno = '1';
 $id_estado = '1';
 $fecha_ingreso = '2019-12-04';
@@ -35,7 +35,8 @@ $id_doc = '28117208';
 $id_doc_new = "28117206";
 $id_area = '1';
 $turno = '2';
-$id_estado '1';
+$id_estado  ='1';
 $fecha_ingreso = '1999-10-01';
 $fecha_inabilitacion = '0000-00-00';
 
+echo 
