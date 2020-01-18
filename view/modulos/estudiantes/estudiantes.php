@@ -126,15 +126,13 @@ if(!is_exist_student($ci)){
 
 				if (!comprobar_msjs_array($errors)) {
 
-			$sql="SELECT est.ci_escolar, 
-est.id_doc,in_p.nombre,in_p.apellido_p,in_p.apellido_m,
-edo.descripcion estado,est.grado grado_design,
-clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2 FROM estudiantes est
-			LEFT OUTER JOIN info_personal in_p ON est.ci_escolar = in_p.id_doc
-            LEFT OUTER JOIN estudiantes_asignados ea ON est.ci_escolar = ea.ci_escolar
-            LEFT OUTER JOIN clases clas ON ea.id_clase = clas.id_clase
-            LEFT OUTER JOIN turnos tr ON tr.id_turno = clas.id_turno
-            LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ORDER BY in_p.nombre";
+			$sql=" SELECT DISTINCT est.ci_escolar, est.id_doc,in_p.nombre,in_p.apellido_p,in_p.apellido_m, edo.descripcion estado,es.grado grado_design, clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2 FROM estudiantes est 
+LEFT OUTER JOIN info_personal in_p ON est.ci_escolar = in_p.id_doc 
+LEFT OUTER JOIN estudiantes_asignados ea ON est.ci_escolar = ea.ci_escolar 
+LEFT OUTER JOIN clases clas ON ea.id_clase = clas.id_clase 
+LEFT OUTER JOIN turnos tr ON tr.id_turno = clas.id_turno 
+INNER JOIN escolaridad es ON est.ci_escolar = es.ci_escolar 
+LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
 
 			  $where = [];
 
@@ -203,9 +201,11 @@ clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escola
     ];
   }
 
+
   if (!empty($where)) {
     $sql .= ' WHERE ' . implode(' AND ', $where);
   }
+ $sql.=" ORDER BY in_p.nombre";
   $result = $db->prepare($sql);
 
   foreach($campos as $clave => $valores) {
@@ -249,18 +249,45 @@ clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escola
 						</td>
 
 						 <td>
-						 	<a href="modificar.php" id=button-modi class="icon-compose"> Modificar </a>
-						 <br><br>
-						 <a href="info_docent.php" class="icon-list1" id="button-modi"> Mas Informacion </a>
-						<br><br>
-						 <a href="documentacion.php" class="icon-file-pdf" id="button-doc"> Documentacion </a>
-						 <br><br>
-						 <a href="d.php" class="icon-cancel" id="button-modi"> Eliminar </a>
 
+
+
+                     <?php    if(valid_inicio_sesion('2')) {  ?>
+
+                    <td>
+                    <form action='upd-estudiante-1.php' method='post'>
+                        
+                        <button type='submit' id='button-modi' value=".$registro['ci_escolar']." name ='update_student'> Actualizar</button>
+                    </form>
+
+
+                        <form action='mas_info_student.php' method='post'>
+                        
+                        <button type='submit' class='icon-list1' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='mas_info_student' >Mas Informacion</button>
+                         
+                         </form>
+
+                        <?php } ?>
+
+                        
+                      <?php  if(valid_inicio_sesion('2')) { ?>
+
+<!--                      
+                        <form action='eliminar_destudiante.php' method='post'>
+                        
+                        <button type='submit' icon='button-cancel' id='button-modi' value=".$registro['ci_escolar']." name ='eliminar_estudiantet' >Eliminar</button>
+                         
+                         </form>
+
+                     -->
+                     <?php } ?>
+
+                  <br><br></td></tr>
 						</td>
- 		            </tr>
 	<?php  }
-echo " 	            </table>
+
+echo " 		            </tr>
+ 	            </table>
             </div>
 ";
 }

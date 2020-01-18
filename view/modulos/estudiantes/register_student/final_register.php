@@ -17,7 +17,6 @@ extract($_SESSION['sesionform1']);
 extract($_SESSION['sesionform2']);
 extract($_SESSION['sesionform3']);
 extract($_SESSION['sesionform4']);
-extract($_SESSION['sesionform5']);
 
 
 //Filtracion de registro de estudiantes
@@ -111,17 +110,6 @@ $tlf_local_pr=trim($tlf_local_pr);
 $tlf_emerg=trim($tlf_emerg);
 
 
-"SELECT in_p.id_doc ,in_p.nombre,in_p.apellido_p,in_p.apellido_m,in_p.direcc_hab,in_p.id_nacionalidad,
-in_p.id_estado_civil,in_p.id_sexo,
-sx.descripcion sexo, nac.descripcion nacionalidad, etc.descrpcion estado_civil,
-prsd.convivencia,prsd.ocupacion,prsd.parentesco,prsd.id_pers_est,
-FROM pers_ret prt
-INNER JOIN info_personal in_p ON prt.id_doc = in_p.id_doc
-INNER JOIN sexo sx ON in_p.id_sexo = sx.id_sexo
-INNER JOIN nacionalidad nac ON in_p.id_nacionalidad = nac.id_nacionalidad
-INNER JOIN est_civil etc ON in_p.id_estado_civil = etc.id_estado_civil
-INNER JOIN pers_est prsd ON prt.id_doc = prsd.id_doc"
-cb.tlf_local,cb.tlf_cel,cb.tlf_emergecia,cb.correo FROM contact_basic
 // Procesos de Registro de Estudiante
     $ci_escolar = $ci_escol_nacidad."".$ci_escol_id_opc."".$ci_escol_nac_estd."".$ci_escol_ci_mom;
 
@@ -130,7 +118,7 @@ if (empty($ci_escolar)) {
 }
  registrar_estudiante($nacionalidad ,$id_doc_estd,$ci_escolar,$nombre1,$nombre2,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,$colecc_bicent,$canaima,$contrato_canaima);
 
-regist_other_data_student($ci_escolar,$nro_pers_viven);
+regist_other_data_student($ci_escolar,$nro_pers_viven,$hermanos,$descrip_herma);
 
 
 // Proceso de registro de la madre
@@ -141,7 +129,7 @@ if(empty($no_register_m)) {
 
  registrar_padres($id_doc_m,'1',$ci_escolar,$convivencia_m,$ocupacion_m,'Madre',$nacionalidad_m,$nombres_m,$apellido_p_m,$apellido_m_m,'2',$fecha_nac_m,$estado_civil_m,$lugar_nac_m,$direcc_hab_m,$tlf_cel_m,$tlf_local_m,$correo_m);
 
-  registrar_datos_laborales($id_doc_m,$prof_ofic_m,$lugar_trab_m,$direcc_trab_m,$tlf_ofic_m);
+  registrar_datos_laborales($id_doc_m,$prof_ofi_m,$lug_trab_m,$direcc_trab_m,$tlf_ofic_m);
 
  if (!empty($is_represent_m)) {
  registrar_representantes($id_doc_m,$ci_escolar);
@@ -204,6 +192,18 @@ $nombres_r=$nombre1_r." ".$nombre2_r;
              $anex_infor);
 
 
+// Registrar el estudiante en una clase
+
+registrar_actualizacion($ci_escolar,$_SESSION['id_user'],obtener_fecha_sistema());
+ 
+$id_actualizacion=obtener_ultimo_id_actualizacion();
+
+          $id_clase = generador_id_clases($grado_escolaridad,$seccion_escolaridad,$anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$turno_escolaridad);
+
+         if (is_exist_clase($id_clase)) {
+            asignar_clase_for_estudent($id_clase,'1',$id_actualizacion,$_SESSION['sesionform1']['id_doc_estd']);
+          }
+
 //Registrar datos de movilidad del estudiante
      register_movilidad_student($ci_escolar,$lleg_retir,$descrip_lleg_retir,$lleg_retir_transp,$desc_lleg_retir_transp);
 
@@ -217,13 +217,10 @@ $nombres_r=$nombre1_r." ".$nombre2_r;
 
 // Registro de datos de actualizacion
 
-registrar_actualizacion($ci_escolar,$id_doc_admin_upt,$grado_updat,$fecha_upadt);
 
 // Registro de datos y escolaridad
 
-$id_actualizacion=obtener_ultimo_permiso();
-
-registrar_inscrip_scolaridad($ci_escolar,$plantel_proced,$localidad,$anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$grado_escolaridad,$seccion_escolaridad,$calif_escolaridad,$repitiente,$observacions,$id_actualizacion);
+registrar_inscrip_scolaridad($ci_escolar,$plantel_proced,$localidad,$anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$grado_escolaridad,$calif_escolaridad,$repitiente,$observacions,$id_actualizacion);
 
 ?>
 

@@ -21,6 +21,7 @@ $errors = array();
 if (!empty($_POST['inscrip_escol'])) {
 
 
+
     $ci_escol_nacidad = htmlentities(addslashes($_POST["ci_escol_nacidad"]));
     $ci_escol_id_opc = htmlentities(addslashes($_POST["ci_escol_id_opc"]));
     $ci_escol_nac_estd = htmlentities(addslashes($_POST["ci_escol_nac_estd"]));
@@ -36,6 +37,7 @@ if (!empty($_POST['inscrip_escol'])) {
     $grado_escolaridad = htmlentities(addslashes($_POST["grado_escolaridad"]));
     $seccion_escolaridad = htmlentities(addslashes($_POST["seccion_escolaridad"]));
     $calif_escolaridad = htmlentities(addslashes($_POST["calif_escolaridad"]));
+    $turno_escolaridad = htmlentities(addslashes($_POST["turno_escolaridad"]));
 
     $observacions = htmlentities(addslashes($_POST["observacions"]));
 
@@ -44,7 +46,7 @@ if (isset($_POST["repitiente"])) {
             $repitiente = htmlentities(addslashes($_POST["repitiente"]));
     }
 
-    if (validar_datos_vacios_sin_espacios($anio_escolar1_escolaridad,$anio_escolar2_escolaridad) || validar_datos_vacios($localidad,$plantel_proced) || !isset($repitiente)){
+    if (validar_datos_vacios_sin_espacios($anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$grado_escolaridad) || validar_datos_vacios($localidad,$plantel_proced) || !isset($repitiente)){
 
         $errors[] = "Verifique campos vacios y casillas vacias";
     }else{
@@ -56,7 +58,25 @@ if (isset($_POST["repitiente"])) {
         $errors[] = "Debe ingresar la cedula escolar o el documento de identidad del estudiante, tambien pueden ser ambas";                
         }
         $errors[]=validar_anio_escolar($anio_escolar1_escolaridad,$anio_escolar2_escolaridad);
+
     }
+
+    
+    if (!empty($seccion_escolaridad) || !empty($turno_escolaridad)){
+
+    if (validar_datos_vacios_sin_espacios($grado_escolaridad,$seccion_escolaridad,$anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$turno_escolaridad)){
+
+                    $errors[] = "Si desea Asignarle una clase, Debe evitar campos vacios";
+                }else{
+
+          $id_clase = generador_id_clases($grado_escolaridad,$seccion_escolaridad,$anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$turno_escolaridad);
+
+         if (!is_exist_clase($id_clase)) {
+            $errors[] = "La clase no existe";
+          }
+
+          }
+      }
 
     if (!comprobar_msjs_array($errors)) {    
 
@@ -65,9 +85,7 @@ $_SESSION['sesionform4'][$clave] = $valor;
 
 }
 
-
-
-$errors[]= "<a href='reg-estudiante-5.php'>
+$errors[]= "<a href='final_register.php'>
     Confirmar
 </a>";
 
@@ -118,13 +136,6 @@ $errors[]= "<a href='reg-estudiante-5.php'>
                                             <input type="text" name="localidad" value="<?php if(isset($localidad)) echo $localidad; ?>" id="" placeholder="Localidad" class="form-control">
                                         </div>
 
-                                        <div class="col-lg-6 my-2">
-                                            <label for="">Año escolar</label>
-                                            <input type="number" maxlength="4" name="anio_escolar1_escolaridad" value="<?php if(isset($anio_escolar1_escolaridad)) echo $anio_escolar1_escolaridad; ?>" id="" placeholder="0000" class="form-control">
-
-                                            <input type="number" maxlength="4" name="anio_escolar2_escolaridad" value="<?php if(isset($anio_escolar2_escolaridad)) echo $anio_escolar2_escolaridad; ?>"  id="" placeholder="0000" class="form-control">
-
-                                        </div>
 
                                         <div class="col-lg-6 my-2">
                                             <label for="">Clase</label>
@@ -150,8 +161,21 @@ $errors[]= "<a href='reg-estudiante-5.php'>
             <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'E') echo 'selected';?> value="E">E</option>
             <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'F') echo 'selected';?> value="F">F</option>
         </select>
-                                                        </div>
 
+                <label for=""> / Año escolar</label>
+                <input type="number" maxlength="4" name="anio_escolar1_escolaridad" value="<?php if(isset($anio_escolar1_escolaridad)) echo $anio_escolar1_escolaridad; ?>" id="" placeholder="0000" class="form-control">
+
+                 <input type="number" maxlength="4" name="anio_escolar2_escolaridad" value="<?php if(isset($anio_escolar2_escolaridad)) echo $anio_escolar2_escolaridad; ?>"  id="" placeholder="0000" class="form-control">
+
+        / Turno
+            <select name="turno_escolaridad" id="" autocomplete="on">
+         <option value="">-- Seleccione --</option>
+            <option <?php if(isset($turno_escolaridad)) if($turno_escolaridad == '1') echo 'selected';?> value="1">mañana</option>
+            <option <?php if(isset($turno_escolaridad)) if($turno_escolaridad == '2') echo 'selected';?> value="2">Tarde</option>
+        </select>
+
+
+     </div>
                                         <div class="col-lg-6 my-2">
                                             <label for="">Calificacion definitiva</label>
                                             <select name="calif_escolaridad" id="calificacion" class="form-control" >

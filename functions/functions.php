@@ -470,7 +470,7 @@ return $nivel=$result->fetchColumn();
 
 }
 
-function obtener_ultimo_permiso(){
+function obtener_ultimo_id_actualizacion(){
 
 global $db;
 
@@ -565,7 +565,7 @@ function enable_foreing(){
 }
 
 
-function registrar_persona($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$estado_civil,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo){
+function registrar_persona($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$estado_civil,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$tlf_emergecia){
     
     global $db;
 
@@ -580,17 +580,17 @@ $result->execute(array("id_doc"=>$id_doc,"nombre"=>$nombres,
 
 // Insertando datos de contacto
 
-$sql = disable_foreing()."INSERT INTO contact_basic (id_doc,tlf_local,tlf_cel, correo)
-VALUES (:id_doc,:tlf_local,:tlf_cel,:correo);".enable_foreing();
+$sql = disable_foreing()."INSERT INTO contact_basic (id_doc,tlf_local,tlf_cel,correo,tlf_emergecia)
+VALUES (:id_doc,:tlf_local,:tlf_cel,:correo,:tlf_emergecia);".enable_foreing();
 
 $result=$db->prepare($sql);
                             
 $result->execute(array("id_doc"=>$id_doc,"tlf_local"=>$tlf_local,
-"tlf_cel"=>$tlf_cel,"correo"=>$correo));
+"tlf_cel"=>$tlf_cel,"correo"=>$correo,"tlf_emergecia"=>$tlf_emergecia));
 
 }
 
-function actualizar_persona($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil){
+function actualizar_persona($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$tlf_emergecia =''){
 
     global $db;
 
@@ -603,12 +603,12 @@ $result->execute(array("id_doc"=>$id_doc,"id_doc_new"=>$id_doc_new,"nombre"=>$no
 "apellido_p"=>$apellido_p,"apellido_m"=>$apellido_m,"fecha_nac"=>$fecha_nac,"lugar_nac"=>$lugar_nac,"direcc_hab"=>$direcc_hab,"id_nacionalidad"=>$nacionalidad,"id_estado_civil"=>$estado_civil,"id_sexo"=>$sexo));
 
 
-$sql = disable_foreing()." UPDATE contact_basic SET id_doc = :id_doc_new, tlf_local = :tlf_local,tlf_cel = :tlf_cel, correo = :correo where id_doc = :id_doc; ".enable_foreing();
+$sql = disable_foreing()." UPDATE contact_basic SET id_doc = :id_doc_new, tlf_local = :tlf_local,tlf_cel = :tlf_cel, correo = :correo,tlf_emergecia = :tlf_emergecia where id_doc = :id_doc; ".enable_foreing();
 
 $result=$db->prepare($sql);
                             
 $result->execute(array("id_doc"=>$id_doc,"id_doc_new"=>$id_doc_new,"tlf_local"=>$tlf_local,
-"tlf_cel"=>$tlf_cel,"correo"=>$correo));
+"tlf_cel"=>$tlf_cel,"correo"=>$correo,"tlf_emergecia"=>$tlf_emergecia));
 
 }
 
@@ -1009,6 +1009,27 @@ $result->execute($parameters);
         
     }
 
+    function asignar_clase_for_estudent($id_clase,$id_estado,$id_actualizacion,$ci_escolar){
+    global $db;
+
+$parameters = array(
+    ':id_clase'=>$id_clase,    
+    ':id_estado'=>$id_estado,
+    ':id_actualizacion'=>$id_actualizacion,
+    ':ci_escolar'=>$ci_escolar,
+
+);
+
+
+$sql = disable_foreing()." INSERT INTO `estudiantes_asignados`(`id_clase`,`id_estado`,`id_actualizacion`,ci_escolar)
+VALUES (:id_clase,:id_estado,:id_actualizacion,:ci_escolar); ".enable_foreing();
+
+$result=$db->prepare($sql);
+
+$result->execute($parameters);
+        
+    }
+
 
 
 
@@ -1289,6 +1310,7 @@ function exist_nro_contrato_clase($nro_contrato){
 }
 
 function registrar_estudiante($nacionalidad ,$id_doc_estd,$ci_escolar,$nombre1,$nombre2,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,$colecc_bicent,$canaima,$contrato){
+
  
      global $db;
     if(empty($id_doc_estd) || is_null($id_doc_estd)) {
@@ -1299,7 +1321,7 @@ function registrar_estudiante($nacionalidad ,$id_doc_estd,$ci_escolar,$nombre1,$
  $ci_escolar = $id_doc_estd;
 }
 
-$sql = "INSERT INTO `estudiantes`(`ci_escolar`, `id_doc_est`, `id_estado`) VALUES (:ci_escolar,:id_doc_est ,:id_estado);";
+$sql = "INSERT INTO `estudiantes`(`ci_escolar`, `id_doc`, `id_estado`) VALUES (:ci_escolar,:id_doc_est ,:id_estado);";
 
 $result=$db->prepare($sql);
                             
@@ -2226,16 +2248,16 @@ function regist_data_salud_student($ci_escolar,
 
 }
 
-function regist_other_data_student($ci_escolar,$nro_pers_viven){
+function regist_other_data_student($ci_escolar,$nro_pers_viven,$hermanos,$descrip_hermanos){
 
     global $db;
             
-            $sql = "INSERT INTO `otros_datos_estudiant`(`ci_escolar`, `nro_pers_viven`) VALUES (:ci_escolar,:nro_pers_viven);";
+            $sql = "INSERT INTO `otros_datos_estudiant`(`ci_escolar`, `nro_pers_viven`, `hermanos`, `descrip_hermanos`) VALUES (:ci_escolar,:nro_pers_viven,:hermanos,:descrip_hermanos);";
             
                 $result = $db->prepare($sql);
 
                 $result->execute(array("nro_pers_viven"=>$nro_pers_viven,
-                    "ci_escolar"=>$ci_escolar));
+                    "ci_escolar"=>$ci_escolar,"hermanos"=>$hermanos,"descrip_hermanos"=>$descrip_hermanos));
 }
 
 function register_movilidad_student($ci_escolar,$est_ret,$desc_ret,$est_tranport,$desc_tranport){
@@ -2289,33 +2311,34 @@ return $errors;
 
 }
 
-    function registrar_inscrip_scolaridad($ci_escolar,$plantel_proced,$localidad,$anio_escolar1,$anio_escolar2,$grado,$seccion,$calif_def,$repitiente,$observs,$id_actualizacion){
+    function registrar_inscrip_scolaridad($ci_escolar,$plantel_proced,$localidad,$anio_escolar1,$anio_escolar2,$grado,$calif_def,$repitiente,$observs,$id_actualizacion){
+
 
         global $db;
 
-$sql = "INSERT INTO `escolaridad`(`ci_escolar`, `plantel_proced`, `localidad`, `anio_escolar1`, `anio_escolar2`, `grado`, `seccion`, `calif_def`, `repitiente`, `observs`,id_actualizacion) VALUES (:ci_escolar,:plantel_proced,:localidad,:anio_escolar1,:anio_escolar2,:grado,:seccion,:calif_def,:repitiente,:observs,:id_actualizacion)";
+$sql = "INSERT INTO `escolaridad`(`ci_escolar`, `plantel_proced`, `localidad`, `anio_escolar1`, `anio_escolar2`, `grado`, `calif_def`, `repitiente`, `observs`,id_actualizacion) VALUES (:ci_escolar,:plantel_proced,:localidad,:anio_escolar1,:anio_escolar2,:grado,:calif_def,:repitiente,:observs,:id_actualizacion)";
 
                     $result = $db->prepare($sql);
 
-    $result->execute(array("ci_escolar"=>$ci_escolar,"plantel_proced"=>$plantel_proced, "localidad"=>$localidad,"anio_escolar1"=>$anio_escolar1,"anio_escolar2"=>$anio_escolar2,"grado"=>$grado,"seccion"=>$seccion,"calif_def"=>$calif_def,"repitiente"=>$repitiente,"observs"=>$observs,'id_actualizacion'=>$id_actualizacion));
+    $result->execute(array("ci_escolar"=>$ci_escolar,"plantel_proced"=>$plantel_proced, "localidad"=>$localidad,"anio_escolar1"=>$anio_escolar1,"anio_escolar2"=>$anio_escolar2,"grado"=>$grado,"calif_def"=>$calif_def,"repitiente"=>$repitiente,"observs"=>$observs,'id_actualizacion'=>$id_actualizacion));
 
 }
 
     
-function registrar_actualizacion($ci_escolar,$id_doc_admin,$grado,$fecha){
+function registrar_actualizacion($ci_escolar,$id_doc_admin,$fecha){
 
         global $db;
 
-$sql = "INSERT INTO `actualizacion`(`ci_escolar`, `id_doc_admin`, `grado`, `fecha`) VALUES (:ci_escolar,:id_doc_admin,:grado,:fecha);";
+$sql = "INSERT INTO `actualizacion`(`ci_escolar`, `id_doc_admin`, `fecha`) VALUES (:ci_escolar,:id_doc_admin,:fecha);";
 
                     $result = $db->prepare($sql);
 
-    $result->execute(array("ci_escolar"=>$ci_escolar,"id_doc_admin"=>$id_doc_admin,"grado"=>$grado,"fecha"=>$fecha));
+    $result->execute(array("ci_escolar"=>$ci_escolar,"id_doc_admin"=>$id_doc_admin,"fecha"=>$fecha));
 
 }
 
 function consulta_estudiantes(){
-return $sql = " SELECT estd.ci_escolar,estd.id_estado,estd.grado
+return $sql = " SELECT estd.ci_escolar,estd.id_doc,estd.id_estado,estd.grado
 ,in_p.nombre,in_p.apellido_p,in_p.apellido_m,in_p.fecha_nac,in_p.lugar_nac,in_p.direcc_hab,in_p.id_nacionalidad,
 in_p.id_estado_civil,in_p.id_sexo,
 sx.descripcion sexo, nac.descripcion nacionalidad,
@@ -2332,7 +2355,7 @@ return $sql = "
 SELECT mv.ci_escolar, mv.est_ret, mv.desc_ret, mv.est_tranport, mv.desc_tranport FROM movilidad mv";}
 
 function consulta_other_data_student(){
-return $sql = "SELECT ode.ci_escolar,ode.nro_pers_viven FROM otros_datos_estudiant ode";
+return $sql = "SELECT ode.ci_escolar,ode.nro_pers_viven,ode.hermanos,ode.descrip_hermanos FROM otros_datos_estudiant ode";
 }
 
 function consulta_salud_student(){
@@ -2340,12 +2363,29 @@ return $sql = " SELECT sd.ci_escolar, sd.est_croni, sd.desc_croni, sd.est_visual
 }
 
 function consulta_actualizacion_student(){
-return $sql = " SELECT act.ci_escolar, act.id_doc_admin, act.grado, act.fecha, act.id_actualizacion FROM actualizacion act WHERE act.ci_escolar = :ci_escolar;";}
+return $sql = " SELECT act.ci_escolar, act.id_doc_admin, act.grado, act.fecha, act.id_actualizacion FROM actualizacion act";}
 
 function consulta_escolaridad(){
 return $sql = "
-SELECT es.ci_escolar, es.plantel_proced, es.localidad, es.anio_escolar1, es.anio_escolar2, es.grado, es.seccion, 
-es.calif_def, es.repitiente, es.observs, es.id_escolaridad, es.id_actualizacion FROM escolaridad es";
+SELECT es.ci_escolar, es.plantel_proced, es.localidad, 
+es.calif_def, es.repitiente, es.observs,es.grado grado_asign,
+es.id_escolaridad,es.id_actualizacion,ac.fecha,ac.id_doc_admin,es.anio_escolar1,es.anio_escolar2,
+in_p.nombre,in_p.apellido_p,in_p.apellido_m
+FROM escolaridad es
+LEFT JOIN actualizacion ac ON es.id_actualizacion = ac.id_actualizacion
+LEFT JOIN info_personal in_p ON ac.id_doc_admin = in_p.id_doc"; 
+}
+
+function consulta_clases_student(){
+return $sql = "
+SELECT /*DISTINCT*/ act.id_doc_admin, edo.descripcion, clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2,act.fecha FROM estudiantes est 
+LEFT OUTER JOIN info_personal in_p ON est.ci_escolar = in_p.id_doc 
+LEFT OUTER JOIN estudiantes_asignados ea ON est.ci_escolar = ea.ci_escolar 
+INNER JOIN clases clas ON ea.id_clase = clas.id_clase 
+INNER JOIN turnos tr ON tr.id_turno = clas.id_turno 
+INNER JOIN estado edo ON ea.id_estado = edo.id_estado
+LEFT OUTER JOIN actualizacion act ON ea.id_actualizacion = act.id_actualizacion
+LEFT OUTER JOIN administrativos adm ON act.id_doc_admin = adm.id_doc_admin"; 
 }
 
 function consulta_padres_student(){
@@ -2354,17 +2394,21 @@ return $sql = "
 SELECT in_p.id_doc ,in_p.nombre,in_p.apellido_p,in_p.apellido_m,in_p.fecha_nac,in_p.lugar_nac,in_p.direcc_hab,in_p.id_nacionalidad,
 in_p.id_estado_civil,in_p.id_sexo,
 sx.descripcion sexo, nac.descripcion nacionalidad, etc.descrpcion estado_civil,
-prsd.convivencia,prsd.ocupacion,prsd.parentesco,prsd.id_pers_est,
+prsd.convivencia,prsd.ocupacion,prsd.id_pers_est,
 lb.prof_ofic,lb.lugar_trab,lb.direcc_trab,lb.tlf_ofic,
 cb.tlf_local,cb.tlf_cel,cb.correo
+
 FROM padres pds
-INNER JOIN info_personal in_p ON pds.id_doc = in_p.id_doc
-INNER JOIN sexo sx ON in_p.id_sexo = sx.id_sexo
-INNER JOIN nacionalidad nac ON in_p.id_nacionalidad = nac.id_nacionalidad
-INNER JOIN est_civil etc ON in_p.id_estado_civil = etc.id_estado_civil
-INNER JOIN pers_est prsd ON pds.id_doc = prsd.id_doc
-INNER JOIN contact_basic cb ON in_p.id_doc = cb.id_doc  
-INNER JOIN laboral lb ON in_p.id_doc = lb.id_doc";
+LEFT OUTER JOIN info_personal in_p ON pds.id_doc = in_p.id_doc
+LEFT OUTER JOIN sexo sx ON in_p.id_sexo = sx.id_sexo
+LEFT OUTER JOIN nacionalidad nac ON in_p.id_nacionalidad = nac.id_nacionalidad
+LEFT OUTER JOIN est_civil etc ON in_p.id_estado_civil = etc.id_estado_civil
+LEFT OUTER JOIN pers_est prsd ON pds.id_doc = prsd.id_doc
+LEFT OUTER JOIN contact_basic cb ON in_p.id_doc = cb.id_doc  
+LEFT OUTER JOIN laboral lb ON in_p.id_doc = lb.id_doc
+
+
+";
 }
 
 function consulta_represent_student(){
@@ -2381,9 +2425,8 @@ INNER JOIN sexo sx ON in_p.id_sexo = sx.id_sexo
 INNER JOIN nacionalidad nac ON in_p.id_nacionalidad = nac.id_nacionalidad
 INNER JOIN est_civil etc ON in_p.id_estado_civil = etc.id_estado_civil
 INNER JOIN pers_est prsd ON rpt.id_doc = prsd.id_doc
-INNER JOIN laboral lb ON in_p.id_doc = lb.id_doc
-INNER JOIN contact_basic cb ON in_p.id_doc = cb.id_doc  
-";
+LEFT OUTER JOIN laboral lb ON in_p.id_doc = lb.id_doc
+INNER JOIN contact_basic cb ON in_p.id_doc = cb.id_doc";
 }
 
 function consulta_pers_ret_student(){
@@ -2400,5 +2443,67 @@ INNER JOIN est_civil etc ON in_p.id_estado_civil = etc.id_estado_civil
 INNER JOIN pers_est prsd ON prt.id_doc = prsd.id_doc
 INNER JOIN contact_basic cb ON in_p.id_doc = cb.id_doc";
 }
-?>
 
+
+function consulta_info_basic_student(){
+
+    $sql="SELECT DISTINCT estd.ci_escolar,estd.id_doc,estd.id_estado,es.grado,edo.descripcion estado
+,in_p.nombre,in_p.apellido_p,in_p.apellido_m,in_p.fecha_nac,in_p.lugar_nac,in_p.direcc_hab,in_p.id_nacionalidad,
+in_p.id_estado_civil,in_p.id_sexo,
+sx.descripcion sexo, nac.descripcion nacionalidad,
+rcp.colecc_bicent, rcp.canaima, rcp.contrato
+FROM estudiantes estd 
+LEFT OUTER JOIN info_personal in_p ON estd.ci_escolar = in_p.id_doc
+LEFT OUTER JOIN sexo sx ON in_p.id_sexo = sx.id_sexo
+LEFT OUTER JOIN nacionalidad nac ON in_p.id_nacionalidad = nac.id_nacionalidad
+LEFT OUTER JOIN estado edo ON estd.id_estado = edo.id_estado
+LEFT OUTER JOIN recursos_public rcp ON rcp.ci_escolar = estd.ci_escolar
+INNER JOIN escolaridad es ON estd.ci_escolar = es.ci_escolar ";
+    
+    return $sql;
+
+}
+
+function msj_bool($msj){
+
+    if (empty($msj)) {
+        return "No";
+    }
+
+    if ($msj) {
+        return "Si";
+    }
+    if (!$msj) {
+        return "No";
+    }
+
+}
+function clases_student(){
+
+    return $sql="
+SELECT est.ci_escolar,clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2 FROM estudiantes est
+            INNER JOIN estudiantes_asignados ea ON est.ci_escolar = ea.ci_escolar
+            INNER JOIN clases clas ON ea.id_clase = clas.id_clase
+            INNER JOIN turnos tr ON tr.id_turno = clas.id_turno";}
+
+function is_exist_represent($ci){
+    global $db;
+
+    $sql="SELECT * FROM representantes WHERE id_doc = :id";
+                                    
+    $result=$db->prepare($sql);
+                            
+    $result->bindValue(":id",$ci);
+
+    $result->execute();
+
+   $count=$result->rowCount();
+    if($count == 0){ 
+    return false;
+    }else{
+        return true;
+    }
+}
+
+
+?>
