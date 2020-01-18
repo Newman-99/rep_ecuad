@@ -50,7 +50,7 @@ $errors[] = valid_ci($id_doc);
 
 if (!is_exist_docente($id_doc)){
     $errors[]= "Un Docente con esta cedula ya esta registrado";
-}m
+}
 
 if (is_exist_ci($id_doc)) {
        $errors[]='La cedula ya esta registrada en el sistema';
@@ -67,7 +67,7 @@ $errors[]=validar_nombres_apellidos($nombres,$apellido_p);
 if(!empty($apellido_m)){
 $errors[]=validar_nombres_apellidos($apellido_m);
 
-
+}
 
 if (!comprobar_msjs_array($errors)) {    
 
@@ -88,8 +88,9 @@ registrar_persona($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,
 
 $errors[] = 'Docente registrado con exito';
 
-}
 
+
+}
 }
 }
 
@@ -197,6 +198,9 @@ $errors[] = 'Docente registrado con exito';
         <br>
         <input type="submit" value="Registrar" name="registrar">
     </form>
+
+<br>
+<?php imprimir_msjs($errors); ?>    
 
     <br>
     <a href="reg_admin_docent.php">Registrar Docente desde Administrativo</a>

@@ -489,7 +489,7 @@ echo "
                     <td>".msj_bool($registro['hermanos']);
 
                     if ($registro['hermanos']) {
-                    echo " | ".$registro['descrip_herma'];                    	
+                    echo " | ".$registro['descrip_hermanos'];                    	
                     }
 
                     echo "</td>";
@@ -663,6 +663,8 @@ echo "
                         
 
                         <td>".$registro['parentesco']."</td>
+
+                        <td>".$registro['tlf_cel']."</td>
 
                         <td>".$registro['tlf_local']."</td>
                         

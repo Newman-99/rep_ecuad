@@ -565,7 +565,7 @@ function enable_foreing(){
 }
 
 
-function registrar_persona($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$estado_civil,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$tlf_emergecia){
+function registrar_persona($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$estado_civil,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$tlf_emergecia = ''){
     
     global $db;
 
@@ -2505,5 +2505,22 @@ function is_exist_represent($ci){
     }
 }
 
+/*
+function actualizar_estudiante($id_doc,$id_doc_new,$id_funcion_predet,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion){
 
+    global $db;
+
+    // Insertando datos personales genericos
+    
+$sql =disable_foreing()."UPDATE docentes SET id_doc_docent = :id_doc_new,id_funcion_predet = :id_funcion_predet,id_turno = :id_turno,id_estado = :id_estado,fecha_ingreso = :fecha_ingreso,fecha_inabilitacion = :fecha_inabilitacion where id_doc_docent = :id_doc_docent; ".enable_foreing();
+
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("ci_escolar" => $ci_escolar,"id_doc_est"=>$id_doc_estd,
+"id_estado"=>'3'));
+
+
+}
+*/
 ?>

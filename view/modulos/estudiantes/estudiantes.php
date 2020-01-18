@@ -131,7 +131,7 @@ LEFT OUTER JOIN info_personal in_p ON est.ci_escolar = in_p.id_doc
 LEFT OUTER JOIN estudiantes_asignados ea ON est.ci_escolar = ea.ci_escolar 
 LEFT OUTER JOIN clases clas ON ea.id_clase = clas.id_clase 
 LEFT OUTER JOIN turnos tr ON tr.id_turno = clas.id_turno 
-INNER JOIN escolaridad es ON est.ci_escolar = es.ci_escolar 
+LEFT OUTER JOIN escolaridad es ON est.ci_escolar = es.ci_escolar 
 LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
 
 			  $where = [];
