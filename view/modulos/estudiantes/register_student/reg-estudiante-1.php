@@ -73,18 +73,21 @@ $lugar_nac=trim($lugar_nac);
 $direcc_hab=trim($direcc_hab);
 $fecha_nac=trim($fecha_nac);
 
+$apellido_p = filtrar_nombres_apellidos($apellido_p);
+$nombre1=filtrar_nombres_apellidos($nombre1);
+
 $err_nom_apell =validar_nombres_apellidos($nombre1,$apellido_p);
 
 if(!empty($apellido_m)){
-$err_nom_apell = validar_nombres_apellidos($apellido_m);
 $apellido_m=filtrar_nombres_apellidos($apellido_m);
+$err_nom_apell = validar_nombres_apellidos($apellido_m);
 }else{
     $apellido_m="";
 }
 
 if(!empty($nombre2)){
-$err_nom_apell=validar_nombres_apellidos($nombre2);
 $nombre2=filtrar_nombres_apellidos($nombre2);
+$err_nom_apell=validar_nombres_apellidos($nombre2);
 }else{
     $nombre2 = "";
 }
@@ -189,8 +192,8 @@ $errors[]= "<a href='reg-estudiante-2.php'>
                                     </div>
 
                                     <div class="col-lg-6 my-2">
-			
-			<label for="">Lugar de Nacimiento:</label>
+            
+            <label for="">Lugar de Nacimiento:</label>
         <br>
         <textarea rows="3" cols="40" name="lugar_nac" id="" required><?php if(isset($lugar_nac)) echo $lugar_nac;?></textarea>
 
@@ -202,7 +205,7 @@ $errors[]= "<a href='reg-estudiante-2.php'>
 
                                     <div class="col-lg-6 my-5">
                                         <label for="">Direccion de Habitacion:</label>
-			<br>
+            <br>
         <textarea rows="3" cols="40" name="direcc_hab" id="" required><?php if(isset($direcc_hab)) echo $direcc_hab; ?></textarea>        
                                     </div>
 

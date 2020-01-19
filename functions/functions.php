@@ -486,6 +486,22 @@ return $id_actualizacion=$result->fetchColumn();
 
 }
 
+function obtener_cedula_student($ci_escolar){
+
+global $db;
+
+$sql="SELECT id_doc FROM estudiantes WHERE ci_escolar = :ci_escolar;";
+                                
+$result=$db->prepare($sql);
+                        
+$result->bindValue(":ci_escolar",$ci_escolar);
+
+$result->execute();
+
+return $ci_student=$result->fetchColumn();
+
+}
+
 // Para mostrar los Datos Basicos y de Bienvenida al usuario al hacer login
 
 function imprimir_usuario_bienvenida($ci){
@@ -2444,18 +2460,13 @@ INNER JOIN contact_basic cb ON in_p.id_doc = cb.id_doc";
 
 function consulta_info_basic_student(){
 
-    $sql="SELECT DISTINCT estd.ci_escolar,estd.id_doc,estd.id_estado,es.grado,edo.descripcion estado
-,in_p.nombre,in_p.apellido_p,in_p.apellido_m,in_p.fecha_nac,in_p.lugar_nac,in_p.direcc_hab,in_p.id_nacionalidad,
-in_p.id_estado_civil,in_p.id_sexo,
-sx.descripcion sexo, nac.descripcion nacionalidad,
-rcp.colecc_bicent, rcp.canaima, rcp.contrato
-FROM estudiantes estd 
-LEFT OUTER JOIN info_personal in_p ON estd.ci_escolar = in_p.id_doc
-LEFT OUTER JOIN sexo sx ON in_p.id_sexo = sx.id_sexo
-LEFT OUTER JOIN nacionalidad nac ON in_p.id_nacionalidad = nac.id_nacionalidad
-LEFT OUTER JOIN estado edo ON estd.id_estado = edo.id_estado
-LEFT OUTER JOIN recursos_public rcp ON rcp.ci_escolar = estd.ci_escolar
-INNER JOIN escolaridad es ON estd.ci_escolar = es.ci_escolar ";
+    $sql="SELECT DISTINCT estd.ci_escolar,estd.id_doc,estd.id_estado,es.grado,edo.descripcion estado ,in_p.nombre,in_p.apellido_p,in_p.apellido_m,in_p.fecha_nac,in_p.lugar_nac,in_p.direcc_hab,in_p.id_nacionalidad, in_p.id_estado_civil,in_p.id_sexo, sx.descripcion sexo, nac.descripcion nacionalidad, rcp.colecc_bicent,es.id_escolaridad,es.id_actualizacion, rcp.canaima, rcp.contrato FROM estudiantes estd 
+    LEFT OUTER JOIN info_personal in_p ON estd.ci_escolar = in_p.id_doc 
+    LEFT OUTER JOIN sexo sx ON in_p.id_sexo = sx.id_sexo 
+    LEFT OUTER JOIN nacionalidad nac ON in_p.id_nacionalidad = nac.id_nacionalidad 
+    LEFT OUTER JOIN estado edo ON estd.id_estado = edo.id_estado 
+    LEFT OUTER JOIN recursos_public rcp ON rcp.ci_escolar = estd.ci_escolar 
+    LEFT OUTER JOIN escolaridad es ON estd.ci_escolar";
     
     return $sql;
 
@@ -2503,7 +2514,7 @@ function is_exist_represent($ci){
 }
 
 
-function actualizar_estudiante($ci_escolar,$ci_escolar_new,$id_doc,$id_estado){
+function update_basic_data_student($ci_escolar,$ci_escolar_new,$id_doc,$id_estado){
 
     global $db;
 
