@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 19-01-2020 a las 04:13:44
+-- Tiempo de generación: 19-01-2020 a las 21:02:06
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.3.1
 
@@ -302,6 +302,7 @@ CREATE TABLE `estudiantes` (
 --
 
 INSERT INTO `estudiantes` (`ci_escolar`, `id_doc`, `id_estado`) VALUES
+('', '34888989', 0),
 ('32020390', '32020390', 1),
 ('34999029', '34999029', 3),
 ('37888909', '37888909', 1),
@@ -309,8 +310,7 @@ INSERT INTO `estudiantes` (`ci_escolar`, `id_doc`, `id_estado`) VALUES
 ('38938390', '', 2),
 ('38999029', '38999029', 3),
 ('39029283', '', 1),
-('V01228117879', '', 1),
-('V19913903883', '', 3);
+('V01228117879', '', 1);
 
 -- --------------------------------------------------------
 
@@ -411,6 +411,7 @@ CREATE TABLE `info_personal` (
 --
 
 INSERT INTO `info_personal` (`id_doc`, `nombre`, `apellido_p`, `apellido_m`, `fecha_nac`, `lugar_nac`, `direcc_hab`, `id_nacionalidad`, `id_estado_civil`, `id_sexo`) VALUES
+('', '', 'Dias', 'Uzategui', '2019-12-31', 'Caracas', 'Caracas', 1, 0, 1),
 ('12898767', 'Carlos', 'Rodriguez', 'Perez', '0000-00-00', '', '', 1, 2, 1),
 ('15992209', 'Alberto', 'Gonzales', 'Prada', '0000-00-00', '', '', 1, 1, 1),
 ('18277902', 'Carlos Jesus Antonio', 'Hernandez', 'Alvarado', '1987-03-11', 'Miranda, Valles del Tuy, Ocumare.', 'Dpto Capital, Municipio Libertador,El Paraiso', 1, 1, 1),
@@ -434,8 +435,7 @@ INSERT INTO `info_personal` (`id_doc`, `nombre`, `apellido_p`, `apellido_m`, `fe
 ('5930330', 'Andrea Francisca', 'Cardenal', 'Uzcategui', '1960-11-11', 'Edo Carabobo Valencia', 'Edo Carabobo Valencia', 1, 1, 2),
 ('7222908', 'Ana Francisca', 'Fernandez', 'Ramos', '1967-01-03', 'Dpto Capital, Municipio Libertador,San Martin', 'Dpto Capital, Municipio Libertador, El paraiso', 1, 2, 2),
 ('No asignado', '', '', '', '0000-00-00', '', '', 1, 1, 1),
-('V01228117879', 'Carlos Esteban', 'Herandes', 'Oviedo', '2010-01-24', 'Dpto. Capital, Municipio Libertador, San Martin', 'Dpto. Capital, Municipio Libertador, El Paraiso', 1, 1, 1),
-('V19913903883', 'Dias ', 'Carlos', '', '2019-12-31', 'Caracas', 'Caracas', 1, 1, 1);
+('V01228117879', 'Carlos Esteban', 'Herandes', 'Oviedo', '2010-01-24', 'Dpto. Capital, Municipio Libertador, San Martin', 'Dpto. Capital, Municipio Libertador, El Paraiso', 1, 1, 1);
 
 -- --------------------------------------------------------
 
