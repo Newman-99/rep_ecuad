@@ -14,7 +14,7 @@ require '../../../../functions/functions.php';
     <link rel="stylesheet" href="../../../style/css/estilos_gregorio.css">
     <!--Boostrap-->
     
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../style/bootstrap/bootstrap.min.css">
     <!--
     <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-grid.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-grid.min.css">
