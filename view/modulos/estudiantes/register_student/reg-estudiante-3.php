@@ -664,9 +664,11 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
 
                                     
                                         <a href="reg-estudiante-2.php" class="btn btn-primary col-lg-2 ">VOLVER</a>
-<!------------------------------------------- BOTON (SIGUIENTE) ----------------------->                                        
-                                        <button type='submit' class="btn btn-primary col-lg-9"value="otros_datos" name ='otros_datos'>CONTINUAR</button>
-
+<!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
+                                        <button type="submit" class="btn btn-primary col-lg-9" value="otros_datos" name ='otros_datos' >CONTINUAR</button>
+                                                                              
+                                        
+                                        
 
                                 </form>   
                             </div>

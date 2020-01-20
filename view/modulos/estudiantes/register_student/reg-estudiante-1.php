@@ -177,7 +177,7 @@ $errors[]= "<a href='reg-estudiante-2.php'>
                                     
                                     <div class="col-lg-6 my-2">
                                         <label for="">Fecha de Nacimiento:</label>
-                                        <input type="text" name="fecha_nac" value="<?php if(isset($fecha_nac)) echo $fecha_nac; ?>" id="" placeholder="Fecha" class="form-control" required>
+                                        <input type="date" name="fecha_nac" value="<?php if(isset($fecha_nac)) echo $fecha_nac; ?>" id="" placeholder="Fecha" class="form-control" required>
                                     </div>
                                 </div>
 
@@ -228,11 +228,8 @@ $errors[]= "<a href='reg-estudiante-2.php'>
 
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
 
-                        
-                        
-                        <button type='submit' class="btn btn-primary btn-block btn-lg"value="datos_student" name ='datos_student'>Continuar</button>
-                         
-                                <!-- <input type="submit" name="continuar" value="CONTINUAR" class="btn btn-primary btn-block btn-lg" id="boton-enviar"> --> 
+                            <button type='submit' class="btn btn-primary btn-block btn-lg" value="datos_student" name ='datos_student' >CONTINUAR</button>
+                                 
                                                             <?php imprimir_msjs($errors); ?>
 
                             </form>

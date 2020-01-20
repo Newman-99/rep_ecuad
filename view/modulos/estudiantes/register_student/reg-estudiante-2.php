@@ -423,7 +423,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
                                     <div class="row my-2">
                                         <div class="col-lg-3 my-4">
                                             <label for="">Fecha de Nacimiento:</label>
-                                            <input type="text" name="fecha_nac_m" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_m)) echo $fecha_nac_m; ?>" >
+                                            <input type="date" name="fecha_nac_m" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_m)) echo $fecha_nac_m; ?>" >
                                         </div>
     
 
@@ -583,7 +583,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
                                     <div class="row my-4">
                                         <div class="col-lg-3 my-4">
                                             <label for="">Fecha de Nacimiento:</label>
-                                            <input type="text" name="fecha_nac_p" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_p)) echo $fecha_nac_p; ?>">
+                                            <input type="date" name="fecha_nac_p" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_p)) echo $fecha_nac_p; ?>">
                                         </div>
     
                                         <div class="col-lg-3 my-4">
@@ -757,7 +757,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
 
                                         <div class="col-lg-3 ">
                                             <label for="">Fecha de Nacimiento:</label>
-                                            <input type="text" name="fecha_nac_r" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_r)) echo $fecha_nac_r; ?>">
+                                            <input type="date" name="fecha_nac_r" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_r)) echo $fecha_nac_r; ?>">
                                         </div>
     
 
@@ -851,7 +851,8 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
 
                                         <a href="reg-estudiante-1.php" class="btn btn-primary  col-lg-2">VOLVER</a>
                                         
-                                        <button type='submit' class="btn btn-primary col-lg-9"value="datos_student" name ='datos_pers_estd'>CONTINUAR</button>
+                                        <button type='submit' class="btn btn-primary col-lg-9"value="datos_student" name ='datos_pers_estd'>Confirmar</button>
+                                        
                                         
                                     
 
