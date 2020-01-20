@@ -102,15 +102,22 @@ $errors[]= "<a href='final_register.php'>
                             
                             <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>"  method="POST" class="form-group text-center">
                                         
-                                    <div class=" row" id="cuadro">
+                                    
                                         <div class="col-lg-12">
                                             <h3 class="form-titulo">Otros datos de inscripcion y escolaridad</h3>
                                         </div>
-                                            <br><br><br><br>
+                                            <br><br>
+                                            
+                                    <div class="row" id="cuadro"> <!-- INICIO, DIV Cedula escolar -->
+                                        
+                                        <div class="col-lg-12">
+                                            <h3 class="form-titulo3">Cedula escolar</h3>
+                                        </div>
+
                                         <div class="col-lg-3 my-4">
-                                            <label for="" class="">Cedula escolar:</label>
+                                            <label for="" class="">Naciononalidad</label>
                                             <select name="ci_escol_nacidad" id="cedula" class="form-control" >
-                                                <option value=""> Naciononalidad </option>
+                                                <option value=""> Seleccione </option>
                                                 <option <?php if(isset($ci_escol_nacidad)) if($ci_escol_nacidad == 'V') echo 'selected';?> value="V">V</option>
                                                 <option <?php if(isset($ci_escol_nacidad)) if($ci_escol_nacidad == 'E') echo 'selected';?> value="E">E</option>
                                             </select>
@@ -130,9 +137,12 @@ $errors[]= "<a href='final_register.php'>
                                             <label for="">Cedula de la Madre:</label> 
                                             <input type="number" placeholder="C.I" class="form-control" value="<?php if(isset($ci_escol_ci_mom)) echo $ci_escol_ci_mom; ?>" name="ci_escol_ci_mom">
                                         </div>
-                                    </div>  
+
+                                    </div>  <!--------- FIN, DIV Cedula escolar  ------------>
                                     
-                                    <div class="row">
+                                    <br>
+
+                                    <div class="row" >
                                         <div class="col-lg-6 my-4">
                                             <label for="" class="">Plantel de procedencia</label>
                                             <input type="text" name="plantel_proced" value="<?php if(isset($plantel_proced)) echo $plantel_proced; ?>" id="" placeholder="Plantel de procedencia" class="form-control">
@@ -141,6 +151,15 @@ $errors[]= "<a href='final_register.php'>
                                         <div class="col-lg-6 my-4">
                                             <label for="" class="">Localidad</label>
                                             <input type="text" name="localidad" value="<?php if(isset($localidad)) echo $localidad; ?>" id="" placeholder="Localidad" class="form-control">
+                                        </div>
+                                    </div>
+                                      
+                                    <br>
+
+                                    <div class="row" id="cuadro"> <!--------- INICIO, DIV Datos de clase  ------------>
+                                    
+                                        <div class="col-lg-12">
+                                            <h3 class="form-titulo3">Datos de clase</h3>
                                         </div>
 
                                         <div class="col-lg-2 my-4">  
@@ -187,8 +206,6 @@ $errors[]= "<a href='final_register.php'>
                                             </select>
                                         </div>
 
-                                    
-
                                         <div class="col-lg-3 my-4">
                                             <label for="">Calificacion definitiva</label>
                                             <select name="calif_escolaridad" id="calificacion" class="form-control" >
@@ -200,6 +217,11 @@ $errors[]= "<a href='final_register.php'>
                                             </select>
                                         </div>
 
+                                    </div> <!--------- Fin, DIV Datos de la clase  ------------>
+                                    
+                                    <br>
+
+                                    <div class="row" >
                                         <div class="col-lg-3 my-4">
                                             <p for="">Repitiente:</p>
                                             <label for="" class=" ">Si:</label>
@@ -213,14 +235,14 @@ $errors[]= "<a href='final_register.php'>
                                             <label for="">Observaciones</label>
                                             <textarea name="observacions" id="" class="form-control" placeholder="Ingrese la observacion"><?php if(isset($observacions)) echo $observacions;?></textarea>
                                         </div>
-                                    </div>
+                                    </div> 
                                             
                                     <?php imprimir_msjs($errors); ?>
 
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
-                                    <a href="reg-estudiante-3.html" class="btn btn-primary col-lg-2 ">VOLVER</a>
+                                    <a href="reg-estudiante-3.html" class="btn btn-primary col-lg-2">VOLVER</a>
 
-                                    <button type='submit' class="btn btn-primary col-lg-9 " value="inscrip_escol" name ='inscrip_escol'>CONTINUAR</button>
+                                    <button type='submit' class="btn btn-primary col-lg-9 " value="inscrip_escol" name='inscrip_escol'>CONTINUAR</button>
                                 
                                 </form>   
                             

@@ -362,12 +362,12 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                       <div class="col-12">
                                             <h3 class="form-titulo">Otros datos del estudiante</h3>
                                       </div>
-                                        <br><br><br><br>
+                                        <br><br><br>
                                       <div class="col-lg-12 my-2">
                                             <label for="">¿Cuantas personas viven con el estudiante?</label>
                                             <input type="number" name="nro_pers_viven" id="" placeholder="N°" value="<?php if(isset($nro_pers_viven)) echo $nro_pers_viven; ?>">
                                       </div>
-                                        <br><br><br><br>
+                                        <br><br>
                                       <div class="col-12 my-4">
                                             <h3 class="form-titulo">Estado de salud del estudiante</h3>
                                       </div>
