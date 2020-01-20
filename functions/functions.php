@@ -486,6 +486,22 @@ return $id_actualizacion=$result->fetchColumn();
 
 }
 
+function obtener_cedula_student($ci_escolar){
+
+global $db;
+
+$sql="SELECT id_doc FROM estudiantes WHERE ci_escolar = :ci_escolar;";
+                                
+$result=$db->prepare($sql);
+                        
+$result->bindValue(":ci_escolar",$ci_escolar);
+
+$result->execute();
+
+return $ci_student=$result->fetchColumn();
+
+}
+
 // Para mostrar los Datos Basicos y de Bienvenida al usuario al hacer login
 
 function imprimir_usuario_bienvenida($ci){
@@ -638,9 +654,6 @@ $sql = "INSERT INTO `padres`(`id_doc`, `id_tip_padre`,ci_escolar) VALUES (:id_do
 $result=$db->prepare($sql);
                             
 $result->execute(array("id_doc"=>$id_doc,"id_tip_padre"=>$tip_padre,"ci_escolar"=>$ci_escolar));
-
-
-
 
 }
 
@@ -2447,18 +2460,13 @@ INNER JOIN contact_basic cb ON in_p.id_doc = cb.id_doc";
 
 function consulta_info_basic_student(){
 
-    $sql="SELECT DISTINCT estd.ci_escolar,estd.id_doc,estd.id_estado,es.grado,edo.descripcion estado
-,in_p.nombre,in_p.apellido_p,in_p.apellido_m,in_p.fecha_nac,in_p.lugar_nac,in_p.direcc_hab,in_p.id_nacionalidad,
-in_p.id_estado_civil,in_p.id_sexo,
-sx.descripcion sexo, nac.descripcion nacionalidad,
-rcp.colecc_bicent, rcp.canaima, rcp.contrato
-FROM estudiantes estd 
-LEFT OUTER JOIN info_personal in_p ON estd.ci_escolar = in_p.id_doc
-LEFT OUTER JOIN sexo sx ON in_p.id_sexo = sx.id_sexo
-LEFT OUTER JOIN nacionalidad nac ON in_p.id_nacionalidad = nac.id_nacionalidad
-LEFT OUTER JOIN estado edo ON estd.id_estado = edo.id_estado
-LEFT OUTER JOIN recursos_public rcp ON rcp.ci_escolar = estd.ci_escolar
-INNER JOIN escolaridad es ON estd.ci_escolar = es.ci_escolar ";
+    $sql="SELECT DISTINCT estd.ci_escolar,estd.id_doc,estd.id_estado,es.grado,edo.descripcion estado ,in_p.nombre,in_p.apellido_p,in_p.apellido_m,in_p.fecha_nac,in_p.lugar_nac,in_p.direcc_hab,in_p.id_nacionalidad, in_p.id_estado_civil,in_p.id_sexo, sx.descripcion sexo, nac.descripcion nacionalidad, rcp.colecc_bicent,es.id_escolaridad,es.id_actualizacion, rcp.canaima, rcp.contrato FROM estudiantes estd 
+    LEFT OUTER JOIN info_personal in_p ON estd.ci_escolar = in_p.id_doc 
+    LEFT OUTER JOIN sexo sx ON in_p.id_sexo = sx.id_sexo 
+    LEFT OUTER JOIN nacionalidad nac ON in_p.id_nacionalidad = nac.id_nacionalidad 
+    LEFT OUTER JOIN estado edo ON estd.id_estado = edo.id_estado 
+    LEFT OUTER JOIN recursos_public rcp ON rcp.ci_escolar = estd.ci_escolar 
+    LEFT OUTER JOIN escolaridad es ON estd.ci_escolar";
     
     return $sql;
 
@@ -2505,22 +2513,189 @@ function is_exist_represent($ci){
     }
 }
 
-/*
-function actualizar_estudiante($id_doc,$id_doc_new,$id_funcion_predet,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion){
+
+function update_basic_data_student($ci_escolar,$ci_escolar_new,$id_doc,$id_estado){
 
     global $db;
 
     // Insertando datos personales genericos
     
-$sql =disable_foreing()."UPDATE docentes SET id_doc_docent = :id_doc_new,id_funcion_predet = :id_funcion_predet,id_turno = :id_turno,id_estado = :id_estado,fecha_ingreso = :fecha_ingreso,fecha_inabilitacion = :fecha_inabilitacion where id_doc_docent = :id_doc_docent; ".enable_foreing();
+$sql =disable_foreing()."UPDATE `estudiantes` SET `ci_escolar`=:ci_escolar_new,`id_doc`= :id_doc,`id_estado`=:id_estado WHERE 
+ ci_escolar = :ci_escolar; ".enable_foreing();
 
 
 $result=$db->prepare($sql);
                             
-$result->execute(array("ci_escolar" => $ci_escolar,"id_doc_est"=>$id_doc_estd,
-"id_estado"=>'3'));
+$result->execute(array("ci_escolar" => $ci_escolar,"ci_escolar_new" => $ci_escolar_new,"id_doc"=>$id_doc,"id_estado"=>$id_estado));
 
 
 }
-*/
+
+
+function update_other_data_student($ci_escolar,$ci_escolar_new,$nro_pers_viven,$hermanos,$descrip_hermanos){
+
+    global $db;
+            
+            $sql = disable_foreing()." UPDATE `otros_datos_estudiant` SET /*`ci_escolar`= :ci_escolar_new,*/`nro_pers_viven`=:nro_pers_viven,hermanos=:hermanos,`descrip_hermanos`=:descrip_hermanos WHERE  ci_escolar = :ci_escolar; ".enable_foreing();
+            
+                $result = $db->prepare($sql);
+
+                $result->execute(array("nro_pers_viven"=>$nro_pers_viven,
+                    "ci_escolar"=>$ci_escolar,/*"ci_escolar_new"=>$ci_escolar_new,*/"hermanos"=>$hermanos,"descrip_hermanos"=>$descrip_hermanos));
+}
+
+
+function update_person_estudiantes($id_doc,$id_doc_new,$ci_escolar,$ci_escolar_new,$convivencia,$ocupacion,$parentesco){
+    
+    global $db;
+
+
+$sql = disable_foreing()." UPDATE `pers_est` SET `ci_escolar`=:ci_escolar_new,`id_doc`=:id_doc_new,`convivencia`=:convivencia,`ocupacion`=:ocupacion,`parentesco`=:parentesco WHERE ci_escolar = :ci_escolar AND id_doc = :id_doc; ".enable_foreing();
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("id_doc"=>$id_doc,"id_doc_new"=>$id_doc_new,"ci_escolar"=>$ci_escolar,"ci_escolar_new"=>$ci_escolar_new,"convivencia"=>$convivencia,"ocupacion"=>$ocupacion,"parentesco"=>$parentesco));
+
+}
+
+
+function update_person_padres($id_doc_new,$id_doc,$ci_escolar,$ci_escolar_new){
+
+global $db;
+
+$sql = disable_foreing()."UPDATE `padres` SET `id_doc`=:id_doc_new,`ci_escolar`=:ci_escolar_new WHERE ci_escolar = :ci_escolar AND id_doc = :id_doc;".enable_foreing();
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar,"id_doc_new"=>$id_doc_new,"ci_escolar_new"=>$ci_escolar_new));
+
+}
+
+function update_datos_laborales($id_doc,$id_doc_new,$prof_ofic,$lugar_trab,$direcc_trab,$tlf_ofic){
+    
+    global $db;
+
+$sql = "UPDATE `laboral` SET `id_doc`=:id_doc_new,`prof_ofic`=:prof_ofic,`lugar_trab`=:lugar_trab,`direcc_trab`=:direcc_trab,`tlf_ofic`= :tlf_ofic WHERE id_doc = :id_doc;";
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("id_doc"=>$id_doc,"id_doc_new"=>$id_doc_new,"prof_ofic"=>$prof_ofic,"lugar_trab"=>$lugar_trab,"direcc_trab"=>$direcc_trab,"tlf_ofic"=>$tlf_ofic));
+}
+
+function update_person_represent($id_doc_new,$id_doc,$ci_escolar,$ci_escolar_new){
+    
+    global $db;
+$sql = disable_foreing()."UPDATE `representantes` SET `id_doc`=:id_doc_new,`ci_escolar`=:ci_escolar_new WHERE ci_escolar = :ci_escolar AND id_doc = :id_doc;".enable_foreing();
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar,"id_doc_new"=>$id_doc_new,"ci_escolar_new"=>$ci_escolar_new));
+
+
+
+}
+
+
+function update_data_salud_student($ci_escolar,$ci_escolar_new,
+             $est_croni, 
+             $desc_croni, 
+             $est_visual, 
+             $desc_visual, 
+             $est_auditivo, 
+             $desc_auditivo, 
+             $est_alergia, 
+             $desc_alergia, 
+             $est_condic_esp, 
+             $desc_condic_esp,
+             $est_vacuna,
+             $desc_vacuna,
+              $desc_psicopeda,
+              $desc_psicolo,
+             $desc_ter_lenguaje,
+             $otras_condic,
+             $desc_otras,
+             $desc_medicacion,
+             $est_medicacion,
+             $anex_inform
+         ){
+
+    global $db;
+            
+            $sql = disable_foreing()." UPDATE salud SET 
+            ci_escolar= :ci_escolar_new, 
+             est_croni=:est_croni, 
+             desc_croni=:desc_croni, 
+            est_visual=:est_visual, 
+            desc_visual = :desc_visual, 
+            est_auditivo=:est_auditivo, 
+            desc_auditivo=:desc_auditivo, 
+            est_alergia=:est_alergia, 
+            desc_alergia=:desc_alergia, 
+            est_condic_esp=:est_condic_esp, 
+            desc_condic_esp=:desc_condic_esp,
+            est_vacuna=:est_vacuna,
+            desc_vacuna=:desc_vacuna,
+            desc_psicopeda=:desc_psicopeda,
+            desc_psicolo=:desc_psicolo,
+            desc_ter_lenguaje=:desc_ter_lenguaje,
+            otras_condic=:otras_condic,
+            desc_otras=:desc_otras,
+            desc_medicacion=:desc_medicacion,
+            est_medicacion=:est_medicacion,
+            anex_inform=:anex_inform WHERE ci_escolar = :ci_escolar; ".enable_foreing();
+
+
+                $result = $db->prepare($sql);
+
+                $result->execute(array("est_croni"=>$est_croni,
+                    "ci_escolar"=>$ci_escolar,
+                    "ci_escolar_new"=>$ci_escolar_new,
+                "desc_croni"=>$desc_croni,
+                "est_visual"=>$est_visual,
+                "desc_visual"=>$desc_visual,
+                "est_auditivo"=>$est_auditivo,
+                "desc_auditivo"=>$desc_auditivo,
+                "est_alergia"=>$est_alergia,
+                "desc_alergia"=>$desc_alergia,
+                "est_condic_esp" => $est_condic_esp,
+                "desc_condic_esp" => $desc_condic_esp,
+                "desc_vacuna"=>$desc_vacuna,
+                "est_vacuna"=>$est_vacuna,
+                "desc_psicopeda"=>$desc_psicopeda,
+                "desc_psicolo"=>$desc_psicolo,
+                "desc_ter_lenguaje"=>$desc_ter_lenguaje,
+                "otras_condic"=>$otras_condic,
+                "desc_otras"=>$desc_otras,
+                "desc_medicacion"=>$desc_medicacion,
+                "est_medicacion"=>$est_medicacion,
+                "anex_inform"=>$anex_inform));
+
+}
+
+
+function update_movilidad_student($ci_escolar,$ci_escolar_new,$est_ret,$desc_ret,$est_tranport,$desc_tranport){
+
+global $db;
+
+$sql = disable_foreing().' UPDATE `movilidad` SET ci_escolar=:ci_escolar_new,est_ret=:est_ret,desc_ret=:desc_ret,est_tranport =:est_tranport, desc_tranport=:desc_tranport WHERE ci_escolar = :ci_escolar; '.enable_foreing();
+
+                    $result = $db->prepare($sql);
+
+    $result->execute(array("ci_escolar"=>$ci_escolar,"ci_escolar_new"=>$ci_escolar_new,"est_ret"=>$est_ret, "desc_ret"=>$desc_ret,"est_tranport"=>$est_tranport,"desc_tranport"=>$desc_tranport));
+
+}
+
+function update_person_retirar($id_doc_new,$id_doc,$ci_escolar,$ci_escolar_new){
+    
+    global $db;
+
+    $sql = disable_foreing()."UPDATE `pers_retirar` SET `id_doc`=:id_doc_new,`ci_escolar`=:ci_escolar_new WHERE ci_escolar = :ci_escolar AND id_doc = :id_doc;".enable_foreing();
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar,"id_doc_new"=>$id_doc_new,"ci_escolar_new"=>$ci_escolar_new));
+
+}
+
+
 ?>
