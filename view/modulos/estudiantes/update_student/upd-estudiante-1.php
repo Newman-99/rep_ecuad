@@ -112,7 +112,7 @@ $_SESSION['sesionform1'][$clave] = $valor;
 
 }
 
- actualizar_persona($nacionalidad $ci_escolar,$ci_escolar,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,'','','','','');
+ actualizar_persona($nacionalidad,$ci_escolar,$ci_escolar,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,'','','','','');
 
 update_basic_data_student($ci_escolar,$ci_escolar,$id_doc_new,'3');
 
@@ -163,7 +163,6 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
                                 
     <?php $nombres_compilacion = explode(" ", $registro['nombre']);
 
-            var_dump($nombres_compilacion);
                                  ?>
 
                                 <div class="row">

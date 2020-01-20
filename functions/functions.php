@@ -923,10 +923,12 @@ $result->execute($parameters);
         
     }
 
-function cantidad_estudent($id_clase,$id_estado){
+function tipo_student_x_clase($id_clase,$id_estado){
     global $db;
 
-    $sql="SELECT cl.id_clase,esa.ci_escolar FROM clases cl INNER JOIN estudiantes_asignados esa ON cl.id_clase = esa.id_clase WHERE esa.id_estado = :id_estado AND cl.id_clase = :id_clase";
+    $sql="SELECT est.id_estado FROM clases cl 
+    INNER JOIN estudiantes_asignados esa ON cl.id_clase = esa.id_clase
+    INNER JOIN estudiantes est ON esa.ci_escolar = est.ci_escolar WHERE est.id_estado = :id_estado AND esa.id_clase = :id_clase";
                                     
     $result=$db->prepare($sql);
                             
@@ -938,6 +940,40 @@ function cantidad_estudent($id_clase,$id_estado){
    
 }
 
+function tipo_student_x_contrato_clas($id_clase,$id_estado){
+    global $db;
+
+    $sql="SELECT est.id_estado FROM clases cl 
+    INNER JOIN estudiantes_asignados esa ON cl.id_clase = esa.id_clase
+    INNER JOIN estudiantes est ON esa.ci_escolar = est.ci_escolar WHERE esa.id_estado = :id_estado AND cl.id_clase = :id_clase";
+                                    
+    $result=$db->prepare($sql);
+                            
+    $result->execute(array(":id_estado"=>$id_estado,":id_clase"=>$id_clase));
+    
+   $count=$result->rowCount();
+
+   return $count;
+   
+}
+
+function tipo_sexo_student_x_clase($id_clase,$id_sexo){
+    global $db;
+    $sql=" SELECT in_p.id_sexo FROM clases cl
+    INNER JOIN estudiantes_asignados esa ON cl.id_clase = esa.id_clase
+    INNER JOIN estudiantes est ON esa.ci_escolar = est.ci_escolar 
+    INNER JOIN info_personal in_p ON est.ci_escolar = in_p.id_doc
+ 
+    WHERE in_p.id_sexo = :id_sexo AND esa.id_clase = :id_clase;";
+                                    
+    $result=$db->prepare($sql);
+                            
+    $result->execute(array(":id_sexo"=>$id_sexo,":id_clase"=>$id_clase));
+
+   $count=$result->rowCount();
+
+   return $count;
+   }
 
 
 function is_exist_student($ci){
