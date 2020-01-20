@@ -255,13 +255,13 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
                      <?php    if(valid_inicio_sesion('2')) {  ?>
 
                     <td>
-                    <form action='upd-estudiante-1.php' method='post'>
+                    <form action='./update_student/upd-estudiante-1.php' method='post'>
                         
-                        <button type='submit' id='button-modi' value=".$registro['ci_escolar']." name ='update_student'> Actualizar</button>
+                        <button type='submit' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='update_student'> Actualizar</button>
                     </form>
 
 
-                        <form action='mas_info_student.php' method='post'>
+                        <form action='<?php echo $registro['ci_escolar']; ?>' method='post'>
                         
                         <button type='submit' class='icon-list1' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='mas_info_student' >Mas Informacion</button>
                          
@@ -272,14 +272,14 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
                         
                       <?php  if(valid_inicio_sesion('2')) { ?>
 
-<!--                      
+                     
                         <form action='eliminar_destudiante.php' method='post'>
                         
                         <button type='submit' icon='button-cancel' id='button-modi' value=".$registro['ci_escolar']." name ='eliminar_estudiantet' >Eliminar</button>
                          
                          </form>
 
-                     -->
+                    
                      <?php } ?>
 
                   <br><br></td></tr>

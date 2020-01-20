@@ -73,18 +73,21 @@ $lugar_nac=trim($lugar_nac);
 $direcc_hab=trim($direcc_hab);
 $fecha_nac=trim($fecha_nac);
 
+$apellido_p = filtrar_nombres_apellidos($apellido_p);
+$nombre1=filtrar_nombres_apellidos($nombre1);
+
 $err_nom_apell =validar_nombres_apellidos($nombre1,$apellido_p);
 
 if(!empty($apellido_m)){
-$err_nom_apell = validar_nombres_apellidos($apellido_m);
 $apellido_m=filtrar_nombres_apellidos($apellido_m);
+$err_nom_apell = validar_nombres_apellidos($apellido_m);
 }else{
     $apellido_m="";
 }
 
 if(!empty($nombre2)){
-$err_nom_apell=validar_nombres_apellidos($nombre2);
 $nombre2=filtrar_nombres_apellidos($nombre2);
+$err_nom_apell=validar_nombres_apellidos($nombre2);
 }else{
     $nombre2 = "";
 }
@@ -177,16 +180,16 @@ $errors[]= "<a href='reg-estudiante-2.php'>
                                     
                                     <div class="col-lg-6 my-2">
                                         <label for="">Fecha de Nacimiento:</label>
-                                        <input type="text" name="fecha_nac" value="<?php if(isset($fecha_nac)) echo $fecha_nac; ?>" id="" placeholder="Fecha" class="form-control" required>
+                                        <input type="text" name="fecha_nac" value="<?php if(isset($fecha_nac)) echo $fecha_nac; ?>" id="" placeholder="Fecha" class="form-control" required>r
                                     </div>
                                 </div>
 
                              
                                 <div class="row">
+
                                     <div class="col-lg-6 my-2">
                                         <label for="">Lugar de Nacimiento:</label>
                                         <textarea rows="3" cols="40" name="lugar_nac" id="" class="form-control" placeholder="Lugar de nacimiento" required><?php if(isset($lugar_nac)) echo $lugar_nac;?></textarea>
-                                    </div>
 
                                     <div class="col-lg-6 my-2">
                                         <label for="">Dirección de Habitación:</label>
@@ -211,20 +214,6 @@ $errors[]= "<a href='reg-estudiante-2.php'>
                                         <input type="text" name="contrato_canaima" value="<?php if(isset($contrato_canaima)) echo $contrato_canaima; ?>" id="" class="mx-2  form-control" placeholder="Contrato">
                                         </div>
                                     </div>
-                                
-
-                                    <div class="col-lg-6 my-2">
-                                        <p for="" class="">Posee coleccion bicentenaria:</p>
-                                        <label for="" class="">Si:</label>
-                                        <input type="radio" name="colecc_bicent" 
-                                        <?php if(isset($_POST["colecc_bicent"])){ if($_POST["colecc_bicent"] == '1') echo "checked";}else{if(isset($colecc_bicent)){ if($colecc_bicent == '1') echo "checked";}}?>  value="1" id="">
-
-                                        <label for="" class="">No:</label>
-                                        <input type="radio" name="colecc_bicent" <?php if(isset($_POST["colecc_bicent"])){ if($_POST["colecc_bicent"] == '0') echo "checked";}else{if(isset($colecc_bicent)){ if($colecc_bicent == '0') echo "checked";}}
-                                        ?> value="0" id="">
-                                    </div>
-                                    
-                                </div>
 
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
 

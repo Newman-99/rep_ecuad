@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 16-01-2020 a las 04:35:10
+-- Tiempo de generación: 19-01-2020 a las 04:13:44
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.3.1
 
@@ -31,7 +31,6 @@ SET time_zone = "+00:00";
 CREATE TABLE `actualizacion` (
   `ci_escolar` varchar(15) NOT NULL,
   `id_doc_admin` varchar(15) NOT NULL,
-  `grado` varchar(1) NOT NULL,
   `fecha` date NOT NULL,
   `id_actualizacion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -40,12 +39,15 @@ CREATE TABLE `actualizacion` (
 -- Volcado de datos para la tabla `actualizacion`
 --
 
-INSERT INTO `actualizacion` (`ci_escolar`, `id_doc_admin`, `grado`, `fecha`, `id_actualizacion`) VALUES
-('V01228117879', '28117206', '1', '2020-01-12', 1),
-('37888909', '28117206', '1', '2020-01-14', 9),
-('37888909', '28117206', '1', '2020-01-14', 10),
-('37888909', '28117206', '1', '2020-01-14', 11),
-('37888909', '28117206', '1', '2020-01-14', 12);
+INSERT INTO `actualizacion` (`ci_escolar`, `id_doc_admin`, `fecha`, `id_actualizacion`) VALUES
+('V01228117879', '28117206', '2020-01-12', 1),
+('37888909', '28117206', '2020-01-14', 9),
+('37888909', '28117206', '2020-01-14', 10),
+('37888909', '28117206', '2020-01-14', 11),
+('38999029', '28117206', '2020-01-14', 12),
+('38999029', '28117206', '2020-01-17', 14),
+('38999029', '28117206', '2020-01-17', 15),
+('34999029', '28117206', '2020-01-18', 16);
 
 -- --------------------------------------------------------
 
@@ -194,12 +196,14 @@ INSERT INTO `contact_basic` (`id_doc`, `tlf_local`, `tlf_cel`, `tlf_emergecia`, 
 ('12898767', '04122029099', '02392092911', '', ''),
 ('15992209', '02392292999', '0426020001', '', ''),
 ('18277902', '04267728988', '20392992898', '', 'carl_ov@gmail.com'),
+('18299090', '02392229989', '04122020933', '', 'andre333@gmail.com'),
 ('19220909', '04128889787', '02393282099', '', 'herr_nesto@outlook.com'),
 ('20119090', '04249890077', '023933398', '', 'elenis233@hotmail.com'),
 ('20199002', '0212003900', '02391092099', '', 'sandra782@gmail.com'),
 ('28117201', '0412202901', '023929290', '', 'nal@gmail.com'),
 ('28117206', '02390172334', '04120172922', '', 'newmanrodriguez1999@gmail.com'),
 ('28122679', '04120203399', '20382228001', '', 'caral22@Gmail.com'),
+('5888956', '02390290927', '04129290290', '04267772878', ''),
 ('5930330', '02392030099', '04244404040', '', 'andr62@gmail.com'),
 ('7222908', '02392092908', '0412290000', '', 'ana1967@gmail.com');
 
@@ -237,12 +241,11 @@ INSERT INTO `docentes` (`id_doc_docent`, `id_funcion_predet`, `id_turno`, `id_es
 
 CREATE TABLE `escolaridad` (
   `ci_escolar` varchar(15) NOT NULL,
+  `grado` varchar(1) NOT NULL,
+  `anio_escolar2` int(4) NOT NULL,
+  `anio_escolar1` int(4) NOT NULL,
   `plantel_proced` varchar(50) NOT NULL,
   `localidad` varchar(30) NOT NULL,
-  `anio_escolar1` year(4) NOT NULL,
-  `anio_escolar2` year(4) NOT NULL,
-  `grado` int(1) NOT NULL,
-  `seccion` varchar(1) NOT NULL,
   `calif_def` varchar(1) NOT NULL,
   `repitiente` tinyint(1) NOT NULL,
   `observs` varchar(200) NOT NULL,
@@ -254,12 +257,11 @@ CREATE TABLE `escolaridad` (
 -- Volcado de datos para la tabla `escolaridad`
 --
 
-INSERT INTO `escolaridad` (`ci_escolar`, `plantel_proced`, `localidad`, `anio_escolar1`, `anio_escolar2`, `grado`, `seccion`, `calif_def`, `repitiente`, `observs`, `id_escolaridad`, `id_actualizacion`) VALUES
-('V01228117879', 'U.E.N Francisco de Miranda', 'La paz', 2018, 2019, 1, 'A', 'A', 1, 'Ninguna', 2, 1),
-('37888909', 'Escuela Andres Bello', 'Bellas Artes', 2018, 2019, 1, 'A', 'A', 0, 'Ninguna', 6, 9),
-('37888909', 'Escuela Andres Bello', 'Bellas Artes', 2018, 2019, 1, 'A', 'A', 0, 'Ninguna', 7, 10),
-('37888909', 'Escuela Andres Bello', 'Bellas Artes', 2018, 2019, 1, 'A', 'A', 0, 'Ninguna', 8, 11),
-('37888909', 'Escuela Andres Bello', 'Bellas Artes', 2018, 2019, 1, 'A', 'A', 0, 'Ninguna', 9, 12);
+INSERT INTO `escolaridad` (`ci_escolar`, `grado`, `anio_escolar2`, `anio_escolar1`, `plantel_proced`, `localidad`, `calif_def`, `repitiente`, `observs`, `id_escolaridad`, `id_actualizacion`) VALUES
+('V01228117879', '4', 0, 0, 'U.E.N Francisco de Miranda', 'La paz', 'A', 1, 'Ninguna', 2, 1),
+('37888909', '4', 0, 0, 'Escuela Andres Bello', 'Bellas Artes', 'A', 0, 'Ninguna', 6, 9),
+('38999029', '1', 2019, 2018, 'U.E Fransico de Miranda', 'Petare', '', 0, '', 9, 15),
+('34999029', '4', 2019, 2018, 'U.E Fransico de Miranda', 'Petare', '', 1, '', 10, 16);
 
 -- --------------------------------------------------------
 
@@ -292,22 +294,23 @@ INSERT INTO `estado` (`id_estado`, `descripcion`) VALUES
 CREATE TABLE `estudiantes` (
   `ci_escolar` varchar(15) NOT NULL,
   `id_doc` varchar(15) NOT NULL,
-  `id_estado` int(1) NOT NULL,
-  `grado` int(11) NOT NULL
+  `id_estado` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `estudiantes`
 --
 
-INSERT INTO `estudiantes` (`ci_escolar`, `id_doc`, `id_estado`, `grado`) VALUES
-('32020390', '32020390', 1, 1),
-('37888909', '37888909', 1, 0),
-('38873956', '', 1, 1),
-('38938390', '', 2, 1),
-('39029283', '', 1, 0),
-('V01228117879', '', 1, 0),
-('V19913903883', '', 1, 0);
+INSERT INTO `estudiantes` (`ci_escolar`, `id_doc`, `id_estado`) VALUES
+('32020390', '32020390', 1),
+('34999029', '34999029', 3),
+('37888909', '37888909', 1),
+('38873956', '', 1),
+('38938390', '', 2),
+('38999029', '38999029', 3),
+('39029283', '', 1),
+('V01228117879', '', 1),
+('V19913903883', '', 3);
 
 -- --------------------------------------------------------
 
@@ -318,15 +321,19 @@ INSERT INTO `estudiantes` (`ci_escolar`, `id_doc`, `id_estado`, `grado`) VALUES
 CREATE TABLE `estudiantes_asignados` (
   `ci_escolar` varchar(15) CHARACTER SET utf8 NOT NULL,
   `id_clase` varchar(15) CHARACTER SET utf8 NOT NULL,
-  `id_estado` int(1) NOT NULL
+  `id_estado` int(1) NOT NULL,
+  `id_asignacion` int(11) NOT NULL,
+  `id_actualizacion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `estudiantes_asignados`
 --
 
-INSERT INTO `estudiantes_asignados` (`ci_escolar`, `id_clase`, `id_estado`) VALUES
-('32020390', '4-A-2018-2019-1', 1);
+INSERT INTO `estudiantes_asignados` (`ci_escolar`, `id_clase`, `id_estado`, `id_asignacion`, `id_actualizacion`) VALUES
+('V01228117879', '4-A-2018-2019-1', 1, 1, 1),
+('38999029', '1-A-2018-2019-1', 1, 4, 12),
+('34999029', '4-A-2018-2019-1', 1, 5, 16);
 
 -- --------------------------------------------------------
 
@@ -407,6 +414,7 @@ INSERT INTO `info_personal` (`id_doc`, `nombre`, `apellido_p`, `apellido_m`, `fe
 ('12898767', 'Carlos', 'Rodriguez', 'Perez', '0000-00-00', '', '', 1, 2, 1),
 ('15992209', 'Alberto', 'Gonzales', 'Prada', '0000-00-00', '', '', 1, 1, 1),
 ('18277902', 'Carlos Jesus Antonio', 'Hernandez', 'Alvarado', '1987-03-11', 'Miranda, Valles del Tuy, Ocumare.', 'Dpto Capital, Municipio Libertador,El Paraiso', 1, 1, 1),
+('18299090', 'Adreina Antonieta', 'Rodriguez', 'Ramos', '1992-02-22', 'Edo. Carabobo, Valencia', 'Caracas', 1, 1, 2),
 ('19220909', 'Hernesto', 'Herrera', 'Oviedo', '1989-04-01', 'Caracas, Municipio Libertador', 'Caracas, La paz.', 1, 1, 1),
 ('20119090', 'Elena Maria', 'Espinoza', 'Ramos', '1990-11-09', 'Estado Carabobo Valencia.', 'Miranda, Petare', 1, 1, 2),
 ('20199002', 'Sandra Maria', 'Oviedo', 'Uzcategui', '1990-02-02', 'Dpto Capital, Municipio Libertador, Chacao', 'Dpto Capital, Municipio Libertador,El Paraiso', 1, 1, 2),
@@ -416,12 +424,15 @@ INSERT INTO `info_personal` (`id_doc`, `nombre`, `apellido_p`, `apellido_m`, `fe
 ('28122679', 'Carla', 'Jordan', 'Cardenal', '1995-07-30', 'Caracas', 'Caracas', 1, 4, 2),
 ('32020390', 'Andrea Mariella', 'Sanchez', 'Giordano', '2014-11-01', 'Italia, Roma', 'Caracas, Chacao', 2, 1, 2),
 ('34117208', 'Andres Enrique', 'Rodriguez', 'Murcia', '2010-11-01', 'Miranda, Los Teques', 'Miranda, Los Teques', 1, 1, 1),
+('34999029', 'Juan Felipe', 'Rodriguez', '', '2008-01-19', 'Caracas', 'Caracas', 1, 1, 1),
 ('37888909', 'Jose Julian', 'Herrera', 'Espinoza', '2010-01-21', 'Caracas, Municipio Libertador.', 'Miranda, Petare.', 1, 1, 1),
 ('38873956', 'Pedro', 'Oviedo', 'Martinez', '2014-05-07', 'Miranda, Los Valles del tuy', 'Dpto Capital, Catia', 1, 1, 1),
 ('38938390', 'Calos Alexander', 'Hernandez', 'Aparicio', '2013-11-01', 'Cojedes, San Carlos.', 'Dpto Capital, La Candelaria', 1, 1, 1),
+('38999029', 'Carlos Felipe', 'Rodriguez', '', '2010-01-19', 'Caracas', 'Caracas', 1, 1, 1),
 ('39029283', 'Angela Alessandra', 'Uzcategui', 'Rodrguez', '2014-11-08', 'Dpto Capital, San Martín', 'Dpto Capital, La Paz', 1, 1, 2),
+('5888956', 'Antonella', 'Rodriguez', 'Perez', '0000-00-00', '', '', 1, 2, 2),
 ('5930330', 'Andrea Francisca', 'Cardenal', 'Uzcategui', '1960-11-11', 'Edo Carabobo Valencia', 'Edo Carabobo Valencia', 1, 1, 2),
-('7222908', '', 'Fernandez', 'Ramos', '1967-01-03', 'Dpto Capital, Municipio Libertador,San Martin', 'Dpto Capital, Municipio Libertador, El paraiso', 1, 2, 2),
+('7222908', 'Ana Francisca', 'Fernandez', 'Ramos', '1967-01-03', 'Dpto Capital, Municipio Libertador,San Martin', 'Dpto Capital, Municipio Libertador, El paraiso', 1, 2, 2),
 ('No asignado', '', '', '', '0000-00-00', '', '', 1, 1, 1),
 ('V01228117879', 'Carlos Esteban', 'Herandes', 'Oviedo', '2010-01-24', 'Dpto. Capital, Municipio Libertador, San Martin', 'Dpto. Capital, Municipio Libertador, El Paraiso', 1, 1, 1),
 ('V19913903883', 'Dias ', 'Carlos', '', '2019-12-31', 'Caracas', 'Caracas', 1, 1, 1);
@@ -445,7 +456,8 @@ CREATE TABLE `laboral` (
 --
 
 INSERT INTO `laboral` (`id_doc`, `prof_ofic`, `lugar_trab`, `direcc_trab`, `tlf_ofic`) VALUES
-('18277902', 'Obrero', 'Liceo Andres Bello', 'Bellas Artes', '02398929090'),
+('18277902', 'Obrero', 'Liceo Andres Bello', 'La candelaria', '02398929090'),
+('18299090', 'Docente', 'Liceo Andres Bello', 'La Candelaria', '02399092987'),
 ('20119090', 'Secretario', 'Edif. Los dos caminos', 'Los dos Caminos', '04129209298');
 
 -- --------------------------------------------------------
@@ -467,8 +479,11 @@ CREATE TABLE `movilidad` (
 --
 
 INSERT INTO `movilidad` (`ci_escolar`, `est_ret`, `desc_ret`, `est_tranport`, `desc_tranport`) VALUES
+('34999029', 0, '', 0, ''),
 ('37888909', 0, '', 0, ''),
-('V01228117879', 0, '', 1, 'Un trasporte pasa por el a las 12:00');
+('38999029', 0, '', 0, ''),
+('V01228117879', 0, '', 1, 'Un trasporte pasa por el a las 12:00'),
+('V19913903883', 0, 'desc_ret', 0, 'desc_tranport');
 
 -- --------------------------------------------------------
 
@@ -497,8 +512,20 @@ INSERT INTO `nacionalidad` (`id_nacionalidad`, `descripcion`) VALUES
 
 CREATE TABLE `otros_datos_estudiant` (
   `ci_escolar` varchar(15) NOT NULL,
-  `nro_pers_viven` int(2) NOT NULL
+  `nro_pers_viven` int(2) NOT NULL,
+  `hermanos` tinyint(1) NOT NULL,
+  `descrip_hermanos` varchar(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `otros_datos_estudiant`
+--
+
+INSERT INTO `otros_datos_estudiant` (`ci_escolar`, `nro_pers_viven`, `hermanos`, `descrip_hermanos`) VALUES
+('34999029', 2, 1, '38999029'),
+('38999029', 2, 0, ''),
+('V01228117879', 4, 0, ''),
+('V19913903883', 3, 0, '');
 
 -- --------------------------------------------------------
 
@@ -518,9 +545,12 @@ CREATE TABLE `padres` (
 
 INSERT INTO `padres` (`id_doc`, `id_tip_padre`, `ci_escolar`) VALUES
 ('18277902', 2, 'V01228117879'),
+('18299090', 1, '34999029'),
+('18299090', 1, '38999029'),
 ('19220909', 2, '37888909'),
 ('20119090', 1, '37888909'),
-('20199002', 1, 'V01228117879');
+('20199002', 1, 'V01228117879'),
+('7222908', 2, 'V19913903883');
 
 -- --------------------------------------------------------
 
@@ -548,7 +578,11 @@ INSERT INTO `pers_est` (`ci_escolar`, `id_doc`, `convivencia`, `ocupacion`, `par
 ('V01228117879', '12898767', 0, '', 'Tio', 21),
 ('37888909', '19220909', 0, 'Obrero', 'Padre', 44),
 ('37888909', '15992209', 0, '', 'Primo', 45),
-('37888909', '20119090', 0, 'Jardinero', 'Padre', 58);
+('37888909', '20119090', 0, 'Jardinero', 'Padre', 58),
+('38999029', '18299090', 1, 'Docente', 'Madre', 59),
+('34999029', '18299090', 1, 'Docente', 'Madre', 63),
+('34999029', '5888956', 0, '', 'Tia', 64),
+('V19913903883', '5930330', 0, 'Obrero', 'Primo', 66);
 
 -- --------------------------------------------------------
 
@@ -567,7 +601,9 @@ CREATE TABLE `pers_retirar` (
 
 INSERT INTO `pers_retirar` (`id_doc`, `ci_escolar`) VALUES
 ('12898767', 'V01228117879'),
-('15992209', '37888909');
+('15992209', '37888909'),
+('5888956', '34999029'),
+('5930330', 'V19913903883');
 
 -- --------------------------------------------------------
 
@@ -639,7 +675,10 @@ CREATE TABLE `recursos_public` (
 --
 
 INSERT INTO `recursos_public` (`ci_escolar`, `colecc_bicent`, `canaima`, `contrato`) VALUES
+('32020390', 1, 1, 'HAJ123A'),
+('34999029', 1, 0, ''),
 ('37888909', 1, 1, 'bjku121g'),
+('38999029', 1, 1, '23DS23L'),
 ('V01228117879', 1, 0, ''),
 ('V19913903883', 1, 1, 'ss');
 
@@ -659,7 +698,9 @@ CREATE TABLE `representantes` (
 --
 
 INSERT INTO `representantes` (`id_doc`, `ci_escolar`) VALUES
-('12898767', 'V01228117879'),
+('18299090', '34999029'),
+('18299090', '38999029'),
+('19220909', 'V19913903883'),
 ('20119090', '37888909'),
 ('7222908', 'V01228117879');
 
@@ -698,19 +739,10 @@ CREATE TABLE `salud` (
 --
 
 INSERT INTO `salud` (`ci_escolar`, `est_croni`, `desc_croni`, `est_visual`, `desc_visual`, `est_auditivo`, `desc_auditivo`, `est_alergia`, `desc_alergia`, `est_condic_esp`, `desc_condic_esp`, `est_vacuna`, `desc_vacuna`, `desc_psicopeda`, `desc_psicolo`, `desc_ter_lenguaje`, `otras_condic`, `desc_otras`, `desc_medicacion`, `est_medicacion`, `anex_inform`) VALUES
-('V19913903883', 1, 'Denogislo agudo', 1, 'Miopia', 0, '', 0, '', 1, 'Paliperjia', 1, 'Muchas', '', 'De vez en cuando', '', '', '', 'Diamixtrisil', 1, 1),
-('V01228117879', 1, '                                                                                                Denogislo agudo                                       ', 1, '                                                                                                Miopia                                                ', 0, '                                                                                                                                                      ', 0, '                                                                                                                                                      ', 0, '                                                                                                                                                      ', 1, '                                                Difteria                                            ', '', 'Tiene atencion mensual de revision', '', '', '                                                                                                                                                      ', 'Diamixtrisil', 1, 1),
-('V01228117879', 1, '                                                                                                Denogislo agudo                                       ', 1, '                                                                                                Miopia                                                ', 0, '                                                                                                                                                      ', 0, '                                                                                                                                                      ', 0, '                                                                                                                                                      ', 1, '                                                Difteria                                            ', '', 'Tiene atencion mensual de revision', '', '', '                                                                                                                                                      ', 'Diamixtrisil', 1, 1),
-('V01228117879', 1, 'Denogislo agudo', 1, 'Miopia', 0, '', 0, '', 0, '', 1, 'Difteria', '', 'Tiene atencion mensual de revision', '', '', '', 'Diamixtrisil', 1, 1),
-('37888909', 0, '', 0, '', 0, '', 1, 'Al polen', 0, '', 1, 'Difteria\r\nTetano', '', '', '', '', '', '', 0, 0),
-('37888909', 0, '', 0, '', 0, '', 1, 'Al polen', 0, '', 1, 'Difteria\r\nTetano', '', '', '', '', '', '', 0, 0),
-('37888909', 0, '', 0, '', 0, '', 1, 'Al polen', 0, '', 1, 'Difteria\r\nTetano', '', '', '', '', '', '', 0, 0),
-('37888909', 0, '', 0, '', 0, '', 1, 'Al polen', 0, '', 1, 'Difteria\r\nTetano', '', '', '', '', '', '', 0, 0),
-('37888909', 0, '', 0, '', 0, '', 1, 'Al polen', 0, '', 1, 'Difteria\r\nTetano', '', '', '', '', '', '', 0, 0),
-('37888909', 0, '', 0, '', 0, '', 1, 'Al polen', 0, '', 1, 'Difteria\r\nTetano', '', '', '', '', '', '', 0, 0),
-('37888909', 0, '', 0, '', 0, '', 1, 'Al polen', 0, '', 1, 'Difteria\r\nTetano', '', '', '', '', '', '', 0, 0),
-('37888909', 0, '', 0, '', 0, '', 1, 'Al polen', 0, '', 1, 'Difteria\r\nTetano', '', '', '', '', '', '', 0, 0),
-('37888909', 0, '', 0, '', 0, '', 1, 'Al polen', 0, '', 1, 'Difteria\r\nTetano', '', '', '', '', '', '', 0, 0);
+('34999029', 0, '', 0, '', 0, '', 0, '', 0, '', 1, 'Malaria', '', '', '', '', '', '', 0, 0),
+('38999029', 0, '', 1, 'Miopia', 0, '', 0, '', 0, '', 1, 'Malaria', '', '', '', '', '', '', 0, 0),
+('V01228117879', 0, '', 0, '', 0, '', 1, 'Al polen', 0, '', 1, 'Difteria\r\nTetano', '', '', '', '', '', '', 0, 0),
+('V19913903883', 0, 'desc_croni', 0, 'desc_visual', 0, 'desc_auditivo', 0, 'desc_alergia', 0, 'desc_condic_esp', 0, 'desc_vacuna', 'desc_psicopeda', 'desc_psicolo', 'desc_ter_lenguaje', 'otras_condic', 'desc_otras', 'desc_medicacion', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -809,7 +841,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_doc`, `id_tip_usr`, `pass`, `ult_sesion`) VALUES
-('28117206', 1, '$2y$10$c5ErD1p.Iso6jAg4PWjrve4.grv2ln2tiafF1OsOhazw1Xvqt0vcW', '2020-01-15');
+('28117206', 1, '$2y$10$c5ErD1p.Iso6jAg4PWjrve4.grv2ln2tiafF1OsOhazw1Xvqt0vcW', '2020-01-18');
 
 --
 -- Índices para tablas volcadas
@@ -912,9 +944,11 @@ ALTER TABLE `estudiantes`
 -- Indices de la tabla `estudiantes_asignados`
 --
 ALTER TABLE `estudiantes_asignados`
+  ADD PRIMARY KEY (`id_asignacion`),
   ADD KEY `id_estado` (`id_estado`),
   ADD KEY `ci_escolar` (`ci_escolar`),
-  ADD KEY `id_clase` (`id_clase`);
+  ADD KEY `id_clase` (`id_clase`),
+  ADD KEY `id_actualizacion` (`id_actualizacion`);
 
 --
 -- Indices de la tabla `est_civil`
@@ -967,26 +1001,30 @@ ALTER TABLE `nacionalidad`
 -- Indices de la tabla `otros_datos_estudiant`
 --
 ALTER TABLE `otros_datos_estudiant`
-  ADD KEY `ci_escolar` (`ci_escolar`);
+  ADD PRIMARY KEY (`ci_escolar`);
 
 --
 -- Indices de la tabla `padres`
 --
 ALTER TABLE `padres`
   ADD PRIMARY KEY (`id_doc`,`id_tip_padre`,`ci_escolar`),
-  ADD KEY `id_tip_padre` (`id_tip_padre`);
+  ADD KEY `id_tip_padre` (`id_tip_padre`),
+  ADD KEY `ci_escolar` (`ci_escolar`);
 
 --
 -- Indices de la tabla `pers_est`
 --
 ALTER TABLE `pers_est`
-  ADD PRIMARY KEY (`id_pers_est`);
+  ADD PRIMARY KEY (`id_pers_est`),
+  ADD KEY `ci_escolar` (`ci_escolar`),
+  ADD KEY `id_doc` (`id_doc`);
 
 --
 -- Indices de la tabla `pers_retirar`
 --
 ALTER TABLE `pers_retirar`
-  ADD PRIMARY KEY (`id_doc`,`ci_escolar`);
+  ADD PRIMARY KEY (`id_doc`,`ci_escolar`),
+  ADD KEY `ci_escolar` (`ci_escolar`);
 
 --
 -- Indices de la tabla `plantillas`
@@ -1018,12 +1056,14 @@ ALTER TABLE `recursos_public`
 -- Indices de la tabla `representantes`
 --
 ALTER TABLE `representantes`
-  ADD PRIMARY KEY (`id_doc`,`ci_escolar`);
+  ADD PRIMARY KEY (`id_doc`,`ci_escolar`),
+  ADD KEY `ci_escolar` (`ci_escolar`);
 
 --
 -- Indices de la tabla `salud`
 --
 ALTER TABLE `salud`
+  ADD PRIMARY KEY (`ci_escolar`),
   ADD KEY `ci_escolar` (`ci_escolar`);
 
 --
@@ -1065,7 +1105,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `actualizacion`
 --
 ALTER TABLE `actualizacion`
-  MODIFY `id_actualizacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_actualizacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `clases_asignadas`
@@ -1077,13 +1117,19 @@ ALTER TABLE `clases_asignadas`
 -- AUTO_INCREMENT de la tabla `escolaridad`
 --
 ALTER TABLE `escolaridad`
-  MODIFY `id_escolaridad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_escolaridad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `estudiantes_asignados`
+--
+ALTER TABLE `estudiantes_asignados`
+  MODIFY `id_asignacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `pers_est`
 --
 ALTER TABLE `pers_est`
-  MODIFY `id_pers_est` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id_pers_est` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT de la tabla `plantillas`
@@ -1157,7 +1203,8 @@ ALTER TABLE `estudiantes_asignados`
   ADD CONSTRAINT `estudiantes_asignados_ibfk_3` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`),
   ADD CONSTRAINT `estudiantes_asignados_ibfk_4` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`),
   ADD CONSTRAINT `estudiantes_asignados_ibfk_5` FOREIGN KEY (`id_estado`) REFERENCES `estado` (`id_estado`),
-  ADD CONSTRAINT `estudiantes_asignados_ibfk_6` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`);
+  ADD CONSTRAINT `estudiantes_asignados_ibfk_6` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`),
+  ADD CONSTRAINT `estudiantes_asignados_ibfk_7` FOREIGN KEY (`id_actualizacion`) REFERENCES `actualizacion` (`id_actualizacion`);
 
 --
 -- Filtros para la tabla `info_personal`
@@ -1174,6 +1221,12 @@ ALTER TABLE `laboral`
   ADD CONSTRAINT `laboral_ibfk_1` FOREIGN KEY (`id_doc`) REFERENCES `info_personal` (`id_doc`);
 
 --
+-- Filtros para la tabla `movilidad`
+--
+ALTER TABLE `movilidad`
+  ADD CONSTRAINT `movilidad_ibfk_1` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`);
+
+--
 -- Filtros para la tabla `otros_datos_estudiant`
 --
 ALTER TABLE `otros_datos_estudiant`
@@ -1183,7 +1236,36 @@ ALTER TABLE `otros_datos_estudiant`
 -- Filtros para la tabla `padres`
 --
 ALTER TABLE `padres`
-  ADD CONSTRAINT `padres_ibfk_2` FOREIGN KEY (`id_tip_padre`) REFERENCES `tipos_padres` (`id_tip_padre`);
+  ADD CONSTRAINT `padres_ibfk_2` FOREIGN KEY (`id_tip_padre`) REFERENCES `tipos_padres` (`id_tip_padre`),
+  ADD CONSTRAINT `padres_ibfk_3` FOREIGN KEY (`id_doc`) REFERENCES `pers_est` (`id_doc`),
+  ADD CONSTRAINT `padres_ibfk_4` FOREIGN KEY (`ci_escolar`) REFERENCES `pers_est` (`ci_escolar`);
+
+--
+-- Filtros para la tabla `pers_est`
+--
+ALTER TABLE `pers_est`
+  ADD CONSTRAINT `pers_est_ibfk_1` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`),
+  ADD CONSTRAINT `pers_est_ibfk_2` FOREIGN KEY (`id_doc`) REFERENCES `info_personal` (`id_doc`);
+
+--
+-- Filtros para la tabla `pers_retirar`
+--
+ALTER TABLE `pers_retirar`
+  ADD CONSTRAINT `pers_retirar_ibfk_1` FOREIGN KEY (`id_doc`) REFERENCES `pers_est` (`id_doc`),
+  ADD CONSTRAINT `pers_retirar_ibfk_2` FOREIGN KEY (`ci_escolar`) REFERENCES `pers_est` (`ci_escolar`);
+
+--
+-- Filtros para la tabla `representantes`
+--
+ALTER TABLE `representantes`
+  ADD CONSTRAINT `representantes_ibfk_1` FOREIGN KEY (`ci_escolar`) REFERENCES `pers_est` (`ci_escolar`),
+  ADD CONSTRAINT `representantes_ibfk_2` FOREIGN KEY (`id_doc`) REFERENCES `pers_est` (`id_doc`);
+
+--
+-- Filtros para la tabla `salud`
+--
+ALTER TABLE `salud`
+  ADD CONSTRAINT `salud_ibfk_1` FOREIGN KEY (`ci_escolar`) REFERENCES `estudiantes` (`ci_escolar`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

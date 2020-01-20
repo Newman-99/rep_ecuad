@@ -209,7 +209,7 @@ $id_actualizacion=obtener_ultimo_id_actualizacion();
      register_movilidad_student($ci_escolar,$lleg_retir,$descrip_lleg_retir,$lleg_retir_transp,$desc_lleg_retir_transp);
 
 // Registrar persona retirar
-var_dump($tlf_emerg);
+
  registrar_persona($nacionalidad_pr,$id_doc_pr,$nombres_pr,$apellido_p_pr,$apellido_m_pr,$sexo_pr,'',$estado_civil_pr,'','',$tlf_cel_pr,$tlf_local_pr,'',$tlf_emerg);
 
  registrar_person_estudiantes($id_doc_pr,$ci_escolar,'','',$parentesc_pr);

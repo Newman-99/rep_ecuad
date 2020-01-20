@@ -34,18 +34,17 @@ if (!empty($_POST['save_docent'])) {
 
 
 if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc_new,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$fecha_ingreso) || validar_datos_vacios($nombres,$funcion_docent,$apellido_p,$apellido_m,$lugar_nac,$direcc_hab,$turno)){
-    $errors[]= "Se deben evitar campos vacios
-    <p>Los Siguientes campos no Pueden poseer espacios:</p>
-    <p><ul>
-
-    <li>Nacionalidad</li>
-    <li>Documento de Identidad</li>
-    <li>Sexo</li>
-    <li>Telefono Celular</li>
-    <li>Telefono Local</li>
-    <li>Correo</li>
-    <li>Estado Civil</li>
-    </ul></p>";
+    $errors[]= "    Se debe evitar campos vacios
+    <br><br>
+  Los siguientes campos no pueden poseer espacios:
+      <br><br>
+    Documento de Identidad
+    <br><br>
+    Fecha de Nacimiento
+    <br><br>
+    Numeros Telefonicos
+    <br><br>
+    Correos Electronicos";
 
 }else{
 

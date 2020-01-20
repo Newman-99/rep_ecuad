@@ -4,7 +4,7 @@ require './database/connect.php';
     session_start();
 
 /*
-  $grado = '1';
+  'grado = '1';
   $seccion='';
   $no_aula = '18';
   $id_turno = '1';
@@ -31,12 +31,9 @@ $result->execute(array("id_doc"=>$id_doc,"id_area"=>$id_area,"id_turno"=>$turno,
 var_dump($result);*/
 
 
-$id_doc = '28117208';
-$id_doc_new = "28117206";
-$id_area = '1';
-$turno = '2';
-$id_estado  ='1';
-$fecha_ingreso = '1999-10-01';
-$fecha_inabilitacion = '0000-00-00';
+//$ci_escolar = 'V19913903883';
+$id_doc = '';
 
-echo 
+// update_movilidad_student('V19913903884','V19913903883','est_ret','desc_ret','est_tranport','desc_tranport');
+
+// update_person_retirar('5930330','5930331','V19913903883','V19913903884');
