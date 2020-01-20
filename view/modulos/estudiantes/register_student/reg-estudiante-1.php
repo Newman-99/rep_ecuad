@@ -152,29 +152,21 @@ $errors[]= "<a href='reg-estudiante-2.php'>
                                     <div class="col-lg-6 my-2">
                                         <label>Nacionalidad:</label>
                                         <select name="nacionalidad" id="cedula" class="form-control" required>
-                                            <option value="">-- Seleccione --</option>
+                                            <option value=""> Seleccione </option>
                                             <option <?php if(isset($nacionalidad)) if($nacionalidad == '1') echo 'selected';?> value="1">V</option>
                                             <option <?php if(isset($nacionalidad)) if($nacionalidad == '2') echo 'selected';?> value="2">E</option>
                                         </select>
-
-                                        <br>
-                                        <br>
-                                        Cedula
-                                        <input type="number" maxlength="8" placeholder="Cedula" class="form-control" value="<?php if(isset($id_doc_estd)) echo $id_doc_estd; ?>" name="id_doc_estd">
-                                         </div>
-
-                                        
-                                    <!------ OPCIONAL SI hay que colocar manual la nacionalidad de procedencia ((((No SELECT ))))
-                                    <div class="col-lg-6 my-2">
-                                        <label for="" class="">Nacionalidad:</label>
-                                        <input type="text" name="" id="" placeholder="Ingresar nacionalidad" class="form-control">
                                     </div>
-                                    -->
+
+                                    <div class="col-lg-6 my-2">   
+                                        <label>Cedula:</label>
+                                        <input type="number" maxlength="8" placeholder="Cedula" class="form-control" value="<?php if(isset($id_doc_estd)) echo $id_doc_estd; ?>" name="id_doc_estd">
+                                    </div>
                                 </div>
 
 
                                 <div class="row">
-                                    <div class="col-lg-3 my-2">
+                                    <div class="col-lg-6 my-2">
                                         <p for="" class="">Sexo:</p>
                                         <label for="" class="">Niño</label>
                                         
@@ -185,40 +177,30 @@ $errors[]= "<a href='reg-estudiante-2.php'>
 
                                         <input type="radio" name="sexo" <?php if(isset($_POST["sexo"])){ if($_POST["sexo"] == '2') echo "checked";}else{if(isset($sexo)){ if($sexo == '2') echo "checked";}} ?> value="2" id="">
                                     </div>
-
-                                    <div class="col-lg-3 my-2">
-                                        <label for="">Fecha de Nacimiento:</label>
-                                        <input type="text" name="fecha_nac" value="<?php if(isset($fecha_nac)) echo $fecha_nac; ?>" id="" class="form-control" required>
-                                    </div>
-
+                                    
                                     <div class="col-lg-6 my-2">
-            
-            <label for="">Lugar de Nacimiento:</label>
-        <br>
-        <textarea rows="3" cols="40" name="lugar_nac" id="" required><?php if(isset($lugar_nac)) echo $lugar_nac;?></textarea>
-
+                                        <label for="">Fecha de Nacimiento:</label>
+                                        <input type="text" name="fecha_nac" value="<?php if(isset($fecha_nac)) echo $fecha_nac; ?>" id="" placeholder="Fecha" class="form-control" required>r
                                     </div>
                                 </div>
 
                              
                                 <div class="row">
 
-                                    <div class="col-lg-6 my-5">
-                                        <label for="">Direccion de Habitacion:</label>
-            <br>
-        <textarea rows="3" cols="40" name="direcc_hab" id="" required><?php if(isset($direcc_hab)) echo $direcc_hab; ?></textarea>        
-                                    </div>
+                                    <div class="col-lg-6 my-2">
+                                        <label for="">Lugar de Nacimiento:</label>
+                                        <textarea rows="3" cols="40" name="lugar_nac" id="" class="form-control" placeholder="Lugar de nacimiento" required><?php if(isset($lugar_nac)) echo $lugar_nac;?></textarea>
 
+                                    <div class="col-lg-6 my-2">
+                                        <label for="">Dirección de Habitación:</label>
+			                            <textarea rows="3" cols="40" name="direcc_hab" id="" class="form-control" placeholder="Dirección de habitación" required><?php if(isset($direcc_hab)) echo $direcc_hab; ?></textarea>        
+                                    </div>
                                 </div>
 
 
                                 <div class="row">
                                     <div class="col-lg-6 my-2">
                                         <p for="" class="">Posee Canaima:</p>
-
-                                        
-
-            
                                         <label for="" class="">Si:</label>
                                         <input type="radio" name="canaima" <?php if(isset($_POST["canaima"])){ if($_POST["canaima"] == '1') echo "checked";}else{if(isset($canaima)){ if($canaima == '1') echo "checked";}}
                                         ?> value="1" id="">
@@ -226,24 +208,12 @@ $errors[]= "<a href='reg-estudiante-2.php'>
                                         <label for="" class="">No:</label>
                                         <input type="radio" name="canaima" <?php if(isset($_POST["canaima"])){ if($_POST["canaima"] == '0') echo "checked";}else{if(isset($canaima)){ if($canaima == '0') echo "checked";}}
                                         ?> value="0" id="">
-                                        <label for="" class="">Contrato:</label>
 
-                                        <input type="text" name="contrato_canaima" value="<?php if(isset($contrato_canaima)) echo $contrato_canaima; ?>" id="" placeholder="Contrato">
+                                        <div class="">
+                                        <label for="" class="">Contrato Canaima:</label>
+                                        <input type="text" name="contrato_canaima" value="<?php if(isset($contrato_canaima)) echo $contrato_canaima; ?>" id="" class="mx-2  form-control" placeholder="Contrato">
+                                        </div>
                                     </div>
-
-                                    
-
-                                    <div class="col-lg-6 my-2">
-                                        <p for="" class="">Posee coleccion bicentenaria:</p>
-                                        <label for="" class="">Si:</label>
-                                        <input type="radio" name="colecc_bicent" 
-                                        <?php if(isset($_POST["colecc_bicent"])){ if($_POST["colecc_bicent"] == '1') echo "checked";}else{if(isset($colecc_bicent)){ if($colecc_bicent == '1') echo "checked";}}?>  value="1" id="">
-
-                                        <label for="" class="">No:</label>
-                                        <input type="radio" name="colecc_bicent" <?php if(isset($_POST["colecc_bicent"])){ if($_POST["colecc_bicent"] == '0') echo "checked";}else{if(isset($colecc_bicent)){ if($colecc_bicent == '0') echo "checked";}}
-                                        ?> value="0" id="">
-                                    </div>
-                                </div>
 
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
 

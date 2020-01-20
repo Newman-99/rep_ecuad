@@ -355,7 +355,6 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
 
                 <div class="row">
                     <div class="col-lg-12">
-                    <!--<div id="ui">-->
                             <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>"  method="POST" class="form-group text-center">
 
     
@@ -363,395 +362,311 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                       <div class="col-12">
                                             <h3 class="form-titulo">Otros datos del estudiante</h3>
                                       </div>
-
+                                        <br><br><br>
                                       <div class="col-lg-12 my-2">
                                             <label for="">¿Cuantas personas viven con el estudiante?</label>
                                             <input type="number" name="nro_pers_viven" id="" placeholder="N°" value="<?php if(isset($nro_pers_viven)) echo $nro_pers_viven; ?>">
                                       </div>
-
+                                        <br><br>
                                       <div class="col-12 my-4">
-                                      <h3 class="form-titulo2">Estado de salud del estudiante</h3>
+                                            <h3 class="form-titulo">Estado de salud del estudiante</h3>
                                       </div>
 
-                                      <div class="col-lg-12 my-4">
+                                      <div class="col-lg-6 my-4">
                                             <p for="" class="">¿Tiene hermanos estudiando en el plantel?</p>
                                             <label for="" class="">Si:</label>
                                             <input type="radio" name="hermanos" id="" value="1"
-                                            <?php if(isset($_POST["hermanos"])){ if($_POST["hermanos"] == '1') echo "checked";}else{if(isset($hermanos)){ if($hermanos == '1') echo "checked";}}?>
-                                          >
+                                            <?php if(isset($_POST["hermanos"])){ if($_POST["hermanos"] == '1') echo "checked";}else{if(isset($hermanos)){ if($hermanos == '1') echo "checked";}}?>>
                                             <label for="" class="">No:</label>
                                             <input type="radio" name="hermanos" id="" value="0"
-                                    <?php if(isset($_POST["hermanos"])){ if($_POST["hermanos"] == '0') echo "checked";}else{if(isset($hermanos)){ if($hermanos == '0') echo "checked";}}?>
-                                            ><br>
-                                            <label for="" class="my-4">Especifique</label>
+                                            <?php if(isset($_POST["hermanos"])){ if($_POST["hermanos"] == '0') echo "checked";}else{if(isset($hermanos)){ if($hermanos == '0') echo "checked";}}?>>
+                                            <br>
+                                            <label for="" class="my-4 ">Especifique:</label>
                                             <textarea name="descrip_herma" id="" class="form-control" placeholder="Especifique"><?php if(isset($descrip_herma)) echo $descrip_herma; ?></textarea>
                                       </div>
 
-                                      <div class="col-lg-12 my-4">
+                                      <div class="col-lg-6 my-4">
                                             <p for="" class="">¿Padece o ha padecido de alguna enfermedad cronica?</p>
-
                                             <label for="" class="">Si:</label>
                                             <input type="radio" name="enfer_cron" id="" value="1"
-                                       <?php if(isset($_POST["enfer_cron"])){ if($_POST["enfer_cron"] == '1') echo "checked";}else{if(isset($enfer_cron)){ if($enfer_cron == '1') echo "checked";}}
-                                         ?>
-                                            >
+                                            <?php if(isset($_POST["enfer_cron"])){ if($_POST["enfer_cron"] == '1') echo "checked";}else{if(isset($enfer_cron)){ if($enfer_cron == '1') echo "checked";}}?>>
                                             <label for="" class="">No:</label>
                                             <input type="radio" name="enfer_cron" id="" value="0"
-                                       <?php if(isset($_POST["enfer_cron"])){ if($_POST["enfer_cron"] == '0') echo "checked";}else{if(isset($enfer_cron)){ if($enfer_cron == '0') echo "checked";}}
-                                         ?>
-                                            ><br>
-                                            <label for="" class="my-4">Especifique</label>
-                                            <textarea name="descrip_enfer_cron" id="" class="form-control" placeholder="descrip_enfer_cron">
-                                                <?php if(isset($descrip_enfer_cron)) echo $descrip_enfer_cron; ?>
-                                            </textarea>
+                                            <?php if(isset($_POST["enfer_cron"])){ if($_POST["enfer_cron"] == '0') echo "checked";}else{if(isset($enfer_cron)){ if($enfer_cron == '0') echo "checked";}}?>>
+                                            <br>
+                                            <label for="" class="my-4">Especifique:</label>
+                                            <textarea name="descrip_enfer_cron" id="" class="form-control" placeholder="Especifique"><?php if(isset($descrip_enfer_cron)) echo $descrip_enfer_cron; ?></textarea>
                                       </div>
-
-                                      <div class="col-lg-12 my-4">
+                                      
+                                      <div class="col-lg-6 my-4">
                                             <p for="" class="">¿Presenta problemas visuales?</p>
                                             <label for="" class="">Si:</label>
                                             <input type="radio" name="problem_visual" id="" value="1"
-                                       <?php if(isset($_POST["problem_visual"])){ if($_POST["problem_visual"] == '1') echo "checked";}else{if(isset($problem_visual)){ if($problem_visual == '1') echo "checked";}}
-                                         ?>
-                                            >
+                                            <?php if(isset($_POST["problem_visual"])){ if($_POST["problem_visual"] == '1') echo "checked";}else{if(isset($problem_visual)){ if($problem_visual == '1') echo "checked";}}?>>
                                             <label for="" class="">No:</label>
                                             <input type="radio" name="problem_visual" id="" value="0"
-                                       <?php if(isset($_POST["problem_visual"])){ if($_POST["problem_visual"] == '0') echo "checked";}else{if(isset($problem_visual)){ if($problem_visual == '0') echo "checked";}}
-                                         ?>
-                                            ><br>
-                                            <label for="" class="my-4">Especifique</label>
-                                            <textarea name="descrip_problem_visual" id="" class="form-control" placeholder="Especifique">
-                                                <?php if(isset($descrip_problem_visual)) echo $descrip_problem_visual; ?>
-                                            </textarea>
+                                            <?php if(isset($_POST["problem_visual"])){ if($_POST["problem_visual"] == '0') echo "checked";}else{if(isset($problem_visual)){ if($problem_visual == '0') echo "checked";}}?>>
+                                            <br>
+                                            <label for="" class="my-4">Especifique:</label>
+                                            <textarea name="descrip_problem_visual" id="" class="form-control" placeholder="Especifique"><?php if(isset($descrip_problem_visual)) echo $descrip_problem_visual; ?></textarea>
                                       </div>
 
-                                      <div class="col-lg-12 my-4">
+                                      <div class="col-lg-6 my-4">
                                             <p for="" class="">¿Presenta problemas auditivos?</p>
                                             <label for="" class="">Si:</label>
                                             <input type="radio" name="problem_audi" id="" value="1"
-                                       <?php if(isset($_POST["problem_audi"])){ if($_POST["problem_audi"] == '1') echo "checked";}else{if(isset($problem_audi)){ if($problem_audi == '1') echo "checked";}}
-                                         ?>
-                                            >
+                                            <?php if(isset($_POST["problem_audi"])){ if($_POST["problem_audi"] == '1') echo "checked";}else{if(isset($problem_audi)){ if($problem_audi == '1') echo "checked";}}?>>
                                             <label for="" class="">No:</label>
                                             <input type="radio" name="problem_audi" id="" value="0"
-                                       <?php if(isset($_POST["problem_audi"])){ if($_POST["problem_audi"] == '0') echo "checked";}else{if(isset($problem_audi)){ if($problem_audi == '0') echo "checked";}}
-                                         ?>
-                                            
-                                            >
+                                            <?php if(isset($_POST["problem_audi"])){ if($_POST["problem_audi"] == '0') echo "checked";}else{if(isset($problem_audi)){ if($problem_audi == '0') echo "checked";}}?>>
                                             <br>
-                                            <label for="" class="my-4">Especifique</label>
-                                            <textarea name="descrip_problem_audi" id="" class="form-control" placeholder="descrip_problem_audi">
-                                                <?php if(isset($descrip_problem_audi)) echo $descrip_problem_audi; ?>
-                                            </textarea>
+                                            <label for="" class="my-4">Especifique:</label>
+                                            <textarea name="descrip_problem_audi" id="" class="form-control" placeholder="descrip_problem_audi"><?php if(isset($descrip_problem_audi)) echo $descrip_problem_audi; ?></textarea>
                                       </div>
 
-                                      <div class="col-lg-12 my-4">
+                                      <div class="col-lg-6 my-4">
                                             <p for="" class="">¿Es alergico?</p>
                                             <label for="" class="">Si:</label>
                                             <input type="radio" name="alergias" id="" value="1"
-                                       <?php if(isset($_POST["alergias"])){ if($_POST["alergias"] == '1') echo "checked";}else{if(isset($alergias)){ if($alergias == '1') echo "checked";}}
-                                        ;?>
-                                            >
+                                            <?php if(isset($_POST["alergias"])){ if($_POST["alergias"] == '1') echo "checked";}else{if(isset($alergias)){ if($alergias == '1') echo "checked";}};?>>
                                             
                                             <label for="" class="">No:</label>
                                             <input type="radio" name="alergias" id="" value="0"
-                                       <?php if(isset($_POST["alergias"])){ if($_POST["alergias"] == '0') echo "checked";}else{if(isset($alergias)){ if($alergias == '0') echo "checked";}}
-                                        ;?>
-                                            ><br>
-                                            <label for="" class="my-4">Especifique</label>
-                                            <textarea name="descrip_alergias" id="" class="form-control" placeholder="Especifique">
-                                                <?php if(isset($descrip_alergias)) echo $descrip_alergias; ?>
-                                            </textarea>
+                                            <?php if(isset($_POST["alergias"])){ if($_POST["alergias"] == '0') echo "checked";}else{if(isset($alergias)){ if($alergias == '0') echo "checked";}};?>>
+                                            <br>
+                                            <label for="" class="my-4">Especifique:</label>
+                                            <textarea name="descrip_alergias" id="" class="form-control" placeholder="Especifique"><?php if(isset($descrip_alergias)) echo $descrip_alergias; ?></textarea>
                                       </div>
 
-                                      <div class="col-lg-12 my-4">
+                                      <div class="col-lg-6 my-4">
                                             <p for="" class="">¿Presenta alguna conndicion especifica?</p>
                                             <label for="" class="">Si:</label>
                                             <input type="radio" name="condic_especif" id="" value="1"
-                                       <?php if(isset($_POST["condic_especif"])){ if($_POST["condic_especif"] == '1') echo "checked";}else{if(isset($condic_especif)){ if($condic_especif == '1') echo "checked";}}
-                                         ;?>
-                                            >
+                                            <?php if(isset($_POST["condic_especif"])){ if($_POST["condic_especif"] == '1') echo "checked";}else{if(isset($condic_especif)){ if($condic_especif == '1') echo "checked";}};?>>
                                             <label for="" class="">No:</label>
                                             <input type="radio" name="condic_especif" id="" value="0"
-                                       <?php if(isset($_POST["condic_especif"])){ if($_POST["condic_especif"] == '0') echo "checked";}else{if(isset($condic_especif)){ if($condic_especif == '0') echo "checked";}}
-                                         ;?>
-                                            ><br>
-                                            <label for="" class="my-4">Especifique</label>
-                                            <textarea name="descrip_condic_especific" id="" class="form-control" placeholder="Especifique">
-                                                <?php if(isset($descrip_condic_especific)) echo $descrip_condic_especific; ?>
-                                            </textarea>
+                                            <?php if(isset($_POST["condic_especif"])){ if($_POST["condic_especif"] == '0') echo "checked";}else{if(isset($condic_especif)){ if($condic_especif == '0') echo "checked";}};?>>
+                                            <br>
+                                            <label for="" class="my-4">Especifique:</label>
+                                            <textarea name="descrip_condic_especific" id="" class="form-control" placeholder="Especifique"><?php if(isset($descrip_condic_especific)) echo $descrip_condic_especific; ?></textarea>
                                       </div>
 
                                       <div class="col-lg-12 my-4">
                                             <p for="" class="">¿Cuales vacunas ha recibido?</p>
                                             <label for="" class="">Si:</label>
                                             <input type="radio" name="vacunas" id="" value="1"
-                                       <?php if(isset($_POST["vacunas"])){ if($_POST["vacunas"] == '1') echo "checked";}else{if(isset($vacunas)){ if($vacunas == '1') echo "checked";}}
-                                         ?>
-                                            >
+                                            <?php if(isset($_POST["vacunas"])){ if($_POST["vacunas"] == '1') echo "checked";}else{if(isset($vacunas)){ if($vacunas == '1') echo "checked";}}?>>
                                             <label for="" class="">No:</label>
                                             <input type="radio" name="vacunas" id="" value="0"
-                                       <?php if(isset($_POST["vacunas"])){ if($_POST["vacunas"] == '0') echo "checked";}else{if(isset($vacunas)){ if($vacunas == '0') echo "checked";}}
-                                         ?>
-                                            ><br>
+                                            <?php if(isset($_POST["vacunas"])){ if($_POST["vacunas"] == '0') echo "checked";}else{if(isset($vacunas)){ if($vacunas == '0') echo "checked";}}?>>
+                                            <br>
 
-                                            <label for="" class="my-4">Especifique</label>
-                                            <textarea name="descrip_vacunas" id="" class="form-control" placeholder="Especifique">
-                                                <?php if(isset($descrip_vacunas)) echo $descrip_vacunas; ?>
-                                            </textarea>
-                                                                        <?php imprimir_msjs($errors_1); ?>
-
-                                      </div>
+                                            <label for="" class="my-4">Especifique:</label>
+                                            <textarea name="descrip_vacunas" id="" class="form-control" placeholder="Especifique"><?php if(isset($descrip_vacunas)) echo $descrip_vacunas; ?></textarea>
+                                        </div>
+                                              
+                                              <?php imprimir_msjs($errors_1); ?>
                                   </div>
                                   
-                                  
-                    <!--</div>-->
-                    </div>
-                </div>
+                                  <br><br><br><br>
 
 
     <!---------------------------- SEXTO FORMULARIO [El niño recibe actualmente atencion por] --------------------------------------->
-                <div class="row">
-                        <div class="col-lg-12 form-group text-center">
-                            <div id="ui">
+                
                                     <div class="row">
                                         <div class="col-12">
-                                            <h3 class="form-titulo">El niño recibe actualmente atencion por</h3>
+                                            <h3 class="form-titulo">El niño recibe actualmente atención por:</h3>
                                         </div>
-
-                                        <div class="col-lg-6 my-2">
+                                         <br><br><br><br>
+                                        <div class="col-lg-6 my-4">
                                             <label for="" class="">Psicopedagogia</label>
                                             <input type="text" name="psicopedag" id="" placeholder="Psicopedagogia" name="psicopedag"class="form-control" value="<?php if(isset($psicopedag)) echo $psicopedag; ?>">
                                         </div>
-
-                                        <div class="col-lg-6 my-2">
+                                          
+                                        <div class="col-lg-6 my-4">
                                             <label for="" class="">Terapia de lenguaje</label>
                                             <input type="text" name="ter_lenguaj" id="" placeholder="Terapia de lenguaje" name="ter_lenguaj" class="form-control" value="<?php if(isset($ter_lenguaj)) echo $ter_lenguaj; ?>">
                                         </div>
-
-                                        <div class="col-lg-6 my-2">
-                                                <label for="" class="">Psicologo</label>
-                                                <input type="text" name="psicologo" id="" placeholder="Psicologo" class="form-control mx-2" value="<?php if(isset($psicologo)) echo $psicologo; ?>">
+                                          
+                                        <div class="col-lg-6 my-4">
+                                            <label for="" class="">Psicologo</label>
+                                            <input type="text" name="psicologo" id="" placeholder="Psicologo" class="form-control " value="<?php if(isset($psicologo)) echo $psicologo; ?>">
+                                        </div>
+                                          
+                                        <div class="col-lg-6 my-4">
+                                            <label for="" class="">Otras</label>
+                                            <input type="text" name="otras" id="" placeholder="Otras" class="form-control " value="<?php if(isset($otras)) echo $otras; ?>">
+                                        </div>
+                                          
+                                        <div class="col-lg-12 my-4">
+                                                <label for="" class="">Especifique:</label>
+                                                <textarea name="especifi_otras" id="" placeholder="Especifique" class="form-control mx-2"><?php if(isset($especifi_otras)) echo $especifi_otras; ?></textarea>
                                         </div>
 
                                         <div class="col-lg-6 my-2">
-                                                <label for="" class="">Otras</label>
-                                                <input type="text" name="otras" id="" placeholder="Otras" class="form-control mx-2" value="<?php if(isset($otras)) echo $otras; ?>"
-                                                >
-                                        </div>
-
-                                        <div class="col-lg-6 my-2">
-                                                <label for="" class="">Especifique</label>
-                                                <textarea name="especifi_otras" id="" placeholder="Especifique" class="form-control mx-2">
-                                                <?php if(isset($especifi_otras)) echo $especifi_otras; ?>
-                                                </textarea>
-                                        </div>
-
-                                        <div class="col-lg-6 my-2">
-                                                <p for="" class="">Tiene medicacion:</p>
+                                                <p for="" class="">Tiene medicación:</p>
                                                 <label for="" class="radio-inline mx-1">Si:</label>
                                                 <input type="radio" name="medicacion" id="" value="1"
-                                       <?php if(isset($_POST["medicacion"])){ if($_POST["medicacion"] == '1') echo "checked";}else{if(isset($medicacion)){ if($medicacion == '1') echo "checked";}}
-                                         ?>
-                                                >
-                                                <label for="" class="radio-inline mx-1"
-                                                >No:</label>
+                                                <?php if(isset($_POST["medicacion"])){ if($_POST["medicacion"] == '1') echo "checked";}else{if(isset($medicacion)){ if($medicacion == '1') echo "checked";}}?>>
+                                                <label for="" class="radio-inline mx-1">No:</label>
                                                 <input type="radio" name="medicacion" id="" value="0"
-                                       <?php if(isset($_POST["medicacion"])){ if($_POST["medicacion"] == '0') echo "checked";}else{if(isset($medicacion)){ if($medicacion == '0') echo "checked";}}
-                                         ?>
-                                                >
+                                                <?php if(isset($_POST["medicacion"])){ if($_POST["medicacion"] == '0') echo "checked";}else{if(isset($medicacion)){ if($medicacion == '0') echo "checked";}}?>>
+                                                <div>
                                                 <label for="" class="radio-inline mx-1">¿Cual?</label>
-                                                <input type="text" name="descrip_medicacion" id="" placeholder="¿Cual?" class="form-control"
-                                                value="<?php if(isset($descrip_medicacion)) echo $descrip_medicacion; ?>"
-                                                >
+                                                <input type="text" name="descrip_medicacion" id="" placeholder="¿Cual?" class="form-control "
+                                                value="<?php if(isset($descrip_medicacion)) echo $descrip_medicacion; ?>">
+                                                </div>
                                         </div>
 
-                                        <div class="col-lg-12 my-2">
+                                        <div class="col-lg-6 my-2">
                                                 <p for="" class="">Anexa informe:</p>
                                                 <label for="" class="">Si:</label>
                                                 <input type="radio" name="anex_infor" id="" value="1"
-                                       <?php if(isset($_POST["anex_infor"])){ if($_POST["anex_infor"] == '1') echo "checked";}else{if(isset($anex_infor)){ if($anex_infor == '1') echo "checked";}}
-                                        ?>
-                                                >
+                                                <?php if(isset($_POST["anex_infor"])){ if($_POST["anex_infor"] == '1') echo "checked";}else{if(isset($anex_infor)){ if($anex_infor == '1') echo "checked";}}?>>
                                                 <label for="" class="">No:</label>
                                                 <input type="radio" name="anex_infor" id="" value="0"
-                                       <?php if(isset($_POST["anex_infor"])){ if($_POST["anex_infor"] == '0') echo "checked";}else{if(isset($anex_infor)){ if($anex_infor == '0') echo "checked";}}
-                                        ?>
-                                                >
+                                                <?php if(isset($_POST["anex_infor"])){ if($_POST["anex_infor"] == '0') echo "checked";}else{if(isset($anex_infor)){ if($anex_infor == '0') echo "checked";}}?>>
                                         </div>
-                                                                        <?php imprimir_msjs($errors_2); ?>
+                                                <?php imprimir_msjs($errors_2); ?>
 
                                     </div>
-                            </div>
-                        </div>
-                </div>
+
+                                    <br><br><br><br>
 
 <!------------------------------ SEPTIMO FORMULARIO [ Acceso y restiro de la Institucion ] ------------------------------>
-                <div class="row">
-                        <div class="col-lg-12 form-group text-center">
-                            <div id="ui">
+                
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <h3 class="form-titulo">Acceso y retiro de la institucion</h3>
+                                            <h3 class="form-titulo">Acceso y retiro del estudiante de la institución</h3>
                                         </div>
 
-                                        <div class="col-lg-12 my-2">
-                                            <h3 class="form-titulo2">Acceso retiro del estudiante</h3>
-                                        </div>
 
-                                        <div class="col-lg-12 my-2">
+                                        <div class="col-lg-6 my-2">
                                             <p for="" class="my-2">¿El estudiante llega y se retira de la escuela solo?</p>
                                             <label for="" class="">Si:</label>
                                             <input type="radio" name="lleg_retir" id="" value="1"
-                                       <?php if(isset($_POST["lleg_retir"])){ if($_POST["lleg_retir"] == '1') echo "checked";}else{if(isset($lleg_retir)){ if($lleg_retir == '1') echo "checked";}}
-                                         ?>
-                                            >
+                                            <?php if(isset($_POST["lleg_retir"])){ if($_POST["lleg_retir"] == '1') echo "checked";}else{if(isset($lleg_retir)){ if($lleg_retir == '1') echo "checked";}}?>>
                                             <label for="" class="">No:</label>
                                             <input type="radio" name="lleg_retir" id="" value="0"
-                                       <?php if(isset($_POST["lleg_retir"])){ if($_POST["lleg_retir"] == '0') echo "checked";}else{if(isset($lleg_retir)){ if($lleg_retir == '0') echo "checked";}}
-                                         ?>
-                                            ><br>
-                                            <label for="" class="my-4">Especifique</label>
-                                            <textarea name="descrip_lleg_retir" id="" class="form-control" placeholder="¿Acompañado por?">
-                                                <?php if(isset($descrip_lleg_retir)) echo $descrip_lleg_retir; ?>
-
-                                            </textarea>
+                                            <?php if(isset($_POST["lleg_retir"])){ if($_POST["lleg_retir"] == '0') echo "checked";}else{if(isset($lleg_retir)){ if($lleg_retir == '0') echo "checked";}}?>>
+                                            <br>
+                                            <label for="" class="my-4">Especifique:</label>
+                                            <textarea name="descrip_lleg_retir" id="" class="form-control" placeholder="¿Acompañado por?"><?php if(isset($descrip_lleg_retir)) echo $descrip_lleg_retir; ?></textarea>
                                         </div>
 
-                                        <div class="col-lg-12 my-2">
-                                            <p for="" class="my-2">¿El estudiante llega y se retira de la escuela en transporte escolar?</p>
+                                        <div class="col-lg-6 my-2">
+                                            <p for="" class="my-2">¿El estudiante llega y se retira en transporte escolar?</p>
                                             <label for="" class=" ">Si:</label>
                                             <input type="radio" name="lleg_retir_transp" id="" value="1"
-                                       <?php if(isset($_POST["lleg_retir_transp"])){ if($_POST["lleg_retir_transp"] == '1') echo "checked";}else{if(isset($lleg_retir_transp)){ if($lleg_retir_transp == '1') echo "checked";}}
-                                         ?>
-                                            >
+                                            <?php if(isset($_POST["lleg_retir_transp"])){ if($_POST["lleg_retir_transp"] == '1') echo "checked";}else{if(isset($lleg_retir_transp)){ if($lleg_retir_transp == '1') echo "checked";}}?>>
                                             <label for="" class="">No:</label>
                                             <input type="radio" name="lleg_retir_transp" id="" value="0"
-                                       <?php if(isset($_POST["lleg_retir_transp"])){ if($_POST["lleg_retir_transp"] == '0') echo "checked";}else{if(isset($lleg_retir_transp)){ if($lleg_retir_transp == '0') echo "checked";}}
-                                         ?>
-                                            ><br>
-                                            <label for="" class="my-4">Especifique</label>
-                                            <textarea name="desc_lleg_retir_transp" id="" class="form-control" placeholder="¿Cual?">
-                                                <?php if(isset($desc_lleg_retir_transp)) echo $desc_lleg_retir_transp; ?>
-                                            </textarea>
+                                            <?php if(isset($_POST["lleg_retir_transp"])){ if($_POST["lleg_retir_transp"] == '0') echo "checked";}else{if(isset($lleg_retir_transp)){ if($lleg_retir_transp == '0') echo "checked";}}?>>
+                                            <br>
+                                            <label for="" class="my-4">Especifique:</label>
+                                            <textarea name="desc_lleg_retir_transp" id="" class="form-control" placeholder="¿Cual?"><?php if(isset($desc_lleg_retir_transp)) echo $desc_lleg_retir_transp; ?></textarea>
                                         </div>
                                     </div>
-                            </div>
-                                                                                                <?php imprimir_msjs($errors_3); ?>
+                            
+                                            <?php imprimir_msjs($errors_3); ?>
 
-                        </div>
 
-                </div>
+                                    <br><br><br><br>
 
     <!--------------------------- OCTAVO FORMULARIO [ Persona autorizada a retirar el estudiante de la institucion ] -->
-                <div class="row">
-                        <div class="col-lg-12 form-group text-center">
-                            <div id="ui">
+                
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <h3 class="form-titulo">Personas autorizada a retirar el estudiante de la institucion</h3>
+                                            <h3 class="form-titulo">Personas autorizada a retirar el estudiante de la institución</h3>
+                                        </div>
+                                        <br><br><br><br>
+                                        <div class="col-lg-6 my-2">
+                                            <label for="" class="">Nombres:</label>                                           
+                                            <input type="text" name="nombres_pr" id="" placeholder="Nombres" class="form-control" value="<?php if(isset($nombres_pr)) echo $nombres_pr; ?>" >
                                         </div>
 
                                         <div class="col-lg-6 my-2">
-                                            <label for="" class=""></label>
-        <br>        Nombres:
-        <input type="text" name="nombres_pr" id="" placeholder="Nombres" class="form-control" value="<?php if(isset($nombres_pr)) echo $nombres_pr; ?>" >
-        
-        <br>
-        Apellido Paterno:
-        <input type="text" name="apellido_p_pr" id="" placeholder="Apellido Paterno" class="form-control" value="<?php if(isset($apellido_p_pr)) echo $apellido_p_pr; ?>">
-        
-
-        <br>
-        Apellido Materno:
-        <input type="text" name="apellido_m_pr" id="" placeholder="Apellido Materno" class="form-control" value="<?php if(isset($apellido_m_pr)) echo $apellido_m_pr; ?>">
-
+                                            <label for="">Apellido Paterno:</label> 
+                                            <input type="text" name="apellido_p_pr" id="" placeholder="Apellido Paterno" class="form-control" value="<?php if(isset($apellido_p_pr)) echo $apellido_p_pr; ?>">
                                         </div>
 
-                                        <div class="col-lg-6 my-2">
-
-                                            <label for="" class="">Cedula de identidad</label>
-
+                                        <div class="col-lg-6 my-3">
+                                            <label for="">Apellido Materno:</label> 
+                                            <input type="text" name="apellido_m_pr" id="" placeholder="Apellido Materno" class="form-control" value="<?php if(isset($apellido_m_pr)) echo $apellido_m_pr; ?>">
+                                        </div>
+                                            
+                                        <div class="col-lg-2 my-5">
                                           <select name="nacionalidad_pr" id="cedula" class="form-control" >
-                                            <option value="">-- Seleccione --</option>
+                                            <option value=""> Seleccione </option>
                                             <option <?php if(isset($nacionalidad_pr)) if($nacionalidad_pr == '1') echo 'selected';?> value="1">V</option>
                                             <option <?php if(isset($nacionalidad_pr)) if($nacionalidad_pr == '2') echo 'selected';?> value="2">E</option>
-                                        </select>
-
+                                          </select>   
+                                        </div>
+                                        
+                                        <div class="col-lg-4 my-3">
+                                            <label class="form-inline">Cedula:</label>
                                             <input type="text" name="id_doc_pr" id="" placeholder="Cedula de identidad" class="form-control"  maxlength="8" value="<?php if(isset($id_doc_pr)) echo $id_doc_pr; ?>">
                                         </div>
-
-
 
                                         <div class="col-lg-3 ">
                                             <label>Estado civil:</label>
                                             <select name="estado_civil_pr" id="cedula" class="form-control"  >
-                        <option value="0">-- Seleccione --</option>
-                <option <?php if(isset($estado_civil_pr)) if($estado_civil_pr == '1') echo 'selected';?> value="1">Soltero/a</option>
-                <option <?php if(isset($estado_civil_pr)) if($estado_civil_pr == '2') echo 'selected';?> value="2">Casado/a</option>
-                <option <?php if(isset($estado_civil_pr)) if($estado_civil_pr == '3') echo 'selected';?> value="3">Divorciado/a</option>
-                <option <?php if(isset($estado_civil_pr)) if($estado_civil_pr == '4') echo 'selected';?> value="4">Viudo/a</option>
-            </select>
-            <br><br>
+                                                <option value="0"> Seleccione </option>
+                                                <option <?php if(isset($estado_civil_pr)) if($estado_civil_pr == '1') echo 'selected';?> value="1">Soltero/a</option>
+                                                <option <?php if(isset($estado_civil_pr)) if($estado_civil_pr == '2') echo 'selected';?> value="2">Casado/a</option>
+                                                <option <?php if(isset($estado_civil_pr)) if($estado_civil_pr == '3') echo 'selected';?> value="3">Divorciado/a</option>
+                                                <option <?php if(isset($estado_civil_pr)) if($estado_civil_pr == '4') echo 'selected';?> value="4">Viudo/a</option>
+                                            </select>
                                         </div>
 
-
-                                          <div class="col-lg-6 my-2">
-
-                                          <div class="col-lg-3 my-2">
+                                        <div class="col-lg-3 my-2">
                                           <p for="" class="">Sexo:</p>
                                           <label for="" class="">Masculino</label>
-                                          
-                                          <input type="radio" <?php if(isset($_POST["sexo_pr"])){ if($_POST["sexo_pr"] == '1') echo "checked";}else{if(isset($sexo_pr)){ if($sexo_pr == '1') echo "checked";}}
-                                          ?> name="sexo_pr" value="1" id="">
+                                          <input type="radio" <?php if(isset($_POST["sexo_pr"])){ if($_POST["sexo_pr"] == '1') echo "checked";}else{if(isset($sexo_pr)){ if($sexo_pr == '1') echo "checked";}}?> name="sexo_pr" value="1" id="">
 
                                           <label for="sexo_pr" class="">Femenino</label>
+                                          <input type="radio" name="sexo_pr" <?php if(isset($_POST["sexo_pr"])){ if($_POST["sexo_pr"] == '2') echo "checked";}else{if(isset($sexo_pr)){ if($sexo_pr == '2') echo "checked";}} if(isset($sexo_pr)) if($sexo_pr == '2') echo 'checked';?> value="2" id="">
 
-                                          <input type="radio" name="sexo_pr" <?php if(isset($_POST["sexo_pr"])){ if($_POST["sexo_pr"] == '2') echo "checked";}else{if(isset($sexo_pr)){ if($sexo_pr == '2') echo "checked";}}
-                                           if(isset($sexo_pr)) if($sexo_pr == '2') echo 'checked';
+                                        </div>
 
-                                          ?> value="2" id="">
-
-                                      </div>
-                                              <label for="" class="">Parentesco</label>
+                                        <div class="col-lg-6 ">
+                                            <label for="" class="">Parentesco</label>
                                             <input type="text" name="parentesc_pr" id="" value="<?php if(isset($parentesc_pr)) echo $parentesc_pr; ?>" placeholder="Parentesco" class="form-control">
                                         </div>
                                         
-                                        <div class="col-lg-6 my-2">
+                                        <div class="col-lg-6 my-4">
                                             <label for="">Telefono local</label>
                                             <input type="number" name="tlf_local_pr" id="" placeholder="Telefono local" name="tlf_local_pr" class="form-control"
                                             value="<?php if(isset($tlf_local_pr)) echo $tlf_local_pr; ?>"
                                             >
                                         </div>
 
-                                        <div class="col-lg-6 my-2">
+                                        <div class="col-lg-6 my-4">
                                             <label for="">Telefono Celular</label>
                                             <input type="number" name="tlf_cel_pr" id="" placeholder="Telefono celular" 
                                             value="<?php if(isset($tlf_cel_pr)) echo $tlf_cel_pr; ?>"
                                             class="form-control">
                                         </div>
 
-                                        <div class="col-lg-6 my-2">
+                                        <div class="col-lg-6 my-4">
                                             <label for="">Telefono de Emergencia</label>
-                                            <input type="number" name="tlf_emerg" id="" placeholder="Telefono celular" class="form-control"
-                                            value="<?php if(isset($tlf_emerg)) echo $tlf_emerg; ?>"
-                                            >
+                                            <input type="number" name="tlf_emerg" id="" placeholder="Telefono celular" class="form-control" value="<?php if(isset($tlf_emerg)) echo $tlf_emerg; ?>">
                                         </div>
-                                                                             <div class="col-lg-6 my-2">
+
+                                        <div class="col-lg-6 my-4">
                                             <label>Seleccione si ya esta registrado: </label>
-                                        <input type="checkbox" <?php if(isset($_POST["si_exist_pr"])){ if($_POST["si_exist_pr"] == '1') echo "checked";}else{if(isset($si_exist_pr)){ if($si_exist_pr == '1') echo "checked";}}
-                                        ?> name="si_exist_pr" value="1" id="">
+                                            <input type="checkbox" <?php if(isset($_POST["si_exist_pr"])){ if($_POST["si_exist_pr"] == '1') echo "checked";}else{if(isset($si_exist_pr)){ if($si_exist_pr == '1') echo "checked";}}?> name="si_exist_pr" value="1" id="">
                                         </div>
                        
-             <a href="reg-estudiante-2.php" class="btn btn-primary col-lg-2 btn-lg">VOLVER</a>
-                            <button type='submit' class="btn btn-primary btn-block btn-lg"value="otros_datos" name ='otros_datos'>Continuar</button>
+                                     </div>   
                        
-                            <?php imprimir_msjs($errors_pr); ?>
+                                        <?php imprimir_msjs($errors_pr); ?>
 
-                                    </div>
+                                    
+                                        <a href="reg-estudiante-2.php" class="btn btn-primary col-lg-2 ">VOLVER</a>
+<!------------------------------------------- BOTON (SIGUIENTE) ----------------------->                                        
+                                        <button type='submit' class="btn btn-primary col-lg-9"value="otros_datos" name ='otros_datos'>CONTINUAR</button>
 
-
-<!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
-                                <!-- <input type="submit" name="continuar" value="CONTINUAR" class="btn btn-primary btn-block btn-lg" id="boton-enviar"> -->
 
                                 </form>   
                             </div>

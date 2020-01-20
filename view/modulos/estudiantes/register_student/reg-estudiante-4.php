@@ -99,87 +99,117 @@ $errors[]= "<a href='final_register.php'>
     <!--------------------------- NOVENO FORMULARIO [ Otros datos de inscripcion y escolaridad ]-->
                 <div class="row">
                         <div class="col-lg-12">
-                            <div id="ui">
+                            
                             <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>"  method="POST" class="form-group text-center">
-                                        <div class="row">
+                                        
+                                    
                                         <div class="col-lg-12">
                                             <h3 class="form-titulo">Otros datos de inscripcion y escolaridad</h3>
                                         </div>
-
-                                        <div class="col-lg-6 my-2">
-                                            <label for="" class="">Cedula escolar</label>
-
-                                        <select name="ci_escol_nacidad" id="cedula" class="form-control" >
-                                            <option value="">-- Naciononalidad --</option>
-                                            <option <?php if(isset($ci_escol_nacidad)) if($ci_escol_nacidad == 'V') echo 'selected';?> value="V">V</option>
-                                            <option <?php if(isset($ci_escol_nacidad)) if($ci_escol_nacidad == 'E') echo 'selected';?> value="E">E</option>
-                                        </select>
-                                        Indicador opcional: 
-                                        <input type="number" placeholder="1" class="form-control" value="<?php if(isset($ci_escol_id_opc)) echo $ci_escol_id_opc; ?>" name="ci_escol_id_opc">
-                                        Año de Nacimiento: 
-                                        <input type="number" placeholder="000" class="form-control" value="<?php if(isset($ci_escol_nac_estd)) echo $ci_escol_nac_estd; ?>" name="ci_escol_nac_estd">
-                                        CI de la Madre
-                                        <input type="number" placeholder="documento de identidad" class="form-control" value="<?php if(isset($ci_escol_ci_mom)) echo $ci_escol_ci_mom; ?>" name="ci_escol_ci_mom">
+                                            <br><br>
+                                            
+                                    <div class="row" id="cuadro"> <!-- INICIO, DIV Cedula escolar -->
                                         
+                                        <div class="col-lg-12">
+                                            <h3 class="form-titulo3">Cedula escolar</h3>
                                         </div>
 
-                                        <div class="col-lg-6 my-2">
+                                        <div class="col-lg-3 my-4">
+                                            <label for="" class="">Naciononalidad</label>
+                                            <select name="ci_escol_nacidad" id="cedula" class="form-control" >
+                                                <option value=""> Seleccione </option>
+                                                <option <?php if(isset($ci_escol_nacidad)) if($ci_escol_nacidad == 'V') echo 'selected';?> value="V">V</option>
+                                                <option <?php if(isset($ci_escol_nacidad)) if($ci_escol_nacidad == 'E') echo 'selected';?> value="E">E</option>
+                                            </select>
+                                        </div>
 
+                                        <div class="col-lg-3 my-4">
+                                            <label for="">Indicador opcional:</label>  
+                                            <input type="number" placeholder="1" class="form-control" value="<?php if(isset($ci_escol_id_opc)) echo $ci_escol_id_opc; ?>" name="ci_escol_id_opc">
+                                        </div>
 
-                                        <div class="col-lg-6 my-2">
+                                        <div class="col-lg-3 my-4">
+                                            <label for="">Año de Nacimiento:</label>  
+                                            <input type="number" placeholder="000" class="form-control" value="<?php if(isset($ci_escol_nac_estd)) echo $ci_escol_nac_estd; ?>" name="ci_escol_nac_estd">
+                                        </div>
+
+                                        <div class="col-lg-3 my-4">
+                                            <label for="">Cedula de la Madre:</label> 
+                                            <input type="number" placeholder="C.I" class="form-control" value="<?php if(isset($ci_escol_ci_mom)) echo $ci_escol_ci_mom; ?>" name="ci_escol_ci_mom">
+                                        </div>
+
+                                    </div>  <!--------- FIN, DIV Cedula escolar  ------------>
+                                    
+                                    <br>
+
+                                    <div class="row" >
+                                        <div class="col-lg-6 my-4">
                                             <label for="" class="">Plantel de procedencia</label>
                                             <input type="text" name="plantel_proced" value="<?php if(isset($plantel_proced)) echo $plantel_proced; ?>" id="" placeholder="Plantel de procedencia" class="form-control">
                                         </div>
 
-                                        <div class="col-lg-6 my-2">
+                                        <div class="col-lg-6 my-4">
                                             <label for="" class="">Localidad</label>
                                             <input type="text" name="localidad" value="<?php if(isset($localidad)) echo $localidad; ?>" id="" placeholder="Localidad" class="form-control">
                                         </div>
+                                    </div>
+                                      
+                                    <br>
 
+                                    <div class="row" id="cuadro"> <!--------- INICIO, DIV Datos de clase  ------------>
+                                    
+                                        <div class="col-lg-12">
+                                            <h3 class="form-titulo3">Datos de clase</h3>
+                                        </div>
 
-                                        <div class="col-lg-6 my-2">
-                                            <label for="">Clase</label>
-            <br>
-            Grado     
-            <select name="grado_escolaridad" id="" autocomplete="on">
-         <option value="">-- Seleccione --</option>
-            <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '1') echo 'selected';?> value="1">1ro</option>
-            <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '2') echo 'selected';?> value="2">2do</option>
-            <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '3') echo 'selected';?> value="3">3ro</option>
-            <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '4') echo 'selected';?> value="4">4to</option>
-            <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '5') echo 'selected';?> value="5">5to</option>
-            <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '6') echo 'selected';?> value="6">6to</option>
-        </select>
+                                        <div class="col-lg-2 my-4">  
+                                           <label for="">Grado:</label> 
+                                            <select name="grado_escolaridad" id="" autocomplete="on" class="form-control ">
+                                                <option value=""> Seleccione </option>
+                                                <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '1') echo 'selected';?> value="1">1ro</option>
+                                                <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '2') echo 'selected';?> value="2">2do</option>
+                                                <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '3') echo 'selected';?> value="3">3ro</option>
+                                                <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '4') echo 'selected';?> value="4">4to</option>
+                                                <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '5') echo 'selected';?> value="5">5to</option>
+                                                <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '6') echo 'selected';?> value="6">6to</option>
+                                            </select>
+                                        </div>
 
-        / Seccion
-            <select name="seccion_escolaridad" id="" autocomplete="on">
-         <option value="">-- Seleccione --</option>
-            <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'A') echo 'selected';?> value="A">A</option>
-            <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'B') echo 'selected';?> value="B">B</option>
-            <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'C') echo 'selected';?> value="C">C</option>
-            <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'D') echo 'selected';?> value="D">D</option>
-            <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'E') echo 'selected';?> value="E">E</option>
-            <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'F') echo 'selected';?> value="F">F</option>
-        </select>
+                                        <div class="col-lg-2 my-4">
 
-                <label for=""> / Año escolar</label>
-                <input type="number" maxlength="4" name="anio_escolar1_escolaridad" value="<?php if(isset($anio_escolar1_escolaridad)) echo $anio_escolar1_escolaridad; ?>" id="" placeholder="0000" class="form-control">
+                                            <label for="">Seccion</label> 
+                                            <select name="seccion_escolaridad" id="" autocomplete="on" class="form-control">
+                                            <option value="" > Seleccione </option>
+                                                <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'A') echo 'selected';?> value="A">A</option>
+                                                <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'B') echo 'selected';?> value="B">B</option>
+                                                <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'C') echo 'selected';?> value="C">C</option>
+                                                <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'D') echo 'selected';?> value="D">D</option>
+                                                <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'E') echo 'selected';?> value="E">E</option>
+                                                <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'F') echo 'selected';?> value="F">F</option>
+                                            </select>
 
-                 <input type="number" maxlength="4" name="anio_escolar2_escolaridad" value="<?php if(isset($anio_escolar2_escolaridad)) echo $anio_escolar2_escolaridad; ?>"  id="" placeholder="0000" class="form-control">
+                                        </div>
 
-        / Turno
-            <select name="turno_escolaridad" id="" autocomplete="on">
-         <option value="">-- Seleccione --</option>
-            <option <?php if(isset($turno_escolaridad)) if($turno_escolaridad == '1') echo 'selected';?> value="1">mañana</option>
-            <option <?php if(isset($turno_escolaridad)) if($turno_escolaridad == '2') echo 'selected';?> value="2">Tarde</option>
-        </select>
+                                        <div class="col-lg-2 my-4">
+                                                <label for="">  Año escolar</label>
+                                                <input type="number" maxlength="4" name="anio_escolar1_escolaridad" value="<?php if(isset($anio_escolar1_escolaridad)) echo $anio_escolar1_escolaridad; ?>" id="" placeholder="0000" class="form-control">
 
+                                                <input type="number" maxlength="4" name="anio_escolar2_escolaridad" value="<?php if(isset($anio_escolar2_escolaridad)) echo $anio_escolar2_escolaridad; ?>"  id="" placeholder="0000" class="form-control">
+                                        </div>
 
-     </div>
-                                        <div class="col-lg-6 my-2">
+                                        <div class="col-lg-2 my-4">
+                                            <label for="">Turno</label>
+                                            <select name="turno_escolaridad" id="" autocomplete="on" class="form-control">
+                                            <option value=""> Seleccione </option>
+                                                <option <?php if(isset($turno_escolaridad)) if($turno_escolaridad == '1') echo 'selected';?> value="1">mañana</option>
+                                                <option <?php if(isset($turno_escolaridad)) if($turno_escolaridad == '2') echo 'selected';?> value="2">Tarde</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-lg-3 my-4">
                                             <label for="">Calificacion definitiva</label>
                                             <select name="calif_escolaridad" id="calificacion" class="form-control" >
-                                                <option value="">-- Seleccione --</option>
+                                                <option value=""> Seleccione </option>
                                                 <option <?php if(isset($calif_escolaridad)) if($calif_escolaridad == 'A') echo 'selected';?> value="A">A</option>
                                                 <option   <?php if(isset($calif_escolaridad)) if($calif_escolaridad == 'B') echo 'selected';?> value="B">B</option>
                                                 <option  <?php if(isset($calif_escolaridad)) if($calif_escolaridad == 'C') echo 'selected';?> value="C">C</option>
@@ -187,7 +217,12 @@ $errors[]= "<a href='final_register.php'>
                                             </select>
                                         </div>
 
-                                        <div class="col-lg-6 my-2">
+                                    </div> <!--------- Fin, DIV Datos de la clase  ------------>
+                                    
+                                    <br>
+
+                                    <div class="row" >
+                                        <div class="col-lg-3 my-4">
                                             <p for="">Repitiente:</p>
                                             <label for="" class=" ">Si:</label>
                                             <input  type="radio" <?php if(isset($_POST["repitiente"])){ if($_POST["repitiente"] == '0') echo "checked";}else{if(isset($repitiente)){ if($repitiente == '0') echo "checked";}} ?>  name="repitiente" value="0" id="">
@@ -196,21 +231,21 @@ $errors[]= "<a href='final_register.php'>
                                             <input type="radio" name="repitiente" <?php if(isset($_POST["repitiente"])){ if($_POST["repitiente"] == '1') echo "checked";}else{if(isset($repitiente)){ if($repitiente == '1') echo "checked";}} ?> id="" value="1">
                                         </div>
 
-                                        <div class="col-lg-6 my-2">
+                                        <div class="col-lg-9 my-4">
                                             <label for="">Observaciones</label>
                                             <textarea name="observacions" id="" class="form-control" placeholder="Ingrese la observacion"><?php if(isset($observacions)) echo $observacions;?></textarea>
                                         </div>
-                                    </div>
+                                    </div> 
+                                            
+                                    <?php imprimir_msjs($errors); ?>
 
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
-                                    <a href="reg-estudiante-3.html" class="btn btn-primary col-lg-2 btn-lg">VOLVER</a>
+                                    <a href="reg-estudiante-3.html" class="btn btn-primary col-lg-2">VOLVER</a>
 
-                            <button type='submit' class="btn btn-primary btn-block btn-lg"value="inscrip_escol" name ='inscrip_escol'>Continuar</button>
-                                <!-- <input type="submit" name="continuar" value="CONTINUAR" class="btn btn-primary btn-block btn-lg" id="boton-enviar"> -->
-                            <?php imprimir_msjs($errors); ?>
-
+                                    <button type='submit' class="btn btn-primary col-lg-9 " value="inscrip_escol" name='inscrip_escol'>CONTINUAR</button>
+                                
                                 </form>   
-                            </div>
+                            
                         </div>
                 </div>
 
