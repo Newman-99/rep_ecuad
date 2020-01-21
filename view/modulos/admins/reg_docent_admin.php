@@ -1,3 +1,5 @@
+<?php require '../../includes/init_system.php'; ?>
+
 <?php
 require '../../includes/head.php';
     session_start();
@@ -63,49 +65,49 @@ regist_admins($id_doc,$area,$turno,'1',$fecha_ingreso,'0000-00-00');
 
 
     <h2>Registro de personal Administrativo</h2>
-    <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
 
-        Documento de Identidad
+<div class="container"> <!-- container -->
 
-         <input type="number" name="id_doc" id="" value="<?php if(isset($id_doc)) echo $id_doc; ?>">
-
-        <br>
-        Area: 
-        <select name="id_area" id="">
-            <option value=""></option>
-            <option <?php if(isset($area)) if($area == '1') echo 'selected';?> value="1">Directiva</option>
-
-            <option <?php if(isset($area)) if($area == '2') echo 'selected'; ?>  value="2">Estadistica</option>
-
-            <option <?php if(isset($area)) if($area == '3') echo 'selected';?> value="3">Pedagogica</option>
-
-        </select>
-
+    <div class="row">    
+    <div class="col-lg-12">
+        <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post" class="form-group text-center">
         
-        <br>
-        Turno:
-        <select name="turno" id="">
+            <div class="col-12 ">
+                <h3 class="form-titulo">Registro de docente administrativo</h3>
+            </div>
+        
+        <div class="row">
+            <div class="col-lg-3 my-4">
+                <label for="">Documento de Identidad</label>
+                <input type="number" name="id_doc" id="" class="form-control" placeholder="Cedula" value="<?php if(isset($id_doc)) echo $id_doc; ?>">
+            </div>
 
-            <option value=""></option>
+            <div class="col-lg-3 my-4">
+                <label for="">Area: </label>
+                <select name="id_area" id="" class="form-control">
+                    <option value="">Seleccione</option>
+                    <option <?php if(isset($area)) if($area == '1') echo 'selected';?> value="1">Directiva</option>
+                    <option <?php if(isset($area)) if($area == '2') echo 'selected'; ?>  value="2">Estadistica</option>
+                    <option <?php if(isset($area)) if($area == '3') echo 'selected';?> value="3">Pedagogica</option>
+                </select>
+            </div>
 
-            <option <?php if(isset($turno)) if($turno == '1') echo 'selected';?> value="1">Mañana</option>
-            <option <?php if(isset($turno)) if($turno == '2') echo 'selected';?> value="2">Tarde</option>
-        </select> 
-    <br>
-        Fecha de Ingreso:
-        <input type="date" name="fecha_ingreso" id="" value="<?php if(isset($fecha_ingreso)) echo $fecha_ingreso; ?>">
-        <br>
+            <div class="col-lg-3 my-4">
+                <label for="">Turno:</label> 
+                <select name="turno" id="" class="form-control">
+                    <option value="">Seleccione</option>
+                    <option <?php if(isset($turno)) if($turno == '1') echo 'selected';?> value="1">Mañana</option>
+                    <option <?php if(isset($turno)) if($turno == '2') echo 'selected';?> value="2">Tarde</option>
+                </select>
+            </div>
 
-        <input type="submit" value="Registrar" name="registrar">
-    </form>
+            <div class="col-lg-3 my-4">
+                <label for="">Fecha de Ingreso:</label> 
+                <input type="date" name="fecha_ingreso" id="" class="form-control" value="<?php if(isset($fecha_ingreso)) echo $fecha_ingreso; ?>">
+            </div>
+        </div>
 
-    
-    <br>
-    <a href="reg_admin.php">volver</a>
-    <br>
-    <br>
-
-    <?php
+<?php
     if(!empty($errors)){
         foreach ($errors as $msjs) {
             echo "<p>$msjs<p>";
@@ -113,7 +115,15 @@ regist_admins($id_doc,$area,$turno,'1',$fecha_ingreso,'0000-00-00');
     }
 
     ?>
+            <div class="row">
+                <div class="col-lg-3"><a class="btn btn-primary btn-block" href="reg_admin.php">Volver</a></div>
+                <div class="col-lg-9"><input class="btn btn-primary btn-block" type="submit" value="Registrar" name="registrar"></div>
+            </div>
 
+        </form>
+    </div>
+    </div>
+</div><!-- CONTAINER -->
 <?php 
 
 require'../../includes/footer.php';
