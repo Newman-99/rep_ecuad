@@ -112,11 +112,11 @@ $_SESSION['sesionform1'][$clave] = $valor;
 
 }
 
- actualizar_persona($nacionalidad,$ci_escolar,$ci_escolar,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,'','','','','');
+/* actualizar_persona($nacionalidad,$ci_escolar,$ci_escolar,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,'','','','','');
 
-update_basic_data_student($ci_escolar,$ci_escolar,$id_doc_new,'3');
+update_basic_data_student($ci_escolar,$ci_escolar,$id_doc_new,'3');*/
 
-$errors[]= "<a href='reg-estudiante-2.php'>
+$errors[]= "<a href='upd-estudiante-2.php'>
     Confirmar
 </a>";
 
@@ -127,26 +127,26 @@ $errors[]= "<a href='reg-estudiante-2.php'>
 }
  ?>
 
-<?php
+    <?php
 
-    $sql = consulta_info_basic_student()." WHERE estd.ci_escolar = :ci_escolar;";
+        $sql = consulta_info_basic_student()." WHERE estd.ci_escolar = :ci_escolar;";
 
-    var_dump($sql,$ci_escolar);
+        var_dump($sql,$ci_escolar);
 
-    $result=$db->prepare($sql);
+        $result=$db->prepare($sql);
+            
+        $result->bindValue(":ci_escolar",$ci_escolar);
         
-    $result->bindValue(":ci_escolar",$ci_escolar);
-    
-    $result->execute();
+        $result->execute();
 
-            if ($result->rowCount() == 0) {
-    echo " <h1>No hay criterios que concidan con su busqueda</h1>";
+                if ($result->rowCount() == 0) {
+        echo " <h1>No hay criterios que concidan con su busqueda</h1>";
 
-    }
+        }
 
-while($registro=$result->fetch(PDO::FETCH_ASSOC)){
- 
-?>
+    while($registro=$result->fetch(PDO::FETCH_ASSOC)){
+     
+    ?>
 
 
     <!--formularios-->

@@ -76,14 +76,14 @@ $errors = array();
 
         <input type="number" name="año_escolar2" id="" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
 
-			<button id=button name="por_cedula" class="icon-search" type="submit">Buscar</button>
+			<button id=button name="buscar" value="buscar" class="icon-search" type="submit">Buscar</button>
 
 			<a href="./register_student/reg-estudiante-1.php" style="float:right;margin-top:80px;margin-right:180px;">Registrar Nuevo Estudiante</a>
 
 		</form>
 
 		<?php 
-		if(!empty($_POST)){
+		if(!empty($_POST['buscar'])){
 
 
 $ci = htmlentities(addslashes($_POST['ci_estudiante']));
@@ -261,7 +261,7 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
                     </form>
 
 
-                        <form action='<?php echo $registro['ci_escolar']; ?>' method='post'>
+                        <form action='mas_info_student.php' pethod='post'>
                         
                         <button type='submit' class='icon-list1' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='mas_info_student' >Mas Informacion</button>
                          

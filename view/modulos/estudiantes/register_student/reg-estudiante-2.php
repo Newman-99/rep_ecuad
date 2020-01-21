@@ -363,6 +363,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
 }
 
  ?>
+ 
     <!--formularios-->
             <div class="container">
 
