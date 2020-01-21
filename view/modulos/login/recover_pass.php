@@ -24,11 +24,13 @@ if (!empty($_POST['enviar'])) {
 
 ?>
       
-
+<head>
+    <link rel="stylesheet" type="text/css" href="../../style/css/estilos_login.css">
+</head>
     <title>Document</title>
 </head>
 <body>
-
+<div class="contenedor">
         <div class="formulario">
             <h3>Cuenta que desea Recuperar</h3>
 
@@ -40,7 +42,9 @@ if (!empty($_POST['enviar'])) {
                 <input type="submit" value="iniciar" name="enviar">
             </form>
         </div>
+        <a href="log.php">Volver</a>
 
+</div>
 
 <?php
 
@@ -50,7 +54,6 @@ if (!empty($_POST['enviar'])) {
                 
 ?>
 
-<a href="log.php">Volver</a>
 
 <?php
 require'../../includes/footer.php';

@@ -29,11 +29,13 @@ if (!empty($_POST['answers'])) {
 }
 
 ?>
+<link rel="stylesheet" type="text/css" href="./../style/css/estilos_login.css">
 	<title>Preguntas</title>
 </head>
 <body>
 	
-
+<div class="contenedor">
+	<div>
  <form id="signupform" role="form" action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>"
     method="POST" autocomplete="on">
 	
@@ -47,8 +49,8 @@ if (!empty($_POST['answers'])) {
             <button id=button class='icon-search' type='submit' name='answers' value='<?php echo $id_usr; ?>'>Enviar</button>
 
 </form>
-
-
+</div>
+</div>
     <?php
     if(!empty($errors)){
         foreach ($errors as $msjs) {
