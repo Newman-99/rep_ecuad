@@ -1,3 +1,5 @@
+<?php require '../../includes/init_system.php'; ?>
+
 <? require '../../includes/head.php';
     session_start();
 
@@ -20,7 +22,7 @@ if (!empty($_POST['mas_info_docent'])) {
 
 
     <h2>Mas Informacion del Docente</h2>
-    <form action='<?php htmlspecialchars($_SERVER['PHP_SELF'])?>' method='post'>
+    <form action='<?php htmlspecialchars($_SERVER['PHP_SELF'])?>' method='post' class="form-group text-center">
         <br>
 <?php
 

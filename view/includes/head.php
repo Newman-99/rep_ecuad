@@ -1,8 +1,4 @@
-<?php
-require  '../../../database/connect.php';
 
-require '../../../functions/functions.php';
-?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -23,3 +19,7 @@ require '../../../functions/functions.php';
 
 
 -->
+<link rel="stylesheet" href="../../style/css/estilos_gregorio.css">
+    <!--Boostrap-->
+    
+    <link rel="stylesheet" href="../../style/bootstrap/bootstrap.min.css">

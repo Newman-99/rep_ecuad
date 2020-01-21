@@ -49,8 +49,8 @@ ul {
 }
 
 h2{
-    
-   display: inline;
+    color: #FFF; 
+    display: inline;
      position: absolute;
      right: 5%;
      top: 30px;
@@ -58,6 +58,8 @@ h2{
      margin-left: 5px;
      font-weight: 100;
 }
+
+
 
 /*Estilos del contenedor formulario*/
 .form-group {
@@ -113,10 +115,6 @@ h2{
     margin: 1px auto 30px auto;
     border-radius: 5px;
     opacity: 1.00;
-    /*  background: rgb(238, 249, 255); 
-        padding: 10px 30px;
-        border: solid 1px;
-        border-color: #2b2b2b; */
 }
 
 input {
@@ -134,105 +132,3 @@ input {
     margin-top: 40px;
 }
 
-/*
-.contenedor-form .toggle {
-    position: absolute;
-    top: 7px;
-    right: 7px;
-    width: 100px;
-    height: 30px;
-    font-size: 12px;
-    line-height: 25px;
-    text-align: center;
-    border-top: 2px solid #0075d9;
-    border-bottom: 2px solid #0075d9;
-    cursor: pointer;
-    transition: all .5s ease;
-}
-
-.contenedor-form .toggle:hover {
-    border-top: 2px solid #C64133;
-    border-bottom: 2px solid #C64133;
-}
-
-.contenedor-form .toggle span {
-    letter-spacing: 1px;
-}
-
-.contenedor-form h2 {
-    margin: 0 0 28px 0;
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 1;
-}
-*/
-/*
-.contenedor-form input[type="text"],
-.contenedor-form input[type="password"],
-.contenedor-form input[type="email"] {
-    outline: none;
-    display: block;
-    width: 100%;
-    padding: 15px 15px;
-    margin: 0 0 20px 0;
-    background: rgba(0,0,0,.5);
-    color: #fff;
-    border: none;
-    border-radius: 2px;
-    box-sizing: border-box;
-    font-family: Roboto;
-    font-size: 14px;
-    font-weight:normal;
-    transition: all .5s ease;
-}
-
-.contenedor-form input[type="text"]:focus,
-.contenedor-form input[type="password"]:focus,
-.contenedor-form input[type="email"]:focus {
-    border-bottom: 4px solid #0075d9;
-}
-
-.contenedor-form input[type="submit"] {
-    background: #C64133;
-    color: #fff;
-    width: 100%;
-    border: none;
-        border-radius: 5px;
-
-    padding: 10px 0;
-    font-size: 16px;
-    font-weight: normal;
-    font-family: Roboto;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all .5s ease;
-}
-
-.contenedor-form input[type="submit"]:hover {
-    background: #0075d9;
-}
-
-.contenedor-form .reset-password {
-    background: rgba(0, 117, 217, .7);
-    width: 100%;
-    padding: 15px 0;
-    text-align: center;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-
-.contenedor-form .reset-password a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-}
-
-.contenedor-form .formulario {
-    display: none;
-    padding: 40px;
-}
-
-.contenedor-form .formulario:nth-child(2) {
-    display: block;
-}
-*/

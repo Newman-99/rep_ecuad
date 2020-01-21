@@ -1,9 +1,4 @@
-<?php
-require '../../../../database/connect.php';
-require '../../../../functions/functions.php';
 
-// valid_inicio_sesion('2');
-        ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -20,4 +15,3 @@ require '../../../../functions/functions.php';
     <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-grid.min.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-reboot.min.css">
     -->
-    <title>Inscripion Estudiantil</title>
