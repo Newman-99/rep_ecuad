@@ -94,6 +94,19 @@ h2{
     
 }
 
+#cuadro {
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: #2b2b2b3a;
+}
+
+.form-titulo3 {
+    
+    padding: 10px 30px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 20px;
+}
 
 #estado-salud-estudiante{ 
   
