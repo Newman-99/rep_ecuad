@@ -8,7 +8,7 @@ $errors = array();
 	    <title>Estudiantes</title>
 	    
 <?php require '../../includes/header.php'; ?>	
-
+<link rel="stylesheet" type="text/css" href="../../styles/css/styles.css">
 
 	<section>
 		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">

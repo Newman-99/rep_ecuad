@@ -29,13 +29,13 @@ if (!empty($_POST['answers'])) {
 }
 
 ?>
-<link rel="stylesheet" type="text/css" href="./../style/css/estilos_login.css">
+<link rel="stylesheet" type="text/css" href="../../style/css/estilos_login.css">
 	<title>Preguntas</title>
 </head>
 <body>
 	
 <div class="contenedor">
-	<div>
+	<div class="formulario">
  <form id="signupform" role="form" action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>"
     method="POST" autocomplete="on">
 	

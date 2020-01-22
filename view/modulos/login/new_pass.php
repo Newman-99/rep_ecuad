@@ -39,9 +39,9 @@ if (is_array(valid_pass($pass)) || is_string(valid_pass_par($pass,$pass_confirm)
 
 
 ?>
-
-
-        <div class="formulario">
+<link rel="stylesheet" type="text/css" href="../../style/css/estilos_login.css">
+        <div class="contenedor">
+            <div class="formulario">
             <h3>Nuevas Contraseña</h3>
 
     <form id="signupform" role="form" action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>"
@@ -53,6 +53,7 @@ if (is_array(valid_pass($pass)) || is_string(valid_pass_par($pass,$pass_confirm)
 
             <button id=button class='' type='submit' name='cambiar' value='<?php echo $id_usr; ?>'>Enviar</button>
             </form>
+            </div>
         </div>
 
 
