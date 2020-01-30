@@ -47,17 +47,25 @@ if (!comprobar_msjs_array($errors)) {
 
 }
 }
+<meta charset="utf-8">
 
 ?>
-    <title>Registro de Docentes</title>
+<link rel="stylesheet" type="text/css" href="../../style/css/styless.css">
 
+    <title>Registro de Docentes</title>
+<header class="top">
+           <ul style="background-image: url('../../img/th6.jpg');">
+                <li><img src="../../img/i.png" width="80px" height="70px" style="" ><br><p> U-E-N "República del Ecuador"</p></li>
+            </ul>
+       </header>
 
 <?php require '../../includes/header.php' ?>
 
-
+<div class="container-re">
+    <br>
     <h2>Registro de personal Docente</h2>
     <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
-
+        <br>
         Documento de Identidad
 
          <input type="number" name="id_doc" id="" value="<?php if(isset($id_doc)) echo $id_doc; ?>">
@@ -88,15 +96,15 @@ if (!comprobar_msjs_array($errors)) {
         <input type="date" name="fecha_ingreso" id="" value="<?php if(isset($fecha_ingreso)) echo $fecha_ingreso; ?>">
         <br>
 
-        <input type="submit" value="Registrar" name="registrar">
+        <input type="submit" value="Registrar" name="registrar" class="reg">
     </form>
 
     
     <br>
-    <a href="register_docent.php">volver</a>
+    <a href="register_docent.php" style="color: #fff;">volver</a>
     <br>
     <br>
-
+</div>
     <?php
     if(!empty($errors)){
         foreach ($errors as $msjs) {

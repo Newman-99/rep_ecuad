@@ -24,11 +24,7 @@ if (is_array(valid_pass($pass)) || is_string(valid_pass_par($pass,$pass_confirm)
 
 		$errors[]='Su cambio de contraseña, usuario: '.$id_usr.' fue exitoso <br> Ya puede iniciar sesion: <br>';
 
-		$errors[] = "	<form id='signupform' role='form' action='log.php' method='POST' autocomplete='on'>
-			
-            <button id=button class='' type='submit' name='exito_pass' value='exitoso'>Iniciar Sesion</button>
-
-			</form>";
+		
 
 
 }
@@ -39,20 +35,30 @@ if (is_array(valid_pass($pass)) || is_string(valid_pass_par($pass,$pass_confirm)
 
 
 ?>
-
-
-        <div class="formulario">
-            <h3>Nuevas Contraseña</h3>
-
+<link rel="stylesheet" type="text/css" href="../../style/css/estilos_login.css">
+        <div class="contenedor">
+            <div class="formulario">
+            <h3>Nueva Contraseña</h3>
+            <br>
+            <br>
     <form id="signupform" role="form" action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>"
     method="POST" autocomplete="on">
                 
             <input type="password" name="pass" value="<?php if(isset($pass)) echo $pass; ?>" placeholder="Contraseña" >
-
+            <br>
+            <br>
             <input type="password" name="pass_confirm" value="<?php if(isset($pass_confirm)) echo $pass_confirm; ?>" placeholder="Confirmar Contraseña" >
-
+            <br>
+            <br>
             <button id=button class='' type='submit' name='cambiar' value='<?php echo $id_usr; ?>'>Enviar</button>
             </form>
+            <a href="log.php">Volver</a>
+            $errors[] = "   <form id='signupform' role='form' action='log.php' method='POST' autocomplete='on'>
+            
+            <button id=buttons class='' type='submit' name='exito_pass' value='exitoso'>Iniciar Sesion</button>
+
+            </form>";
+            </div>
         </div>
 
 
@@ -64,7 +70,6 @@ if (is_array(valid_pass($pass)) || is_string(valid_pass_par($pass,$pass_confirm)
     }
 
     ?>
-<a href="log.php">Volver</a>
 
 
 <?php
