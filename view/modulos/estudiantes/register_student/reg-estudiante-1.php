@@ -164,7 +164,6 @@ $errors[]= "<a href='reg-estudiante-2.php'>
                                     </div>
                                 </div>
 
-
                                 <div class="row">
                                     <div class="col-lg-6 my-2">
                                         <p for="" class="">Sexo:</p>

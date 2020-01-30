@@ -25,10 +25,12 @@ $errors_r = array();
 
 if (!empty($_POST['datos_pers_estd'])) {
 
+
         foreach ($_POST as $clave => $valor) {
 $_SESSION['sesionform2'][$clave] = $valor;
 
 }
+
 
 if (isset($_POST['no_register_m']) && isset($_POST['si_exist_m']) ) {
     $errors_m[] = "Selecione si se registrara o ya esta registrada, solo una opcion";
@@ -38,7 +40,11 @@ if (empty($_POST['no_register_m'])) {
 
 
     $nacionalidad_m = htmlentities(addslashes($_POST["nacionalidad_m"]));
+
+if (isset($_POST["id_doc_m"])) {
     $id_doc_m = htmlentities(addslashes($_POST["id_doc_m"]));
+}
+
     $nombre1_m = htmlentities(addslashes($_POST["nombre1_m"]));
     $nombre2_m = htmlentities(addslashes($_POST["nombre2_m"]));
     $apellido_p_m = htmlentities(addslashes($_POST["apellido_p_m"]));
@@ -70,29 +76,31 @@ if (isset($_POST["is_represent_m"])) {
     }
 
 
-
+if (isset($_POST["id_doc_m_new"])) {
+$id_doc_m_new= $_POST["id_doc_m_new"];
+$id_doc_m = $id_doc_m_new;
 if (isset($_POST["si_exist_m"])) {
 
-if (validar_datos_vacios($id_doc_m) || !isset($convivencia_mn)) {
+if (validar_datos_vacios($id_doc_m_new) || !isset($convivencia_m)) {
            $errors_m[]='El documento de identidad no puede estar vacio y asegurese de indicar si vive con el estudiante';  
-
 }else{
 
-
-$errors_m[] = valid_ci($id_doc_m);
-
-if (isset($_POST['id_doc_new'])) {
-    # code...
+    if(!is_exist_ci($id_doc_m_new)) {
+       $errors_m[]='Esta cedula no esta registrada en el sistema';
+        }
+$errors_m[] = valid_ci($id_doc_m_new);
 }
-    if(!is_exist_ci($id_doc_m)) {
-       $errors_m[]='Esta cedula no esta registrada en el sistema';}
-}
-
 }else{
+    if(is_exist_ci($id_doc_m_new)) {
+       $errors_m[]='Esta cedula ya esta registrada en el sistema';
+        }
+
+$errors_m[] = valid_ci($id_doc_m_new);
 
 $errors_m = validar_datos_personales($nacionalidad_m,
-    $id_doc_m,
-    $sexo_m = '2',
+    $id_doc_m_new,
+    $sexo_m = '1'
+    ,
     $nombre1_m, 
     $nombre2_m, 
     $apellido_p_m,
@@ -109,9 +117,48 @@ $errors_m = validar_datos_personales($nacionalidad_m,
     $direcc_trab_m,
     $lug_trab_m,
     $tlf_ofic_m);
+}
+
+}else{
+
+if(strcmp($_SESSION['id_doc_m'], $id_doc_m) != 0) {
+
+$errors_m = validar_datos_mersonales($nacionalidad_m,
+    $id_doc_m,
+    $sexo_m = '1'
+    ,
+    $nombre1_m, 
+    $nombre2_m, 
+    $apellido_m_m,
+    $apellido_m_m,
+    $fecha_nac_m,     
+    $lugar_nac_m,     
+    $direcc_hab_m,   
+    $tlf_cel_m,    
+    $tlf_local_m,     
+    $correo_m, 
+    $estado_civil_m,
+    $ocupacion_m,  
+    $prof_ofi_m,
+    $direcc_trab_m,
+    $lug_trab_m,
+    $tlf_ofic_m);
+
+    if(is_exist_ci($id_doc_m)) {
+       $errors_m[] = 'Esta cedula ya esta registrada en el sistema';
+        }
+
+    $errors_m[] = valid_ci($id_doc_m);
+    }    
+
+}
 
 $lugar_nac_m=trim($lugar_nac_m);
 $direcc_hab_m=trim($direcc_hab_m);
+$ocupacion_m=trim($ocupacion_m);
+$prof_ofi_m=trim($prof_ofi_m);
+$direcc_trab_m=trim($direcc_trab_m);
+$lug_trab_m=trim($lug_trab_m);
 $fecha_nac_m=trim($fecha_nac_m);
 $correo_m = filter_var($correo_m, FILTER_SANITIZE_EMAIL);
 $nombre1_m=filtrar_nombres_apellidos($nombre1_m);
@@ -119,13 +166,11 @@ $nombre2_m=filtrar_nombres_apellidos($nombre2_m);
 $apellido_p_m=filtrar_nombres_apellidos($apellido_p_m);
 $apellido_m_m=filtrar_nombres_apellidos($apellido_m_m);
 
-$ocupacion_m=trim($ocupacion_m);
-$prof_ofi_m=trim($prof_ofi_m);
-$direcc_trab_m=trim($direcc_trab_m);
-$lug_trab_m=trim($lug_trab_m);
 
 
-}   
+
+
+
 }else{$no_register_m=$_POST['no_register_m'];
 }
 }
@@ -134,8 +179,14 @@ if (isset($_POST['no_register_p']) && isset($_POST['si_exist_p']) ) {
     $errors_p[] = "Selecione si se registrara o ya esta registrado, solo una opcion";
 }else{
 
+    if (empty($_POST['no_register_p'])) {
+
+
     $nacionalidad_p = htmlentities(addslashes($_POST["nacionalidad_p"]));
+
+if (  isset($_POST["id_doc_p"])) {
     $id_doc_p = htmlentities(addslashes($_POST["id_doc_p"]));
+}
     $nombre1_p = htmlentities(addslashes($_POST["nombre1_p"]));
     $nombre2_p = htmlentities(addslashes($_POST["nombre2_p"]));
     $apellido_p_p = htmlentities(addslashes($_POST["apellido_p_p"]));
@@ -169,30 +220,54 @@ if (isset($_POST["is_represent_p"])) {
     $si_exist_m = 0;
 
 
-if (empty($_POST['no_register_p'])) {
-
+if (isset($_POST["id_doc_p_new"])) {
+$id_doc_p_new= $_POST["id_doc_p_new"];
+$id_doc_p = $id_doc_p_new;
 if (isset($_POST["si_exist_p"])) {
 
-if (validar_datos_vacios($id_doc_p) || !isset($convivencia_p)) {
+if (validar_datos_vacios($id_doc_p_new) || !isset($convivencia_p)) {
            $errors_p[]='El documento de identidad no puede estar vacio y asegurese de indicar si vive con el estudiante';  
-
 }else{
 
-$errors_p[] = valid_ci($id_doc_p);
-
-    if(!is_exist_ci($id_doc_p)) {
+    if(!is_exist_ci($id_doc_p_new)) {
        $errors_p[]='Esta cedula no esta registrada en el sistema';
         }
+$errors_p[] = valid_ci($id_doc_p_new);
 }
-
 }else{
+    if(is_exist_ci($id_doc_p_new)) {
+       $errors_p[]='Esta cedula ya esta registrada en el sistema';
+        }
 
-$lugar_nac_p=trim($lugar_nac_p);
-$direcc_hab_p=trim($direcc_hab_p);
+$errors_p[] = valid_ci($id_doc_p_new);
+
+$errors_p = validar_datos_personales($nacionalidad_p,
+    $id_doc_p_new,
+    $sexo_p = '1'
+    ,
+    $nombre1_p, 
+    $nombre2_p, 
+    $apellido_p_p,
+    $apellido_m_p,
+    $fecha_nac_p,     
+    $lugar_nac_p,     
+    $direcc_hab_p,   
+    $tlf_cel_p,    
+    $tlf_local_p,     
+    $correo_p, 
+    $estado_civil_p,
+    $ocupacion_p,  
+    $prof_ofi_p,
+    $direcc_trab_p,
+    $lug_trab_p,
+    $tlf_ofic_p);
+
 $ocupacion_p=trim($ocupacion_p);
 $prof_ofi_p=trim($prof_ofi_p);
 $direcc_trab_p=trim($direcc_trab_p);
 $lug_trab_p=trim($lug_trab_p);
+$lugar_nac_p=trim($lugar_nac_p);
+$direcc_hab_p=trim($direcc_hab_p);
 $fecha_nac_p=trim($fecha_nac_p);
 $correo_p = filter_var($correo_p, FILTER_SANITIZE_EMAIL);
 $nombre1_p=filtrar_nombres_apellidos($nombre1_p);
@@ -200,7 +275,11 @@ $nombre2_p=filtrar_nombres_apellidos($nombre2_p);
 $apellido_p_p=filtrar_nombres_apellidos($apellido_p_p);
 $apellido_m_p=filtrar_nombres_apellidos($apellido_m_p);
 
+}
 
+}else{
+
+if(strcmp($_SESSION['id_doc_p'], $id_doc_p) != 0) {
 
 $errors_p = validar_datos_personales($nacionalidad_p,
     $id_doc_p,
@@ -236,16 +315,41 @@ $nombre2_p=filtrar_nombres_apellidos($nombre2_p);
 $apellido_p_p=filtrar_nombres_apellidos($apellido_p_p);
 $apellido_m_p=filtrar_nombres_apellidos($apellido_m_p);
 
+    if(is_exist_ci($id_doc_p)) {
+       $errors_p[] = 'Esta cedula ya esta registrada en el sistema';
+        }
+
+    $errors_p[] = valid_ci($id_doc_p);
+    }    
+
+}
 
 
-}   
+$lugar_nac_p=trim($lugar_nac_p);
+$direcc_hab_p=trim($direcc_hab_p);
+$ocupacion_p=trim($ocupacion_p);
+$prof_ofi_p=trim($prof_ofi_p);
+$direcc_trab_p=trim($direcc_trab_p);
+$lug_trab_p=trim($lug_trab_p);
+$fecha_nac_p=trim($fecha_nac_p);
+$correo_p = filter_var($correo_p, FILTER_SANITIZE_EMAIL);
+$nombre1_p=filtrar_nombres_apellidos($nombre1_p);
+$nombre2_p=filtrar_nombres_apellidos($nombre2_p);
+$apellido_p_p=filtrar_nombres_apellidos($apellido_p_p);
+$apellido_m_p=filtrar_nombres_apellidos($apellido_m_p);
+
+
+
+
+
+
 }else{$no_register_p=$_POST['no_register_p'];
 }
 }
 
+var_dump($_POST);
 
-
-if (empty($is_represent_r) && empty($is_represent_m) ) {
+if (empty($is_represent_p) && empty($is_represent_m) ) {
 
     $nacionalidad_r = htmlentities(addslashes($_POST["nacionalidad_r"]));
     $id_doc_r = htmlentities(addslashes($_POST["id_doc_r"]));
@@ -280,30 +384,36 @@ if (isset($_POST["sexo_r"])) {
 }
 
 if (!isset($_POST["sexo_r"])) {
-$_POST["sexo_r"] = '';
+$sexo_r=$_POST["sexo_r"] ;
 }
 
+
+if (isset($_POST["id_doc_r_new"])) {
+$id_doc_r_new= $_POST["id_doc_r_new"];
+$id_doc_r = $id_doc_r_new;
 if (isset($_POST["si_exist_r"])) {
 
-if (validar_datos_vacios($id_doc_r) || !isset($convivencia_r)) {
+if (validar_datos_vacios($id_doc_r_new) || !isset($convivencia_r)) {
            $errors_r[]='El documento de identidad no puede estar vacio y asegurese de indicar si vive con el estudiante';  
-
 }else{
 
-$errors_r[] = valid_ci($id_doc_r);
-
-    if(!is_exist_ci($id_doc_r)) {
+    if(!is_exist_ci($id_doc_r_new)) {
        $errors_r[]='Esta cedula no esta registrada en el sistema';
         }
+$errors_r[] = valid_ci($id_doc_r_new);
 }
 
 }else{
+    if(is_exist_ci($id_doc_r_new)) {
+       $errors_r[]='Esta cedula ya esta registrada en el sistema';
+        }
 
+$errors_r[] = valid_ci($id_doc_r_new);
 
-
-$errors_r = validar_datos_personales($nacionalidad_r,
-    $id_doc_r,
-    $_POST["sexo_r"],
+$errors_p = validar_datos_personales($nacionalidad_r,
+    $id_doc_r_new,
+    $_POST['sexo_r']
+    ,
     $nombre1_r, 
     $nombre2_r, 
     $apellido_p_r,
@@ -320,11 +430,45 @@ $errors_r = validar_datos_personales($nacionalidad_r,
     $direcc_trab_r,
     $lug_trab_r,
     $tlf_ofic_r);
-
-if (validar_datos_vacios($parentesco_r)) {
-    $errors_r[]= 'Por favor introduzca el parentesco';
 }
-$parentesco_r=trim($parentesco_r);
+
+}else{
+
+
+if(strcmp($_SESSION['id_doc_r'], $id_doc_r) != 0) {
+
+
+$errors_p = validar_datos_personales($nacionalidad_r,
+    $id_doc_r,
+    $_POST['sexo_r']
+    ,
+    $nombre1_r, 
+    $nombre2_r, 
+    $apellido_p_r,
+    $apellido_m_r,
+    $fecha_nac_r,     
+    $lugar_nac_r,     
+    $direcc_hab_r,   
+    $tlf_cel_r,    
+    $tlf_local_r,     
+    $correo_r, 
+    $estado_civil_r,
+    $ocupacion_r,  
+    $prof_ofi_r,
+    $direcc_trab_r,
+    $lug_trab_r,
+    $tlf_ofic_r);
+}else{
+
+    if(is_exist_ci($id_doc_p)) {
+       $errors_p[] = 'Esta cedula ya esta registrada en el sistema';}
+
+    $errors_p[] = valid_ci($id_doc_p);    
+
+    echo "Regitrar Nuevo";
+}
+
+
 $lugar_nac_r=trim($lugar_nac_r);
 $direcc_hab_r=trim($direcc_hab_r);
 $ocupacion_r=trim($ocupacion_r);
@@ -337,7 +481,6 @@ $nombre1_r=filtrar_nombres_apellidos($nombre1_r);
 $nombre2_r=filtrar_nombres_apellidos($nombre2_r);
 $apellido_p_r=filtrar_nombres_apellidos($apellido_p_r);
 $apellido_m_r=filtrar_nombres_apellidos($apellido_m_r);
-
 
 }
 }
@@ -363,12 +506,9 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
     Confirmar
 </a>";
 
-
 }
 
 }
-
-        var_dump($ci_escolar);
 
  ?>
 
@@ -381,9 +521,12 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
 }else{
 */
 
-                if(!is_exist_padre('',$ci_escolar,'2')){
+
+                if(!is_exist_padre('',$ci_escolar,'1')){
             
-            form_madres_empty();
+            if (isset($_POST)) {
+            form_madres_empty($_POST);
+            }else{   form_madres_empty('');}
 }else{
 
         $sql = consulta_padres_student()." WHERE pds.ci_escolar = :ci_escolar AND pds.id_tip_padre = 1";
@@ -395,14 +538,13 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
         $result->execute();
 
 $id_doc_m=form_madres_full($result,$ci_escolar);
-
+$_SESSION['id_doc_m'] = $id_doc_m;
 }
+
        ?> 
 
 <?php   imprimir_msjs($errors_m);  ?>
 <!------------------------------- TERCER FORMULARIO [ DATOS DEL PADRE ] ------------------------------------------------>
-
-
 
         <?php 
 
@@ -410,8 +552,10 @@ $id_doc_m=form_madres_full($result,$ci_escolar);
 
             if(!is_exist_padre('',$ci_escolar,'2')) {
             
-            echo "<h1>Esto</h1>";
-            form_padre_empty();
+            if (isset($_POST)) {
+            form_madres_empty($_POST);
+            }else{   form_madres_empty('');
+}
 }else{
 
         $sql = consulta_padres_student()." WHERE pds.ci_escolar = :ci_escolar AND pds.id_tip_padre = 2";
@@ -424,6 +568,7 @@ $id_doc_m=form_madres_full($result,$ci_escolar);
 
         $id_doc_p= form_padres_full($result,$ci_escolar);
        
+$_SESSION['id_doc_p'] = $id_doc_p;
 
 }
         imprimir_msjs($errors_p); 
@@ -446,170 +591,24 @@ $id_doc_m=form_madres_full($result,$ci_escolar);
         $result->execute();
 
 
-if (!isset($id_doc_p) || !isset($id_doc_m)) {
-
-form_represent_full($result);
-
-}else{
-
- ?>
-    <br><br><br><br>    
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <h3 class="form-titulo">Datos del Representante</h3>
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Primer Apellido:</label>
-                                            <input type="text" name="apellido_p_r" id="" placeholder="Apellido" class="form-control" value="<?php if(isset($apellido_p_r)) echo $apellido_p_r; ?>" >
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Segundo Apellido:</label>
-                                            <input type="text" name="apellido_m_r" id="" placeholder="Apellido" class="form-control" value="<?php if(isset($apellido_m_r)) echo $apellido_m_r; ?>" >
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row">
-                                        <div class="col-lg-6 my-2">
-                                            <label>Primer Nombre:</label>
-                                            <input type="text" name="nombre1_r" id="" placeholder="Nombre" class="form-control"  value="<?php if(isset($nombre1_r)) echo $nombre1_r; ?>">
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Segundo Nombre:</label>
-                                            <input type="text" name="nombre2_r" id="" placeholder="Nombre" class="form-control" value="<?php if(isset($nombre1_r)) echo $nombre1_r; ?>">
-                                        </div>
-                                    </div>
-
-                                
-                                    <div class="row">
-                                        <div class="col-lg-3 my-3">
-                                            <label></label>
-                                        <select name="nacionalidad_r" id="cedula" class="form-control" >
-                                            <option value=""> Seleccione </option>
-                                            <option <?php if(isset($nacionalidad_r)) if($nacionalidad_r == '1') echo 'selected';?> value="1">V</option>
-                                            <option <?php if(isset($nacionalidad_r)) if($nacionalidad_r == '2') echo 'selected';?> value="2">E</option>
-                                        </select>
-                                        </div>
-
-                                        <div class="col-lg-3 my-2">
-                                            <label>Cedula:</label>
-                                            <input type="text" maxlength="8" placeholder="C.I" class="form-control"  name="id_doc_r" value="<?php if(isset($id_doc_r)) echo $id_doc_r; ?>">     
-                                        </div>
-                                        
-                                        <div class="col-lg-6 my-2">
-                                            <p for="" class="">Sexo:</p>
-
-                                            <label for="" class="">Masculino:</label>
-                                            <input type="radio" <?php if(isset($_POST["sexo_r"])){ if($_POST["sexo_r"] == '1') echo "checked";}else{if(isset($sexo_r)){ if($sexo_r == '1') echo "checked";}};
-                                            ?> name="sexo_r" value="1" id="" >
-
-                                            <label for="sexo_r" class="">Femenino:</label>
-
-                                            <input type="radio" name="sexo_r" <?php if(isset($_POST["sexo_r"])){ if($_POST["sexo_r"] == '2') echo "checked";}else{if(isset($sexo_r)){ if($sexo_r == '2') echo "checked";}}
-                                            ?> value="2" id="" >
-                                        </div>                                        
-                                    </div> 
-                                
-                                    <div class="row my-4">
-                                        <div class="col-lg-6 ">
-                                            <label>Ocupacion:</label>
-                                            <input type="text" name="ocupacion_r" id="" placeholder="Ocupacion" class="form-control" value="<?php if(isset($ocupacion_r)) echo $ocupacion_r;?>">
-                                        </div>
-
-                                        <div class="col-lg-3 ">
-                                            <label for="">Fecha de Nacimiento:</label>
-                                            <input type="text" name="fecha_nac_r" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_r)) echo $fecha_nac_r; ?>">
-                                        </div>
-    
-
-                                        <div class="col-lg-3 ">
-                                            <label>Estado civil:</label>
-                                            <select name="estado_civil_r" id="cedula" class="form-control"  >
-                                                <option value=""> Seleccione </option>
-                                                <option <?php if(isset($estado_civil_r)) if($estado_civil_r == '1') echo 'selected';?> value="1">Soltero/a</option>
-                                                <option <?php if(isset($estado_civil_r)) if($estado_civil_r == '2') echo 'selected';?> value="2">Casado/a</option>
-                                                <option <?php if(isset($estado_civil_r)) if($estado_civil_r == '3') echo 'selected';?> value="3">Divorciado/a</option>
-                                                <option <?php if(isset($estado_civil_r)) if($estado_civil_r == '4') echo 'selected';?> value="4">Viudo/a</option>
-                                            </select>
-                                        </div>
-                                    </div>
-    
-                                
-                                    <div class="row my-4">
-                                        <div class="col-lg-6 ">
-                                            <label for="">Lugar de Nacimiento</label>
-                                            <textarea rows="3" cols="40" placeholder="Lugar de nacimiento" class="form-control"  name="lugar_nac_r" id="" ><?php if(isset($lugar_nac_r)) echo $lugar_nac_r;?></textarea>
-                                        </div>
-
-                                        <div class="col-lg-6 ">
-                                            <label for="">Direccion de Habitacion</label>
-                                            <textarea rows="3" cols="40" name="direcc_hab_r"  id="" placeholder="Direccion de Habitacion" class="form-control" ><?php if(isset($direcc_hab_r)) echo $direcc_hab_r;?></textarea>
-                                        </div>
-                                    </div>
-    
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-3 ">
-                                            <label for="">Telefono local</label>
-                                            <input type="number" name="tlf_local_r" id="" placeholder="Telefono local" class="form-control" value="<?php if(isset($tlf_local_r)) echo $tlf_local_r; ?>" >    
-                                        </div>
-                                        
-                                        <div class="col-lg-3 ">
-                                            <label for="">Telefono celular</label>
-                                            <input type="number" name="tlf_cel_r" id="" placeholder="Telefono celular" class="form-control" value="<?php if(isset($tlf_cel_r)) echo $tlf_cel_r; ?>" >    
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <label>Correo Electronico:</label>
-                                            <input type="email" name="correo_r" id="" placeholder="Correo electronico" class="form-control" value="<?php if(isset($correo_r)) echo $correo_r; ?>">
-                                        </div>
-                                        
-                                    </div>
+if (!isset($id_doc_p) || !isset($id_doc_m) AND empty($_POST['new_represent'])) {
+        
+            form_represent_full($result);
+                
+           echo "  <button type='submit' class='btn btn-primary col-lg-9 'value='datos_student' name ='new_represent'>Anadir Nuevo Representante</button>
+";
 
 
-                                    <div class="row my-4">
-                                        <div class="col-lg-6 my-4">
-                                            <label >Profesion u Oficio:</label>
-                                            <input type="text" name="prof_ofi_r" id="" placeholder="Profesion u Oficio" class="form-control" value="<?php if(isset($prof_ofi_r)) echo $prof_ofi_r; ?>">
-                                        </div>
+}
 
-                                        <div class="col-lg-6">
-                                            <label for="">Lugar de trabajo:</label>
-                                            <textarea rows="3" cols="40" name="lug_trab_r"  id="" placeholder="Lugar de trabajo" class="form-control" ><?php if(isset($lug_trab_r)) echo $lug_trab_r;?></textarea>
-                                        </div>
-                                    </div>
+if (isset($id_doc_p) AND isset($id_doc_m) || isset($_POST['new_represent'])) {
 
-                                    <div class="row">
-                                        <div class="col-lg-6 ">
-                                            <label for="">Direccion de trabajo:</label>
-                                            <textarea rows="3" cols="40" name="direcc_trab_r"  id="" placeholder="Direccion de trabajo" class="form-control" ><?php if(isset($direcc_trab_r)) echo $direcc_trab_r;?></textarea>
-                                        </div>
+        if (isset($_POST['new_represent'])) {
+                    if (isset($_POST['datos_student'])) {
+            form_represent_empty($_POST['datos_student']);
+            }else{   form_represent_empty('');}
 
-                                        <div class="col-lg-6 my-4">
-                                            <label for="">Telefono de oficina:</label>
-                                            <input type="number" name="tlf_ofic_r" id="" placeholder="Telefono de oficina" class="form-control" value="<?php if(isset($tlf_ofic_r)) echo $tlf_ofic_r;?>">
-                                        </div>
-                                    </div>
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-6 my-2">
-                                            <label>Parentesco:</label>
-                                            <input type="text" name="parentesco_r" id="" placeholder="Parentesco" class="form-control" value="<?php if(isset($parentesco_r)) echo $parentesco_r;?>">
-                                        </div>
-
-                                        <div class="col-lg-6 my-2">
-                                            <label>Vive con el estudiante:</label>
-                                            <input type="checkbox" <?php if(isset($_POST["convivencia_r"])){ if($_POST["convivencia_r"] == '1') echo "checked";}else{if(isset($convivencia_r)){ if($convivencia_r == '1') echo "checked";}}?> name="convivencia_r" value="1" id="">
-                                        </div>
-                                    </div>
-
-                                    <div class="row ">
-                                        <div class="col-lg-12 my-2">
-                                            <label>Seleccione si ya esta registrado: </label>
-                                            <input type="checkbox" <?php if(isset($_POST["si_exist_r"])){ if($_POST["si_exist_r"] == '1') echo "checked";}else{if(isset($si_exist_r)){ if($si_exist_r == '1') echo "checked";}}?> name="si_exist_r" value="1" id="">
-                                        </div>
-                                    </div>
-
- <?php 
+        }
 }
  ?>
 
