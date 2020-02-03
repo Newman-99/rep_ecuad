@@ -9,7 +9,9 @@ function validar_datos_vacios(...$datos){
     $comprobador = false;
     
     foreach ($datos as $dato) {
+        
         if(empty($dato) || is_null($dato) || comprobar_var_total_espace($dato)){
+            
             $comprobador = true;
         }
 }
@@ -75,6 +77,15 @@ function validar_nombres_apellidos(...$nombres_apells){
 
     }
 
+function calcula_edad($fecha_nacimiento){
+  list($ano,$mes,$dia) = explode("-",$fecha_nacimiento);
+  $ano_diferencia  = date("Y") - $ano;
+  $mes_diferencia = date("m") - $mes;
+  $dia_diferencia   = date("d") - $dia;
+  if ($dia_diferencia < 0 || $mes_diferencia < 0)
+    $ano_diferencia--;
+  return $ano_diferencia;
+}   
 
 function validar_fecha_sintaxis(...$fechas){
 /*    $valores = explode('/', $fecha);
@@ -538,7 +549,7 @@ function imprimir_usuario_bienvenida($ci){
     
     <form action='../usuarios/seguridad.php' method='post'>
                         
-    <button type='submit' class='' id='' value=".$registro['id_doc']." name ='modif_pass' >Seguridad</button>
+    <button type='submit' id=registrer class='icon-add' value=".$registro['id_doc']." name ='modif_pass' >Seguridad</button>
     
     </form>
 
@@ -957,6 +968,69 @@ function tipo_student_x_contrato_clas($id_clase,$id_estado){
    
 }
 
+function tipos_student_consultas($id_clase = '',$id_estado,$anio_escolar1='',$anio_escolar2=''){
+    global $db;
+
+    $sql="SELECT DISTINCT(est.ci_escolar),esc.anio_escolar1,esc.anio_escolar2,esc.grado,esc.id_escolaridad,act.id_actualizacion FROM escolaridad esc 
+    INNER JOIN estudiantes est ON esc.ci_escolar = est.ci_escolar
+    INNER JOIN actualizacion act ON esc.ci_escolar = act.ci_escolar";
+                                    
+   
+    $where = [];
+
+  $campos = [];
+
+
+
+  if (!empty($id_estado)) {
+    array_push($where, 'est.id_estado = :id_estado');
+    $campos[':id_estado'] = [
+      'valor' => $id_estado,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+
+  if (!empty($anio_escolar1)) {
+
+    array_push($where, 'esc.anio_escolar1 = :anio_escolar1');
+    $campos[':anio_escolar1'] = [
+      'valor' => $anio_escolar1,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+  if (!empty($anio_escolar2)) {
+
+    array_push($where, 'esc.anio_escolar2 = :anio_escolar2');
+    $campos[':anio_escolar2'] = [
+      'valor' => $anio_escolar2,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+  if (!empty($where)) {
+    $sql .= ' WHERE ' . implode(' AND ', $where);
+  }
+
+
+$sql .= ' GROUP BY est.ci_escolar ORDER BY act.id_actualizacion DESC ';
+
+
+  $result = $db->prepare($sql);
+
+  foreach($campos as $clave => $valores) {
+    $result->bindParam($clave, $valores['valor'], $valores['tipo']);
+  }
+
+  $result->execute();
+
+   $count=$result->rowCount();
+
+   return $count;
+}
+
+
 function tipo_sexo_student_x_clase($id_clase,$id_sexo){
     global $db;
     $sql=" SELECT in_p.id_sexo FROM clases cl
@@ -969,6 +1043,64 @@ function tipo_sexo_student_x_clase($id_clase,$id_sexo){
     $result=$db->prepare($sql);
                             
     $result->execute(array(":id_sexo"=>$id_sexo,":id_clase"=>$id_clase));
+
+   $count=$result->rowCount();
+
+   return $count;
+   }
+
+
+function tipo_sexo_student_general($id_sexo,$anio_escolar1 = '',$anio_escolar_2 =''){
+    global $db;
+    $sql=" SELECT in_p.id_sexo FROM estudiantes est 
+    INNER JOIN info_personal in_p ON est.ci_escolar = in_p.id_doc
+    INNER JOIN escolaridad esc ON est.ci_escolar = esc.ci_escolar";
+                                    
+ 
+     $where = [];
+
+  $campos = [];
+
+  if (!empty($anio_escolar1)) {
+
+    array_push($where, 'esc.anio_escolar1 = :anio_escolar1');
+    $campos[':anio_escolar1'] = [
+      'valor' => $anio_escolar1,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+  if (!empty($anio_escolar2)) {
+
+    array_push($where, 'esc.anio_escolar2 = :anio_escolar2');
+    $campos[':anio_escolar2'] = [
+      'valor' => $anio_escolar2,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+
+  if (!empty($id_sexo)) {
+
+    array_push($where, 'in_p.id_sexo = :id_sexo');
+    $campos[':id_sexo'] = [
+      'valor' => $id_sexo,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+  if (!empty($where)) {
+    $sql .= ' WHERE ' . implode(' AND ', $where);
+  }
+
+
+  $result = $db->prepare($sql);
+
+  foreach($campos as $clave => $valores) {
+    $result->bindParam($clave, $valores['valor'], $valores['tipo']);
+  }
+
+  $result->execute();
 
    $count=$result->rowCount();
 
@@ -1535,8 +1667,8 @@ function mostrar_user_especifico($id){
 
 global $db;
 
-    $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,ar.descripcion cargo,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN areas ar ON a.id_area = ar.id_area INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr ORDER BY s.ult_sesion DESC
- WHERE s.id_doc = :id";
+    $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,ar.descripcion cargo,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN areas ar ON a.id_area = ar.id_area INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr
+ WHERE s.id_doc = :id ORDER BY s.ult_sesion DESC";
     
     $result=$db->prepare($sql);
 
@@ -1548,11 +1680,8 @@ global $db;
 
 function mostrar_users_todos(){
     global $db;
-            $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,ar.descripcion cargo,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN areas ar ON a.id_area = ar.id_area INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr ORDER BY s.ult_sesion DESC";
-
-            $result=$db->prepare($sql);
-
-            imprimir_usuarios($result);                                    
+            $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,ar.descripcion cargo,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN areas ar ON a.id_area = ar.id_area INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr";
+            return $sql;
 }
 
     function imprimir_usuarios ($result){
@@ -1595,7 +1724,7 @@ echo "                  <td>".$id_usr."</td>
                         <form action=".$_SERVER['PHP_SELF']." method='post'>
                         
 
-                            <button type='submit' value=".$id_usr." name='modificar'>Modificar</button>
+                            <button type='submit'  value=".$id_usr." name='modificar' class='icon-cancel' id='button-modi' >Modificar</button>
 
                          <br><br>
 
@@ -1877,18 +2006,20 @@ echo "
 
                         <td>".$registro['correo']."</td>
 
-                        <td>".$registro['fecha_ingreso']."</td>";
+                        <td>".$registro['fecha_ingreso']."</td><td>
+";
 
 
 
                         if(valid_inicio_sesion('2')) {
 
                         echo "
-                    <td>
                     <form action='modif_docent.php' method='post'>
                         
                         <button type='submit' id='button-modi' value=".$registro['id_doc']." name ='modificar'> Modificar</button>
-                    </form>";
+                    </form>
+                    <br><br>
+                    ";
 
                         echo "
 
@@ -1896,7 +2027,9 @@ echo "
                         
                         <button type='submit' class='icon-list1' id='button-modi' value=".$registro['id_doc']." name ='mas_info_docent' >Mas Informacion</button>
                          
-                         </form>";
+                         </form>
+                        <br><br> 
+                         ";
 
                         }
 
@@ -1905,7 +2038,7 @@ echo "
 
                         <button type='submit' id='button-modi' value=".$registro['id_doc']." name ='sus_clases' >Sus Clases</button>
 
-                        </form>";
+                        </form><br><br>";
                         
                         if(valid_inicio_sesion('2')) {
                         echo "
@@ -1914,7 +2047,7 @@ echo "
                         
                         <button type='submit' icon='button-cancel' id='button-modi' value=".$registro['id_doc']." name ='eliminar_docent' >Eliminar</button>
                          
-                         </form>"
+                         </form> <br><br>"
 
                          ;
                      }
@@ -2000,14 +2133,14 @@ echo "
                         
                         <button type='submit' class='icon-list1' id='button-modi' value=".$registro['id_doc']." name ='mas_info_admin' >Mas Informacion</button>
                          
-                         </form>";
+                         </form> <br><br>";
 
 
                 echo "
                     <form action='modif_admin.php' method='post'>
                         
                         <button type='submit' id='button-modi' value=".$registro['id_doc']." name ='modificar'> Modificar</button>
-                    </form>";
+                    </form> <br><br>";
 
                   }
                         if(valid_inicio_sesion('1')) {
@@ -2017,11 +2150,11 @@ echo "
                         
                         <button type='submit' icon='button-cancel' id='button-modi' value=".$registro['id_doc']." name ='eliminar_admin' >Eliminar</button>
                          
-                         </form>"
+                         </form> <br><br>"
 
                          ;
                      }
-                    echo  "<br><br></td></tr>";
+                    echo  "</td></tr>";
                  }
                          
    echo " </table>
@@ -2080,12 +2213,30 @@ function consulta_admins(){
 
 }
 
+function imprimir_msjs_no_style($errors){
+    echo "<br>";
+
+    if(!empty($errors)){
+                    echo "<div style='margin-left:auto; margin-right:auto;'><br>";
+        foreach ($errors as $msjs) {
+echo "<p>".$msjs."</p>";
+        }
+        echo "</div>";
+    }
+}
+
 function imprimir_msjs($errors){
     echo "<br>";
+
     if(!empty($errors)){
+            echo "<div   style='background-color:#B7BBCE; border: gray 1px solid;position:absolute;
+    bottom:5px;
+    right:10px;'><br>";
+
         foreach ($errors as $msjs) {
-            echo "<br><p>$msjs<p>";
+echo "<p>".$msjs."</p>";
         }
+        echo "</div>";
     }
 }
 

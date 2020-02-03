@@ -424,7 +424,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
                                     <div class="row my-2">
                                         <div class="col-lg-3 my-4">
                                             <label for="">Fecha de Nacimiento:</label>
-                                            <input type="text" name="fecha_nac_m" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_m)) echo $fecha_nac_m; ?>" >
+                                            <input type="date" name="fecha_nac_m" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_m)) echo $fecha_nac_m; ?>" >
                                         </div>
     
 
@@ -526,7 +526,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
                                             <input type="checkbox" <?php if(isset($_POST["si_exist_m"])){ if($_POST["si_exist_m"] == '1') echo "checked";}else{if(isset($si_exist_m)){ if($si_exist_m == '1') echo "checked";}}?> name="si_exist_m" value="1" id="">
                                         </div>
                                     </div>
-                                        <?php imprimir_msjs($errors_m); ?>
+                                        <?php imprimir_msjs_no_style($errors_m); ?>
                              
 
 
@@ -584,7 +584,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
                                     <div class="row my-4">
                                         <div class="col-lg-3 my-4">
                                             <label for="">Fecha de Nacimiento:</label>
-                                            <input type="text" name="fecha_nac_p" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_p)) echo $fecha_nac_p; ?>">
+                                            <input type="date" name="fecha_nac_p" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_p)) echo $fecha_nac_p; ?>">
                                         </div>
     
                                         <div class="col-lg-3 my-4">
@@ -688,7 +688,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
                                         </div>
                                     </div>
                                         
-                                    <?php imprimir_msjs($errors_p); ?>
+                                    <?php imprimir_msjs_no_style($errors_p); ?>
 
                              
 
@@ -758,7 +758,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
 
                                         <div class="col-lg-3 ">
                                             <label for="">Fecha de Nacimiento:</label>
-                                            <input type="text" name="fecha_nac_r" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_r)) echo $fecha_nac_r; ?>">
+                                            <input type="fecha" name="fecha_nac_r" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_r)) echo $fecha_nac_r; ?>">
                                         </div>
     
 
@@ -856,7 +856,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
                                         
                                     
 
-                                    <?php imprimir_msjs($errors_r); ?>
+                                    <?php imprimir_msjs_no_style($errors_r); ?>
 
                          
                             </form>

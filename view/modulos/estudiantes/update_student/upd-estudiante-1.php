@@ -103,7 +103,6 @@ $nombres = $nombre1.' '.$nombre2;
 $nombres=filtrar_nombres_apellidos($nombres);
 
 $errors[] = $err_nom_apell;
-var_dump($ci_escolar);
 
     if (!comprobar_msjs_array($errors)) {    
 
@@ -126,8 +125,6 @@ $errors[]= "<a href='upd-estudiante-2.php'>
     <?php
 
         $sql = consulta_info_basic_student()." WHERE estd.ci_escolar = :ci_escolar;";
-
-        var_dump($sql,$ci_escolar);
 
         $result=$db->prepare($sql);
             

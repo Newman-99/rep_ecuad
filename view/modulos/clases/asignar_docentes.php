@@ -156,7 +156,7 @@ $id_doc_habilitar = $_POST['id_doc_habilitar'];
 
 	$errors[] = valid_ci($id_doc_habilitar);
 
-	if(!validar_exist_docente($id_doc_habilitar)) {
+	if(!is_exist_docente($id_doc_habilitar)) {
     $errors[]="No hay ningun docente con esta cedula registrado";}
 
 if ($id_funcion_clase == '1') {

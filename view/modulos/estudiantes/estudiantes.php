@@ -13,6 +13,7 @@ $errors = array();
 	<section>
 		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
 			
+      Buscar Por: 
 			<input type="search" class="search" placeholder="Cédula escolar o normal" name="ci_estudiante" value="<?php if(isset($ci)) echo $ci;?>">
 			 / 
 		Estado:
@@ -78,7 +79,7 @@ $errors = array();
 			<button id=button name="buscar" value="buscar" class="icon-search" type="submit">Buscar</button>
 
 
-			<a href="./register_student/reg-estudiante-1.php" style="float:right;margin-top:80px;margin-right:180px;">Registrar Nuevo Estudiante</a>
+			<a href="./register_student/reg-estudiante-1.php" id=registrer class="icon-add";>Registrar Nuevo Estudiante</a>
 
 		</form>
     <br><br>
@@ -206,6 +207,7 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
   if (!empty($where)) {
     $sql .= ' WHERE ' . implode(' AND ', $where);
   }
+  
  $sql.=" ORDER BY in_p.nombre";
   $result = $db->prepare($sql);
 
@@ -233,6 +235,7 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
 						<th>Clase</th>
 
 						 <th></th>
+
  			            </tr>
  		            </thead>
  		            
@@ -252,15 +255,14 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
 						 <td>
 
 
-
                      <?php    if(valid_inicio_sesion('2')) {  ?>
 
-                    <td>
                     <form action='./update_student/upd-estudiante-1.php' method='post'>
                         
                         <button type='submit' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='update_student'> Actualizar</button>
                     </form>
 
+                  <br><br> 
 
                         <form action='mas_info_student.php' method='post'>
                         
@@ -268,26 +270,24 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
                          
                          </form>
 
+<br><br>
                         <?php } ?>
 
                         
                       <?php  if(valid_inicio_sesion('2')) { ?>
 
-                     
                         <form action='eliminar_estudiante.php' method='post'>
                         
                         <button type='submit' icon='button-cancel' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='eliminar_estudiantet' >Eliminar</button>
                          
                          </form>
 
-                    
+                  <br><br></td>
                      <?php } ?>
-
-                  <br><br></td></tr>
-						</td>
 	<?php  }
 
-echo " 		            </tr>
+echo " 		            
+</tr>
  	            </table>
             </div>
 ";

@@ -48,9 +48,6 @@ if (is_exist_docente($id_doc)){
 
 $errors[] = valid_ci($id_doc);
 
-if (!is_exist_docente($id_doc)){
-    $errors[]= "Un Docente con esta cedula ya esta registrado";
-}
 
 if (is_exist_ci($id_doc)) {
        $errors[]='La cedula ya esta registrada en el sistema';

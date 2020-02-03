@@ -32,7 +32,7 @@ if (!empty($_POST['save_admin'])) {
     $id_estado = htmlentities(addslashes($_POST["id_estado"])); 
 
 
-if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc_new,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$fecha_ingreso) || validar_datos_vacios($nombres,$area,$apellido_p,$apellido_m,$lugar_nac,$direcc_hab,$turno)){
+if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc_new,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$fecha_ingreso) || validar_datos_vacios($nombres,$area,$apellido_p,$lugar_nac,$direcc_hab,$turno)){
     $errors[]= "Se deben evitar campos vacios
     <p>Los Siguientes campos no Pueden poseer espacios:</p>
     <p><ul>
@@ -64,7 +64,7 @@ if (strcmp($id_doc, $id_doc_new) != 0) {
 
 $errors[]= validar_fecha_registro($fecha_ingreso);
 
-$errors[]=validar_nombres_apellidos($nombres,$apellido_p,$apellido_m);
+$errors[]=validar_nombres_apellidos($nombres,$apellido_p);
 
 if (!is_valid_email($correo)) { $errors[]='El Correo electronico ingresado es invalido';}
 

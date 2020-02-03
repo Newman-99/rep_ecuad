@@ -1,4 +1,22 @@
-<?php require '../../includes/head.php';
+
+<?php
+require  '../../../database/connect.php';
+
+require '../../../functions/functions.php';
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial -scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+        <link rel="stylesheet" href="../../style/css/estilos.css">
+        <link rel="stylesheet" href="../../style/css/styless.css">
+
+        <link rel="stylesheet" href="../../style/bootstrap/bootstrap.min.css">
+
+
+<?php //require '../../includes/head.php';
 
 var_dump($_POST['mas_info_student']);
 if (!empty($_POST['mas_info_student'])) {
@@ -25,13 +43,14 @@ $errors = array();
         <br>
 <?php
 
-    $sql = consulta_info_basic_student()." WHERE estd.ci_escolar = :ci_escolar;";
+    $sql = consulta_info_basic_student()." WHERE estd.ci_escolar = :ci_escolar ORDER BY es.id_actualizacion DESC LIMIT 1;";
 
     $result=$db->prepare($sql);
     
     $result->bindValue(":ci_escolar",$ci_escolar);
     $result->execute();
 echo "
+
 
 <h4>Informacion Basica</h4>
         <div>
@@ -69,8 +88,9 @@ echo "
                         </tr>
                     </thead>";
 
+
             while($registro=$result->fetch(PDO::FETCH_ASSOC)){  
-                  
+
                     echo " 
 
                     <td>".$registro['nacionalidad']."</td> 
@@ -90,7 +110,7 @@ echo "
 
                         <td>".$registro['fecha_nac']."</td>
 
-                        <td>".$registro['fecha_nac']."</td>
+                        <td>".calcula_edad($registro['fecha_nac'])."</td>
 
                         <td>".$registro['lugar_nac']."</td>
 
@@ -103,6 +123,8 @@ echo "
                         <td>".$registro['contrato']."</td>
                         
                         <td>".msj_bool($registro['colecc_bicent'])."</td> </tr>";
+
+
   }
 
       echo "</table>
