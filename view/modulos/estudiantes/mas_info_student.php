@@ -1,4 +1,28 @@
-<?php require '../../includes/head.php';
+
+<?php
+require  '../../../database/connect.php';
+
+require '../../../functions/functions.php';
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial -scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+        <link rel="stylesheet" href="../../style/css/estilos.css">
+        <link rel="stylesheet" href="../../style/css/styless.css">
+
+        <link rel="stylesheet" href="../../style/bootstrap/bootstrap.min.css">
+
+
+<?php //require '../../includes/head.php';
+
+var_dump($_POST['mas_info_student']);
+if (!empty($_POST['mas_info_student'])) {
+
+    $ci_escolar = htmlentities(addslashes($_POST["mas_info_student"])); 
+}
     
     session_start();
 
@@ -6,11 +30,6 @@
         
 $errors = array();
 
-
-if (!empty($_POST['mas_info_student'])) {
-
-    $ci_escolar = htmlentities(addslashes($_POST["mas_info_student"])); 
-}
 
 ?>
 
@@ -24,13 +43,14 @@ if (!empty($_POST['mas_info_student'])) {
         <br>
 <?php
 
-    $sql = consulta_info_basic_student()." WHERE estd.ci_escolar = :ci_escolar;";
+    $sql = consulta_info_basic_student()." WHERE estd.ci_escolar = :ci_escolar ORDER BY es.id_actualizacion DESC LIMIT 1;";
 
     $result=$db->prepare($sql);
     
     $result->bindValue(":ci_escolar",$ci_escolar);
     $result->execute();
 echo "
+
 
 <h4>Informacion Basica</h4>
         <div>
@@ -68,8 +88,9 @@ echo "
                         </tr>
                     </thead>";
 
+
             while($registro=$result->fetch(PDO::FETCH_ASSOC)){  
-                  
+
                     echo " 
 
                     <td>".$registro['nacionalidad']."</td> 
@@ -89,7 +110,7 @@ echo "
 
                         <td>".$registro['fecha_nac']."</td>
 
-                        <td>".$registro['fecha_nac']."</td>
+                        <td>".calcula_edad($registro['fecha_nac'])."</td>
 
                         <td>".$registro['lugar_nac']."</td>
 
@@ -102,6 +123,8 @@ echo "
                         <td>".$registro['contrato']."</td>
                         
                         <td>".msj_bool($registro['colecc_bicent'])."</td> </tr>";
+
+
   }
 
       echo "</table>
@@ -137,10 +160,120 @@ echo "
 <?php 
 }*/
 
-?>
 
 
-<?php 
+    $sql = consulta_padres_student()." WHERE prsd.ci_escolar = :ci_escolar AND pds.id_tip_padre = 1;";
+
+    $result=$db->prepare($sql);
+    
+    $result->bindValue(":ci_escolar",$ci_escolar);
+    $result->execute();
+            if ($result->rowCount() == 0) {
+                echo "<h4>La madre no fue registrada</h4><br><br>";
+}else{
+
+echo "
+
+<h4>Informacion de la Madre</h4>
+        <div>
+                <table class='tabla'>
+                    <thead>
+                        <tr>  
+
+                        <th>Nacionalidad</th>     
+
+                         <th>Documento de  identificacion</th> 
+
+                         <th>Ocupacion</th> 
+                        
+                         <th>Estado Civil</th> 
+
+                         <th>Nombres</th> 
+
+                         <th>Apellidos</th> 
+                         
+                         <th>Fecha de Nacimiento</th> 
+
+                        <th>Lugar de Nacimiento</th>
+
+                        <th>Direccion de Habitacion</th>
+
+                        <th>Vive con el estudiante</th>
+
+                        <th>Telefono local</th>
+
+                        <th>Telefono celular </th>
+
+                        <th>Correo electronico</th>
+
+                        <th>Profesion u Oficio</th>
+
+                        <th>Lugar de trabajo</th>
+
+                        <th>Direccion de trabajo</th>
+
+                        <th>Telefono de oficina</th>
+                        <th></th>
+                        </tr>
+                    </thead>";
+
+            while($registro=$result->fetch(PDO::FETCH_ASSOC)){  
+                    echo " 
+
+                    <td>".$registro['nacionalidad']."</td> 
+                    
+
+                        <td>".$registro['id_doc']."</td> 
+
+                        <td>".$registro['ocupacion']."</td> 
+
+                    <td>".$registro['estado_civil']."</td> 
+
+                        
+                        <td>".$registro['nombre']."</td>
+                        
+                        <td>".$registro['apellido_p']." ".$registro['apellido_m'] ."</td> 
+                        
+
+                        <td>".$registro['fecha_nac']."</td>
+
+                        <td>".$registro['lugar_nac']."</td>
+
+                        <td>".$registro['direcc_hab']."</td>
+                        
+                        <td>".msj_bool($registro['convivencia'])."</td>
+
+                        <td>".$registro['tlf_ofic']."</td>
+
+                        <td>".$registro['tlf_local']."</td>
+                        
+                        <td>".$registro['correo']."</td>
+
+                        <td>".$registro['prof_ofic']."</td>
+
+                        <td>".$registro['lugar_trab']."</td>
+
+                        <td>".$registro['direcc_trab']."</td>
+
+                        <td>".$registro['tlf_ofic']."</td>
+
+";
+
+
+                            if (is_exist_represent($registro['id_doc'])) {
+                                $is_represent_m = TRUE;
+                            echo "<td>Es el Representante</td>";}
+                                              
+
+  }
+
+      echo "</tr></table>
+            </div>";
+        }
+
+
+
+
     $sql = consulta_padres_student()." WHERE prsd.ci_escolar = :ci_escolar AND pds.id_tip_padre = 2;";
 
     $result=$db->prepare($sql);
@@ -251,111 +384,6 @@ echo "
             </div>";
 
 }
-
-    $sql = consulta_padres_student()." WHERE prsd.ci_escolar = :ci_escolar AND pds.id_tip_padre = 1;";
-
-    $result=$db->prepare($sql);
-    
-    $result->bindValue(":ci_escolar",$ci_escolar);
-    $result->execute();
-echo "
-
-<h4>Informacion de la Madre</h4>
-        <div>
-                <table class='tabla'>
-                    <thead>
-                        <tr>  
-
-                        <th>Nacionalidad</th>     
-
-                         <th>Documento de  identificacion</th> 
-
-                         <th>Ocupacion</th> 
-                        
-                         <th>Estado Civil</th> 
-
-                         <th>Nombres</th> 
-
-                         <th>Apellidos</th> 
-                         
-                         <th>Fecha de Nacimiento</th> 
-
-                        <th>Lugar de Nacimiento</th>
-
-                        <th>Direccion de Habitacion</th>
-
-                        <th>Vive con el estudiante</th>
-
-                        <th>Telefono local</th>
-
-                        <th>Telefono celular </th>
-
-                        <th>Correo electronico</th>
-
-                        <th>Profesion u Oficio</th>
-
-                        <th>Lugar de trabajo</th>
-
-                        <th>Direccion de trabajo</th>
-
-                        <th>Telefono de oficina</th>
-						<th></th>
-                        </tr>
-                    </thead>";
-
-            while($registro=$result->fetch(PDO::FETCH_ASSOC)){  
-                    echo " 
-
-                    <td>".$registro['nacionalidad']."</td> 
-                    
-
-	                    <td>".$registro['id_doc']."</td> 
-
-	                    <td>".$registro['ocupacion']."</td> 
-
-                    <td>".$registro['estado_civil']."</td> 
-
-                        
-                        <td>".$registro['nombre']."</td>
-                        
-                        <td>".$registro['apellido_p']." ".$registro['apellido_m'] ."</td> 
-                        
-
-                        <td>".$registro['fecha_nac']."</td>
-
-                        <td>".$registro['lugar_nac']."</td>
-
-                        <td>".$registro['direcc_hab']."</td>
-                        
-                        <td>".msj_bool($registro['convivencia'])."</td>
-
-                        <td>".$registro['tlf_ofic']."</td>
-
-                        <td>".$registro['tlf_local']."</td>
-                        
-                        <td>".$registro['correo']."</td>
-
-                        <td>".$registro['prof_ofic']."</td>
-
-                        <td>".$registro['lugar_trab']."</td>
-
-                        <td>".$registro['direcc_trab']."</td>
-
-                        <td>".$registro['tlf_ofic']."</td>
-
-";
-
-
-                        	if (is_exist_represent($registro['id_doc'])) {
-                        		$is_represent_m = TRUE;
-                        	echo "<td>Es el Representante</td>";}
-                        	                  
-
-  }
-
-      echo "</tr></table>
-            </div>";
-
 if (!isset($is_represent_m) && !isset($is_represent_p)) {
 	
 	    $sql = consulta_represent_student()." WHERE rpt.ci_escolar = :ci_escolar;";

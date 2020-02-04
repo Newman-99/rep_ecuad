@@ -8,24 +8,24 @@ $errors = array();
 	    <title>Estudiantes</title>
 	    
 <?php require '../../includes/header.php'; ?>	
-
+<link rel="stylesheet" type="text/css" href="../../styles/css/styles.css">
 
 	<section>
 		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
 			
+      Buscar Por: 
 			<input type="search" class="search" placeholder="Cédula escolar o normal" name="ci_estudiante" value="<?php if(isset($ci)) echo $ci;?>">
-			<br>
-
-		Estado del Estudiante
+			 / 
+		Estado:
         <select name="estado_student" id="" autocomplete="on">
             <option value=''>Todos</option>
             <option value="3">Activo</option>
             <option value="4">Irregular</option>
             <option value="5">Retirado</option>
         </select>
-		<br>
-
-        Grado Escolar Designado:
+		
+     / 
+        Grado Designado:
         <select name="grado_design" id="" autocomplete="on">
             <option value=''>Todos</option>
             <option value="1">1ro</option>
@@ -36,7 +36,7 @@ $errors = array();
             <option value="6">6to</option>
         </select>
 
-<br>
+<!--
 		Por clase - 
 
         Grado Escolar:
@@ -75,27 +75,29 @@ $errors = array();
         <input type="number" name="año_escolar1" id="" value="<?php if(isset($anio_escolar2)) echo $anio_escolar1; ?>">
 
         <input type="number" name="año_escolar2" id="" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
+!-->
+			<button id=button name="buscar" value="buscar" class="icon-search" type="submit">Buscar</button>
 
-			<button id=button name="por_cedula" class="icon-search" type="submit">Buscar</button>
 
-			<a href="./register_student/reg-estudiante-1.php" style="float:right;margin-top:80px;margin-right:180px;">Registrar Nuevo Estudiante</a>
+			<a href="./register_student/reg-estudiante-1.php" id=registrer class="icon-add";>Registrar Nuevo Estudiante</a>
 
 		</form>
+    <br><br>
 
 		<?php 
-		if(!empty($_POST)){
+		if(!empty($_POST['buscar'])){
 
 
 $ci = htmlentities(addslashes($_POST['ci_estudiante']));
 
-    $grado = htmlentities(addslashes($_POST["grado"]));
+//    $grado = htmlentities(addslashes($_POST["grado"]));
 
     $grado_design = htmlentities(addslashes($_POST["grado_design"]));
-
+/*
     $seccion = htmlentities(addslashes($_POST["seccion"]));
 
     $turno = htmlentities(addslashes($_POST["turno"]));
-    
+  */  
 //    $no_aula = htmlentities(addslashes($_POST["no_aula"]));
 //    
 			$ci=trim($ci);
@@ -106,11 +108,11 @@ if(!is_exist_student($ci)){
 				$errors[] = 'No existe el estudiante o la cedula es invalida';
 			}}
 
-
+/*
     $anio_escolar1 = htmlentities(addslashes($_POST["año_escolar1"]));
 
     $anio_escolar2 = htmlentities(addslashes($_POST["año_escolar2"]));
-
+*/
     if (!empty($grado)){
 
     		$errors[]= validar_grado($grado);
@@ -152,7 +154,7 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
     array_push($where,'est.grado = :grado_design');
     /* Preparamos los datos para la variable preparada */
     $campos[':grado_design'] = [
-      'valor' => $grado,
+      'valor' => $grado_design,
       'tipo' => \PDO::PARAM_INT,
     ];
   }
@@ -205,6 +207,7 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
   if (!empty($where)) {
     $sql .= ' WHERE ' . implode(' AND ', $where);
   }
+  
  $sql.=" ORDER BY in_p.nombre";
   $result = $db->prepare($sql);
 
@@ -232,6 +235,7 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
 						<th>Clase</th>
 
 						 <th></th>
+
  			            </tr>
  		            </thead>
  		            
@@ -251,42 +255,39 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
 						 <td>
 
 
-
                      <?php    if(valid_inicio_sesion('2')) {  ?>
 
-                    <td>
                     <form action='./update_student/upd-estudiante-1.php' method='post'>
                         
                         <button type='submit' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='update_student'> Actualizar</button>
                     </form>
 
+                  <br><br> 
 
-                        <form action='<?php echo $registro['ci_escolar']; ?>' method='post'>
+                        <form action='mas_info_student.php' method='post'>
                         
                         <button type='submit' class='icon-list1' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='mas_info_student' >Mas Informacion</button>
                          
                          </form>
 
+<br><br>
                         <?php } ?>
 
                         
                       <?php  if(valid_inicio_sesion('2')) { ?>
 
-                     
-                        <form action='eliminar_destudiante.php' method='post'>
+                        <form action='eliminar_estudiante.php' method='post'>
                         
-                        <button type='submit' icon='button-cancel' id='button-modi' value=".$registro['ci_escolar']." name ='eliminar_estudiantet' >Eliminar</button>
+                        <button type='submit' icon='button-cancel' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='eliminar_estudiantet' >Eliminar</button>
                          
                          </form>
 
-                    
+                  <br><br></td>
                      <?php } ?>
-
-                  <br><br></td></tr>
-						</td>
 	<?php  }
 
-echo " 		            </tr>
+echo " 		            
+</tr>
  	            </table>
             </div>
 ";

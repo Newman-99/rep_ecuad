@@ -6,6 +6,7 @@ require '../../includes/head.php';
 
  valid_inicio_sesion('1');
 
+$errors = array();
 ?>
 	    <title>Usuarios</title>
 	    
@@ -16,22 +17,18 @@ require '../../includes/head.php';
 			
 			<input type="search" class="search" placeholder="Cédula" name="ci_user" value="<?php if(isset($ci)) echo $ci;?>">
 
-			<button id=button class="icon-search" type="submit" name="especifico" value="especifico">Buscar</button>
+			<button id=button class="icon-search" type="submit" name="busc" value="busc">Buscar</button>
 			<br>
-
-			<button id=button class="icon-search" type="submit" name="todos" value="todos">Todos</button>
 
 		<br>
 						<select name="id_tipo_usr">
-				
+				<option value="">Todos</option>				
 				<option value="0">Inabilitado</option>
 				<option value="1">Administrador</option>
 				<option value="2">Normal</option>
 				<option value="3">Invitado</option>
 
 			</select>
-
-						<button id=button class="icon-search" type="submit" name="busc_tip_usr" value="busc_tip_usr">Buscar</button>
 
 
 
@@ -42,56 +39,93 @@ require '../../includes/head.php';
 
 			// Proceso Para ver todos los usuarios
 			
-			if (!empty($_POST['todos'])){
-
-			$result=mostrar_users_todos();
-			}		
 
 				// Proceso para ver usuarios especifico segun su cedula
 
-		if (!empty($_POST['especifico'])){
+		if (!empty($_POST['busc'])){
+
 
 			$ci = htmlentities(addslashes($_POST['ci_user']));
 
-			// Validacion del dato cedula
+			$id_tipo_usr = htmlentities(addslashes($_POST['id_tipo_usr']));
 
-		if (validar_datos_vacios_sin_espacios($ci)) { $errors[] = "La cedula no puede estar vacia ni poseer espacios";}
-		
-		if(!exist_user($ci)){$errors[] = "No existe el usuario";}	
 
-		$errors[]=valid_ci($ci);
+			$sql=mostrar_users_todos();
 
-		// Si no hay errores se guarda la consulta segun la cedula
-		if (!comprobar_msjs_array($errors)) {
-		 mostrar_user_especifico($ci);
-		}
-			}
 
-			if (!empty($_POST['busc_tip_usr'])){
-				$id_tip_usr = $_POST['id_tipo_usr'];
+		  $where = [];
 
-			if (!exist_tipo_user($id_tip_usr)) {
+  $campos = [];
 
-				$errors[] = "Por los momentos no se encuentran usuarios de este tipo";
+  if (!empty($ci)) {
+    array_push($where,'s.id_doc = :ci');
+    $campos[':ci'] = [
+      'valor' => $ci,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
 
-			}else{
-			mostrar_users_tipos($id_tip_usr);
-			}
-			}		
+
+  if (!empty($id_tipo_usr)) {
+    /* Agregamos al WHERE la comparación */
+    array_push($where,'s.id_tip_usr = :id_tipo_usr');
+    /* Preparamos los datos para la variable preparada */
+    $campos[':id_tipo_usr'] = [
+      'valor' => $id_tipo_usr,
+      'tipo' => \PDO::PARAM_INT,
+    ];
+  }
+
+
+  if ($id_tipo_usr == '0') {
+    /* Agregamos al WHERE la comparación */
+    array_push($where,'s.id_tip_usr = :id_tipo_usr');
+    /* Preparamos los datos para la variable preparada */
+    $campos[':id_tipo_usr'] = [
+      'valor' => $id_tipo_usr,
+      'tipo' => \PDO::PARAM_INT,
+    ];
+  }
+
+if (!empty($where)) {
+    $sql .= ' WHERE ' . implode(' AND ', $where);
+
+  }
+
+  $sql.=' ORDER BY s.ult_sesion DESC';
+  $result = $db->prepare($sql);
+
+  foreach($campos as $clave => $valores) {
+   
+    $result->bindParam($clave, $valores['valor'], $valores['tipo']);
+  }
+
+
+  $result->execute();
+
+if ($result->rowCount() == 0) {
+	$errors[] = "No hay criterios que concidan con su busqueda";
+	}else{
+
+//var_dump($result);
+imprimir_usuarios($result);
+
+}
+}
 
 
 if (!empty($_POST['reiniciar'])) {
 $id_usr=$_POST['reiniciar'];
 
-$errors[]=" Esta seguro de reiniciar el usuario ".$id_usr."
+$errors[]=" <br><br><div style='float: right ;'> Esta seguro de reiniciar el usuario ".$id_usr."
 <br>
 		<form action=".$_SERVER['PHP_SELF']." method='post'>
 
-<button type='submit' value='La operacion ha sido cancelada' name='cancel'>Cancelar</button>
+<button type='submit' value='La operacion ha sido cancelada' name='cancel' id=registrer class='icon-add'>Cancelar</button>
+<br><br>
+<button type='submit' value=".$id_usr." name='confirmar_reinicio' id=registrer class='icon-add'>Confirmar</button>
 
-<button type='submit' value=".$id_usr." name='confirmar_reinicio' >Confirmar</button>
-
-	</form>
+	</form> </div>
 ";
 
 }
@@ -118,9 +152,11 @@ mostrar_user_especifico($id_usr);
 
 <br><hr>
 
+
+		<div style="float: right ;">	
+
 				<h3>Modificacion de Usuario</h3>
 
-		<div>	
 	    <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
 
 			<select name="tipo_usr">
@@ -133,9 +169,9 @@ mostrar_user_especifico($id_usr);
 			</select>
 			<br>
 			<br>
-       <?php echo "<button type='submit' value=".$id_usr." name='guardar'>Guardar</button>";
+       <?php echo "<button type='submit' value=".$id_usr." name='guardar' id=registrer class='icon-add'>Guardar</button> <br><br>";
 
-       echo "<button type='submit' value='La operacion ha sido cancelada' name='cancel'>Cancelar</button>";
+       echo "<button type='submit' value='La operacion ha sido cancelada' name='cancel' id=registrer class='icon-add'>Cancelar</button>";
 
 	/*echo "<br><a href=".$_SERVER['PHP_SELF']."?msj=Operacion&nbsp;Cancelada>Cancelar</a>";*/
 
@@ -178,11 +214,7 @@ if (!empty($_POST['guardar'])) {
 
 <?php
 
-    if(!empty($errors)){
-        foreach ($errors as $msjs) {
-            echo "<h4 style = 'margin-top:0%;'>$msjs</h4>";
-        }
-    }
+    imprimir_msjs($errors);
 
 
 ?>

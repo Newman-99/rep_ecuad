@@ -12,7 +12,84 @@ body {
     background-attachment: fixed;
     font-family: Roboto;
 }
+.contenedor{
+    background: rgba(0,0,0,.7);
+    max-width: 400px;
+    width: 50%;
+    height: 30%;
+    margin:100px auto;
+    border-radius: 5px;
+    color: #fff;
+    position: relative;
+    text-align: center;
+}
+#button{
+        background-color: #75A3C7;
 
+    width: 20%;
+ color: #000;
+     border:none;
+      padding: 5px;
+      cursor: pointer;
+  }
+  #buttons{
+        background-color: #75A3C7;
+
+    width: 40%;
+ color: #000;
+     border:none;
+      padding: 5px;
+      cursor: pointer;
+  }
+.contenedor input[type="text"]{
+    width: 40%;
+    padding: 6px 6px;
+    margin-left: 10px;
+    background: rgba(0,0,0,.5);
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    box-sizing: border-box;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight:normal;
+    transition: all .5s ease;
+}
+.contenedor a{
+    color:  #000;
+    text-decoration: none;
+    margin-left: 300px;
+}
+.contenedor input[type="pass"]{
+  width: 40%;
+    padding: 6px 6px;
+    margin-left: 10px;
+    background: rgba(0,0,0,.5);
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    box-sizing: border-box;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight:normal;
+    transition: all .5s ease;
+}
+
+.contenedor input[type="submit"] 
+{
+    background: #C64133;
+    color: #fff;
+    width: 20%;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 0;
+    font-size: 16px;
+    font-weight: normal;
+    font-family: Roboto;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all .5s ease;
+}
 .contenedor-form {
     background: rgba(0,0,0,.7);
     max-width: 400px;

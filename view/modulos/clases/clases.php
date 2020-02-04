@@ -43,9 +43,18 @@ require '../../includes/head.php';
 
         </select>
 
-        Seccion 
 
-        <input type="text" name="seccion" id="" value="<?php if(isset($seccion)) echo $seccion; ?>">
+        Seccion 
+            <select name="seccion" id="" autocomplete="on">
+         <option value="">Todos</option>
+            <option <?php if(isset($seccion)) if($seccion == 'A') echo 'selected';?> value="A">A</option>
+            <option <?php if(isset($seccion)) if($seccion == 'B') echo 'selected';?> value="B">B</option>
+            <option <?php if(isset($seccion)) if($seccion == 'C') echo 'selected';?> value="C">C</option>
+            <option <?php if(isset($seccion)) if($seccion == 'D') echo 'selected';?> value="D">D</option>
+            <option <?php if(isset($seccion)) if($seccion == 'E') echo 'selected';?> value="E">E</option>
+            <option <?php if(isset($seccion)) if($seccion == 'F') echo 'selected';?> value="F">F</option>
+        </select>
+
 
 		Turno:
         <select name="turno" id="">
@@ -187,7 +196,7 @@ if ($result->rowCount() == 0) {
 
 
 	        <div>
- 	            <table class="tabla">
+ 	            <table class="tabla" border="1">
  		            <thead>
  			            <tr>
 						 <th> Grado </th> 
@@ -195,10 +204,8 @@ if ($result->rowCount() == 0) {
 						 <th> Numero de Aula </th> 
 						 <th> Turno </th> 
 						 <th> Año Escolar </th> 
-						 <th> Estudiantes Activos </th>
-						 <th> Estudiantes Irregulares </th>
-						 <th> Estudiantes Retirados </th>
-
+						 <th> Estadisticas </th>
+<div style='position: relative;border-color:white;'><br><p>$msjs<p></div>
 						 <th></th>
  			            </tr>
  		            </thead>
@@ -212,23 +219,39 @@ if ($result->rowCount() == 0) {
 						<td><?php echo $registro['no_aula'];?></td>
 						<td><?php echo $registro['descripcion'];?></td> 
 						<td><?php echo $registro['anio_escolar1']."-".$registro['anio_escolar2'];?></td>
+
 						<?php $id_clase=$registro['id_clase']; ?>
+						<td> 
 
-						<td><?php echo cantidad_estudent($id_clase,'1');?></td>
-						<td><?php echo cantidad_estudent($id_clase,'2');?></td>
-						<td><?php echo cantidad_estudent($id_clase,'3');?></td>
+            Estudiantes Activos: <?php echo tipo_student_x_contrato_clas($id_clase,'3');?>
+						<br><br>
+            Estudiantes Irregulares: <?php echo tipo_student_x_clase($id_clase,'4');?>
+						<br><br>
+            Estudiantes Retirados: <?php echo tipo_student_x_clase($id_clase,'2');?>
+            <br><br>
+            Estudiantes Transferidos: <?php echo tipo_student_x_contrato_clas($id_clase,'2');?>
+						<br><br>
+            Estudiantes Varones: <?php echo tipo_sexo_student_x_clase($id_clase,'1');?>
+            <br><br>
+            Estudiantes Femenino: <?php echo tipo_sexo_student_x_clase($id_clase,'2');?>
+             
+             <td>
 
-						 <td>
-
-					
+					<!--
 					<form action="info_docent.php" method="post">
 						 <button id="button-modi" class="icon-list1" type="submit" name='docent_asig' value="<?php echo $registro['id_clase'] ?>">Mas Informacion</button>
 					</form>
-
+              <br><br>
+-->
+          <form action="estudiantes_asigandos.php" method="post">
+             <button id="button-modi" class="icon-list1" type="submit" name='estudiantes_asigandos' value="<?php echo $registro['id_clase'] ?>">Estudiantes</button>
+          </form>
+              <br><br>
 		
 					<form action="asignar_docentes.php" method="post">
-						 <button id="button-modi" type="submit" name='docent_asig' value="<?php echo $registro['id_clase'] ?>">Docentes Asignados</button>
+						 <button id="button-modi" type="submit" name='docent_asig' value="<?php echo $registro['id_clase'] ?>">Docentes</button>
 					</form>
+              <br><br>
 					
 					<form action="modificar_clase.php" method="post">
 					<button id="button-modi" type="submit" name='modif_clas' value="<?php echo $registro['id_clase'] ?>">Modificar</button>

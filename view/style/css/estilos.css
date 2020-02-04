@@ -7,7 +7,7 @@
 }
 
 body {
-    background-image: url(../img/th.jpg);
+    background-image: url(../../img/fondo.jpg);
     background-size: cover;
     background-attachment: fixed;
     font-family: Roboto;
@@ -21,7 +21,7 @@ body {
     border-radius: 5px;
     color: #fff;
     position: relative;
-    /padding: 40px;*/
+    /padding: 40px;
 }
 
 .contenedor-form .toggle {

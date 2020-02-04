@@ -365,6 +365,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
 }
 
  ?>
+ 
     <!--formularios-->
             <div class="container">
 
@@ -527,7 +528,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
                                             <input type="checkbox" <?php if(isset($_POST["si_exist_m"])){ if($_POST["si_exist_m"] == '1') echo "checked";}else{if(isset($si_exist_m)){ if($si_exist_m == '1') echo "checked";}}?> name="si_exist_m" value="1" id="">
                                         </div>
                                     </div>
-                                        <?php imprimir_msjs($errors_m); ?>
+                                        <?php imprimir_msjs_no_style($errors_m); ?>
                              
 
 
@@ -689,7 +690,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
                                         </div>
                                     </div>
                                         
-                                    <?php imprimir_msjs($errors_p); ?>
+                                    <?php imprimir_msjs_no_style($errors_p); ?>
 
                              
 
@@ -858,7 +859,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
                                         
                                     
 
-                                    <?php imprimir_msjs($errors_r); ?>
+                                    <?php imprimir_msjs_no_style($errors_r); ?>
 
                          
                             </form>
