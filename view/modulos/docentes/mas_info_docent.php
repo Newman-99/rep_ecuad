@@ -1,3 +1,5 @@
+<?php require '../../includes/init_system.php'; ?>
+
 <? require '../../includes/head.php';
     session_start();
 
@@ -5,12 +7,12 @@
         
 $errors = array();
 
-
+var_dump($_POST['mas_info_docent']);
 if (!empty($_POST['mas_info_docent'])) {
+    $_SESSION["id_doc"] = htmlentities(addslashes($_POST["mas_info_docent"])); 
 
-    $id_doc = htmlentities(addslashes($_POST["mas_info_docent"])); 
 }
-
+$id_doc =$_SESSION["id_doc"];
 ?>
 
     <title>Mas Informacion Docente</title>
@@ -20,7 +22,7 @@ if (!empty($_POST['mas_info_docent'])) {
 
 
     <h2>Mas Informacion del Docente</h2>
-    <form action='<?php htmlspecialchars($_SERVER['PHP_SELF'])?>' method='post'>
+    <form action='<?php htmlspecialchars($_SERVER['PHP_SELF'])?>' method='post' class="form-group text-center">
         <br>
 <?php
 
@@ -29,6 +31,7 @@ if (!empty($_POST['mas_info_docent'])) {
     $result=$db->prepare($sql);
     
     $result->bindValue(":id_doc",$id_doc);
+
     $result->execute();
 
 

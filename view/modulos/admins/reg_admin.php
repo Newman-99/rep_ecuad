@@ -1,3 +1,5 @@
+<?php require '../../includes/init_system.php'; ?>
+
 <?php
 require '../../includes/head.php';
     session_start();
@@ -101,125 +103,152 @@ regist_admins($id_doc,$area,$turno,'1',$fecha_ingreso,'0000-00-00');
 
 
     <h2>Registro de personal Administrativo</h2>
-    <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
-        <br>
 
-        Documento de Identidad
+<div class="container"> <!-- container -->
 
-        <select name="nacionalidad" id="" autocomplete="on">
-            <option value=""></option>
-            <option <?php if(isset($nacionalidad)) if($nacionalidad == '1') echo 'selected';?> value="1">V</option>
-            <option <?php if(isset($nacionalidad)) if($nacionalidad == '2') echo 'selected'; ?> value="2">E</option>
-        </select>
-
-
-         <input type="number" name="id_doc" id="" value="<?php if(isset($id_doc)) echo $id_doc; ?>">
-
-        <br>
-        Nombres:
-        <input type="text" name="nombre" id="" value="<?php if(isset($nombres)) echo $nombres; ?>" >
+    <div class="row">    
+        <div class="col-lg-12">    
+            <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post" class="form-group text-center">
         
-        <br>
-        Apellido Paterno:
-        <input type="text" name="apellido_p" id="" value="<?php if(isset($apellido_p)) echo $apellido_p; ?>">
-        
+                <div class="col-12">
+                    <h3 class="form-titulo">Registro de personal administrativo</h3>
+                </div>
 
-        <br>
-        Apellido Materno:
-        <input type="text" name="apellido_m" id="" value="<?php if(isset($apellido_m)) echo $apellido_m; ?>">
-       
-        <br>
-        Sexo:
-    
-        <select name="sexo" id="">
-            <option value=""></option>
-            <option <?php if(isset($sexo)) if($sexo == '1') echo 'selected'; ?> value="1">Masculino</option>
-            <option <?php if(isset($sexo)) if($sexo == '2') echo 'selected'; ?> value="2">Femenino</option>
-        </select>
-
-        <br>
-
-        Area: 
-        <select name="id_area" id="">
-            <option value=""></option>
-            <option <?php if(isset($area)) if($area == '1') echo 'selected';?> value="1">Directiva</option>
-
-            <option <?php if(isset($area)) if($area == '2') echo 'selected'; ?>  value="2">Estadistica</option>
-
-            <option <?php if(isset($area)) if($area == '3') echo 'selected';?> value="3">Pedagogica</option>
-
-        </select>
-        <br>
-
-        Fecha de Nacimiento:
-        <input type="date" name="fecha_nac" id="" value="<?php if(isset($fecha_nac)) echo $fecha_nac; ?>">
-        <br>
-
-        Fecha de Ingreso:
-        <input type="date" name="fecha_ingreso" id="" value="<?php if(isset($fecha_ingreso)) echo $fecha_ingreso; ?>">
-
-            <br>
+            <div class="row">
+                <div class="col-lg-3 my-4">
+                    <label for=""></label>
+                    <select name="nacionalidad" id="" autocomplete="on" class="form-control">
+                        <option value="">Seleccione</option>
+                        <option <?php if(isset($nacionalidad)) if($nacionalidad == '1') echo 'selected';?> value="1">V</option>
+                        <option <?php if(isset($nacionalidad)) if($nacionalidad == '2') echo 'selected'; ?> value="2">E</option>
+                    </select>
+                </div>
             
-        Lugar de Nacimiento
-        <br>
-        <textarea rows="3" cols="40" name="lugar_nac" id=""><?php if(isset($lugar_nac)) echo $lugar_nac;?></textarea>
-
-        <br>
-        Direccion de Habitacion
-        <br>
-
-        <textarea rows="3" cols="40" name="direcc_hab" id=""><?php if(isset($direcc_hab)) echo $direcc_hab; ?></textarea>        
-
-        <br>
-        Telefono Celular:
-        <input type="number" name="tlf_cel" id="" value="<?php if(isset($tlf_cel)) echo $tlf_cel; ?>">
-
-        <br>
-        Telefono Local:
-        <input type="number" name="tlf_local" id="" value="<?php if(isset($tlf_local)) echo $tlf_local; ?>">
-        <br>
-        Correo:
-        <input type="email" name="correo" id="" value="<?php if(isset($correo)) echo $correo; ?>">
+                <div class="col-lg-3 my-3">
+                <label for="">Documento de Identidad</label>
+                    <input type="number" name="id_doc" id="" placeholder="Cedula" class="form-control" value="<?php if(isset($id_doc)) echo $id_doc; ?>">
+                </div>
+            
+                <div class="col-lg-6 my-3">
+                    <label for="">Nombres:</label>
+                    <input type="text" name="nombre" id="" placeholder="Nombres" class="form-control" value="<?php if(isset($nombres)) echo $nombres; ?>" >
+                </div>
+            </div>
         
-        <br>
-        Estado Civil:
+            <div class="row">
+                <div class="col-lg-6 my-3">
+                    <label for="">Apellido Paterno:</label>
+                    <input type="text" name="apellido_p" id="" placeholder="Apellido" class="form-control" value="<?php if(isset($apellido_p)) echo $apellido_p; ?>">
+                </div>
 
-        <select name="estado_civil" id="">
-            <option value=""></option>            
-            <option <?php if(isset($estado_civil)) if($estado_civil == '1') echo 'selected';?> value="1">Soltero/a</option>
-            <option <?php if(isset($estado_civil)) if($estado_civil == '2') echo 'selected';?> value="2">Casado/a</option>
-            <option <?php if(isset($estado_civil)) if($estado_civil == '3') echo 'selected';?> value="3">Divorciado/a</option>
-            <option <?php if(isset($estado_civil)) if($estado_civil == '4') echo 'selected';?> value="4">Viudo/a</option>
-        </select>
+                <div class="col-lg-6 my-3">
+                    <label for="">Apellido Materno:</label>
+                    <input type="text" name="apellido_m" id="" placeholder="Apellido" class="form-control" value="<?php if(isset($apellido_m)) echo $apellido_m; ?>">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3 my-3">
+                    <label for="">Sexo:</label>
+                    <select name="sexo" id="" class="form-control">
+                        <option value="">Seleccione</option>
+                        <option <?php if(isset($sexo)) if($sexo == '1') echo 'selected'; ?> value="1">Masculino</option>
+                        <option <?php if(isset($sexo)) if($sexo == '2') echo 'selected'; ?> value="2">Femenino</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-3 my-3">
+                    <label for="">Area:</label>
+                    <select name="id_area" id="" class="form-control">
+                        <option value="">Seleccione</option>
+                        <option <?php if(isset($area)) if($area == '1') echo 'selected';?> value="1">Directiva</option>
+                        <option <?php if(isset($area)) if($area == '2') echo 'selected'; ?>  value="2">Estadistica</option>
+                        <option <?php if(isset($area)) if($area == '3') echo 'selected';?> value="3">Pedagogica</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-3 my-3">
+                    <label for="">Fecha de Nacimiento:</label>
+                    <input type="date" name="fecha_nac" id="" class="form-control" value="<?php if(isset($fecha_nac)) echo $fecha_nac; ?>">
+                </div>
+
+                <div class="col-lg-3 my-3">
+                    <label for="">Fecha de Ingreso:</label>
+                    <input type="date" name="fecha_ingreso" id="" class="form-control" value="<?php if(isset($fecha_ingreso)) echo $fecha_ingreso; ?>">
+                </div>                
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6 my-3">
+                    <label for="">Lugar de Nacimiento</label>
+                    <textarea rows="3" cols="40" name="lugar_nac" id="" placeholder="Lugar" class="form-control"><?php if(isset($lugar_nac)) echo $lugar_nac;?></textarea>
+                </div>
+
+                <div class="col-lg-6 my-3">
+                    <label for="">Direccion de Habitacion</label>
+                    <textarea rows="3" cols="40" name="direcc_hab" id="" placeholder="Direccion" class="form-control"><?php if(isset($direcc_hab)) echo $direcc_hab; ?></textarea>
+                </div>
+            </div>
         
-        <br>
-        Turno:
-        <select name="turno" id="">
-            <option value=""></option>
-            <option <?php if(isset($turno)) if($turno == '1') echo 'selected';?> value="1">Mañana</option>
-            <option <?php if(isset($turno)) if($turno == '2') echo 'selected';?> value="2">Tarde</option>
-        </select> 
+            <div class="row">
+                <div class="col-lg-3 my-3">
+                    <label for="">Telefono Celular:</label>
+                    <input type="number" name="tlf_cel" id="" placeholder="Telefono" class="form-control" value="<?php if(isset($tlf_cel)) echo $tlf_cel; ?>">
+                </div>
 
-        <br>
-        <input type="submit" value="Registrar" name="registrar">
-    </form>
+                <div class="col-lg-3 my-3">
+                    <label for="">Telefono Local:</label>
+                    <input type="number" name="tlf_local" id="" placeholder="Telefono" class="form-control" value="<?php if(isset($tlf_local)) echo $tlf_local; ?>">
+                </div>
 
-    <br>
-    <a href="reg_docent_admin.php">Registrar Administrativo desde docente</a>
+                <div class="col-lg-6 my-3">
+                    <label for="">Correo:</label>
+                    <input type="email" name="correo" id="" placeholder="Correo" class="form-control" value="<?php if(isset($correo)) echo $correo; ?>">
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6 my-3">
+                    <label for="">Estado Civil:</label>
+                    <select name="estado_civil" id="" class="form-control">
+                        <option value="">Seleccione</option>            
+                        <option <?php if(isset($estado_civil)) if($estado_civil == '1') echo 'selected';?> value="1">Soltero/a</option>
+                        <option <?php if(isset($estado_civil)) if($estado_civil == '2') echo 'selected';?> value="2">Casado/a</option>
+                        <option <?php if(isset($estado_civil)) if($estado_civil == '3') echo 'selected';?> value="3">Divorciado/a</option>
+                        <option <?php if(isset($estado_civil)) if($estado_civil == '4') echo 'selected';?> value="4">Viudo/a</option>
+                    </select>
+                </div>
 
-    <br>
-    <a href="admins.php">volver</a>
-    <br>
-    <br>
+                <div class="col-lg-6 my-3">
+                    <label for="">Turno:</label>
+                    <select name="turno" id="" class="form-control">
+                        <option value="">Seleccione</option>
+                        <option <?php if(isset($turno)) if($turno == '1') echo 'selected';?> value="1">Mañana</option>
+                        <option <?php if(isset($turno)) if($turno == '2') echo 'selected';?> value="2">Tarde</option>
+                    </select> 
+                </div>
+            </div>
 
-    <?php
-    if(!empty($errors)){
-        foreach ($errors as $msjs) {
-            echo "<p>$msjs<p>";
-        }
+
+        <?php
+if(!empty($errors)){
+    foreach ($errors as $msjs) {
+        echo "<p>$msjs<p>";
     }
+}
 
-    ?>
+?>
+
+                <div class="row">
+                    <div class="col-lg-2"><a class="btn btn-primary btn-block" href="admins.php">Volver</a></div>
+                    <div class="col-lg-5"><input class="btn btn-primary btn-block" type="submit" value="Registrar" name="registrar"></div>
+                    <div class="col-lg-5"><a class="btn btn-outline-primary btn-block" href="reg_docent_admin.php">Registrar desde Administrativo</a></div>
+                </div>
+        
+            </form>
+        </div>
+    </div>
+</div> <!-- Container -->
 
 <?php 
 

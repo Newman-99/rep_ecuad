@@ -1,3 +1,5 @@
+<?php require '../../../includes/init_system_reg.php'; ?>
+
 <?php require '../../../includes/head_reg_est.php'; ?>
 
 <?php require '../../../includes/header_reg_est.php'; ?>
@@ -758,7 +760,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
 
                                         <div class="col-lg-3 ">
                                             <label for="">Fecha de Nacimiento:</label>
-                                            <input type="fecha" name="fecha_nac_r" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_r)) echo $fecha_nac_r; ?>">
+                                            <input type="date" name="fecha_nac_r" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_r)) echo $fecha_nac_r; ?>">
                                         </div>
     
 
@@ -852,7 +854,8 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
 
                                         <a href="reg-estudiante-1.php" class="btn btn-primary  col-lg-2">VOLVER</a>
                                         
-                                        <button type='submit' class="btn btn-primary col-lg-9"value="datos_student" name ='datos_pers_estd'>CONTINUAR</button>
+                                        <button type='submit' class="btn btn-primary col-lg-9" value="datos_student" name='datos_pers_estd'>CONTINUAR</button>
+                                        
                                         
                                     
 

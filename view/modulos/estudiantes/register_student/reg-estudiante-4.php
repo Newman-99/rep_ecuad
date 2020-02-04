@@ -1,3 +1,5 @@
+<?php require '../../../includes/init_system_reg.php'; ?>
+
 <?php require '../../../includes/head_reg_est.php'; ?>
 
 <?php require '../../../includes/header_reg_est.php'; ?>
@@ -242,7 +244,8 @@ $errors[]= "<a href='final_register.php'>
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
                                     <a href="reg-estudiante-3.php" class="btn btn-primary col-lg-2">VOLVER</a>
 
-                                    <button type='submit' class="btn btn-primary col-lg-9 " value="inscrip_escol" name='inscrip_escol'>CONTINUAR</button>
+                                    <button type='submit' class="btn btn-primary col-lg-9" value="inscrip_escol" name='inscrip_escol'>CONTINUAR</button>
+                                    
                                 
                                 </form>   
                             

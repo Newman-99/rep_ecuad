@@ -1,4 +1,6 @@
 
+<?php require '../../../includes/init_system_reg.php'; ?>
+
 <?php require '../../../includes/head_reg_est.php'; ?>
 
 <?php require '../../../includes/header_reg_est.php'; 
@@ -6,6 +8,7 @@
     session_start();
 
  valid_inicio_sesion('2');
+
 
 if (isset($_SESSION['sesionform1'])) {
 if (comprobar_msjs_array($_SESSION['sesionform1'])) {
@@ -164,6 +167,7 @@ $errors[]= "<a href='reg-estudiante-2.php'>
                                     </div>
                                 </div>
 
+
                                 <div class="row">
                                     <div class="col-lg-6 my-2">
                                         <p for="" class="">Sexo:</p>
@@ -185,18 +189,16 @@ $errors[]= "<a href='reg-estudiante-2.php'>
 
                              
                                 <div class="row">
-
                                     <div class="col-lg-6 my-2">
                                         <label for="">Lugar de Nacimiento:</label>
-                                        <textarea rows="3" cols="40" name="lugar_nac" id="" class="form-control" placeholder="Lugar de nacimiento"><?php if(isset($lugar_nac)) echo $lugar_nac;?></textarea>
+                                        <textarea rows="3" cols="40" name="lugar_nac" id="" class="form-control" placeholder="Lugar de nacimiento" required><?php if(isset($lugar_nac)) echo $lugar_nac;?></textarea>
+                                    </div>
 
                                     <div class="col-lg-6 my-2">
                                         <label for="">Dirección de Habitación:</label>
 			                            <textarea rows="3" cols="40" name="direcc_hab" id="" class="form-control" placeholder="Dirección de habitación" required><?php if(isset($direcc_hab)) echo $direcc_hab; ?></textarea>        
                                     </div>
                                 </div>
-
-
 
                                     <div class="col-lg-6 my-2">
                                         <p for="" class="">Posee coleccion bicentenaria:</p>
@@ -239,6 +241,7 @@ $errors[]= "<a href='reg-estudiante-2.php'>
                                                             <?php imprimir_msjs_no_style($errors); ?>
                          
                                 <!-- <input type="submit" name="continuar" value="CONTINUAR" class="btn btn-primary btn-block btn-lg" id="boton-enviar"> --> 
+           <?php imprimir_msjs($errors); ?>
 
                             </form>
                     <!--</div>-->
@@ -251,6 +254,5 @@ $errors[]= "<a href='reg-estudiante-2.php'>
             </div>
 
     <!--jquery, boostrap.min.js, bundle.min.js-->
-
 
 <?php require '../../../includes/footer_reg_est.php'; ?>
