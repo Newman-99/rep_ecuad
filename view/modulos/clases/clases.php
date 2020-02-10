@@ -54,7 +54,6 @@ require '../../includes/head.php';
             <option <?php if(isset($seccion)) if($seccion == 'F') echo 'selected';?> value="F">F</option>
         </select>
 
-
 		Turno:
         <select name="turno" id="">
         	 <option value=''>Todos</option>
