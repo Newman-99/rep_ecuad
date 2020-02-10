@@ -1,7 +1,7 @@
 
 <?php require '../../includes/init_system.php'; ?>
- 
-<?php require '../../includes/head.php' ?>
+
+ <?php require '../../includes/head.php'; ?>
 
 
 <?php
@@ -100,7 +100,7 @@ $errors[] = 'Docente registrado con exito';
     <title>Registro de Docentes</title>
 
 
-<?php require '../../includes/header.php' ?>
+<?php require '../../includes/header.php'; ?>
 
 <h2 >Registro de Docentes</h2>
 

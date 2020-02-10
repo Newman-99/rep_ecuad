@@ -1,3 +1,5 @@
+<?php require '../../../includes/init_system_reg.php'; ?>
+
 <?php require '../../../includes/head_reg_est.php'; ?>
 
 <?php require '../../../includes/header_reg_est.php'; ?>
@@ -16,7 +18,7 @@ $errors_pr= array();
  valid_inicio_sesion('2');
 
 
-if (isset($_SESSION['sesionform3'])) {$_ENV['variable']
+if (isset($_SESSION['sesionform3'])) {
 if (comprobar_msjs_array($_SESSION['sesionform3'])) {
 extract($_SESSION['sesionform3']);
 }
@@ -357,7 +359,23 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                     <div class="col-lg-12">
                             <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>"  method="POST" class="form-group text-center">
 
-    
+    <?php         $sql = consulta_other_data_student()." WHERE ode.ci_escolar = :ci_escolar;";
+
+        $result=$db->prepare($sql);
+            
+        $result->bindValue(":ci_escolar",$_SESSION['ci_escolar']);
+        
+        $result->execute();
+
+                if ($result->rowCount() == 0) {
+        echo " <h1>No hay criterios que concidan con su busqueda</h1>";
+
+        }
+
+var_dump($result,$_SESSION['ci_escolar']);
+    while($registro=$result->fetch(PDO::FETCH_ASSOC)){
+ ?>
+
                                   <div class="row">
                                       <div class="col-12">
                                             <h3 class="form-titulo">Otros datos del estudiante</h3>
@@ -365,7 +383,7 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                         <br><br><br>
                                       <div class="col-lg-12 my-2">
                                             <label for="">¿Cuantas personas viven con el estudiante?</label>
-                                            <input type="number" name="nro_pers_viven" id="" placeholder="N°" value="<?php if(isset($nro_pers_viven)) echo $nro_pers_viven; ?>">
+                                            <input type="number" name="nro_pers_viven" id="" placeholder="N°" value="<?php if(isset($registro['nro_pers_viven'])) echo $registro['nro_pers_viven']; ?>">
                                       </div>
                                         <br><br>
                                       <div class="col-12 my-4">
@@ -376,23 +394,42 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                             <p for="" class="">¿Tiene hermanos estudiando en el plantel?</p>
                                             <label for="" class="">Si:</label>
                                             <input type="radio" name="hermanos" id="" value="1"
-                                            <?php if(isset($_POST["hermanos"])){ if($_POST["hermanos"] == '1') echo "checked";}else{if(isset($hermanos)){ if($hermanos == '1') echo "checked";}}?>>
+                                            <?php if(isset($registro["hermanos"])){ if($registro["hermanos"] == '1') echo "checked";}?>>
                                             <label for="" class="">No:</label>
                                             <input type="radio" name="hermanos" id="" value="0"
-                                            <?php if(isset($_POST["hermanos"])){ if($_POST["hermanos"] == '0') echo "checked";}else{if(isset($hermanos)){ if($hermanos == '0') echo "checked";}}?>>
+                                            <?php if(isset($registro["hermanos"])){ if($registro["hermanos"] == '0') echo "checked";}?>>
                                             <br>
                                             <label for="" class="my-4 ">Especifique:</label>
                                             <textarea name="descrip_herma" id="" class="form-control" placeholder="Especifique"><?php if(isset($descrip_herma)) echo $descrip_herma; ?></textarea>
                                       </div>
 
+<?php } ?>
+
+
+<?php         $sql = consulta_salud_student()." WHERE sd.ci_escolar = :ci_escolar;";
+
+        $result=$db->prepare($sql);
+            
+        $result->bindValue(":ci_escolar",$_SESSION['ci_escolar']);
+        
+        $result->execute();
+
+                if ($result->rowCount() == 0) {
+        echo " <h1>No hay criterios que concidan con su busqueda</h1>";
+
+        }
+
+var_dump($result,$_SESSION['ci_escolar']);
+    while($registro=$result->fetch(PDO::FETCH_ASSOC)){
+ ?>
                                       <div class="col-lg-6 my-4">
                                             <p for="" class="">¿Padece o ha padecido de alguna enfermedad cronica?</p>
                                             <label for="" class="">Si:</label>
                                             <input type="radio" name="enfer_cron" id="" value="1"
-                                            <?php if(isset($_POST["enfer_cron"])){ if($_POST["enfer_cron"] == '1') echo "checked";}else{if(isset($enfer_cron)){ if($enfer_cron == '1') echo "checked";}}?>>
+                                            <?php if(isset($registro["est_croni"])){ if($registro["est_croni"] == '1') echo "checked";}?>>
                                             <label for="" class="">No:</label>
                                             <input type="radio" name="enfer_cron" id="" value="0"
-                                            <?php if(isset($_POST["enfer_cron"])){ if($_POST["enfer_cron"] == '0') echo "checked";}else{if(isset($enfer_cron)){ if($enfer_cron == '0') echo "checked";}}?>>
+                                            <?php if(isset($registro["est_croni"])){ if($registro["est_croni"] == '0') echo "checked";}?>>
                                             <br>
                                             <label for="" class="my-4">Especifique:</label>
                                             <textarea name="descrip_enfer_cron" id="" class="form-control" placeholder="Especifique"><?php if(isset($descrip_enfer_cron)) echo $descrip_enfer_cron; ?></textarea>
@@ -435,7 +472,7 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                             <?php if(isset($_POST["alergias"])){ if($_POST["alergias"] == '0') echo "checked";}else{if(isset($alergias)){ if($alergias == '0') echo "checked";}};?>>
                                             <br>
                                             <label for="" class="my-4">Especifique:</label>
-                                            <textarea name="descrip_alergias" id="" class="form-control" placeholder="Especifique"><?php if(isset($descrip_alergias)) echo $descrip_alergias; ?></textarea>
+                                            <textarea name="descrip_alergias" id="" class="form-control" placeholder="Especifique"><?php if(isset($registro['desc_alergia'])) echo $registro['desc_alergia']; ?></textarea>
                                       </div>
 
                                       <div class="col-lg-6 my-4">
@@ -465,7 +502,7 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                             <textarea name="descrip_vacunas" id="" class="form-control" placeholder="Especifique"><?php if(isset($descrip_vacunas)) echo $descrip_vacunas; ?></textarea>
                                         </div>
                                               
-                                              <?php imprimir_msjs($errors_1); ?>
+                                              <?php imprimir_msjs_no_style($errors_1); ?>
                                   </div>
                                   
                                   <br><br><br><br>
@@ -527,12 +564,30 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                                 <input type="radio" name="anex_infor" id="" value="0"
                                                 <?php if(isset($_POST["anex_infor"])){ if($_POST["anex_infor"] == '0') echo "checked";}else{if(isset($anex_infor)){ if($anex_infor == '0') echo "checked";}}?>>
                                         </div>
-                                                <?php imprimir_msjs($errors_2); ?>
+                                                <?php imprimir_msjs_no_style($errors_2); ?>
 
                                     </div>
 
                                     <br><br><br><br>
 
+                                  <?php } ?>
+
+    <?php         $sql = consulta_movilidad_student()." WHERE mv.ci_escolar = :ci_escolar;";
+
+        $result=$db->prepare($sql);
+            
+        $result->bindValue(":ci_escolar",$_SESSION['ci_escolar']);
+        
+        $result->execute();
+
+                if ($result->rowCount() == 0) {
+        echo " <h1>No hay criterios que concidan con su busqueda</h1>";
+
+        }
+
+var_dump($result,$_SESSION['ci_escolar']);
+    while($registro=$result->fetch(PDO::FETCH_ASSOC)){
+?>
 <!------------------------------ SEPTIMO FORMULARIO [ Acceso y restiro de la Institucion ] ------------------------------>
                 
                                     <div class="row">
@@ -545,10 +600,10 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                             <p for="" class="my-2">¿El estudiante llega y se retira de la escuela solo?</p>
                                             <label for="" class="">Si:</label>
                                             <input type="radio" name="lleg_retir" id="" value="1"
-                                            <?php if(isset($_POST["lleg_retir"])){ if($_POST["lleg_retir"] == '1') echo "checked";}else{if(isset($lleg_retir)){ if($lleg_retir == '1') echo "checked";}}?>>
+                                            <?php if(isset($registro["est_ret"])){ if($registro["est_ret"] == '1') echo "checked";}?> >
                                             <label for="" class="">No:</label>
                                             <input type="radio" name="lleg_retir" id="" value="0"
-                                            <?php if(isset($_POST["lleg_retir"])){ if($_POST["lleg_retir"] == '0') echo "checked";}else{if(isset($lleg_retir)){ if($lleg_retir == '0') echo "checked";}}?>>
+                                            <?php if(isset($registro["est_ret"])){ if($registro["est_ret"] == '0') echo "checked";}?> >
                                             <br>
                                             <label for="" class="my-4">Especifique:</label>
                                             <textarea name="descrip_lleg_retir" id="" class="form-control" placeholder="¿Acompañado por?"><?php if(isset($descrip_lleg_retir)) echo $descrip_lleg_retir; ?></textarea>
@@ -568,10 +623,29 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                         </div>
                                     </div>
                             
-                                            <?php imprimir_msjs($errors_3); ?>
+                                            <?php imprimir_msjs_no_style($errors_3); ?>
 
 
                                     <br><br><br><br>
+
+<?php } ?>
+
+    <?php         $sql = consulta_pers_ret_student()." WHERE prt.ci_escolar = :ci_escolar;";
+
+        $result=$db->prepare($sql);
+            
+        $result->bindValue(":ci_escolar",$_SESSION['ci_escolar']);
+        
+        $result->execute();
+
+                if ($result->rowCount() == 0) {
+        echo " <h1>No hay criterios que concidan con su busqueda</h1>";
+
+        }
+
+var_dump($result,$_SESSION['ci_escolar']);
+    while($registro=$result->fetch(PDO::FETCH_ASSOC)){
+?>
 
     <!--------------------------- OCTAVO FORMULARIO [ Persona autorizada a retirar el estudiante de la institucion ] -->
                 
@@ -605,7 +679,7 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                         
                                         <div class="col-lg-4 my-3">
                                             <label class="form-inline">Cedula:</label>
-                                            <input type="text" name="id_doc_pr" id="" placeholder="Cedula de identidad" class="form-control"  maxlength="8" value="<?php if(isset($id_doc_pr)) echo $id_doc_pr; ?>">
+                                            <input type="text" name="id_doc_pr" id="" placeholder="Cedula de identidad" class="form-control"  maxlength="8" value="<?php if(isset($registro['id_doc'])) echo $registro['id_doc']; ?>">
                                         </div>
 
                                         <div class="col-lg-3 ">
@@ -623,7 +697,7 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                           <p for="" class="">Sexo:</p>
                                           <label for="" class="">Masculino</label>
                                           <input type="radio" <?php if(isset($_POST["sexo_pr"])){ if($_POST["sexo_pr"] == '1') echo "checked";}else{if(isset($sexo_pr)){ if($sexo_pr == '1') echo "checked";}}?> name="sexo_pr" value="1" id="">
-
+                                            <br>
                                           <label for="sexo_pr" class="">Femenino</label>
                                           <input type="radio" name="sexo_pr" <?php if(isset($_POST["sexo_pr"])){ if($_POST["sexo_pr"] == '2') echo "checked";}else{if(isset($sexo_pr)){ if($sexo_pr == '2') echo "checked";}} if(isset($sexo_pr)) if($sexo_pr == '2') echo 'checked';?> value="2" id="">
 
@@ -660,17 +734,18 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                        
                                      </div>   
                        
-                                        <?php imprimir_msjs($errors_pr); ?>
 
                                     
                                         <a href="reg-estudiante-2.php" class="btn btn-primary col-lg-2 ">VOLVER</a>
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->                                        
                                         <button type='submit' class="btn btn-primary col-lg-9"value="otros_datos" name ='otros_datos'>CONTINUAR</button>
+                                        <?php imprimir_msjs_no_style($errors_pr); ?>
 
 
-                                </form>   
+                                </form> 
+
                             </div>
-                        </div>
+                        </div> <?php } ?>
                 </div>
 
 

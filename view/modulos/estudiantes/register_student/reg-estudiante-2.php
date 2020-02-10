@@ -72,7 +72,7 @@ if (isset($_POST["is_represent_m"])) {
 
 if (isset($_POST["si_exist_m"])) {
 
-if (validar_datos_vacios($id_doc_m,) || !isset($convivencia_mn)) {
+if (validar_datos_vacios($id_doc_m) || !isset($convivencia_m)) {
            $errors_m[]='El documento de identidad no puede estar vacio y asegurese de indicar si vive con el estudiante';  
 
 }else{

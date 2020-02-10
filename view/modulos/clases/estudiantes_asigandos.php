@@ -1,4 +1,5 @@
 <?php 
+require '../../includes/init_system.php'; 
 
 require '../../includes/head.php';
     $errors = array();
@@ -10,7 +11,6 @@ $_SESSION['id'] = $_POST['estudiantes_asigandos'];
 }
 $id = $_SESSION['id'];
 
-var_dump($_SESSION['id']);
 
 ?>
 
@@ -120,7 +120,7 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado WHERE clas.id_clase 
 						<td><?php echo $registro['apellido_p']." ".$registro['apellido_m'] ?></td> 
 						<td><?php echo $registro['estado']?></td>
 						</td>
- 		            </tr>";
+ 		            </tr>
 
 <?php 
  		          		} 

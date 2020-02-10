@@ -1,5 +1,5 @@
 <?php
-
+require '../../includes/init_system.php'; 
 require '../../includes/head.php';
     session_start();
  valid_inicio_sesion('3');
@@ -30,7 +30,6 @@ require '../../includes/head.php';
 	<section>			
 	<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post"
 >
-        <br>
         Grado Escolar:
         <select name="grado" id="" autocomplete="on">
             <option value=''>Todos</option>

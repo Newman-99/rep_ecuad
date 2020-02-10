@@ -20,9 +20,6 @@ require '../../includes/head.php';
 			
 			<button id=button class="icon-search" type="submit" name="por_cedula" value="por_cedula">Buscar</button>			
 
-				<br>
-				<br>
-				
 				Area: 
 				<select name="id_area">
 				

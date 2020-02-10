@@ -1,5 +1,7 @@
 <?php
 
+require '../../includes/init_system.php'; 
+
 require '../../includes/head.php';
     session_start();
  valid_inicio_sesion('2');

@@ -35,18 +35,11 @@ if (!empty($_POST['answers'])) {
 			</form>";
 	}
 }
+require '../../includes/head.php';
+
 
 ?>
 
-<!DOCTYPE html>
-<html>
-    <head>
-	    <meta charset="UTF-8">
-	    <meta name="viewport" content="width=device-width, user-scalable=no, initial -scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-
-<link rel="stylesheet" type="text/css" href="../../style/css/estilos.css">
-<link rel="stylesheet" type="text/css" href="../../style/css/styless.css">
-	    <link rel="stylesheet" href="../../style/bootstrap/bootstrap.min.css">
 
 	<title>Preguntas</title>
 </head>

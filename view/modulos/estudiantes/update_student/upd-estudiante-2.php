@@ -1,8 +1,10 @@
-<?php require '../../../includes/head_reg_est.php'; ?>
-
-<?php require '../../../includes/header_reg_est.php'; ?>
-
 <?php 
+require '../../../includes/init_system_reg.php'; 
+
+require '../../../includes/head_reg_est.php'; 
+
+require '../../../includes/header_reg_est.php'; 
+
     session_start();
 
  valid_inicio_sesion('2');

@@ -23,9 +23,6 @@ $errors=array();
 			
 			<button id=button class="icon-search" type="submit" name="por_cedula" value="por_cedula">Buscar</button>			
 
-				<br>
-				<br>
-
 				Funcion: 
 				<select name="id_funcion_docent">
 				<option value="">Todos</option>				

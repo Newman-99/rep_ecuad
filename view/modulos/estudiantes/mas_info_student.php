@@ -1,5 +1,6 @@
 
 <?php
+
 require  '../../../database/connect.php';
 
 require '../../../functions/functions.php';
@@ -10,6 +11,8 @@ require '../../../functions/functions.php';
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial -scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 
+<link rel="stylesheet" href="../../style/css/estilos_gregorio.css"
+
         <link rel="stylesheet" href="../../style/css/estilos.css">
         <link rel="stylesheet" href="../../style/css/styless.css">
 
@@ -18,7 +21,6 @@ require '../../../functions/functions.php';
 
 <?php //require '../../includes/head.php';
 
-var_dump($_POST['mas_info_student']);
 if (!empty($_POST['mas_info_student'])) {
 
     $ci_escolar = htmlentities(addslashes($_POST["mas_info_student"])); 
@@ -33,12 +35,12 @@ $errors = array();
 
 ?>
 
-    <title>Mas Informacion Estdiante</title>
+    <title>Mas Informacion Estudiante</title>
 
 <?php require '../../includes/header.php' ?>
 
 
-    <h2>Mas Informacion del Estdiante</h2>
+    <h2>Mas Informacion del Estudiante</h2>
     <form action='<?php htmlspecialchars($_SERVER['PHP_SELF'])?>' method='post'>
         <br>
 <?php

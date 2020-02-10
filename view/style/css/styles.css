@@ -101,7 +101,7 @@ input[type="submit"]:hover {
     color: #000;
 }
 input[type="submit"]:hover{
-    opacity: 0.75;
+    opacity: 0
 }
 
 .search{
@@ -111,7 +111,7 @@ input[type="submit"]:hover{
      display:     ;
      position: absolute;
      right: 15%;
-     top: 35%;
+     top: 25%;
      border-radius: 10px;
 }
 .tabla{

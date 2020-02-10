@@ -23,7 +23,9 @@
 
 ?>    
 	        <div>
- 	            <table class="tabla" border="1">
+
+
+ 	            <table class="tabla" border="1" style="position: relative; margin-top: 40px;">
  		            <thead>
  			            <tr>
 
@@ -48,7 +50,7 @@
 	
 	        Estudiantes Varones: <?php echo tipo_sexo_student_general('1');?>
             <br><br>
-            Estudiantes Femenino: <?php echo tipo_sexo_student_general('2');?>
+            Estudiantes Femeninos: <?php echo tipo_sexo_student_general('2');?>
 
              </td>
 

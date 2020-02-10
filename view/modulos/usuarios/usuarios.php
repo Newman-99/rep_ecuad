@@ -1,3 +1,5 @@
+<?php require '../../includes/init_system.php'; ?>
+
 <?php 
 
     session_start();
@@ -18,9 +20,7 @@ $errors = array();
 			<input type="search" class="search" placeholder="Cédula" name="ci_user" value="<?php if(isset($ci)) echo $ci;?>">
 
 			<button id=button class="icon-search" type="submit" name="busc" value="busc">Buscar</button>
-			<br>
-
-		<br>
+			
 						<select name="id_tipo_usr">
 				<option value="">Todos</option>				
 				<option value="0">Inabilitado</option>

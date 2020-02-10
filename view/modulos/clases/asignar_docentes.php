@@ -1,4 +1,6 @@
 <?php 
+require '../../includes/init_system.php'; 
+
 require '../../includes/head.php';
 
     session_start();

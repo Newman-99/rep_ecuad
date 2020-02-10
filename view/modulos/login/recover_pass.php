@@ -1,4 +1,7 @@
+<?php require '../../includes/init_system.php'; ?>
+
 <?php 
+
 require '../../includes/head.php';
 
 

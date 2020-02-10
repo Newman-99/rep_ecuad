@@ -32,10 +32,6 @@ var_dump($result);*/
 
 
 //$ci_escolar = 'V19913903883';
-$id_doc = "323232";
+$id = "V01228117879";
 
-echo calcula_edad('1999-08-17');
-
-// update_movilidad_student('V19913903884','V19913903883','est_ret','desc_ret','est_tranport','desc_tranport');
-
-// update_person_retirar('5930330','5930331','V19913903883','V19913903884');
+$ = preg_split("",$id);

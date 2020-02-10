@@ -1,4 +1,8 @@
-<?php require '../../../includes/head_reg_est.php'; ?>
+
+<?php 
+require '../../includes/init_system.php'; 
+
+require '../../../includes/head_reg_est.php'; ?>
 
 <?php require '../../../includes/header_reg_est.php'; ?>
 

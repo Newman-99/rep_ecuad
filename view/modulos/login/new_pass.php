@@ -1,4 +1,7 @@
+<?php require '../../includes/init_system.php'; ?>
+
 <?php 
+
 require '../../includes/head.php';
 if (!empty($_POST['id_usr'])) {
 $id_usr=$_POST['id_usr'];
@@ -42,21 +45,9 @@ if (is_array(valid_pass($pass)) || is_string(valid_pass_par($pass,$pass_confirm)
 
 
 
+require '../../includes/head.php';
 
 ?>
-<head>
-
-<link rel="stylesheet" type="text/css" href="../../style/css/estilos_login.css">
-
-<link rel="stylesheet" type="text/css" href="../../style/css/estilos.css">
-
-                <link rel="stylesheet" href="../../style/bootstrap/bootstrap.min.css">
-
-</head>
-    <title>Document</title>
-</head>
-<body>
-
         <div class="contenedor">
             <div class="formulario">
 

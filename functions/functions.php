@@ -527,7 +527,10 @@ function imprimir_usuario_bienvenida($ci){
     
     $result->execute();
     
-        echo "<p><table border='1'><caption>Sus Datos: </caption>";
+        echo "<p><table border='1' style='  height: 100px;
+  position: relative;
+  left: 20%;
+'>";
   
         echo "<tr>
     <th>Cedula</th>
@@ -549,7 +552,7 @@ function imprimir_usuario_bienvenida($ci){
     
     <form action='../usuarios/seguridad.php' method='post'>
                         
-    <button type='submit' id=registrer class='icon-add' value=".$registro['id_doc']." name ='modif_pass' >Seguridad</button>
+    <button type='submit' style='' id=registrer class='icon-add' value=".$registro['id_doc']." name ='modif_pass' >Seguridad</button>
     
     </form>
 
@@ -1050,9 +1053,9 @@ function tipo_sexo_student_x_clase($id_clase,$id_sexo){
    }
 
 
-function tipo_sexo_student_general($id_sexo,$anio_escolar1 = '',$anio_escolar_2 =''){
+function tipo_sexo_student_general($id_sexo,$anio_escolar1 = '',$anio_escolar2 =''){
     global $db;
-    $sql=" SELECT in_p.id_sexo FROM estudiantes est 
+    $sql=" SELECT DISTINCT(est.ci_escolar), in_p.id_sexo FROM estudiantes est 
     INNER JOIN info_personal in_p ON est.ci_escolar = in_p.id_doc
     INNER JOIN escolaridad esc ON est.ci_escolar = esc.ci_escolar";
                                     
@@ -3988,4 +3991,6 @@ extract($POST);
 
             <?php 
      }
+
+
 ?>

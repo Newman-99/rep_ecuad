@@ -198,7 +198,6 @@ $errors[]= "<a href='reg-estudiante-2.php'>
                                         <label for="">Dirección de Habitación:</label>
 			                            <textarea rows="3" cols="40" name="direcc_hab" id="" class="form-control" placeholder="Dirección de habitación" required><?php if(isset($direcc_hab)) echo $direcc_hab; ?></textarea>        
                                     </div>
-                                </div>
 
                                     <div class="col-lg-6 my-2">
                                         <p for="" class="">Posee coleccion bicentenaria:</p>
@@ -211,9 +210,7 @@ $errors[]= "<a href='reg-estudiante-2.php'>
                                         <input type="radio" name="colecc_bicent" <?php if(isset($_POST["colecc_bicent"])){ if($_POST["colecc_bicent"] == '1') echo "checked";}else{if(isset($colecc_bicent)){ if($colecc_bicent == '0') echo "checked";}}
                                         ?> value="0" id="">
                                     </div>
-                                </div>
 
-                                <div class="row">
 
                                     <div class="col-lg-6 my-2">
                                         <p for="" class="">Posee Canaima:</p>
@@ -230,6 +227,7 @@ $errors[]= "<a href='reg-estudiante-2.php'>
                                         <input type="text" name="contrato_canaima" value="<?php if(isset($contrato_canaima)) echo $contrato_canaima; ?>" id="" class="mx-2  form-control" placeholder="Contrato">
                                         </div>
                                     </div>
+                                </div>
 
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
 
@@ -241,7 +239,6 @@ $errors[]= "<a href='reg-estudiante-2.php'>
                                                             <?php imprimir_msjs_no_style($errors); ?>
                          
                                 <!-- <input type="submit" name="continuar" value="CONTINUAR" class="btn btn-primary btn-block btn-lg" id="boton-enviar"> --> 
-           <?php imprimir_msjs($errors); ?>
 
                             </form>
                     <!--</div>-->

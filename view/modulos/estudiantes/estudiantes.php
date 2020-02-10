@@ -1,4 +1,6 @@
 <?php 
+require '../../includes/init_system.php'; 
+
 require  '../../includes/head.php';
 $errors = array();
  session_start();

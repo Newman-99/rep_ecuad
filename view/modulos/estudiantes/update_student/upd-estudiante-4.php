@@ -1,3 +1,5 @@
+<?php require '../../../includes/init_system_reg.php'; ?>
+
 <?php require '../../../includes/head_reg_est.php'; ?>
 
 <?php require '../../../includes/header_reg_est.php'; ?>
@@ -92,6 +94,23 @@ $errors[]= "<a href='final_register.php'>
 
 }
 }
+
+         $sql = consulta_other_data_student()." WHERE ode.ci_escolar = :ci_escolar;";
+
+        $result=$db->prepare($sql);
+            
+        $result->bindValue(":ci_escolar",$_SESSION['ci_escolar']);
+        
+        $result->execute();
+
+                if ($result->rowCount() == 0) {
+        echo " <h1>No hay criterios que concidan con su busqueda</h1>";
+
+        }
+
+var_dump($result,$_SESSION['ci_escolar']);
+    while($registro=$result->fetch(PDO::FETCH_ASSOC)){
+?>
 
 ?>
             <div class="container">
@@ -201,7 +220,7 @@ $errors[]= "<a href='final_register.php'>
                                             <label for="">Turno</label>
                                             <select name="turno_escolaridad" id="" autocomplete="on" class="form-control">
                                             <option value=""> Seleccione </option>
-                                                <option <?php if(isset($turno_escolaridad)) if($turno_escolaridad == '1') echo 'selected';?> value="1">mañana</option>
+                                                <option <?php if(isset($turno_escolaridad)) if($turno_escolaridad == '1') echo 'selected';?> value="1">Mañana</option>
                                                 <option <?php if(isset($turno_escolaridad)) if($turno_escolaridad == '2') echo 'selected';?> value="2">Tarde</option>
                                             </select>
                                         </div>
@@ -236,13 +255,16 @@ $errors[]= "<a href='final_register.php'>
                                             <textarea name="observacions" id="" class="form-control" placeholder="Ingrese la observacion"><?php if(isset($observacions)) echo $observacions;?></textarea>
                                         </div>
                                     </div> 
+
+                                <?php } ?>
                                             
-                                    <?php imprimir_msjs($errors); ?>
 
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
-                                    <a href="reg-estudiante-3.html" class="btn btn-primary col-lg-2">VOLVER</a>
+                                    <a href="reg-estudiante-3.php" class="btn btn-primary col-lg-2">VOLVER</a>
 
-                                    <button type='submit' class="btn btn-primary col-lg-9 " value="inscrip_escol" name='inscrip_escol'>CONTINUAR</button>
+                                    <button type='submit' class="btn btn-primary col-lg-9" value="inscrip_escol" name='inscrip_escol'>CONTINUAR</button>
+                                    <?php imprimir_msjs_no_style($errors); ?>
+                                    
                                 
                                 </form>   
                             
