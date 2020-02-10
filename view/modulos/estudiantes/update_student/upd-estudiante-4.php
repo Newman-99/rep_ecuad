@@ -56,9 +56,6 @@ if (isset($_POST["repitiente"])) {
         $errors = valid_ci_scolar_xparte($ci_escol_nacidad,$ci_escol_id_opc,$ci_escol_nac_estd,$ci_escol_ci_mom);
         }
 
-        if (validar_datos_vacios_sin_espacios($_SESSION['sesionform1']['id_doc_estd']) && validar_datos_vacios_sin_espacios($ci_escolar))  {
-        $errors[] = "Debe ingresar la cedula escolar o el documento de identidad del estudiante, tambien pueden ser ambas";                
-        }
         $errors[]=validar_anio_escolar($anio_escolar1_escolaridad,$anio_escolar2_escolaridad);
 
     }
@@ -87,7 +84,21 @@ $_SESSION['sesionform4'][$clave] = $valor;
 
 }
 
-$errors[]= "<a href='final_register.php'>
+registrar_actualizacion($ci_escolar,$_SESSION['id_user'],obtener_fecha_sistema());
+ 
+$id_actualizacion=obtener_ultimo_id_actualizacion();
+
+          $id_clase = generador_id_clases($grado_escolaridad,$seccion_escolaridad,$anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$turno_escolaridad);
+
+
+         if (is_exist_clase($id_clase)) {
+            asignar_clase_for_estudent($id_clase,'3',$id_actualizacion,$ci_escolar);
+          }
+
+registrar_inscrip_scolaridad($ci_escolar,$plantel_proced,$localidad,$anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$grado_escolaridad,$calif_escolaridad,$repitiente,$observacions,$id_actualizacion);
+
+
+$errors[]= "<a  class=' btn btn-primary col-lg-9' href='final_upd.php'>
     Confirmar
 </a>";
 

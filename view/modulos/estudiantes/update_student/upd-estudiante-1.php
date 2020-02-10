@@ -145,7 +145,7 @@ $errors[]= "Cambios Registrados con Exito";
 
     <?php
 
-        $sql = consulta_info_basic_student()." WHERE estd.ci_escolar = :ci_escolar;";
+        $sql = consulta_info_basic_student()." WHERE estd.ci_escolar = :ci_escolar ORDER BY es.id_actualizacion DESC LIMIT 1;";
 
         $result=$db->prepare($sql);
             

@@ -2484,10 +2484,6 @@ if(validar_datos_vacios_sin_espacios($ci_escol_nacidad,$ci_escol_nac_estd,$ci_es
 
 $errors = array();
 
-if (is_exist_student($ci_escolar)) {
-    $errors[] = "La cedula escolar ya existe"; 
-}
-
         if(strcmp($ci_escol_nacidad,'V') != 0 || !strcmp($ci_escol_nacidad,'E') != 0 ){
     $errors[] = "Nacionalidad de la cedula escolar Invalida"; 
         }
