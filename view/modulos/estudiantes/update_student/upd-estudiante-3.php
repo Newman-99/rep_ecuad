@@ -445,17 +445,17 @@ var_dump($result,$_SESSION['ci_escolar']);
                                             <?php if(isset($registro["est_visual"])){ if($registro["est_visual"] == '0') echo "checked";}?>>
                                             <br>
                                             <label for="" class="my-4">Especifique:</label>
-                                            <textarea name="descrip_problem_visual" id="" class="form-control" placeholder="Especifique"><?php if(isset($descrip_problem_visual)) echo $descrip_problem_visual; ?></textarea>
+                                            <textarea name="descrip_problem_visual" id="" class="form-control" placeholder="Especifique"><?php if(isset($registro["desc_visual"])) echo $registro["desc_visual"]; ?></textarea>
                                       </div>
 
                                       <div class="col-lg-6 my-4">
                                             <p for="" class="">¿Presenta problemas auditivos?</p>
                                             <label for="" class="">Si:</label>
                                             <input type="radio" name="problem_audi" id="" value="1"
-                                            <?php if(isset($_POST["problem_audi"])){ if($_POST["problem_audi"] == '1') echo "checked";}else{if(isset($problem_audi)){ if($problem_audi == '1') echo "checked";}}?>>
+                                            <?php if(isset($registro["est_auditivo"])){ if($registro["est_auditivo"] == '1') echo "checked";}?>>
                                             <label for="" class="">No:</label>
                                             <input type="radio" name="problem_audi" id="" value="0"
-                                            <?php if(isset($_POST["problem_audi"])){ if($_POST["problem_audi"] == '0') echo "checked";}else{if(isset($problem_audi)){ if($problem_audi == '0') echo "checked";}}?>>
+                                            <?php if(isset($registro["est_auditivo"])){ if($registro["est_auditivo"] == '0') echo "checked";}?>>
                                             <br>
                                             <label for="" class="my-4">Especifique:</label>
                                             <textarea name="descrip_problem_audi" id="" class="form-control" placeholder="descrip_problem_audi"><?php if(isset($descrip_problem_audi)) echo $descrip_problem_audi; ?></textarea>
