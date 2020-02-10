@@ -113,11 +113,25 @@ if (!empty($_POST['enviar'])) {
         </div>
     </div>
 
+    <div class="bienvenido">
+        <div class="row">
+
+        <div class="col-6">
+        <img src="../../img/i.png" width="80px" height="90px">
+        </div>
+        
+        <div class="col-6 mx-4">
+        <h2>U.E.N "República del Ecuador"</h2>
+        </div>
+
+        </div>
+    </div>
+
 </body>
 </html>
 
 <?php
 
-require'../../includes/footer.php';
+require '../../includes/footer.php';
 
   ?>
