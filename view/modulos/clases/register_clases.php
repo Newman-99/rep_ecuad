@@ -142,7 +142,15 @@ if (!comprobar_msjs_array($errors)) {
 
         Seccion 
 
-        <input type="text" name="seccion" id="" value="<?php if(isset($seccion)) echo $seccion; ?>">
+        <select name="seccion_escolaridad" id="" autocomplete="on" class="form-control">
+        <option value="" > Seleccione </option>
+            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'A') echo 'selected';?> value="A">A</option>
+            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'B') echo 'selected';?> value="B">B</option>
+            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'C') echo 'selected';?> value="C">C</option>
+            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'D') echo 'selected';?> value="D">D</option>
+            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'E') echo 'selected';?> value="E">E</option>
+            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'F') echo 'selected';?> value="F">F</option>
+        </select>
         <br>
 
 Turno:
