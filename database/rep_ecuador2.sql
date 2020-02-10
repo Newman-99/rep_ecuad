@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 04-02-2020 a las 04:28:29
+-- Tiempo de generación: 10-02-2020 a las 20:08:09
 -- Versión del servidor: 10.1.37-MariaDB
 -- Versión de PHP: 7.3.1
 
@@ -366,12 +366,6 @@ INSERT INTO `estudiantes_asignados` (`ci_escolar`, `id_clase`, `id_estado`, `id_
 ('34999029', '4-A-2018-2019-1', 3, 5, 16),
 ('38999029', '1-A-2018-2019-1', 3, 6, 14),
 ('37888909', '1-A-2018-2019-1', 3, 7, 11),
-('', '1-A-2018-2019-1', 3, 8, 18),
-('', '1-A-2018-2019-1', 3, 9, 19),
-('', '1-A-2018-2019-1', 3, 10, 20),
-('', '1-A-2018-2019-1', 3, 11, 21),
-('', '1-A-2018-2019-1', 3, 12, 22),
-('', '1-A-2018-2019-1', 3, 13, 23),
 ('V01115888290', '1-A-2018-2019-1', 3, 14, 24),
 ('V01415888290', '1-A-2018-2019-1', 3, 15, 25);
 
@@ -482,7 +476,7 @@ INSERT INTO `info_personal` (`id_doc`, `nombre`, `apellido_p`, `apellido_m`, `fe
 ('7222908', 'Ana Francisca', 'Fernandez', 'Ramos', '1967-01-03', 'Dpto Capital, Municipio Libertador,San Martin', 'Dpto Capital, Municipio Libertador, El paraiso', 1, 2, 2),
 ('No asignado', '', '', '', '0000-00-00', '', '', 1, 1, 1),
 ('V01115888290', 'Fabiana Maria', 'Torrealba', 'Garcia', '2010-02-07', 'Caracas, Maternidad.', 'Caracas, La Paz.', 1, 1, 2),
-('V01228117879', 'Carlos Esteban', 'Herandes', 'Oviedo', '2010-01-24', 'Dpto. Capital, Municipio Libertador, San Martin', 'Dpto. Capital, Municipio Libertador, El Paraiso', 1, 1, 1),
+('V01228117879', 'Luis Esteban', 'Hernandez', 'Oviedo', '2010-01-24', 'Dpto. Capital, Municipio Libertador, San Martin', 'Dpto. Capital, Municipio Libertador, El Paraiso', 1, 0, 1),
 ('V01415888290', 'Mario Jose', 'Torrealba', 'Garcia', '2014-02-08', 'Caracas, Maternidad.', 'Caracas, La Paz.', 1, 1, 2);
 
 -- --------------------------------------------------------
@@ -610,7 +604,7 @@ INSERT INTO `padres` (`id_doc`, `id_tip_padre`, `ci_escolar`) VALUES
 ('19220909', 2, 'V01115888290'),
 ('19220909', 2, 'V01415888290'),
 ('20119090', 1, '37888909'),
-('28117332', 1, 'V01228117879'),
+('20199002', 1, 'V01228117879'),
 ('7222908', 1, 'V19913903883');
 
 -- --------------------------------------------------------
@@ -936,7 +930,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_doc`, `id_tip_usr`, `pass`, `ult_sesion`) VALUES
-('28117206', 1, '$2y$10$kds6nYfN/.NRA//GQL7..O4Tu.fXEPbCSTBlFhvP8.7KMg0cv3qUe', '2020-02-03');
+('28117206', 1, '$2y$10$Lxtss41k7zB.xWVkGoz.NOSnMAKCCUV6AsbAnaMxbHJ2SBz84C9wi', '2020-02-10');
 
 --
 -- Índices para tablas volcadas

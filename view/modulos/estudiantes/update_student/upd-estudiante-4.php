@@ -248,14 +248,32 @@ var_dump($result,$_SESSION['ci_escolar']);
 
                                     <?php } ?>
 
+                                    <?php          $sql = consulta_escolaridad()." WHERE es.ci_escolar = :ci_escolar ORDER BY es.id_actualizacion DESC LIMIT 1;";
+
+        $result=$db->prepare($sql);
+            
+        $result->bindValue(":ci_escolar",$_SESSION['ci_escolar']);
+        
+        $result->execute();
+
+                if ($result->rowCount() == 0) {
+        echo " <h1>No hay criterios que concidan con su busqueda</h1>";
+
+        }
+
+var_dump($result,$_SESSION['ci_escolar']);
+    while($registro=$result->fetch(PDO::FETCH_ASSOC)){
+
+ ?>
+
                                         <div class="col-lg-3 my-4">
                                             <label for="">Calificacion definitiva</label>
                                             <select name="calif_escolaridad" id="calificacion" class="form-control" >
                                                 <option value=""> Seleccione </option>
-                                                <option <?php if(isset($calif_escolaridad)) if($calif_escolaridad == 'A') echo 'selected';?> value="A">A</option>
-                                                <option   <?php if(isset($calif_escolaridad)) if($calif_escolaridad == 'B') echo 'selected';?> value="B">B</option>
-                                                <option  <?php if(isset($calif_escolaridad)) if($calif_escolaridad == 'C') echo 'selected';?> value="C">C</option>
-                                                <option  <?php if(isset($calif_escolaridad)) if($calif_escolaridad == 'D') echo 'selected';?> value="D">D</option>
+                                                <option <?php if(isset($registro['calif_def'])) if($registro['calif_def'] == 'A') echo 'selected';?> value="A">A</option>
+                                                <option   <?php if(isset($registro['calif_def'])) if($registro['calif_def'] == 'B') echo 'selected';?> value="B">B</option>
+                                                <option  <?php if(isset($registro['calif_def'])) if($registro['calif_def'] == 'C') echo 'selected';?> value="C">C</option>
+                                                <option  <?php if(isset($registro['calif_def'])) if($registro['calif_def'] == 'D') echo 'selected';?> value="D">D</option>
                                             </select>
                                         </div>
 
@@ -267,22 +285,23 @@ var_dump($result,$_SESSION['ci_escolar']);
                                         <div class="col-lg-3 my-4">
                                             <p for="">Repitiente:</p>
                                             <label for="" class=" ">Si:</label>
-                                            <input  type="radio" <?php if(isset($_POST["repitiente"])){ if($_POST["repitiente"] == '0') echo "checked";}else{if(isset($repitiente)){ if($repitiente == '0') echo "checked";}} ?>  name="repitiente" value="0" id="">
+                                            <input  type="radio" name="repitiente" <?php if(isset($registro["repitiente"])){ if($registro["repitiente"] == '0') echo "checked";} ?>  value="0" id="">
 
                                             <label for="" class="">No:</label>
-                                            <input type="radio" name="repitiente" <?php if(isset($_POST["repitiente"])){ if($_POST["repitiente"] == '1') echo "checked";}else{if(isset($repitiente)){ if($repitiente == '1') echo "checked";}} ?> id="" value="1">
+                                            <input type="radio" name="repitiente" <?php if(isset($registro["repitiente"])){ if($registro["repitiente"] == '1') echo "checked";} ?> id="" value="1">
                                         </div>
 
                                         <div class="col-lg-9 my-4">
                                             <label for="">Observaciones</label>
-                                            <textarea name="observacions" id="" class="form-control" placeholder="Ingrese la observacion"><?php if(isset($observacions)) echo $observacions;?></textarea>
+                                            <textarea name="observacions" id="" class="form-control" placeholder="Ingrese la observacion"><?php if(isset($registro['observs'])) echo $registro['observs'];?></textarea>
                                         </div>
                                     </div>                                             
-
+<?php } ?>
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
                                     <a href="reg-estudiante-3.php" class="btn btn-primary col-lg-2">VOLVER</a>
 
                                     <button type='submit' class="btn btn-primary col-lg-9" value="inscrip_escol" name='inscrip_escol'>CONTINUAR</button>
+                                   
                                     <?php imprimir_msjs_no_style($errors); ?>
                                     
                                 
