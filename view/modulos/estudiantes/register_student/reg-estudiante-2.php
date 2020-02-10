@@ -365,6 +365,8 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
 }
 
  ?>
+
+    <title>Datos de Madre/Padre/Representante</title>
     <!--formularios-->
             <div class="container">
 

@@ -96,6 +96,8 @@ $errors[]= "<a href='final_register.php'>
 }
 
 ?>
+
+            <title>Otros datos de inscripcion y escolaridad</title>
             <div class="container">
 
     <!--------------------------- NOVENO FORMULARIO [ Otros datos de inscripcion y escolaridad ]-->

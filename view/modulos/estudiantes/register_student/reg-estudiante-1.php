@@ -109,7 +109,7 @@ $errors[]= "<a href='reg-estudiante-2.php'>
 
 }
  ?>
-
+    <title>Datos estudiante</title>
     <!--formularios-->
             <div class="container">
 

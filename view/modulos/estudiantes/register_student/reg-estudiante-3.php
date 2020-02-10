@@ -350,6 +350,7 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
 
  ?>
 
+    <title>Otros datos del estudiante</title>
     <!--formularios-->
             <div class="container">
 
