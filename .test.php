@@ -32,6 +32,39 @@ var_dump($result);*/
 
 
 //$ci_escolar = 'V19913903883';
-$id = "V01228117879";
+$id = "V01115888290";
 
-$ = preg_split("",$id);
+
+
+// Separar Cedula
+
+    if (preg_match('/V|E/',$id,$coincidencias,PREG_OFFSET_CAPTURE)) {
+               $resultado = $coincidencias[0];
+        $nacionalidad = $resultado[0];
+    } 
+
+if (preg_match('/[0-9]{3}/',$id,$coincidencias,PREG_OFFSET_CAPTURE)) {
+        $resultado = $coincidencias[0];
+        $anio_nac = $resultado[0];
+    }
+
+  $id_madre=obtener_id_padres($id,'1');
+  $id_padre=obtener_id_padres($id,'2');
+
+//var_dump($id_padre);
+$busc_padres='/'.$id_padre."|".$id_madre.'/';
+
+if (preg_match($busc_padres,$id,$coincidencias,PREG_OFFSET_CAPTURE)) {
+        $resultado = $coincidencias[0];
+        $id_padre_ci_escol = $resultado[0];
+    }
+
+
+$ci_scol = preg_replace ( '/'.$nacionalidad.'/','', $id );
+
+$ci_scol = preg_replace ( '/'.'15888290'.'/','', $ci_scol );
+
+$ci_scol = preg_replace ( '/'.$anio_nac.'/','', $ci_scol);
+var_dump($ci_scol);
+
+

@@ -2772,6 +2772,51 @@ function is_exist_padre($ci_padre,$ci_escolar ='',$id_tipo_padre = ''){
     }
 }
 
+function obtener_id_padres($ci_escolar ='',$id_tipo_padre = ''){
+    global $db;
+
+    $where = [];
+
+  $campos = [];
+
+
+
+
+      if (!empty($ci_escolar)) {
+    array_push($where, 'ci_escolar = :ci_escolar');
+    $campos[':ci_escolar'] = [
+      'valor' => $ci_escolar,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+      if (!empty($id_tipo_padre)) {
+    array_push($where, 'id_tip_padre = :id_tipo_padre');
+    $campos[':id_tipo_padre'] = [
+      'valor' => $id_tipo_padre,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+ $sql="SELECT * FROM padres";   
+ 
+  if (!empty($where)) {
+    $sql .= ' WHERE ' . implode(' AND ', $where);
+  }
+
+    $result=$db->prepare($sql);
+
+
+  foreach($campos as $clave => $valores) {
+    $result->bindParam($clave, $valores['valor'], $valores['tipo']);
+  }
+  
+    $result->execute();
+
+   $id=$result->fetchColumn();
+
+   return $id;
+}
 function is_exist_pers_estd($ci_represent,$ci_escolar =''){
 
     global $db;
