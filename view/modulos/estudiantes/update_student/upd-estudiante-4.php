@@ -95,7 +95,7 @@ $errors[]= "<a href='final_register.php'>
 }
 }
 
-         $sql = consulta_other_data_student()." WHERE ode.ci_escolar = :ci_escolar;";
+         $sql = consulta_escolaridad()." WHERE es.ci_escolar = :ci_escolar ORDER BY es.id_actualizacion DESC LIMIT 1;";
 
         $result=$db->prepare($sql);
             
@@ -110,7 +110,7 @@ $errors[]= "<a href='final_register.php'>
 
 var_dump($result,$_SESSION['ci_escolar']);
     while($registro=$result->fetch(PDO::FETCH_ASSOC)){
-?>
+
 
 ?>
             <div class="container">
@@ -126,7 +126,10 @@ var_dump($result,$_SESSION['ci_escolar']);
                                             <h3 class="form-titulo">Otros datos de inscripcion y escolaridad</h3>
                                         </div>
                                             <br><br>
-                                            
+                                    <?php 
+if (is_ci_escolar_id($_SESSION['ci_escolar'])){
+$ci_escolar_sep=sepadador_ci_escolar($_SESSION['ci_escolar']);
+                                     ?>
                                     <div class="row" id="cuadro"> <!-- INICIO, DIV Cedula escolar -->
                                         
                                         <div class="col-lg-12">
@@ -137,43 +140,61 @@ var_dump($result,$_SESSION['ci_escolar']);
                                             <label for="" class="">Naciononalidad</label>
                                             <select name="ci_escol_nacidad" id="cedula" class="form-control" >
                                                 <option value=""> Seleccione </option>
-                                                <option <?php if(isset($ci_escol_nacidad)) if($ci_escol_nacidad == 'V') echo 'selected';?> value="V">V</option>
-                                                <option <?php if(isset($ci_escol_nacidad)) if($ci_escol_nacidad == 'E') echo 'selected';?> value="E">E</option>
+                                                <option <?php if(isset($ci_escolar_sep['nacionalidad'])) if($ci_escolar_sep['nacionalidad'] == 'V') echo 'selected';?> value="V">V</option>
+                                                <option <?php if(isset($ci_escolar_sep['nacionalidad'])) if($ci_escolar_sep['nacionalidad'] == 'E') echo 'selected';?> value="E">E</option>
                                             </select>
                                         </div>
 
                                         <div class="col-lg-3 my-4">
                                             <label for="">Indicador opcional:</label>  
-                                            <input type="number" placeholder="1" class="form-control" value="<?php if(isset($ci_escol_id_opc)) echo $ci_escol_id_opc; ?>" name="ci_escol_id_opc">
+                                            <input type="number" placeholder="1" class="form-control" value="<?php if(isset($ci_escolar_sep['indic_opc'])) echo $ci_escolar_sep['indic_opc']; ?>" name="ci_escol_id_opc">
                                         </div>
 
                                         <div class="col-lg-3 my-4">
                                             <label for="">Año de Nacimiento:</label>  
-                                            <input type="number" placeholder="000" class="form-control" value="<?php if(isset($ci_escol_nac_estd)) echo $ci_escol_nac_estd; ?>" name="ci_escol_nac_estd">
+                                            <input type="number" placeholder="000" class="form-control" value="<?php if(isset($ci_escolar_sep['anio_nac'])) echo $ci_escolar_sep['anio_nac']; ?>" name="ci_escol_nac_estd">
                                         </div>
 
                                         <div class="col-lg-3 my-4">
                                             <label for="">Cedula de la Madre:</label> 
-                                            <input type="number" placeholder="C.I" class="form-control" value="<?php if(isset($ci_escol_ci_mom)) echo $ci_escol_ci_mom; ?>" name="ci_escol_ci_mom">
+                                            <input type="number" placeholder="C.I" class="form-control" value="<?php if(isset($ci_escolar_sep['id_padre_ci_escol'])) echo $ci_escolar_sep['id_padre_ci_escol']; ?>" name="ci_escol_ci_mom">
                                         </div>
 
                                     </div>  <!--------- FIN, DIV Cedula escolar  ------------>
-                                    
-                                    <br>
 
+                                    <br>
                                     <div class="row" >
                                         <div class="col-lg-6 my-4">
                                             <label for="" class="">Plantel de procedencia</label>
-                                            <input type="text" name="plantel_proced" value="<?php if(isset($plantel_proced)) echo $plantel_proced; ?>" id="" placeholder="Plantel de procedencia" class="form-control">
+                                            <input type="text" name="plantel_proced" value="<?php if(isset($registro['plantel_proced'])) echo $registro['plantel_proced']; ?>" id="" placeholder="Plantel de procedencia" class="form-control">
                                         </div>
 
                                         <div class="col-lg-6 my-4">
                                             <label for="" class="">Localidad</label>
-                                            <input type="text" name="localidad" value="<?php if(isset($localidad)) echo $localidad; ?>" id="" placeholder="Localidad" class="form-control">
+                                            <input type="text" name="localidad" value="<?php if(isset($registro['localidad'])) echo $registro['localidad']; ?>" id="" placeholder="Localidad" class="form-control">
                                         </div>
                                     </div>
-                                      
                                     <br>
+<?php } }?>
+
+<?php          $sql = clases_student()." WHERE ea.id_estado = 3 AND ea.ci_escolar =  :ci_escolar;";
+
+        $result=$db->prepare($sql);
+            
+        $result->bindValue(":ci_escolar",$_SESSION['ci_escolar']);
+        
+        $result->execute();
+
+                if ($result->rowCount() == 0) {
+        echo " <h1>No hay criterios que concidan con su busqueda</h1>";
+
+        }
+
+var_dump($result,$_SESSION['ci_escolar']);
+    while($registro=$result->fetch(PDO::FETCH_ASSOC)){
+ ?>
+
+
 
                                     <div class="row" id="cuadro"> <!--------- INICIO, DIV Datos de clase  ------------>
                                     
@@ -185,12 +206,12 @@ var_dump($result,$_SESSION['ci_escolar']);
                                            <label for="">Grado:</label> 
                                             <select name="grado_escolaridad" id="" autocomplete="on" class="form-control ">
                                                 <option value=""> Seleccione </option>
-                                                <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '1') echo 'selected';?> value="1">1ro</option>
-                                                <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '2') echo 'selected';?> value="2">2do</option>
-                                                <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '3') echo 'selected';?> value="3">3ro</option>
-                                                <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '4') echo 'selected';?> value="4">4to</option>
-                                                <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '5') echo 'selected';?> value="5">5to</option>
-                                                <option <?php if(isset($grado_escolaridad)) if($grado_escolaridad == '6') echo 'selected';?> value="6">6to</option>
+                                                <option <?php if(isset($registro['grado'])) if($registro['grado'] == '1') echo 'selected';?> value="1">1ro</option>
+                                                <option <?php if(isset($registro['grado'])) if($registro['grado'] == '2') echo 'selected';?> value="2">2do</option>
+                                                <option <?php if(isset($registro['grado'])) if($registro['grado'] == '3') echo 'selected';?> value="3">3ro</option>
+                                                <option <?php if(isset($registro['grado'])) if($registro['grado'] == '4') echo 'selected';?> value="4">4to</option>
+                                                <option <?php if(isset($registro['grado'])) if($registro['grado'] == '5') echo 'selected';?> value="5">5to</option>
+                                                <option <?php if(isset($registro['grado'])) if($registro['grado'] == '6') echo 'selected';?> value="6">6to</option>
                                             </select>
                                         </div>
 
@@ -199,31 +220,33 @@ var_dump($result,$_SESSION['ci_escolar']);
                                             <label for="">Seccion</label> 
                                             <select name="seccion_escolaridad" id="" autocomplete="on" class="form-control">
                                             <option value="" > Seleccione </option>
-                                                <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'A') echo 'selected';?> value="A">A</option>
-                                                <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'B') echo 'selected';?> value="B">B</option>
-                                                <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'C') echo 'selected';?> value="C">C</option>
-                                                <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'D') echo 'selected';?> value="D">D</option>
-                                                <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'E') echo 'selected';?> value="E">E</option>
-                                                <option <?php if(isset($seccion_escolaridad)) if($seccion_escolaridad == 'F') echo 'selected';?> value="F">F</option>
+                                                <option <?php if(isset($registro['seccion'])) if($registro['seccion'] == 'A') echo 'selected';?> value="A">A</option>
+                                                <option <?php if(isset($registro['seccion'])) if($registro['seccion'] == 'B') echo 'selected';?> value="B">B</option>
+                                                <option <?php if(isset($registro['seccion'])) if($registro['seccion'] == 'C') echo 'selected';?> value="C">C</option>
+                                                <option <?php if(isset($registro['seccion'])) if($registro['seccion'] == 'D') echo 'selected';?> value="D">D</option>
+                                                <option <?php if(isset($registro['seccion'])) if($registro['seccion'] == 'E') echo 'selected';?> value="E">E</option>
+                                                <option <?php if(isset($registro['seccion'])) if($seccion_escolaridad == 'F') echo 'selected';?> value="F">F</option>
                                             </select>
 
                                         </div>
 
                                         <div class="col-lg-2 my-4">
                                                 <label for="">  Año escolar</label>
-                                                <input type="number" maxlength="4" name="anio_escolar1_escolaridad" value="<?php if(isset($anio_escolar1_escolaridad)) echo $anio_escolar1_escolaridad; ?>" id="" placeholder="0000" class="form-control">
+                                                <input type="number" maxlength="4" name="anio_escolar1_escolaridad" value="<?php if(isset($registro['anio_escolar1'])) echo $registro['anio_escolar1']; ?>" id="" placeholder="0000" class="form-control">
 
-                                                <input type="number" maxlength="4" name="anio_escolar2_escolaridad" value="<?php if(isset($anio_escolar2_escolaridad)) echo $anio_escolar2_escolaridad; ?>"  id="" placeholder="0000" class="form-control">
+                                                <input type="number" maxlength="4" name="anio_escolar2_escolaridad" value="<?php if(isset($registro['anio_escolar2'])) echo $registro['anio_escolar2']; ?>"  id="" placeholder="0000" class="form-control">
                                         </div>
 
                                         <div class="col-lg-2 my-4">
                                             <label for="">Turno</label>
                                             <select name="turno_escolaridad" id="" autocomplete="on" class="form-control">
                                             <option value=""> Seleccione </option>
-                                                <option <?php if(isset($turno_escolaridad)) if($turno_escolaridad == '1') echo 'selected';?> value="1">Mañana</option>
-                                                <option <?php if(isset($turno_escolaridad)) if($turno_escolaridad == '2') echo 'selected';?> value="2">Tarde</option>
+                                                <option <?php if(isset($registro['id_turno'])) if($registro['id_turno'] == '1') echo 'selected';?> value="1">Mañana</option>
+                                                <option <?php if(isset($registro['id_turno'])) if($registro['id_turno'] == '2') echo 'selected';?> value="2">Tarde</option>
                                             </select>
                                         </div>
+
+                                    <?php } ?>
 
                                         <div class="col-lg-3 my-4">
                                             <label for="">Calificacion definitiva</label>
@@ -254,10 +277,7 @@ var_dump($result,$_SESSION['ci_escolar']);
                                             <label for="">Observaciones</label>
                                             <textarea name="observacions" id="" class="form-control" placeholder="Ingrese la observacion"><?php if(isset($observacions)) echo $observacions;?></textarea>
                                         </div>
-                                    </div> 
-
-                                <?php } ?>
-                                            
+                                    </div>                                             
 
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
                                     <a href="reg-estudiante-3.php" class="btn btn-primary col-lg-2">VOLVER</a>

@@ -31,10 +31,7 @@ $result->execute(array("id_doc"=>$id_doc,"id_area"=>$id_area,"id_turno"=>$turno,
 var_dump($result);*/
 
 
-//$ci_escolar = 'V19913903883';
-$id = "V01115888290";
-
-
+function sepadador_ci_escolar($id){ 
 
 // Separar Cedula
 
@@ -62,9 +59,20 @@ if (preg_match($busc_padres,$id,$coincidencias,PREG_OFFSET_CAPTURE)) {
 
 $ci_scol = preg_replace ( '/'.$nacionalidad.'/','', $id );
 
-$ci_scol = preg_replace ( '/'.'15888290'.'/','', $ci_scol );
+$ci_scol = preg_replace ( '/'.$id_padre_ci_escol.'/','', $ci_scol );
 
 $ci_scol = preg_replace ( '/'.$anio_nac.'/','', $ci_scol);
-var_dump($ci_scol);
+
+$indic_opc = '';
+
+if(preg_match('/[1-9]{1}/',$ci_scol)) {
+$indic_opc = $ci_scol;
+}
 
 
+$ci_escolar = array('nacionalidad' => $nacionalidad,'id_padre_ci_escol' => $id_padre_ci_escol,'anio_nac'=>$anio_nac,'indic_opc'=>$indic_opc);
+
+}
+
+var_dump($ci_escolar);
+?>

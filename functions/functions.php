@@ -2663,6 +2663,7 @@ function msj_bool($msj){
 
     if (empty($msj)) {
         return "No";
+$indic_opc = $ci_scol;
     }
 
     if ($msj) {
@@ -2676,7 +2677,7 @@ function msj_bool($msj){
 function clases_student(){
 
     return $sql="
-SELECT est.ci_escolar,clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2 FROM estudiantes est
+SELECT est.ci_escolar,clas.grado,clas.seccion,clas.id_turno,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2 FROM estudiantes est
             INNER JOIN estudiantes_asignados ea ON est.ci_escolar = ea.ci_escolar
             INNER JOIN clases clas ON ea.id_clase = clas.id_clase
             INNER JOIN turnos tr ON tr.id_turno = clas.id_turno";}
@@ -4037,5 +4038,56 @@ extract($POST);
             <?php 
      }
 
+
+
+function sepadador_ci_escolar($id){ 
+
+// Separar Cedula
+
+    if (preg_match('/V|E/',$id,$coincidencias,PREG_OFFSET_CAPTURE)) {
+               $resultado = $coincidencias[0];
+        $nacionalidad = $resultado[0];
+    } 
+
+if (preg_match('/[0-9]{3}/',$id,$coincidencias,PREG_OFFSET_CAPTURE)) {
+        $resultado = $coincidencias[0];
+        $anio_nac = $resultado[0];
+    }
+
+  $id_madre=obtener_id_padres($id,'1');
+  $id_padre=obtener_id_padres($id,'2');
+
+//var_dump($id_padre);
+$busc_padres='/'.$id_padre."|".$id_madre.'/';
+
+if (preg_match($busc_padres,$id,$coincidencias,PREG_OFFSET_CAPTURE)) {
+        $resultado = $coincidencias[0];
+        $id_padre_ci_escol = $resultado[0];
+    }
+
+
+$ci_scol = preg_replace ( '/'.$nacionalidad.'/','', $id );
+
+$ci_scol = preg_replace ( '/'.$id_padre_ci_escol.'/','', $ci_scol );
+
+$ci_scol = preg_replace ( '/'.$anio_nac.'/','', $ci_scol);
+
+$indic_opc = '';
+
+if(preg_match('/[1-9]{1}/',$ci_scol)) {
+$indic_opc = $ci_scol;
+}
+
+
+return $ci_escolar = array('nacionalidad' => $nacionalidad,'id_padre_ci_escol' => $id_padre_ci_escol,'anio_nac'=>$anio_nac,'indic_opc'=>$indic_opc);
+
+}
+
+function is_ci_escolar_id($id){
+        if (preg_match('/V|E/',$id)) {
+        return true;
+        } 
+        return false;
+}
 
 ?>

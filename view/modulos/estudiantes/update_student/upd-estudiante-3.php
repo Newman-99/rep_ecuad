@@ -439,10 +439,10 @@ var_dump($result,$_SESSION['ci_escolar']);
                                             <p for="" class="">¿Presenta problemas visuales?</p>
                                             <label for="" class="">Si:</label>
                                             <input type="radio" name="problem_visual" id="" value="1"
-                                            <?php if(isset($_POST["problem_visual"])){ if($_POST["problem_visual"] == '1') echo "checked";}else{if(isset($problem_visual)){ if($problem_visual == '1') echo "checked";}}?>>
+                                            <?php if(isset($registro["est_visual"])){ if($registro["est_visual"] == '1') echo "checked";}?>>
                                             <label for="" class="">No:</label>
                                             <input type="radio" name="problem_visual" id="" value="0"
-                                            <?php if(isset($_POST["problem_visual"])){ if($_POST["problem_visual"] == '0') echo "checked";}else{if(isset($problem_visual)){ if($problem_visual == '0') echo "checked";}}?>>
+                                            <?php if(isset($registro["est_visual"])){ if($registro["est_visual"] == '0') echo "checked";}?>>
                                             <br>
                                             <label for="" class="my-4">Especifique:</label>
                                             <textarea name="descrip_problem_visual" id="" class="form-control" placeholder="Especifique"><?php if(isset($descrip_problem_visual)) echo $descrip_problem_visual; ?></textarea>
@@ -499,7 +499,7 @@ var_dump($result,$_SESSION['ci_escolar']);
                                             <br>
 
                                             <label for="" class="my-4">Especifique:</label>
-                                            <textarea name="descrip_vacunas" id="" class="form-control" placeholder="Especifique"><?php if(isset($descrip_vacunas)) echo $descrip_vacunas; ?></textarea>
+                                            <textarea name="descrip_vacunas" id="" class="form-control" placeholder="Especifique"><?php if(isset($registro['desc_vacuna'])) echo $registro['desc_vacuna']; ?></textarea>
                                         </div>
                                               
                                               <?php imprimir_msjs_no_style($errors_1); ?>
