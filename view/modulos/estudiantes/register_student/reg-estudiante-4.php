@@ -205,7 +205,7 @@ $errors[]= "<a href='final_register.php'>
                                             <label for="">Turno</label>
                                             <select name="turno_escolaridad" id="" autocomplete="on" class="form-control">
                                             <option value=""> Seleccione </option>
-                                                <option <?php if(isset($turno_escolaridad)) if($turno_escolaridad == '1') echo 'selected';?> value="1">mañana</option>
+                                                <option <?php if(isset($turno_escolaridad)) if($turno_escolaridad == '1') echo 'selected';?> value="1">Mañana</option>
                                                 <option <?php if(isset($turno_escolaridad)) if($turno_escolaridad == '2') echo 'selected';?> value="2">Tarde</option>
                                             </select>
                                         </div>
@@ -241,12 +241,12 @@ $errors[]= "<a href='final_register.php'>
                                         </div>
                                     </div> 
                                             
-                                    <?php imprimir_msjs($errors); ?>
 
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
                                     <a href="reg-estudiante-3.php" class="btn btn-primary col-lg-2">VOLVER</a>
 
                                     <button type='submit' class="btn btn-primary col-lg-9" value="inscrip_escol" name='inscrip_escol'>CONTINUAR</button>
+                                    <?php imprimir_msjs_no_style($errors); ?>
                                     
                                 
                                 </form>   

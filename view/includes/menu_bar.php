@@ -1,5 +1,5 @@
-
-<div  class="nave">
+<br>
+<div  class="nave" style="position: absolute;">
  	            <ul>
 
 <li><a href="../estudiantes/estudiantes.php">Estudiantes</a></li>

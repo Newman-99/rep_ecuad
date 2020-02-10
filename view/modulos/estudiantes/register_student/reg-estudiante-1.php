@@ -1,3 +1,4 @@
+
 <?php require '../../../includes/init_system_reg.php'; ?>
 
 <?php require '../../../includes/head_reg_est.php'; ?>
@@ -7,6 +8,7 @@
     session_start();
 
  valid_inicio_sesion('2');
+
 
 if (isset($_SESSION['sesionform1'])) {
 if (comprobar_msjs_array($_SESSION['sesionform1'])) {
@@ -74,18 +76,21 @@ $lugar_nac=trim($lugar_nac);
 $direcc_hab=trim($direcc_hab);
 $fecha_nac=trim($fecha_nac);
 
+$apellido_p = filtrar_nombres_apellidos($apellido_p);
+$nombre1=filtrar_nombres_apellidos($nombre1);
+
 $err_nom_apell =validar_nombres_apellidos($nombre1,$apellido_p);
 
 if(!empty($apellido_m)){
-$err_nom_apell = validar_nombres_apellidos($apellido_m);
 $apellido_m=filtrar_nombres_apellidos($apellido_m);
+$err_nom_apell = validar_nombres_apellidos($apellido_m);
 }else{
     $apellido_m="";
 }
 
 if(!empty($nombre2)){
-$err_nom_apell=validar_nombres_apellidos($nombre2);
 $nombre2=filtrar_nombres_apellidos($nombre2);
+$err_nom_apell=validar_nombres_apellidos($nombre2);
 }else{
     $nombre2 = "";
 }
@@ -109,7 +114,7 @@ $errors[]= "<a href='reg-estudiante-2.php'>
 
 }
  ?>
-    <title>Datos estudiante</title>
+
     <!--formularios-->
             <div class="container">
 
@@ -193,10 +198,20 @@ $errors[]= "<a href='reg-estudiante-2.php'>
                                         <label for="">Dirección de Habitación:</label>
 			                            <textarea rows="3" cols="40" name="direcc_hab" id="" class="form-control" placeholder="Dirección de habitación" required><?php if(isset($direcc_hab)) echo $direcc_hab; ?></textarea>        
                                     </div>
-                                </div>
+
+                                    <div class="col-lg-6 my-2">
+                                        <p for="" class="">Posee coleccion bicentenaria:</p>
+                                        <label for="" class="">Si:</label>
+                                        <input type="radio" name="colecc_bicent" 
+
+                                        <?php if(isset($_POST["colecc_bicent"])){ if($_POST["colecc_bicent"] == '1') echo "checked";}else{if(isset($colecc_bicent)){ if($colecc_bicent == '1') echo "checked";}}?>  value="1" id="">
+
+                                        <label for="" class="">No:</label>
+                                        <input type="radio" name="colecc_bicent" <?php if(isset($_POST["colecc_bicent"])){ if($_POST["colecc_bicent"] == '1') echo "checked";}else{if(isset($colecc_bicent)){ if($colecc_bicent == '0') echo "checked";}}
+                                        ?> value="0" id="">
+                                    </div>
 
 
-                                <div class="row">
                                     <div class="col-lg-6 my-2">
                                         <p for="" class="">Posee Canaima:</p>
                                         <label for="" class="">Si:</label>
@@ -212,26 +227,18 @@ $errors[]= "<a href='reg-estudiante-2.php'>
                                         <input type="text" name="contrato_canaima" value="<?php if(isset($contrato_canaima)) echo $contrato_canaima; ?>" id="" class="mx-2  form-control" placeholder="Contrato">
                                         </div>
                                     </div>
-                                
-
-                                    <div class="col-lg-6 my-2">
-                                        <p for="" class="">Posee coleccion bicentenaria:</p>
-                                        <label for="" class="">Si:</label>
-                                        <input type="radio" name="colecc_bicent" 
-                                        <?php if(isset($_POST["colecc_bicent"])){ if($_POST["colecc_bicent"] == '1') echo "checked";}else{if(isset($colecc_bicent)){ if($colecc_bicent == '1') echo "checked";}}?>  value="1" id="">
-
-                                        <label for="" class="">No:</label>
-                                        <input type="radio" name="colecc_bicent" <?php if(isset($_POST["colecc_bicent"])){ if($_POST["colecc_bicent"] == '0') echo "checked";}else{if(isset($colecc_bicent)){ if($colecc_bicent == '0') echo "checked";}}
-                                        ?> value="0" id="">
-                                    </div>
-                                    
                                 </div>
 
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
 
-                            <button type='submit' class="btn btn-primary btn-block btn-lg" value="datos_student" name ='datos_student' >CONTINUAR</button>
-                                 
-                                                            <?php imprimir_msjs($errors); ?>
+                        
+                        
+                        <button type='submit' class="btn btn-primary btn-block btn-lg"value="datos_student" name ='datos_student'>Continuar</button>
+
+<br><br>
+                                                            <?php imprimir_msjs_no_style($errors); ?>
+                         
+                                <!-- <input type="submit" name="continuar" value="CONTINUAR" class="btn btn-primary btn-block btn-lg" id="boton-enviar"> --> 
 
                             </form>
                     <!--</div>-->
@@ -244,6 +251,5 @@ $errors[]= "<a href='reg-estudiante-2.php'>
             </div>
 
     <!--jquery, boostrap.min.js, bundle.min.js-->
-
 
 <?php require '../../../includes/footer_reg_est.php'; ?>

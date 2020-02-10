@@ -1,4 +1,8 @@
-<?php require '../../../includes/head_reg_est.php'; ?>
+
+<?php 
+require '../../includes/init_system.php'; 
+
+require '../../../includes/head_reg_est.php'; ?>
 
 <?php require '../../../includes/header_reg_est.php'; ?>
 
@@ -21,6 +25,7 @@ extract($_SESSION['sesionform5']);
 
 
 //Filtracion de registro de estudiantes
+
 
 $lugar_nac=trim($lugar_nac);
 $direcc_hab=trim($direcc_hab);
@@ -111,73 +116,81 @@ $tlf_local_pr=trim($tlf_local_pr);
 $tlf_emerg=trim($tlf_emerg);
 
 
-"SELECT in_p.id_doc ,in_p.nombre,in_p.apellido_p,in_p.apellido_m,in_p.direcc_hab,in_p.id_nacionalidad,
-in_p.id_estado_civil,in_p.id_sexo,
-sx.descripcion sexo, nac.descripcion nacionalidad, etc.descrpcion estado_civil,
-prsd.convivencia,prsd.ocupacion,prsd.parentesco,prsd.id_pers_est,
-FROM pers_ret prt
-INNER JOIN info_personal in_p ON prt.id_doc = in_p.id_doc
-INNER JOIN sexo sx ON in_p.id_sexo = sx.id_sexo
-INNER JOIN nacionalidad nac ON in_p.id_nacionalidad = nac.id_nacionalidad
-INNER JOIN est_civil etc ON in_p.id_estado_civil = etc.id_estado_civil
-INNER JOIN pers_est prsd ON prt.id_doc = prsd.id_doc"
-cb.tlf_local,cb.tlf_cel,cb.tlf_emergecia,cb.correo FROM contact_basic
 // Procesos de Registro de Estudiante
     $ci_escolar = $ci_escol_nacidad."".$ci_escol_id_opc."".$ci_escol_nac_estd."".$ci_escol_ci_mom;
 
 if (empty($ci_escolar)) {
   $ci_escolar = $id_doc_estd;
 }
- registrar_estudiante($nacionalidad ,$id_doc_estd,$ci_escolar,$nombre1,$nombre2,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,$colecc_bicent,$canaima,$contrato_canaima);
+actualizar_persona($nacionalidad,$ci_escolar,$ci_escolar,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,'','','','','');
 
-regist_other_data_student($ci_escolar,$nro_pers_viven);
+update_basic_data_student($ci_escolar,$ci_escolar,$id_doc_new,$id_estado_student);
 
 
-// Proceso de registro de la madre
+if (!isset($no_register_m)) {
+    if (isset($id_doc_m_new)) {
 
  $nombres_m=$nombre1_m." ".$nombre2_m;
  
-if(empty($no_register_m)) {
-
  registrar_padres($id_doc_m,'1',$ci_escolar,$convivencia_m,$ocupacion_m,'Madre',$nacionalidad_m,$nombres_m,$apellido_p_m,$apellido_m_m,'2',$fecha_nac_m,$estado_civil_m,$lugar_nac_m,$direcc_hab_m,$tlf_cel_m,$tlf_local_m,$correo_m);
 
-  registrar_datos_laborales($id_doc_m,$prof_ofic_m,$lugar_trab_m,$direcc_trab_m,$tlf_ofic_m);
+  registrar_datos_laborales($id_doc_m,$prof_ofi_m,$lug_trab_m,$direcc_trab_m,$tlf_ofic_m);
 
  if (!empty($is_represent_m)) {
  registrar_representantes($id_doc_m,$ci_escolar);
  }
+
+
+ }else{
+
+ actualizar_persona($nacionalidad_m,$id_doc_m,$id_doc_new_m,$nombres_m,$apellido_p_m,$apellido_m_m,$sexo_m,$fecha_nac_m,$lugar_nac_m,$direcc_hab_m,$tlf_cel_m,$tlf_local_m,$correo_m,$estado_civil_m);
+
+ update_datos_laborales($id_doc_m,$id_doc_new_m,$prof_ofic_m,$lugar_trab_m,$direcc_trab_m,$tlf_ofic_m);
+
+ update_person_estudiantes($id_doc_m,$id_doc_new_m,$ci_escolar_m,$ci_escolar_new_m,$convivencia_m,$ocupacion_m,$parentesco_m);
+
+update_person_padres($id_doc_new_m,$id_doc_m,$ci_escolar_m,$ci_escolar_new);
+
+ update_person_represent($id_doc_new_m,$id_doc_m,$ci_escolar,$ci_escolar_new);
+
+    }
 }
 
-// Proceso de registro del padre
+
+// Regitro Padre
+
+if (!isset($no_register_p)) {
+    if (isset($id_doc_p_new)) {
 
  $nombres_p=$nombre1_p." ".$nombre2_p;
  
-if(empty($no_register_p)) {
-
  registrar_padres($id_doc_p,'2',$ci_escolar,$convivencia_p,$ocupacion_p,'Padre',$nacionalidad_p,$nombres_p,$apellido_p_p,$apellido_m_p,'1',$fecha_nac_p,$estado_civil_p,$lugar_nac_p,$direcc_hab_p,$tlf_cel_p,$tlf_local_p,$correo_p);
-  registrar_datos_laborales($id_doc_p,$prof_ofic_p,$lugar_trab_p,$direcc_trab_p,$tlf_ofic_p);
+
+  registrar_datos_laborales($id_doc_p,$prof_ofi_p,$lug_trab_p,$direcc_trab_p,$tlf_ofic_p);
 
  if (!empty($is_represent_p)) {
  registrar_representantes($id_doc_p,$ci_escolar);
  }
+
+
+ }else{
+
+ $nombres_p=$nombre1_p." ".$nombre2_p;
+ 
+ actualizar_persona($nacionalidad_p,$id_doc_p,$id_doc_p_new,$nombres_p,$apellido_p_m,$apellido_m_m,$sexo_p,$fecha_nac_p,$lugar_nac_p,$direcc_hab_p,$tlf_cel_p,$tlf_local_p,$correo_p,$estado_civil_p);
+
+ update_datos_laborales($id_doc_p,$id_doc_p_new,$prof_ofi_p,$lugar_trab_p,$direcc_trab_p,$tlf_ofic_p);
+
+ update_person_estudiantes($id_doc_p,$id_doc_p_new,$ci_escolar_p,$ci_escolar_new_p,$convivencia_p,$ocupacion_p,'Padre');
+
+update_person_padres($id_doc_new_p,$id_doc_p,$ci_escolar,$ci_escolar_new);
+
+ update_person_represent($id_doc_p_new,$id_doc_p,$ci_escolar,$ci_escolar_new);
+
+    }
 }
-    
 
-// Proceso de registro de representantes
-if(empty($is_represent_m) && empty($is_represent_p)) {
-
-$nombres_r=$nombre1_r." ".$nombre2_r;
-
- registrar_persona($nacionalidad_r,$id_doc_r,$nombres_r,$apellido_p_r,$apellido_m_r,$sexo_r,$fecha_nac_r,$estado_civil_r,$lugar_nac_r,$direcc_hab_r,$tlf_cel_r,$tlf_local_r,$correo_r);
-
- registrar_person_estudiantes($id_doc_r,$ci_escolar,$convivencia_r,$ocupacion_r,$parentesco_r);
-
-  registrar_representantes($id_doc_r,$ci_escolar);
-
-  registrar_datos_laborales($id_doc_r,$prof_ofic_r,$lugar_trab_r,$direcc_trab_r,$tlf_ofic_r);
-
-}
-
+/*
 
 // Registro de la salud del estudiante
 
@@ -224,7 +237,7 @@ registrar_actualizacion($ci_escolar,$id_doc_admin_upt,$grado_updat,$fecha_upadt)
 $id_actualizacion=obtener_ultimo_permiso();
 
 registrar_inscrip_scolaridad($ci_escolar,$plantel_proced,$localidad,$anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$grado_escolaridad,$seccion_escolaridad,$calif_escolaridad,$repitiente,$observacions,$id_actualizacion);
-
+*/
 ?>
 
     <!--formularios-->

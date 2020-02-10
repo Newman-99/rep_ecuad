@@ -1,7 +1,7 @@
 
 <?php require '../../includes/init_system.php'; ?>
- 
-<?php require '../../includes/head.php' ?>
+
+ <?php require '../../includes/head.php'; ?>
 
 
 <?php
@@ -53,9 +53,6 @@ if (is_exist_docente($id_doc)){
 
 $errors[] = valid_ci($id_doc);
 
-if (!is_exist_docente($id_doc)){
-    $errors[]= "Un Docente con esta cedula ya esta registrado";
-}
 
 if (is_exist_ci($id_doc)) {
        $errors[]='La cedula ya esta registrada en el sistema';
@@ -103,7 +100,7 @@ $errors[] = 'Docente registrado con exito';
     <title>Registro de Docentes</title>
 
 
-<?php require '../../includes/header.php' ?>
+<?php require '../../includes/header.php'; ?>
 
 <h2 >Registro de Docentes</h2>
 

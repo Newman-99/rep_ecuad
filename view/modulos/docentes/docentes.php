@@ -4,11 +4,14 @@
 require '../../includes/head.php';
     session_start();
  valid_inicio_sesion('3');
+
+$errors=array();
 ?>
 	    <title>Docentes</title>
 		
 		<?php require '../../includes/header.php' ?>
 	   
+
 
 
 
@@ -19,9 +22,6 @@ require '../../includes/head.php';
 			
 			
 			<button id=button class="icon-search" type="submit" name="por_cedula" value="por_cedula">Buscar</button>			
-
-				<br>
-				<br>
 
 				Funcion: 
 				<select name="id_funcion_docent">
@@ -50,14 +50,15 @@ require '../../includes/head.php';
 
 			<button id=button class="icon-search" type="submit" name="por_criterios" value="buscar_docent">Buscar</button>			
 
+			
+			<a href="register_docent.php" style="" id=registrer class="icon-add">Registrar Nuevo Docente</a>
+
+<br>
+			
 
 		</form>
 
 
-			<br>
-			<a href="register_docent.php" style="" id=registrer class="icon-add">Registrar Nuevo Docente</a>
-
-			<br>
 	
 		<?php 
 
@@ -153,11 +154,7 @@ imprimir_docentes($result);
 
 <?php
 
-    if(!empty($errors)){
-        foreach ($errors as $msjs) {
-            echo "<h4 style = 'margin-top:0%;'>$msjs</h4>";
-        }
-    } 
+imprimir_msjs($errors); 
 
 include '../../includes/footer.php';
  

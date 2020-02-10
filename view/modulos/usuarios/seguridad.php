@@ -1,10 +1,11 @@
 <?php require '../../includes/init_system.php'; ?>
 <?php
+
 require '../../includes/head.php';
     session_start();
 
  valid_inicio_sesion('2');
-        
+        $errors = array();
 $errors = array();
 
 if (!empty($_POST['anws_modif']) || !empty($_POST['pass_modif'])) {
@@ -56,7 +57,6 @@ if(!comprobar_msjs_array($errors)) {
 }
 
 if(!empty($_POST['pass_modif'])){
-echo "string";
     if(validar_datos_vacios($pass_modif,$pass_confirm)){
             $errors[] = "Debe llenar el campo de nueva contraseña y su confirmacion";
         }else{
@@ -184,12 +184,7 @@ require '../../includes/header.php';
 
 
     <?php
-    if(!empty($errors)){
-        foreach ($errors as $msjs) {
-            echo "<p>".$msjs."</p>";
-        }
-    }
-
+imprimir_msjs($errors);
     ?>
 
 <?php 

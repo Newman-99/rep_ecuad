@@ -1,7 +1,10 @@
 
-<?php require '../../../includes/head_reg_est.php'; ?>
+<?php 
+require '../../../includes/init_system_reg.php'; 
 
-<?php require '../../../includes/header_reg_est.php'; 
+require '../../../includes/head_reg_est.php';
+
+require '../../../includes/header_reg_est.php'; 
 
     session_start();
 
@@ -12,7 +15,6 @@ if (isset($_POST['update_student']))     {
 $_SESSION['ci_escolar'] = $_POST['update_student'];
 }
 $ci_escolar = $_SESSION['ci_escolar'];
-
 if (isset($_SESSION['sesionform1'])) {
 if (comprobar_msjs_array($_SESSION['sesionform1'])) {
 extract($_SESSION['sesionform1']);
@@ -85,25 +87,21 @@ $nombre1=filtrar_nombres_apellidos($nombre1);
 
 $err_nom_apell =validar_nombres_apellidos($nombre1,$apellido_p);
 
-if(!empty($apellido_m)){
+if(!validar_datos_vacios($apellido_m)){
 $apellido_m=filtrar_nombres_apellidos($apellido_m);
 $err_nom_apell = validar_nombres_apellidos($apellido_m);
-}else{
-    $apellido_m="";
 }
-
-if(!empty($nombre2)){
+if(!validar_datos_vacios($nombre2)){
 $nombre2=filtrar_nombres_apellidos($nombre2);
 $err_nom_apell=validar_nombres_apellidos($nombre2);
-}else{
-    $nombre2 = "";
+echo "Esta mal el 2do";
 }
 
 $nombres = $nombre1.' '.$nombre2;
+
 $nombres=filtrar_nombres_apellidos($nombres);
 
 $errors[] = $err_nom_apell;
-var_dump($ci_escolar);
 
     if (!comprobar_msjs_array($errors)) {    
 
@@ -111,42 +109,58 @@ foreach ($_POST as $clave => $valor) {
 $_SESSION['sesionform1'][$clave] = $valor;
 
 }
+    $lugar_nac=trim($lugar_nac);
+$direcc_hab=trim($direcc_hab);
+$fecha_nac=trim($fecha_nac);
 
- actualizar_persona($nacionalidad $ci_escolar,$ci_escolar,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,'','','','','');
 
-update_basic_data_student($ci_escolar,$ci_escolar,$id_doc_new,'3');
+if(!empty($apellido_m)){
+$apellido_m=filtrar_nombres_apellidos($apellido_m);
+}else{
+    $apellido_m="";
+}
 
-$errors[]= "<a href='reg-estudiante-2.php'>
-    Confirmar
-</a>";
+if(!empty($nombre2)){
+$nombre2=filtrar_nombres_apellidos($nombre2);
+}else{
+    $nombre2 = "";
+}
+
+    $nombres = $nombre1.' '.$nombre2;
+
+extract($_SESSION['sesionform1']);
+
+actualizar_persona($nacionalidad,$ci_escolar,$ci_escolar,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,'','','','','');
+$errors[]= "Cambios Registrados con Exito";
+
 
 }
 
 }
 
 }
+ 
+
  ?>
 
-<?php
+    <?php
 
-    $sql = consulta_info_basic_student()." WHERE estd.ci_escolar = :ci_escolar;";
+        $sql = consulta_info_basic_student()." WHERE estd.ci_escolar = :ci_escolar;";
 
-    var_dump($sql,$ci_escolar);
-
-    $result=$db->prepare($sql);
+        $result=$db->prepare($sql);
+            
+        $result->bindValue(":ci_escolar",$ci_escolar);
         
-    $result->bindValue(":ci_escolar",$ci_escolar);
-    
-    $result->execute();
+        $result->execute();
 
-            if ($result->rowCount() == 0) {
-    echo " <h1>No hay criterios que concidan con su busqueda</h1>";
+                if ($result->rowCount() == 0) {
+        echo " <h1>No hay criterios que concidan con su busqueda</h1>";
 
-    }
+        }
 
-while($registro=$result->fetch(PDO::FETCH_ASSOC)){
- 
-?>
+    while($registro=$result->fetch(PDO::FETCH_ASSOC)){
+     
+    ?>
 
 
     <!--formularios-->
@@ -163,7 +177,6 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
                                 
     <?php $nombres_compilacion = explode(" ", $registro['nombre']);
 
-            var_dump($nombres_compilacion);
                                  ?>
 
                                 <div class="row">
@@ -299,10 +312,10 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
 
                         
                         
-                        <button type='submit' class="btn btn-primary btn-block btn-lg"value="datos_student" name ='datos_student'>Continuar</button>
+                        <button type='submit' class="btn btn-primary btn-block btn-lg"value="datos_student" name ='datos_student'>Actualizar</button>
                          
                                 <!-- <input type="submit" name="continuar" value="CONTINUAR" class="btn btn-primary btn-block btn-lg" id="boton-enviar"> --> 
-                                                            <?php imprimir_msjs($errors); ?>
+                                                            <?php imprimir_msjs_no_style($errors); ?>
 
                             </form>
                     <!--</div>-->

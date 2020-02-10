@@ -1,3 +1,4 @@
+
 <?php require '../../../includes/init_system_reg.php'; ?>
 
 <?php require '../../../includes/head_reg_est.php'; ?>
@@ -72,7 +73,7 @@ if (isset($_POST["is_represent_m"])) {
 
 if (isset($_POST["si_exist_m"])) {
 
-if (validar_datos_vacios($id_doc_m,) || !isset($convivencia_mn)) {
+if (validar_datos_vacios($id_doc_m) || !isset($convivencia_m)) {
            $errors_m[]='El documento de identidad no puede estar vacio y asegurese de indicar si vive con el estudiante';  
 
 }else{
@@ -365,8 +366,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
 }
 
  ?>
-
-    <title>Datos de Madre/Padre/Representante</title>
+ 
     <!--formularios-->
             <div class="container">
 
@@ -529,7 +529,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
                                             <input type="checkbox" <?php if(isset($_POST["si_exist_m"])){ if($_POST["si_exist_m"] == '1') echo "checked";}else{if(isset($si_exist_m)){ if($si_exist_m == '1') echo "checked";}}?> name="si_exist_m" value="1" id="">
                                         </div>
                                     </div>
-                                        <?php imprimir_msjs($errors_m); ?>
+                                        <?php imprimir_msjs_no_style($errors_m); ?>
                              
 
 
@@ -691,7 +691,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
                                         </div>
                                     </div>
                                         
-                                    <?php imprimir_msjs($errors_p); ?>
+                                    <?php imprimir_msjs_no_style($errors_p); ?>
 
                              
 
@@ -860,7 +860,7 @@ $errors_r[]= "<a href='reg-estudiante-3.php'>
                                         
                                     
 
-                                    <?php imprimir_msjs($errors_r); ?>
+                                    <?php imprimir_msjs_no_style($errors_r); ?>
 
                          
                             </form>
