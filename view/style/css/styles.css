@@ -78,6 +78,7 @@ body {
 th{
 	width: 30px;
 }
+/*
 button {
     background:#ffa64d;
     color: #000
@@ -95,7 +96,7 @@ button {
     border-radius: 10px;
     margin-top: 12%;
 }
-
+*/
 input[type="submit"]:hover {
     background:#fff;
     color: #000;

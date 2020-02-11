@@ -233,7 +233,7 @@ $id_doc = $registro['id_doc'];
     <?php } ?>
 
     <br>
-    <a href='admins.php'>volver</a>
+    <a class="btn btn-primary btn-lg"  href='admins.php'>Volver</a>
     <br>
     <br>
 

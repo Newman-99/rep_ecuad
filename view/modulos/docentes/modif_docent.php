@@ -275,7 +275,7 @@ if(!empty($errors)){
 ?>
                     <div class="row">
                         <div class="col-lg-3"><a class="btn btn-primary btn-block" href='docentes.php'>VOLVER</a></div class="col-lg-3">
-                        <div class="col-lg-9"><button type='submit' id='button-modi' class="btn btn-primary btn-block" name='save_docent' value="<?php echo $id_doc ?>">GUARDAR</button></div>
+                        <div class="col-lg-9"><button type='submit'  class="btn btn-primary btn-block" name='save_docent' value="<?php echo $id_doc ?>">GUARDAR</button></div>
                     </div>
                     
                     
@@ -290,6 +290,6 @@ if(!empty($errors)){
 
 <?php 
 
-require'../../includes/footer.php';
+require '../../includes/footer.php';
 
  ?>

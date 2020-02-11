@@ -83,6 +83,7 @@ body {
 th{
 	width: 30px;
 }
+/*
 button {
     background:#ffa64d;
     color: #000
@@ -100,7 +101,7 @@ button {
     border-radius: 10px;
     margin-top: 12%;
 }
-
+*/
 input[type="submit"]:hover {
     background:#fff;
     color: #000;
@@ -824,6 +825,7 @@ text-align: center;
   cursor: pointer;
   color: #fff;
 }
+/*
 .btn{
 background:#75A3C7;
     color: #000
@@ -839,6 +841,7 @@ background:#75A3C7;
     border-radius: 10px;
     margin-top:-2%;  
 }
+*/
 .name{
  outline: none;
     display: inline-flex;

@@ -41,7 +41,7 @@ $errors = array();
 
 
     <h2>Mas Informacion del Estudiante</h2>
-    <form action='<?php htmlspecialchars($_SERVER['PHP_SELF'])?>' method='post'>
+    
         <br>
 <?php
 
@@ -800,5 +800,5 @@ echo "
 ?>
 
 <br><br><br>
-    <a href='estudiantes.php'>volver</a>
+    <a class="btn btn-primary" href='estudiantes.php'>volver</a>
 

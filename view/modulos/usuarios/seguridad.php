@@ -102,17 +102,17 @@ require '../../includes/header.php';
 
     <div class="col-lg-4 my-4">
     <label for="">Contraseña</label>
-    <input type="pass" name="pass" id="" value="<?php if(isset($pass)) echo $pass; ?>" class="form-control">
+    <input type="password" name="pass" id="" value="<?php if(isset($pass)) echo $pass; ?>" class="form-control" placeholder="Contraseña">
     </div>
     
     <div class="col-lg-4 my-4">
     <label for="">¿Cual es su artista favorito?</label>
-    <input type="pass" name="respuesta1" id="" value="<?php if(isset($respuesta1)) echo $respuesta1; ?>" class="form-control">
+    <input type="pass" name="respuesta1" id="" value="<?php if(isset($respuesta1)) echo $respuesta1; ?>" class="form-control" placeholder="¿Cual es su artista favorito?">
     </div>
 
     <div class="col-lg-4">
     <label for="">¿Cual es el nombre de su primera mascota?</label> 
-    <input type="pass" name="respuesta2" id="" value="<?php if(isset($respuesta2)) echo $respuesta2; ?>" class="form-control">
+    <input type="pass" name="respuesta2" id="" value="<?php if(isset($respuesta2)) echo $respuesta2; ?>" class="form-control" placeholder="¿Nombre de su primera mascota?">
     </div>
     </div>
 
@@ -121,61 +121,66 @@ require '../../includes/header.php';
     </div>
 
     <!-- Preguntas de seguridad -->
-    <div class="row">
-    <div class="col-3"></div>
-    <div class="col-6 my-4">
+    <div class="row justify-content-center">
+    
+    <div class="col-9 my-2">
     <h4 class="form-titulo2 my-4">Preguntas de Seguridad</h4>
     </div>
-    <div class="col-3"></div>
+    
     </div>
 
-    <div class="row">
+        <div class="row">
 
     <div class="col-lg-6 my-4">
     <label for="">¿Cual es su artista favorito?</label>
-    <input type="pass" name="respuesta_modif_1" id="" value="" class="form-control">
+    <input type="pass" name="respuesta_modif_1" id="" value="" class="form-control" placeholder="¿Cual es su artista favorito?">
     </div>
 
     <div class="col-lg-6 my-4">
     <label for="">¿Cual es el nombre de su primera mascota?</label> 
     <br>
-    <input type="pass" name="respuesta_modif_2" id="" value="" class="form-control">
+    <input type="pass" name="respuesta_modif_2" id="" value="" class="form-control" placeholder="¿Cual es el nombre de su primera mascota?">
     </div>
-    </div>
+        </div>
 
-    <div class="col-lg-12 ">
-    <button id=button class="btn btn-primary" type='submit' name='anws_modif' value='anws_modif'>Guardar Cambios</button>
-    </div>
+    <!-- Boton -->
+    <button  class="col-4 btn btn-primary" type="submit" name='anws_modif' value='anws_modif'>Guardar Cambios</button>
+    
 
-    <hr class="my-4">
-
-    <div class="row">
-    <div class="col-3"></div>
-    <div class="col-6 my-4">
+        <div class="row justify-content-center">
+    
+    <div class="col-9 my-4">
     <h4 class="form-titulo2">Contraseña</h4>
     </div>
-    <div class="col-3"></div>
-    </div>
+    
+        </div>
 
     <div class="row">
 
     <div class="col-6 my-4">
     <label for="">Nueva Contraseña</label>
-    <input type="pass" name="pass_modif" id="" value="" class="form-control">
+    <input type="password" name="pass_modif" id="" value="" class="form-control" placeholder="Nueva Contraseña">
     </div>
 
     <div class="col-6 my-4">
     <label for="">Confirmar Contraseña</label>
-    <input type="pass" name="pass_confirm" id="" value="" class="form-control">
+    <input type="password" name="pass_confirm" id="" value="" class="form-control" placeholder="Confirmar Contraseña">
     </div>
 
     </div>
 
         <!-- botones -->
-        <div class="row">
-        <div class="col-lg-3"><a class="btn btn-primary btn-block" href='../inicio/dashboard.php'>Volver</a></div>
-        <div class="col-lg-9"><button id=button class="btn btn-primary btn-block" type='submit' name='pass_modif' value='pass_modif'>Guardar Cambios</button></div>
+        <div class="row justify-content-center">        
+            <div class="col-4">
+            <button  class="btn btn-primary btn-block " type="submit" name='pass_modif' value='pass_modif'>Guardar Cambios</button>
+            </div>
         </div>
+        
+        <div class="row justify-content-center">  
+            <div class="col-4">
+            <a class="btn btn-primary btn-block " href='../inicio/dashboard.php'>Volver</a>
+            </div>
+        </div> 
     </form>
 </div>
 </div>
@@ -189,4 +194,4 @@ imprimir_msjs($errors);
 
 <?php 
 
-require'../../includes/footer.php';
+require '../../includes/footer.php';

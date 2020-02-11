@@ -352,5 +352,8 @@ global $db;
      ?>
 
 
-                 <a href="clases.php">Volver</a>
+                 <a class="btn btn-primary btn-lg" style="position:absolute;
+    			bottom:5px;
+				right:10px;" href="clases.php">Volver</a>
+				
 <?php require '../../includes/footer.php' ?>
