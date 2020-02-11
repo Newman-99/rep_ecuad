@@ -1,6 +1,6 @@
 <?php require '../../includes/init_system.php'; ?>
 
-<? require '../../includes/head.php';
+<?php require '../../includes/head.php';
     session_start();
 
  valid_inicio_sesion('2');
@@ -22,8 +22,6 @@ $id_doc =$_SESSION["id_doc"];
 
 
     <h2>Mas Informacion del Docente</h2>
-    <form action='<?php htmlspecialchars($_SERVER['PHP_SELF'])?>' method='post' class="form-group text-center">
-        <br>
 <?php
 
     $sql = consulta_docentes()." WHERE doc.id_doc_docent = :id_doc;";
@@ -141,7 +139,6 @@ echo "
             </div>";
 ?>
 
-    <a href='docentes.php'>volver</a>
 
     <?php
     if(!empty($errors)){
@@ -151,9 +148,8 @@ echo "
     }
 
     ?>
-
-<?php 
-
-require'../../includes/footer.php';
-
- ?>
+    
+    <a class="btn btn-primary" style="position:absolute;
+    bottom:5px;
+    right:10px;" href='docentes.php'>volver</a>
+    

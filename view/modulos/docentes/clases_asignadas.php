@@ -118,7 +118,7 @@ INNER JOIN funciones_docentes fd ON ca.id_funcion_docent = fd.id_funcion_docent
             }
 ?>
 
-                 <a href="docentes.php">Volver</a>
+                 <a  class="btn btn-primary "href="docentes.php">Volver</a>
 
 
             

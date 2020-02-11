@@ -151,7 +151,7 @@ Turno:
     <?php } ?>
 
     <br>
-    <a href='clases.php'>volver</a>
+    <a class="btn btn-primary btn-lg"  href='clases.php'>volver</a>
     <br>
     <br>
 

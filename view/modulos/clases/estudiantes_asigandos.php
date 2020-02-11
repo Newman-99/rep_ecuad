@@ -130,7 +130,9 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado WHERE clas.id_clase 
             }
 ?>
 
-                 <a href="clases.php">Volver</a>
+                 <a class="btn btn-primary btn-lg" style="position:absolute;
+    			bottom:5px;
+    			right:10px;" href="clases.php">Volver</a>
 
 
             
