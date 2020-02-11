@@ -1194,28 +1194,106 @@ $result->execute($parameters);
     }
 
     function asignar_clase_for_estudent($id_clase,$id_estado,$id_actualizacion,$ci_escolar){
+
     global $db;
 
-$parameters = array(
-    ':id_clase'=>$id_clase,    
-    ':id_estado'=>$id_estado,
-    ':id_actualizacion'=>$id_actualizacion,
-    ':ci_escolar'=>$ci_escolar,
+var_dump(obten_estado_asign_student($ci_escolar,$id_clase));
 
-);
+if (obten_estado_asign_student($ci_escolar,$id_clase) != 3){
+
+if(is_exist_student_in_clase($ci_escolar)){
+
+$sql = disable_foreing()." UPDATE `estudiantes_asignados` SET `id_estado` = 5  WHERE `ci_escolar` = :ci_escolar; ".enable_foreing();
+
+$parameters = array(':ci_escolar'=>$ci_escolar);
+
+$result=$db->prepare($sql);
+
+$result->execute($parameters);
 
 
 $sql = disable_foreing()." INSERT INTO `estudiantes_asignados`(`id_clase`,`id_estado`,`id_actualizacion`,ci_escolar)
 VALUES (:id_clase,:id_estado,:id_actualizacion,:ci_escolar); ".enable_foreing();
 
+ $parameters = array(
+    ':id_clase'=>$id_clase,    
+    ':id_estado'=>$id_estado,
+    ':id_actualizacion'=>$id_actualizacion,
+    ':ci_escolar'=>$ci_escolar);
+
 $result=$db->prepare($sql);
 
 $result->execute($parameters);
-        
+}else{
+
+$sql = disable_foreing()." UPDATE `estudiantes_asignados` SET `id_estado` = 5  WHERE `ci_escolar` = :ci_escolar; ";
+
+$parameters = array(':ci_escolar'=>$ci_escolar);
+
+$result=$db->prepare($sql);
+
+$result->execute($parameters);
+
+
+
+$sql = disable_foreing()." INSERT INTO `estudiantes_asignados`(`id_clase`,`id_estado`,`id_actualizacion`,ci_escolar)
+VALUES (:id_clase,:id_estado,:id_actualizacion,:ci_escolar); ".enable_foreing();
+
+ $parameters = array(
+    ':id_clase'=>$id_clase,    
+    ':id_estado'=>$id_estado,
+    ':id_actualizacion'=>$id_actualizacion,
+    ':ci_escolar'=>$ci_escolar);
+
+$result=$db->prepare($sql);
+
+$result->execute($parameters);
+}
+
+}else{ echo "<h1>No se izo un conio</h1>";} 
+
+}
+
+
+
+ function is_exist_student_in_clase($ci_escolar){
+      global $db;
+
+
+$sql="SELECT id_clase FROM `estudiantes_asignados` WHERE `ci_escolar` = :ci_escolar;"; 
+                                
+$result=$db->prepare($sql);
+                        
+$result->bindValue(":ci_escolar",$ci_escolar);
+
+$result->execute();
+
+
+   $count=$result->rowCount();
+    if(!$count == 0){ 
+    return true;
+    }else{
+        return false;
     }
+ }
 
 
+ function obten_estado_asign_student($ci_escolar,$id_clase){
+      global $db;
 
+
+$sql="SELECT id_estado FROM `estudiantes_asignados` WHERE `ci_escolar` = :ci_escolar AND id_clase = :id_clase ;"; 
+                                
+$result=$db->prepare($sql);
+                        
+
+      $result->execute(array("ci_escolar"=>$ci_escolar,"id_clase"=>$id_clase));
+
+return $id_estado=$result->fetchColumn();
+
+var_dump($id_estado);
+
+ }
 
 function is_exist_contrato_clase($id_clase,$id_doc_docent,$id_funcion_docent){
 
@@ -2517,6 +2595,7 @@ $sql = "INSERT INTO `escolaridad`(`ci_escolar`, `plantel_proced`, `localidad`, `
                     $result = $db->prepare($sql);
 
     $result->execute(array("ci_escolar"=>$ci_escolar,"plantel_proced"=>$plantel_proced, "localidad"=>$localidad,"anio_escolar1"=>$anio_escolar1,"anio_escolar2"=>$anio_escolar2,"grado"=>$grado,"calif_def"=>$calif_def,"repitiente"=>$repitiente,"observs"=>$observs,'id_actualizacion'=>$id_actualizacion));
+    var_dump($result);
 
 }
 

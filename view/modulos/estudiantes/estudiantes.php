@@ -130,13 +130,13 @@ if(!is_exist_student($ci)){
 
 				if (!comprobar_msjs_array($errors)) {
 
-			$sql=" SELECT DISTINCT est.ci_escolar, est.id_doc,in_p.nombre,in_p.apellido_p,in_p.apellido_m, edo.descripcion estado,es.grado grado_design, clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2 FROM estudiantes est 
+			$sql=" SELECT DISTINCT est.ci_escolar, est.id_doc,in_p.nombre,in_p.apellido_p,in_p.apellido_m, edo.descripcion estado,es.grado grado_design, clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2,es.id_actualizacion id_es,ea.id_actualizacion id_ea FROM estudiantes est 
 LEFT OUTER JOIN info_personal in_p ON est.ci_escolar = in_p.id_doc 
 LEFT OUTER JOIN estudiantes_asignados ea ON est.ci_escolar = ea.ci_escolar 
 LEFT OUTER JOIN clases clas ON ea.id_clase = clas.id_clase 
 LEFT OUTER JOIN turnos tr ON tr.id_turno = clas.id_turno 
 LEFT OUTER JOIN escolaridad es ON est.ci_escolar = es.ci_escolar 
-LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
+LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
 
 			  $where = [];
 
@@ -209,16 +209,24 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
   if (!empty($where)) {
     $sql .= ' WHERE ' . implode(' AND ', $where);
   }
+
+ $sql.="  GROUP BY es.ci_escolar ORDER BY in_p.nombre, es.id_actualizacion DESC,ea.id_actualizacion DESC";
+
   
- $sql.=" ORDER BY in_p.nombre";
+
+  if (!empty($ci)) {
+ $sql.=" LIMIT 1";
+}
+
   $result = $db->prepare($sql);
+
 
   foreach($campos as $clave => $valores) {
     $result->bindParam($clave, $valores['valor'], $valores['tipo']);
   }
 
   $result->execute();
-
+var_dump($result);
 			if ($result->rowCount() == 0) {
 	$errors[] = "No hay criterios que concidan con su busqueda";
 	}else{

@@ -276,7 +276,7 @@ echo "
 
 
 
-    $sql = consulta_padres_student()." WHERE prsd.ci_escolar = :ci_escolar AND pds.id_tip_padre = 2;";
+    $sql = consulta_padres_student()." WHERE prsd.ci_escolar = :ci_escolar AND pds.id_tip_padre = 2 LIMIT 1;";
 
     $result=$db->prepare($sql);
     
@@ -757,10 +757,10 @@ echo "
                         <td>".$registro['observs']."</td>
 
                         
-                        <td>Fecha | ".$registro['fecha']." <br><br>Administrador: ".$registro['id_doc_admin']." - ".$registro['nombre']." ".$registro['apellido_p']." ".$registro['apellido_m']."</td>";
+                        <td>Fecha | ".$registro['fecha']." <br><br>Administrador: ".$registro['id_doc_admin']." - ".$registro['nombre']." ".$registro['apellido_p']." ".$registro['apellido_m']."</td></tr>";
 
 }
-      echo "</tr></table>
+      echo "</table>
             </div>";
 
     $sql = consulta_clases_student()." WHERE est.ci_escolar = :ci_escolar ORDER BY act.fecha ASC;";
@@ -792,10 +792,10 @@ echo "
                         
                         <td> Clase: ".$registro['grado']."-".$registro['seccion']."-".$registro['anio_escolar1']."-".$registro['anio_escolar2']."-".$registro['turno']."</td>
 
-                        <td>Administrador: ".$registro['id_doc_admin']."<br><br> Fecha: " .$registro['fecha']."</td>";
+                        <td>Administrador: ".$registro['id_doc_admin']."<br><br> Fecha: " .$registro['fecha']."</td></tr>";
 
 }
-      echo "</tr></table>
+      echo "</table>
             </div>";
 ?>
 
