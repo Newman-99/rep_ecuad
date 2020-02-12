@@ -164,15 +164,13 @@ echo "
 
 
 
-    $sql = consulta_padres_student()." WHERE prsd.ci_escolar = :ci_escolar AND pds.id_tip_padre = 1;";
+    $sql = consulta_padres_student()." WHERE prsd.ci_escolar = :ci_escolar AND pds.id_tip_padre = 1 LIMIT 1;";
 
     $result=$db->prepare($sql);
     
     $result->bindValue(":ci_escolar",$ci_escolar);
     $result->execute();
-            if ($result->rowCount() == 0) {
-                echo "<h4>La madre no fue registrada</h4><br><br>";
-}else{
+
 
 echo "
 
@@ -218,6 +216,12 @@ echo "
                         <th></th>
                         </tr>
                     </thead>";
+
+            if ($result->rowCount() == 0) {
+
+echo "<td> <td></td>La Madre No fue Registrada</td></tr></table>
+            </div>";
+}else{
 
             while($registro=$result->fetch(PDO::FETCH_ASSOC)){  
                     echo " 
@@ -282,9 +286,6 @@ echo "
     
     $result->bindValue(":ci_escolar",$ci_escolar);
     $result->execute();
-            if ($result->rowCount() == 0) {
-                echo "<h4>El padre no fue registrado</h4>";
-}else{
 echo "
 
 <h4>Informacion del Padre</h4>
@@ -329,6 +330,13 @@ echo "
 						<th></th>
                         </tr>
                     </thead>";
+
+                                if ($result->rowCount() == 0) {
+
+echo "<td></td> <td> El Padre No fue Registrado</td></tr></table>
+            </div>";
+}else{
+
 
             while($registro=$result->fetch(PDO::FETCH_ASSOC)){  
                     echo " 
@@ -490,7 +498,6 @@ echo "
             </div>";
 }
 
-
     $sql = consulta_other_data_student()." WHERE ode.ci_escolar = :ci_escolar;";
 
     $result=$db->prepare($sql);
@@ -499,7 +506,7 @@ echo "
     $result->execute();
 echo "
 
-<h4>Otros Datos</h4>
+<h4> <br><br> Otros Datos</h4>
         <div>
                 <table class='tabla'>
                     <thead>
@@ -704,7 +711,7 @@ echo "
       echo "</tr></table>
             </div>";
 
-    $sql = consulta_escolaridad()." WHERE es.ci_escolar = :ci_escolar ORDER BY ac.fecha ASC;";
+    $sql = consulta_escolaridad()." WHERE es.ci_escolar = :ci_escolar ORDER BY ac.fecha DESC;";
 
     $result=$db->prepare($sql);
     
@@ -746,7 +753,7 @@ echo "
 
                         <td>".$registro['localidad']."</td>
 
-                        <td>".$registro['grado_asign']."</td>
+                        <td>".$registro['grado']."</td>
 
                         <td>".$registro['anio_escolar1']."-".$registro['anio_escolar2']."</td>
 
@@ -763,7 +770,7 @@ echo "
       echo "</table>
             </div>";
 
-    $sql = consulta_clases_student()." WHERE est.ci_escolar = :ci_escolar ORDER BY act.fecha ASC;";
+    $sql = consulta_clases_student()." WHERE est.ci_escolar = :ci_escolar ORDER BY act.fecha DESC;";
 
     $result=$db->prepare($sql);
     

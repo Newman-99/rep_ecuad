@@ -13,6 +13,8 @@ $errors_3= array();
 
 $errors_pr= array();
 
+$errors= array();
+
     session_start();
 
  valid_inicio_sesion('2');
@@ -334,11 +336,6 @@ if (validar_datos_vacios($desc_lleg_retir_transp)) {
 $_SESSION['sesionform3'][$clave] = $valor;
 }
 
-/*$errors_pr[]= "<a href='reg-estudiante-4.php'>
-    Actualizar
-</a>";
-*/
-
 
          update_data_salud_student(
           $_SESSION['ci_escolar'],
@@ -367,13 +364,20 @@ $_SESSION['sesionform3'][$clave] = $valor;
          // Registrar persona retirar
  ;
 
- actualizar_persona($nacionalidad_pr,$id_doc_pr,$nombres_pr,$apellido_p_pr,$apellido_m_pr,$sexo_pr,'',$estado_civil_pr,'','',$tlf_cel_pr,$tlf_local_pr,'',$tlf_emerg);
+$correo_pr = '';
+
+if (obtener_correp_prs($id_doc_pr) != FALSE) {
+$correo_pr = obtener_correp_prs($id_doc_pr);
+}
+ actualizar_persona($nacionalidad_pr ,$id_doc_pr,$id_doc_pr,$nombres_pr,$apellido_p_pr,$apellido_m_pr,$sexo_pr,'0000-00-00','','',$tlf_cel_pr,$tlf_local_pr,$correo_pr,$estado_civil_pr,$tlf_emerg );
 
 update_person_estudiantes($id_doc_pr,$id_doc_pr,$_SESSION['ci_escolar'],$_SESSION['ci_escolar'],'','',$parentesc_pr);
 
  update_person_retirar($id_doc_pr,$id_doc_pr,$_SESSION['ci_escolar'],$_SESSION['ci_escolar'],'','',$parentesc_pr);
 
 upd_tlf_emerg($id_doc_pr,$tlf_emerg);
+
+$errors[]= "Cambios Registrado con Exito";
 
 }
 
@@ -405,7 +409,6 @@ upd_tlf_emerg($id_doc_pr,$tlf_emerg);
 
         }
 
-var_dump($result,$_SESSION['ci_escolar']);
     while($registro=$result->fetch(PDO::FETCH_ASSOC)){
  ?>
 
@@ -452,7 +455,6 @@ var_dump($result,$_SESSION['ci_escolar']);
 
         }
 
-var_dump($result,$_SESSION['ci_escolar']);
     while($registro=$result->fetch(PDO::FETCH_ASSOC)){
  ?>
                                       <div class="col-lg-6 my-4">
@@ -618,7 +620,6 @@ var_dump($result,$_SESSION['ci_escolar']);
 
         }
 
-var_dump($result,$_SESSION['ci_escolar']);
     while($registro=$result->fetch(PDO::FETCH_ASSOC)){
 ?>
 <!------------------------------ SEPTIMO FORMULARIO [ Acceso y restiro de la Institucion ] ------------------------------>
@@ -676,7 +677,6 @@ var_dump($result,$_SESSION['ci_escolar']);
 
         }
 
-var_dump($result,$_SESSION['ci_escolar']);
     while($registro=$result->fetch(PDO::FETCH_ASSOC)){
 ?>
 
@@ -729,7 +729,7 @@ var_dump($result,$_SESSION['ci_escolar']);
                                         <div class="col-lg-3 my-2">
                                           <p for="" class="">Sexo:</p>
                                           <label for="" class="">Masculino</label>
-                                          <input type="radio" <?php if(isset($registro["id_sexo"])){ if($registro["id_sexo"] == '1') echo "checked";}?> name="sexo_pr" value="1" id="">
+                                            <input type="radio" <?php if(isset($registro["id_sexo"])){ if($registro["id_sexo"] == '1') echo "checked";}?> name="sexo_pr" value="1" id="">
                                             <br>
                                           <label for="sexo_pr" class="">Femenino</label>
                                           <input type="radio" name="sexo_pr" <?php if(isset($registro["id_sexo"])){ if($registro["id_sexo"] == '2') echo "checked";}?> value="2" id="">
@@ -760,19 +760,16 @@ var_dump($result,$_SESSION['ci_escolar']);
                                             <input type="number" name="tlf_emerg" id="" placeholder="Telefono celular" class="form-control" value="<?php if(isset($registro["tlf_emergecia"])) echo $registro["tlf_emergecia"]; ?>">
                                         </div>
 
-                                        <div class="col-lg-6 my-4">
-                                            <label>Seleccione si ya esta registrado: </label>
-                                            <input type="checkbox" <?php if(isset($_POST["si_exist_pr"])){ if($_POST["si_exist_pr"] == '1') echo "checked";}else{if(isset($registro["tlf_emergecia"])){ if($registro["tlf_emergecia"] == '1') echo "checked";}}?> name="si_exist_pr" value="1" id="">
-                                        </div>
                        
                                      </div>   
                        
+                                        <?php imprimir_msjs_no_style($errors_pr); ?>
 
                                     
                                         <!-- <a href="reg-estudiante-2.php" class="btn btn-primary col-lg-2 ">VOLVER</a> -->
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->                                        
                                         <button type='submit' class="btn btn-primary col-lg-9"value="otros_datos" name ='otros_datos'>Actualizar</button>
-                                        <?php imprimir_msjs_no_style($errors_pr); ?>
+                                        <?php imprimir_msjs_no_style($errors); ?>
 
 
                                 </form> 

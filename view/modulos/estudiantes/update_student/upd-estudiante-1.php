@@ -94,7 +94,6 @@ $err_nom_apell = validar_nombres_apellidos($apellido_m);
 if(!validar_datos_vacios($nombre2)){
 $nombre2=filtrar_nombres_apellidos($nombre2);
 $err_nom_apell=validar_nombres_apellidos($nombre2);
-echo "Esta mal el 2do";
 }
 
 $nombres = $nombre1.' '.$nombre2;

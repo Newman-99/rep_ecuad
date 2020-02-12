@@ -239,7 +239,6 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
   }
 
   $result->execute();
-var_dump($result);
 			if ($result->rowCount() == 0) {
 	$errors[] = "No hay criterios que concidan con su busqueda";
 	}else{
@@ -299,7 +298,7 @@ var_dump($result);
                         
                       <?php  if(valid_inicio_sesion('2')) { ?>
 
-                        <form action='eliminar_estudiante.php' method='post'>
+                        <form action='#' method='post'>
                         
                         <button type='submit' icon='button-cancel' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='eliminar_estudiantet' >Eliminar</button>
                          

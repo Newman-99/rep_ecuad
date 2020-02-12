@@ -99,6 +99,8 @@ registrar_inscrip_scolaridad($_SESSION['ci_escolar'],$plantel_proced,$localidad,
 
 //$errors[]= " <button type='submit' class='btn btn-primary col-lg-9' value='confirm_4' name='confirm_4'>CONTINUAR</button>";
 
+$errors[]= "Cambios Registrado con Exito";
+
 
 }
 }
@@ -136,7 +138,6 @@ registrar_inscrip_scolaridad($_SESSION['ci_escolar'],$plantel_proced,$localidad,
 
         }
 
-var_dump($result,$_SESSION['ci_escolar']);
     while($registro=$result->fetch(PDO::FETCH_ASSOC)){
 
 
@@ -229,7 +230,6 @@ $sql = consulta_escolaridad()." WHERE es.ci_escolar = :ci_escolar ORDER BY ac.id
 
         }
 
-var_dump($result,$_SESSION['ci_escolar']);
     while($registro=$result->fetch(PDO::FETCH_ASSOC)){
  ?>
 
@@ -300,7 +300,6 @@ var_dump($result,$_SESSION['ci_escolar']);
 
         }
 
-var_dump($result,$_SESSION['ci_escolar']);
     while($registro=$result->fetch(PDO::FETCH_ASSOC)){
 
  ?>

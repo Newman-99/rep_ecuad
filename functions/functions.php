@@ -465,6 +465,21 @@ $result->execute();
 
 // Obtener el tipo de usuario
 
+function obtener_correp_prs($ci){
+
+global $db;
+
+$sql="SELECT correo FROM contact_basic WHERE id_doc = :id";
+                                
+$result=$db->prepare($sql);
+                        
+$result->bindValue(":id",$ci);
+
+$result->execute();
+
+return $correo=$result->fetchColumn();
+
+}
 function obtener_nivel_permiso($ci){
 
 global $db;
@@ -633,6 +648,7 @@ $result->execute(array("id_doc"=>$id_doc,"tlf_emergecia"=>$tlf_emergecia));
 }
 
 function actualizar_persona($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$tlf_emergecia =''){
+
 
     global $db;
 
@@ -1210,7 +1226,6 @@ $result->execute($parameters);
 
     global $db;
 
-var_dump(obten_estado_asign_student($ci_escolar,$id_clase));
 
 if (obten_estado_asign_student($ci_escolar,$id_clase) != 3){
 
@@ -1263,7 +1278,7 @@ $result=$db->prepare($sql);
 $result->execute($parameters);
 }
 
-}else{ echo "<h1>No se izo un conio</h1>";} 
+} 
 
 }
 
@@ -1304,7 +1319,6 @@ $result=$db->prepare($sql);
 
 return $id_estado=$result->fetchColumn();
 
-var_dump($id_estado);
 
  }
 
@@ -2608,7 +2622,6 @@ $sql = "INSERT INTO `escolaridad`(`ci_escolar`, `plantel_proced`, `localidad`, `
                     $result = $db->prepare($sql);
 
     $result->execute(array("ci_escolar"=>$ci_escolar,"plantel_proced"=>$plantel_proced, "localidad"=>$localidad,"anio_escolar1"=>$anio_escolar1,"anio_escolar2"=>$anio_escolar2,"grado"=>$grado,"calif_def"=>$calif_def,"repitiente"=>$repitiente,"observs"=>$observs,'id_actualizacion'=>$id_actualizacion));
-    var_dump($result);
 
 }
 

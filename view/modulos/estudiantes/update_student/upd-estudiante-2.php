@@ -504,9 +504,7 @@ $_SESSION['sesionform2'][$clave] = $valor;
 
 }
 
-$errors_r[]= "<a href='reg-estudiante-3.php'>
-    Confirmar
-</a>";
+$errors_r[]= "Cambios Registrado con Exito";
 
 }
 
