@@ -279,7 +279,7 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
 
                      <?php    if(valid_inicio_sesion('2')) {  ?>
 
-                    <form action='./update_student/upd-estudiante-1.php' method='post'>
+                    <form action='./menu.php' method='post'>
                         
                         <button type='submit' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='update_student'> Actualizar</button>
                     </form>
