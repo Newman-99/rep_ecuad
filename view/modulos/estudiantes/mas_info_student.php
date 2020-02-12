@@ -771,6 +771,7 @@ echo "
 
     $result->execute();
 
+
 echo "
 
 <h4>Clases</h4>
@@ -786,6 +787,13 @@ echo "
                         </tr>
                     </thead>";
 
+
+            if ($result->rowCount() == 0) {
+echo "<td> No tiene clases asigmas</td></tr></table>
+            </div>";
+
+    }else{
+
             while($registro=$result->fetch(PDO::FETCH_ASSOC)){  
                     echo " 
 
@@ -797,6 +805,7 @@ echo "
 }
       echo "</table>
             </div>";
+}
 ?>
 
 <br><br><br>

@@ -218,7 +218,14 @@ $ci_escolar_sep=sepadador_ci_escolar($_SESSION['ci_escolar']);
         $result->execute();
 
                 if ($result->rowCount() == 0) {
-        echo " <h1>No hay criterios que concidan con su busqueda</h1>";
+
+$sql = consulta_escolaridad()." WHERE es.ci_escolar = :ci_escolar ORDER BY ac.id_actualizacion DESC LIMIT 1;;";
+
+        $result=$db->prepare($sql);
+            
+        $result->bindValue(":ci_escolar",$_SESSION['ci_escolar']);
+        
+        $result->execute();
 
         }
 

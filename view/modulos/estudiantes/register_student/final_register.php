@@ -126,11 +126,14 @@ regist_other_data_student($ci_escolar,$nro_pers_viven,$hermanos,$descrip_herma);
 
 // Proceso de registro de la madre
 
+
  $nombres_m=$nombre1_m." ".$nombre2_m;
  
 if(empty($no_register_m)) {
 
+
  registrar_padres($id_doc_m,'1',$ci_escolar,$convivencia_m,$ocupacion_m,'Madre',$nacionalidad_m,$nombres_m,$apellido_p_m,$apellido_m_m,'2',$fecha_nac_m,$estado_civil_m,$lugar_nac_m,$direcc_hab_m,$tlf_cel_m,$tlf_local_m,$correo_m);
+
 
   registrar_datos_laborales($id_doc_m,$prof_ofi_m,$lug_trab_m,$direcc_trab_m,$tlf_ofic_m);
 
@@ -214,11 +217,17 @@ $id_actualizacion=obtener_ultimo_id_actualizacion();
 
 // Registrar persona retirar
 
- registrar_persona($nacionalidad_pr,$id_doc_pr,$nombres_pr,$apellido_p_pr,$apellido_m_pr,$sexo_pr,'',$estado_civil_pr,'','',$tlf_cel_pr,$tlf_local_pr,'',$tlf_emerg);
+if (!empty($si_exist_pr)) {
 
- registrar_person_estudiantes($id_doc_pr,$ci_escolar,'','',$parentesc_pr);
+ registrar_persona($nacionalidad_pr,$id_doc_pr,$nombres_pr,$apellido_p_pr,$apellido_m_pr,$sexo_pr,'',$estado_civil_pr,'','',$tlf_cel_pr,$tlf_local_pr,'',$tlf_emerg);
+}
+
+
+ registrar_person_estudiantes($id_doc_pr,$ci_escolar,0,'',$parentesc_pr);
 
   registrar_pers_retirar($id_doc_pr,$ci_escolar);
+
+upd_tlf_emerg($id_doc_pr,$tlf_emergecia);
 
 // Registro de datos de actualizacion
 

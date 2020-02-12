@@ -195,9 +195,6 @@ if (validar_datos_vacios($parentesc_pr)) {
 $errors_pr[] = valid_ci($id_doc_pr);
 
 
-    if(is_exist_ci($id_doc_pr)) {
-       $errors_pr[]='La cedula ya esta registrada en el sistema';
-        }
 
 
 if(validar_datos_vacios_sin_espacios($nacionalidad_pr,$estado_civil_pr,$tlf_emerg,$tlf_cel_pr,$tlf_local_pr) || validar_datos_vacios($nombres_pr,$apellido_p_pr,$parentesc_pr) || !isset($_POST["sexo_pr"])){
@@ -324,8 +321,7 @@ if (validar_datos_vacios($descrip_lleg_retir)) {
 
 if ($lleg_retir_transp == '1') {
 if (validar_datos_vacios($desc_lleg_retir_transp)) {
-  $errors_3[] = "Especifique la llegada y retiro en transporte escolar";
-}}else{
+ }}else{
   $desc_lleg_retir_transp = '';
 }
 }
@@ -338,9 +334,46 @@ if (validar_datos_vacios($desc_lleg_retir_transp)) {
 $_SESSION['sesionform3'][$clave] = $valor;
 }
 
-$errors_pr[]= "<a href='reg-estudiante-4.php'>
-    Confirmar
+/*$errors_pr[]= "<a href='reg-estudiante-4.php'>
+    Actualizar
 </a>";
+*/
+
+
+         update_data_salud_student(
+          $_SESSION['ci_escolar'],
+          $_SESSION['ci_escolar'],
+             $enfer_cron,
+             $descrip_enfer_cron,
+             $problem_visual,
+             $descrip_problem_visual,
+             $problem_audi,
+             $descrip_problem_audi, 
+             $alergias,
+             $descrip_alergias, 
+             $condic_especif,
+             $descrip_condic_especific,
+             $vacunas,
+             $descrip_vacunas,
+              $psicopedag,
+              $psicologo,
+             $ter_lenguaj,
+             $otras,
+             $especifi_otras,
+             $descrip_medicacion,
+             $medicacion,
+             $anex_infor); 
+
+         // Registrar persona retirar
+ ;
+
+ actualizar_persona($nacionalidad_pr,$id_doc_pr,$nombres_pr,$apellido_p_pr,$apellido_m_pr,$sexo_pr,'',$estado_civil_pr,'','',$tlf_cel_pr,$tlf_local_pr,'',$tlf_emerg);
+
+update_person_estudiantes($id_doc_pr,$id_doc_pr,$_SESSION['ci_escolar'],$_SESSION['ci_escolar'],'','',$parentesc_pr);
+
+ update_person_retirar($id_doc_pr,$id_doc_pr,$_SESSION['ci_escolar'],$_SESSION['ci_escolar'],'','',$parentesc_pr);
+
+upd_tlf_emerg($id_doc_pr,$tlf_emerg);
 
 }
 
@@ -630,7 +663,7 @@ var_dump($result,$_SESSION['ci_escolar']);
 
 <?php } ?>
 
-    <?php         $sql = consulta_pers_ret_student()." WHERE prt.ci_escolar = :ci_escolar AND prsd.ci_escolar = :ci_escolar;";
+    <?php         $sql = consulta_pers_ret_student()." WHERE prt.ci_escolar = :ci_escolar AND prsd.ci_escolar = :ci_escolar ORDER BY prsd.id_pers_est DESC LIMIT 1;";
 
         $result=$db->prepare($sql);
             
@@ -736,9 +769,9 @@ var_dump($result,$_SESSION['ci_escolar']);
                        
 
                                     
-                                        <a href="reg-estudiante-2.php" class="btn btn-primary col-lg-2 ">VOLVER</a>
+                                        <!-- <a href="reg-estudiante-2.php" class="btn btn-primary col-lg-2 ">VOLVER</a> -->
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->                                        
-                                        <button type='submit' class="btn btn-primary col-lg-9"value="otros_datos" name ='otros_datos'>CONTINUAR</button>
+                                        <button type='submit' class="btn btn-primary col-lg-9"value="otros_datos" name ='otros_datos'>Actualizar</button>
                                         <?php imprimir_msjs_no_style($errors_pr); ?>
 
 

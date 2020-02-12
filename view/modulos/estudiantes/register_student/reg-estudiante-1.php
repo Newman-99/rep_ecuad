@@ -104,7 +104,7 @@ $_SESSION['sesionform1'][$clave] = $valor;
 
 }
 
-$errors[]= "<a href='reg-estudiante-2.php'>
+$errors[]= "<a  class='btn btn-primary btn-block btn-lg' href='reg-estudiante-2.php'>
     Confirmar
 </a>";
 
@@ -235,7 +235,6 @@ $errors[]= "<a href='reg-estudiante-2.php'>
                         
                         <button type='submit' class="btn btn-primary btn-block btn-lg"value="datos_student" name ='datos_student'>Continuar</button>
 
-<br><br>
                                                             <?php imprimir_msjs_no_style($errors); ?>
                          
                                 <!-- <input type="submit" name="continuar" value="CONTINUAR" class="btn btn-primary btn-block btn-lg" id="boton-enviar"> --> 

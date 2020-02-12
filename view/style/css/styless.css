@@ -132,7 +132,7 @@ input[type="submit"]:hover{
      top: 25%;
      border-radius: 10px;
 }
-
+  
 .tabla{
  margin-top:95px;
     margin-left:300px;
@@ -142,8 +142,8 @@ input[type="submit"]:hover{
     height: 200px;
     max-width: 70%;
     font-size: 20px;
-
 }
+
 .tabla2{
    /* margin: 100px auto;*/
    margin-top:80px;

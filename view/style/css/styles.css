@@ -16,7 +16,8 @@ body {
     background-attachment: fixed;
     font-family: Roboto;
     background-color: #E1ECF5;
-    margin:20px;
+    margin:20px; 
+    padding: 15px ;
   }
 
 /* estilos de */
@@ -115,19 +116,21 @@ input[type="submit"]:hover{
      top: 25%;
      border-radius: 10px;
 }
+
 .tabla{
-   /* margin: 100px auto;*/
-   margin-top:150px;
-    margin-left:-90px;
+   /*margin: 100px auto; */
+   margin-top:100px;
+    margin-left:-150px;
     margin-right: 250px;
     left: 30%;
-    width: 90%;
+    width: 30%;
     height: 200px;
     max-width: 70%;
-    position:absolute;
+    position:relative;
     font-size: 20px;
 
 }
+
 table{
 	background-color: #F5F8F5;
 	text-align: left;

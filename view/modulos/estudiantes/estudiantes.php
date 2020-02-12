@@ -71,13 +71,19 @@ $errors = array();
             <option value="1">Mañana</option>
             <option value="2">Tarde</option>
         </select> 
-
+-->
         Año Escolar 
 
-        <input type="number" name="año_escolar1" id="" value="<?php if(isset($anio_escolar2)) echo $anio_escolar1; ?>">
+        <input type="number" name="año_escolar1" id="" value="<?php if(isset($anio_escolar1)) echo $anio_escolar1; ?>">
 
         <input type="number" name="año_escolar2" id="" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
-!-->
+
+|
+
+Persona Relacionada: 
+      <input type="search" class="" placeholder="Documento de identidad" name="id_doc_pers_estd" value="<?php if(isset($id_doc_pers_estd)) echo $id_doc_pers_estd;?>">
+
+<br>
 			<button id=button name="buscar" value="buscar" class="icon-search" type="submit">Buscar</button>
 
 
@@ -95,14 +101,13 @@ $ci = htmlentities(addslashes($_POST['ci_estudiante']));
 //    $grado = htmlentities(addslashes($_POST["grado"]));
 
     $grado_design = htmlentities(addslashes($_POST["grado_design"]));
-/*
-    $seccion = htmlentities(addslashes($_POST["seccion"]));
 
-    $turno = htmlentities(addslashes($_POST["turno"]));
-  */  
-//    $no_aula = htmlentities(addslashes($_POST["no_aula"]));
-//    
-			$ci=trim($ci);
+//    $seccion = htmlentities(addslashes($_POST["seccion"]));
+
+ 
+    $id_doc_pers_estd = htmlentities(addslashes($_POST["id_doc_pers_estd"]));
+			
+      $ci=trim($ci);
 
     if (!empty($ci)){
 
@@ -110,11 +115,10 @@ if(!is_exist_student($ci)){
 				$errors[] = 'No existe el estudiante o la cedula es invalida';
 			}}
 
-/*
+
     $anio_escolar1 = htmlentities(addslashes($_POST["año_escolar1"]));
 
     $anio_escolar2 = htmlentities(addslashes($_POST["año_escolar2"]));
-*/
     if (!empty($grado)){
 
     		$errors[]= validar_grado($grado);
@@ -130,12 +134,13 @@ if(!is_exist_student($ci)){
 
 				if (!comprobar_msjs_array($errors)) {
 
-			$sql=" SELECT DISTINCT est.ci_escolar, est.id_doc,in_p.nombre,in_p.apellido_p,in_p.apellido_m, edo.descripcion estado,es.grado grado_design, clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2,es.id_actualizacion id_es,ea.id_actualizacion id_ea FROM estudiantes est 
+			$sql=" SELECT DISTINCT est.ci_escolar,prsd.id_doc, est.id_doc,in_p.nombre,in_p.apellido_p,in_p.apellido_m, edo.descripcion estado,es.grado grado_design, clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2,es.id_actualizacion id_es,ea.id_actualizacion id_ea FROM estudiantes est 
 LEFT OUTER JOIN info_personal in_p ON est.ci_escolar = in_p.id_doc 
 LEFT OUTER JOIN estudiantes_asignados ea ON est.ci_escolar = ea.ci_escolar 
 LEFT OUTER JOIN clases clas ON ea.id_clase = clas.id_clase 
 LEFT OUTER JOIN turnos tr ON tr.id_turno = clas.id_turno 
 LEFT OUTER JOIN escolaridad es ON est.ci_escolar = es.ci_escolar 
+LEFT OUTER JOIN pers_est prsd ON est.ci_escolar = prsd.ci_escolar
 LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
 
 			  $where = [];
@@ -201,6 +206,14 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
     array_push($where, 'clas.anio_escolar2 = :anio_escolar2');
     $campos[':anio_escolar2'] = [
       'valor' => $anio_escolar2,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+  if (!empty($id_doc_pers_estd)) {
+    array_push($where, 'prsd.id_doc = :id_doc_pers_estd');
+    $campos[':id_doc_pers_estd'] = [
+      'valor' => $id_doc_pers_estd,
       'tipo' => \PDO::PARAM_STR,
     ];
   }

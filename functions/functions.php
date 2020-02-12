@@ -620,6 +620,18 @@ $result->execute(array("id_doc"=>$id_doc,"tlf_local"=>$tlf_local,
 
 }
 
+
+function upd_tlf_emerg($id_doc,$tlf_emergecia){
+    global $db;
+
+    $sql = disable_foreing()." UPDATE contact_basic SET tlf_emergecia = :tlf_emergecia where id_doc = :id_doc; ".enable_foreing();
+
+$result=$db->prepare($sql); 
+                            
+$result->execute(array("id_doc"=>$id_doc,"tlf_emergecia"=>$tlf_emergecia));
+
+}
+
 function actualizar_persona($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$tlf_emergecia =''){
 
     global $db;
@@ -680,6 +692,7 @@ $sql = "INSERT INTO `representantes`(`id_doc`,ci_escolar) VALUES (:id_doc,:ci_es
 $result=$db->prepare($sql);
                             
 $result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar));
+registrar_person_estudiantes($id_doc,$ci_escolar,$convivencia,$ocupacion,$parentesco);
 
 }
 
@@ -2643,7 +2656,7 @@ return $sql = " SELECT act.ci_escolar, act.id_doc_admin, act.grado, act.fecha, a
 function consulta_escolaridad(){
 return $sql = "
 SELECT es.ci_escolar, es.plantel_proced, es.localidad, 
-es.calif_def, es.repitiente, es.observs,es.grado grado_asign,
+es.calif_def, es.repitiente, es.observs,es.grado ,
 es.id_escolaridad,es.id_actualizacion,ac.fecha,ac.id_doc_admin,es.anio_escolar1,es.anio_escolar2,
 in_p.nombre,in_p.apellido_p,in_p.apellido_m
 FROM escolaridad es
@@ -2716,7 +2729,7 @@ INNER JOIN sexo sx ON in_p.id_sexo = sx.id_sexo
 INNER JOIN nacionalidad nac ON in_p.id_nacionalidad = nac.id_nacionalidad
 INNER JOIN est_civil etc ON in_p.id_estado_civil = etc.id_estado_civil
 INNER JOIN pers_est prsd ON prt.id_doc = prsd.id_doc
-INNER JOIN contact_basic cb ON in_p.id_doc = cb.id_doc";
+LEFT JOIN contact_basic cb ON in_p.id_doc = cb.id_doc";
 }
 
 
@@ -3010,16 +3023,18 @@ $result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar,"id_doc_new"=
 }
 
 
-function update_data_salud_student($ci_escolar,$ci_escolar_new,
+function update_data_salud_student(
+    $ci_escolar,
+    $ci_escolar_new,
              $est_croni, 
              $desc_croni, 
-             $est_visual, 
-             $desc_visual, 
-             $est_auditivo, 
-             $desc_auditivo, 
-             $est_alergia, 
-             $desc_alergia, 
-             $est_condic_esp, 
+             $est_visual,
+             $desc_visual,
+             $est_auditivo,
+             $desc_auditivo,
+             $est_alergia,
+             $desc_alergia,
+             $est_condic_esp,
              $desc_condic_esp,
              $est_vacuna,
              $desc_vacuna,
@@ -3030,7 +3045,7 @@ function update_data_salud_student($ci_escolar,$ci_escolar_new,
              $desc_otras,
              $desc_medicacion,
              $est_medicacion,
-             $anex_inform
+             $anex_inform 
          ){
 
     global $db;

@@ -6,6 +6,8 @@
 <?php require '../../../includes/header_reg_est.php'; ?>
 
 <?php 
+$confirmar= array();
+
 $errors_1= array();
 
 $errors_2= array();
@@ -185,8 +187,8 @@ $errors_pr[] = valid_ci($id_doc_pr);
        $errors_pr[]='Esta cedula no esta registrada en el sistema';
         }
 
-if (validar_datos_vacios($parentesc_pr)) {
-       $errors_pr[]='El campo Parentesco no puede estar vacio';  
+if (validar_datos_vacios($parentesc_pr,$tlf_emerg)) {
+       $errors_pr[]='El campo Parentesco y Telefono de Emergencia no puede estar vacio';  
 
 }
 
@@ -339,7 +341,7 @@ if (validar_datos_vacios($desc_lleg_retir_transp)) {
 $_SESSION['sesionform3'][$clave] = $valor;
 }
 
-$errors_pr[]= "<a href='reg-estudiante-4.php'>
+$confirmar[]= "<a class='btn btn-primary col-lg-9' href='reg-estudiante-4.php'>
     Confirmar
 </a>";
 
@@ -661,6 +663,8 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                             <input type="checkbox" <?php if(isset($_POST["si_exist_pr"])){ if($_POST["si_exist_pr"] == '1') echo "checked";}else{if(isset($si_exist_pr)){ if($si_exist_pr == '1') echo "checked";}}?> name="si_exist_pr" value="1" id="">
                                         </div>
                        
+
+                                        <?php imprimir_msjs_no_style($errors_pr); ?>
                                      </div>   
                        
 
@@ -668,7 +672,8 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                         <a href="reg-estudiante-2.php" class="btn btn-primary col-lg-2 ">VOLVER</a>
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->                                        
                                         <button type='submit' class="btn btn-primary col-lg-9"value="otros_datos" name ='otros_datos'>CONTINUAR</button>
-                                        <?php imprimir_msjs_no_style($errors_pr); ?>
+
+                                        <?php imprimir_msjs_no_style($confirmar); ?>
 
 
                                 </form>   
