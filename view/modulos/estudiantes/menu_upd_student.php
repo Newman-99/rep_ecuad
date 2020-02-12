@@ -1,6 +1,13 @@
 
 
-<?php require '../../includes/head.php'; 
+<?php 
+require '../../includes/init_system.php'; 
+
+require '../../includes/head.php'; 
+
+ session_start();
+ valid_inicio_sesion('2');
+
 ?>
 
 <title>Menú</title>
@@ -8,7 +15,11 @@
 <?php require '../../includes/header.php'; ?>
 
 <div class="nav-upd">
-    
+    <?php 
+$_SESSION['ci_escolar'] = $_POST['update_student'];
+ ?>
+
+
         
         <ul id="button-upd">
             <li><a href="./update_student/upd-estudiante-1.php">Datos basico del estudiante</a></li><br>

@@ -524,12 +524,12 @@ $errors_r[]= "Cambios Registrado con Exito";
 
                 if(!is_exist_padre('',$ci_escolar,'1')){
             
-            if (isset($_POST)) {
+      /*      if (isset($_POST)) {
             form_madres_empty($_POST);
-            }else{   form_madres_empty('');}
+            }else{   form_madres_empty('');}*/
 }else{
 
-        $sql = consulta_padres_student()." WHERE pds.ci_escolar = :ci_escolar AND pds.id_tip_padre = 1";
+        $sql = consulta_padres_student()." WHERE pds.ci_escolar = :ci_escolar AND pds.id_tip_padre = 1 LIMIT 1";
 
         $result=$db->prepare($sql);
             
@@ -553,12 +553,12 @@ $_SESSION['id_doc_m'] = $id_doc_m;
             if(!is_exist_padre('',$ci_escolar,'2')) {
             
             if (isset($_POST)) {
-            form_madres_empty($_POST);
-            }else{   form_madres_empty('');
+            form_padre_empty($_POST);
+            }else{   form_padre_empty('');
 }
 }else{
 
-        $sql = consulta_padres_student()." WHERE pds.ci_escolar = :ci_escolar AND pds.id_tip_padre = 2";
+        $sql = consulta_padres_student()." WHERE pds.ci_escolar = :ci_escolar AND pds.id_tip_padre = 2 LIMIT 1";
 
         $result=$db->prepare($sql);
             
@@ -582,7 +582,7 @@ $_SESSION['id_doc_p'] = $id_doc_p;
 <?php 
 
 
-        $sql = consulta_represent_student()." WHERE rpt.ci_escolar = :ci_escolar;";
+        $sql = consulta_represent_student()." WHERE rpt.ci_escolar = :ci_escolar LIMIT 1;";
 
         $result=$db->prepare($sql);
             
@@ -615,9 +615,8 @@ if (isset($id_doc_p) AND isset($id_doc_m) || isset($_POST['new_represent'])) {
 
 <!------------------------------- CUARTO FORMULARIO [ REPRESENTANTE LEGAL ] ------------------------------------------------>
                                     
-                                        <a href="reg-estudiante-1.php" class="btn btn-primary  col-lg-2">VOLVER</a>
                                         
-                                        <button type='submit' class="btn btn-primary col-lg-9"value="datos_student" name ='datos_pers_estd'>CONTINUAR</button>
+                                        <button type='submit' class="btn btn-primary col-lg-9"value="datos_student" name ='datos_pers_estd'>Actualizar</button>
                                         
                                     
 

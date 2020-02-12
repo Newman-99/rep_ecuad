@@ -227,7 +227,7 @@ if (!empty($si_exist_pr)) {
 
   registrar_pers_retirar($id_doc_pr,$ci_escolar);
 
-upd_tlf_emerg($id_doc_pr,$tlf_emergecia);
+upd_tlf_emerg($id_doc_pr,$tlf_emerg);
 
 // Registro de datos de actualizacion
 
@@ -249,7 +249,6 @@ registrar_inscrip_scolaridad($ci_escolar,$plantel_proced,$localidad,$anio_escola
                                         <div class="col-lg-12">
                                             <h3 class="form-titulo"> Estudiante registrado con exito
 <!----------------------------------------- INSERTA FORM ACA EN EL DIV y por ahí vas entre lg-6 o 12 ---------------->
-                            <button type='submit' class="btn btn-primary btn-block btn-lg"value="data_update" name ='data_update'>Continuar</button>
 </h3>
                             <?php imprimir_msjs($errors); ?>
 
@@ -263,3 +262,11 @@ registrar_inscrip_scolaridad($ci_escolar,$plantel_proced,$localidad,$anio_escola
             </div>
 
 <?php require '../../../includes/footer_reg_est.php'; ?>
+
+<?php unset($_SESSION['sesionform1']);
+unset($_SESSION['sesionform2']);
+unset($_SESSION['sesionform3']);
+unset($_SESSION['sesionform4']);
+unset($_SESSION['ci_escolar']);
+
+ ?>

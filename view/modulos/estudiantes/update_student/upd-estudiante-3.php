@@ -331,11 +331,12 @@ if (validar_datos_vacios($desc_lleg_retir_transp)) {
 
    if (!comprobar_msjs_array($errors_pr) && !comprobar_msjs_array($errors_1) && !comprobar_msjs_array($errors_2) && !comprobar_msjs_array($errors_3)) {    
  
-
                foreach ($_POST as $clave => $valor) {
 $_SESSION['sesionform3'][$clave] = $valor;
 }
 
+
+extract($_SESSION['sesionform3']);
 
          update_data_salud_student(
           $_SESSION['ci_escolar'],
@@ -369,13 +370,17 @@ $correo_pr = '';
 if (obtener_correp_prs($id_doc_pr) != FALSE) {
 $correo_pr = obtener_correp_prs($id_doc_pr);
 }
- actualizar_persona($nacionalidad_pr ,$id_doc_pr,$id_doc_pr,$nombres_pr,$apellido_p_pr,$apellido_m_pr,$sexo_pr,'0000-00-00','','',$tlf_cel_pr,$tlf_local_pr,$correo_pr,$estado_civil_pr,$tlf_emerg );
+
+ actualizar_persona($nacionalidad_pr ,$id_doc_pr,$id_doc_pr,$nombres_pr,$apellido_p_pr,$apellido_m_pr,$sexo_pr,'0000-00-00','','',$tlf_cel_pr,$tlf_local_pr,$correo_pr,$estado_civil_pr,$tlf_emerg);
+
 
 update_person_estudiantes($id_doc_pr,$id_doc_pr,$_SESSION['ci_escolar'],$_SESSION['ci_escolar'],'','',$parentesc_pr);
 
  update_person_retirar($id_doc_pr,$id_doc_pr,$_SESSION['ci_escolar'],$_SESSION['ci_escolar'],'','',$parentesc_pr);
 
 upd_tlf_emerg($id_doc_pr,$tlf_emerg);
+
+update_other_data_student($_SESSION['ci_escolar'],$_SESSION['ci_escolar'],$nro_pers_viven,$hermanos,$descrip_herma);
 
 $errors[]= "Cambios Registrado con Exito";
 
@@ -537,8 +542,30 @@ $errors[]= "Cambios Registrado con Exito";
                                             <textarea name="descrip_vacunas" id="" class="form-control" placeholder="Especifique"><?php if(isset($registro['desc_vacuna'])) echo $registro['desc_vacuna']; ?></textarea>
                                         </div>
                                               
-                                              <?php imprimir_msjs_no_style($errors_1); ?>
+
+                                            <?php } ?>
+
                                   </div>
+
+                                              <?php imprimir_msjs_no_style($errors_1); ?>
+
+                                  <?php 
+        $sql = consulta_salud_student()." WHERE sd.ci_escolar = :ci_escolar;";
+
+        $result=$db->prepare($sql);
+            
+        $result->bindValue(":ci_escolar",$_SESSION['ci_escolar']);
+        
+        $result->execute();
+
+                if ($result->rowCount() == 0) {
+        echo " <h1>No hay criterios que concidan con su busqueda</h1>";
+
+        }
+
+    while($registro=$result->fetch(PDO::FETCH_ASSOC)){
+
+                                  ?>
                                   
                                   <br><br><br><br>
 
@@ -599,13 +626,14 @@ $errors[]= "Cambios Registrado con Exito";
                                                 <input type="radio" name="anex_infor" id="" value="0"
                                                 <?php if(isset($registro["anex_inform"])){ if($registro["anex_inform"] == '0') echo "checked";}?>>
                                         </div>
-                                                <?php imprimir_msjs_no_style($errors_2); ?>
 
                                     </div>
 
                                     <br><br><br><br>
 
                                   <?php } ?>
+                                                <?php imprimir_msjs_no_style($errors_2); ?>
+
 
     <?php         $sql = consulta_movilidad_student()." WHERE mv.ci_escolar = :ci_escolar;";
 

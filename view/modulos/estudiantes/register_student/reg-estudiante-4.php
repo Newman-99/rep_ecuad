@@ -91,7 +91,7 @@ $_SESSION['sesionform4'][$clave] = $valor;
 
 }
 
-$errors[]= "<a href='final_register.php'>
+$errors[]= "<a class= 'btn btn-primary col-lg-9 'href='final_register.php'>
     Confirmar
 </a>";
 

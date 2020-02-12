@@ -11,10 +11,9 @@ require '../../../includes/header_reg_est.php';
  valid_inicio_sesion('2');
 
 
-if (isset($_POST['update_student']))     {
-$_SESSION['ci_escolar'] = $_POST['update_student'];
-}
 $ci_escolar = $_SESSION['ci_escolar'];
+
+
 if (isset($_SESSION['sesionform1'])) {
 if (comprobar_msjs_array($_SESSION['sesionform1'])) {
 extract($_SESSION['sesionform1']);

@@ -6,6 +6,10 @@ $errors = array();
  session_start();
  valid_inicio_sesion('3');
 
+if (isset($_SESSION['ci_escolar'])) {
+  unset($_SESSION['ci_escolar']);
+}
+
 ?>
 	    <title>Estudiantes</title>
 	    
@@ -83,8 +87,7 @@ $errors = array();
 Persona Relacionada: 
       <input type="search" class="" placeholder="Documento de identidad" name="id_doc_pers_estd" value="<?php if(isset($id_doc_pers_estd)) echo $id_doc_pers_estd;?>">
 
-<br>
-			<button id=button name="buscar" value="buscar" class="icon-search" type="submit">Buscar</button>
+  			<button id=button name="buscar" value="buscar" class="icon-search" type="submit">Buscar</button>
 
 
 			<a href="./register_student/reg-estudiante-1.php" id=registrer class="icon-add";>Registrar Nuevo Estudiante</a>
@@ -279,7 +282,7 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
 
                      <?php    if(valid_inicio_sesion('2')) {  ?>
 
-                    <form action='./menu.php' method='post'>
+                    <form action='./menu_upd_student.php' method='post'>
                         
                         <button type='submit' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='update_student'> Actualizar</button>
                     </form>

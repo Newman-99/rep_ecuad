@@ -708,7 +708,6 @@ $sql = "INSERT INTO `representantes`(`id_doc`,ci_escolar) VALUES (:id_doc,:ci_es
 $result=$db->prepare($sql);
                             
 $result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar));
-registrar_person_estudiantes($id_doc,$ci_escolar,$convivencia,$ocupacion,$parentesco);
 
 }
 

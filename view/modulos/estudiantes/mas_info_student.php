@@ -217,9 +217,12 @@ echo "
                         </tr>
                     </thead>";
 
+
+
             if ($result->rowCount() == 0) {
 
-echo "<td> <td></td>La Madre No fue Registrada</td></tr></table>
+
+echo "<td></td> <td>La Madre No fue Registrada</td></tr></table>
             </div>";
 }else{
 

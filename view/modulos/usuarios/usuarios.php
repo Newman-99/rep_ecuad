@@ -150,8 +150,7 @@ mostrar_user_especifico($id_usr);
 
 	?>
 
-<br><hr>
-
+<br>
 
 		<div style="float: right ;">	
 
