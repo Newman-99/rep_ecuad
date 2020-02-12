@@ -23,6 +23,7 @@ $errors = array();
 if (!empty($_POST['inscrip_escol'])) {
 
 
+if (is_ci_escolar_id($_SESSION['ci_escolar'])){
 
     $ci_escol_nacidad = htmlentities(addslashes($_POST["ci_escol_nacidad"]));
     $ci_escol_id_opc = htmlentities(addslashes($_POST["ci_escol_id_opc"]));
@@ -30,7 +31,7 @@ if (!empty($_POST['inscrip_escol'])) {
     $ci_escol_ci_mom = htmlentities(addslashes($_POST["ci_escol_ci_mom"]));
 
     $ci_escolar = $ci_escol_nacidad."".$ci_escol_id_opc."".$ci_escol_nac_estd."".$ci_escol_ci_mom;
-
+}
     $localidad = htmlentities(addslashes($_POST["localidad"]));
 
     $plantel_proced = htmlentities(addslashes($_POST["plantel_proced"]));
@@ -56,9 +57,6 @@ if (isset($_POST["repitiente"])) {
         $errors = valid_ci_scolar_xparte($ci_escol_nacidad,$ci_escol_id_opc,$ci_escol_nac_estd,$ci_escol_ci_mom);
         }
 
-        if (validar_datos_vacios_sin_espacios($_SESSION['sesionform1']['id_doc_estd']) && validar_datos_vacios_sin_espacios($ci_escolar))  {
-        $errors[] = "Debe ingresar la cedula escolar o el documento de identidad del estudiante, tambien pueden ser ambas";                
-        }
         $errors[]=validar_anio_escolar($anio_escolar1_escolaridad,$anio_escolar2_escolaridad);
 
     }
@@ -87,13 +85,43 @@ $_SESSION['sesionform4'][$clave] = $valor;
 
 }
 
-$errors[]= "<a href='final_register.php'>
-    Confirmar
-</a>";
+registrar_actualizacion($_SESSION['ci_escolar'],$_SESSION['id_user'],obtener_fecha_sistema());
+ 
+$id_actualizacion=obtener_ultimo_id_actualizacion();
+
+          $id_clase = generador_id_clases($grado_escolaridad,$seccion_escolaridad,$anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$turno_escolaridad);
+
+         if (is_exist_clase($id_clase)) {
+            asignar_clase_for_estudent($id_clase,'3',$id_actualizacion,$_SESSION['ci_escolar']);
+          }
+
+registrar_inscrip_scolaridad($_SESSION['ci_escolar'],$plantel_proced,$localidad,$anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$grado_escolaridad,$calif_escolaridad,$repitiente,$observacions,$id_actualizacion);
+
+//$errors[]= " <button type='submit' class='btn btn-primary col-lg-9' value='confirm_4' name='confirm_4'>CONTINUAR</button>";
 
 
 }
 }
+
+/*if (!empty($_POST['confirm_4'])) {
+    
+    extract($_SESSION['sesionform4']);
+
+    echo "<h1> Se actualizo ever </h1>";
+registrar_actualizacion($_SESSION['ci_escolar'],$_SESSION['id_user'],obtener_fecha_sistema());
+ 
+$id_actualizacion=obtener_ultimo_id_actualizacion();
+
+          $id_clase = generador_id_clases($grado_escolaridad,$seccion_escolaridad,$anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$turno_escolaridad);
+
+         if (is_exist_clase($id_clase)) {
+            asignar_clase_for_estudent($id_clase,'3',$id_actualizacion,$_SESSION['ci_escolar']);
+          }
+
+registrar_inscrip_scolaridad($_SESSION['ci_escolar'],$plantel_proced,$localidad,$anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$grado_escolaridad,$calif_escolaridad,$repitiente,$observacions,$id_actualizacion);
+
+}*/
+
 
          $sql = consulta_escolaridad()." WHERE es.ci_escolar = :ci_escolar ORDER BY es.id_actualizacion DESC LIMIT 1;";
 
@@ -163,6 +191,7 @@ $ci_escolar_sep=sepadador_ci_escolar($_SESSION['ci_escolar']);
                                     </div>  <!--------- FIN, DIV Cedula escolar  ------------>
 
                                     <br>
+<?php } ?>
                                     <div class="row" >
                                         <div class="col-lg-6 my-4">
                                             <label for="" class="">Plantel de procedencia</label>
@@ -175,9 +204,12 @@ $ci_escolar_sep=sepadador_ci_escolar($_SESSION['ci_escolar']);
                                         </div>
                                     </div>
                                     <br>
-<?php } }?>
 
-<?php          $sql = clases_student()." WHERE ea.id_estado = 3 AND ea.ci_escolar =  :ci_escolar;";
+<?php } ?>
+
+
+
+<?php          $sql = clases_student()." WHERE ea.ci_escolar = :ci_escolar ORDER BY ea.id_actualizacion DESC LIMIT 1;;";
 
         $result=$db->prepare($sql);
             
@@ -186,7 +218,14 @@ $ci_escolar_sep=sepadador_ci_escolar($_SESSION['ci_escolar']);
         $result->execute();
 
                 if ($result->rowCount() == 0) {
-        echo " <h1>No hay criterios que concidan con su busqueda</h1>";
+
+$sql = consulta_escolaridad()." WHERE es.ci_escolar = :ci_escolar ORDER BY ac.id_actualizacion DESC LIMIT 1;;";
+
+        $result=$db->prepare($sql);
+            
+        $result->bindValue(":ci_escolar",$_SESSION['ci_escolar']);
+        
+        $result->execute();
 
         }
 

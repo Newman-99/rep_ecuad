@@ -620,6 +620,18 @@ $result->execute(array("id_doc"=>$id_doc,"tlf_local"=>$tlf_local,
 
 }
 
+
+function upd_tlf_emerg($id_doc,$tlf_emergecia){
+    global $db;
+
+    $sql = disable_foreing()." UPDATE contact_basic SET tlf_emergecia = :tlf_emergecia where id_doc = :id_doc; ".enable_foreing();
+
+$result=$db->prepare($sql); 
+                            
+$result->execute(array("id_doc"=>$id_doc,"tlf_emergecia"=>$tlf_emergecia));
+
+}
+
 function actualizar_persona($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$tlf_emergecia =''){
 
     global $db;
@@ -680,6 +692,7 @@ $sql = "INSERT INTO `representantes`(`id_doc`,ci_escolar) VALUES (:id_doc,:ci_es
 $result=$db->prepare($sql);
                             
 $result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar));
+registrar_person_estudiantes($id_doc,$ci_escolar,$convivencia,$ocupacion,$parentesco);
 
 }
 
@@ -1194,28 +1207,106 @@ $result->execute($parameters);
     }
 
     function asignar_clase_for_estudent($id_clase,$id_estado,$id_actualizacion,$ci_escolar){
+
     global $db;
 
-$parameters = array(
-    ':id_clase'=>$id_clase,    
-    ':id_estado'=>$id_estado,
-    ':id_actualizacion'=>$id_actualizacion,
-    ':ci_escolar'=>$ci_escolar,
+var_dump(obten_estado_asign_student($ci_escolar,$id_clase));
 
-);
+if (obten_estado_asign_student($ci_escolar,$id_clase) != 3){
+
+if(is_exist_student_in_clase($ci_escolar)){
+
+$sql = disable_foreing()." UPDATE `estudiantes_asignados` SET `id_estado` = 5  WHERE `ci_escolar` = :ci_escolar; ".enable_foreing();
+
+$parameters = array(':ci_escolar'=>$ci_escolar);
+
+$result=$db->prepare($sql);
+
+$result->execute($parameters);
 
 
 $sql = disable_foreing()." INSERT INTO `estudiantes_asignados`(`id_clase`,`id_estado`,`id_actualizacion`,ci_escolar)
 VALUES (:id_clase,:id_estado,:id_actualizacion,:ci_escolar); ".enable_foreing();
 
+ $parameters = array(
+    ':id_clase'=>$id_clase,    
+    ':id_estado'=>$id_estado,
+    ':id_actualizacion'=>$id_actualizacion,
+    ':ci_escolar'=>$ci_escolar);
+
 $result=$db->prepare($sql);
 
 $result->execute($parameters);
-        
+}else{
+
+$sql = disable_foreing()." UPDATE `estudiantes_asignados` SET `id_estado` = 5  WHERE `ci_escolar` = :ci_escolar; ";
+
+$parameters = array(':ci_escolar'=>$ci_escolar);
+
+$result=$db->prepare($sql);
+
+$result->execute($parameters);
+
+
+
+$sql = disable_foreing()." INSERT INTO `estudiantes_asignados`(`id_clase`,`id_estado`,`id_actualizacion`,ci_escolar)
+VALUES (:id_clase,:id_estado,:id_actualizacion,:ci_escolar); ".enable_foreing();
+
+ $parameters = array(
+    ':id_clase'=>$id_clase,    
+    ':id_estado'=>$id_estado,
+    ':id_actualizacion'=>$id_actualizacion,
+    ':ci_escolar'=>$ci_escolar);
+
+$result=$db->prepare($sql);
+
+$result->execute($parameters);
+}
+
+}else{ echo "<h1>No se izo un conio</h1>";} 
+
+}
+
+
+
+ function is_exist_student_in_clase($ci_escolar){
+      global $db;
+
+
+$sql="SELECT id_clase FROM `estudiantes_asignados` WHERE `ci_escolar` = :ci_escolar;"; 
+                                
+$result=$db->prepare($sql);
+                        
+$result->bindValue(":ci_escolar",$ci_escolar);
+
+$result->execute();
+
+
+   $count=$result->rowCount();
+    if(!$count == 0){ 
+    return true;
+    }else{
+        return false;
     }
+ }
 
 
+ function obten_estado_asign_student($ci_escolar,$id_clase){
+      global $db;
 
+
+$sql="SELECT id_estado FROM `estudiantes_asignados` WHERE `ci_escolar` = :ci_escolar AND id_clase = :id_clase ;"; 
+                                
+$result=$db->prepare($sql);
+                        
+
+      $result->execute(array("ci_escolar"=>$ci_escolar,"id_clase"=>$id_clase));
+
+return $id_estado=$result->fetchColumn();
+
+var_dump($id_estado);
+
+ }
 
 function is_exist_contrato_clase($id_clase,$id_doc_docent,$id_funcion_docent){
 
@@ -2484,10 +2575,6 @@ if(validar_datos_vacios_sin_espacios($ci_escol_nacidad,$ci_escol_nac_estd,$ci_es
 
 $errors = array();
 
-if (is_exist_student($ci_escolar)) {
-    $errors[] = "La cedula escolar ya existe"; 
-}
-
         if(strcmp($ci_escol_nacidad,'V') != 0 || !strcmp($ci_escol_nacidad,'E') != 0 ){
     $errors[] = "Nacionalidad de la cedula escolar Invalida"; 
         }
@@ -2521,6 +2608,7 @@ $sql = "INSERT INTO `escolaridad`(`ci_escolar`, `plantel_proced`, `localidad`, `
                     $result = $db->prepare($sql);
 
     $result->execute(array("ci_escolar"=>$ci_escolar,"plantel_proced"=>$plantel_proced, "localidad"=>$localidad,"anio_escolar1"=>$anio_escolar1,"anio_escolar2"=>$anio_escolar2,"grado"=>$grado,"calif_def"=>$calif_def,"repitiente"=>$repitiente,"observs"=>$observs,'id_actualizacion'=>$id_actualizacion));
+    var_dump($result);
 
 }
 
@@ -2568,7 +2656,7 @@ return $sql = " SELECT act.ci_escolar, act.id_doc_admin, act.grado, act.fecha, a
 function consulta_escolaridad(){
 return $sql = "
 SELECT es.ci_escolar, es.plantel_proced, es.localidad, 
-es.calif_def, es.repitiente, es.observs,es.grado grado_asign,
+es.calif_def, es.repitiente, es.observs,es.grado ,
 es.id_escolaridad,es.id_actualizacion,ac.fecha,ac.id_doc_admin,es.anio_escolar1,es.anio_escolar2,
 in_p.nombre,in_p.apellido_p,in_p.apellido_m
 FROM escolaridad es
@@ -2641,7 +2729,7 @@ INNER JOIN sexo sx ON in_p.id_sexo = sx.id_sexo
 INNER JOIN nacionalidad nac ON in_p.id_nacionalidad = nac.id_nacionalidad
 INNER JOIN est_civil etc ON in_p.id_estado_civil = etc.id_estado_civil
 INNER JOIN pers_est prsd ON prt.id_doc = prsd.id_doc
-INNER JOIN contact_basic cb ON in_p.id_doc = cb.id_doc";
+LEFT JOIN contact_basic cb ON in_p.id_doc = cb.id_doc";
 }
 
 
@@ -2935,16 +3023,18 @@ $result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar,"id_doc_new"=
 }
 
 
-function update_data_salud_student($ci_escolar,$ci_escolar_new,
+function update_data_salud_student(
+    $ci_escolar,
+    $ci_escolar_new,
              $est_croni, 
              $desc_croni, 
-             $est_visual, 
-             $desc_visual, 
-             $est_auditivo, 
-             $desc_auditivo, 
-             $est_alergia, 
-             $desc_alergia, 
-             $est_condic_esp, 
+             $est_visual,
+             $desc_visual,
+             $est_auditivo,
+             $desc_auditivo,
+             $est_alergia,
+             $desc_alergia,
+             $est_condic_esp,
              $desc_condic_esp,
              $est_vacuna,
              $desc_vacuna,
@@ -2955,7 +3045,7 @@ function update_data_salud_student($ci_escolar,$ci_escolar_new,
              $desc_otras,
              $desc_medicacion,
              $est_medicacion,
-             $anex_inform
+             $anex_inform 
          ){
 
     global $db;

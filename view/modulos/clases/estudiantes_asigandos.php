@@ -88,7 +88,7 @@ LEFT OUTER JOIN estudiantes_asignados ea ON est.ci_escolar = ea.ci_escolar
 LEFT OUTER JOIN clases clas ON ea.id_clase = clas.id_clase 
 LEFT OUTER JOIN turnos tr ON tr.id_turno = clas.id_turno 
 LEFT OUTER JOIN escolaridad es ON est.ci_escolar = es.ci_escolar 
-LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado WHERE clas.id_clase =:id";
+LEFT OUTER JOIN estado edo ON ea.id_estado = edo.id_estado WHERE clas.id_clase =:id GROUP BY est.ci_escolar + ea.id_estado ";
 					 
 			$result=$db->prepare($sql);
 									

@@ -56,6 +56,10 @@ if (isset($_POST["repitiente"])) {
         $errors = valid_ci_scolar_xparte($ci_escol_nacidad,$ci_escol_id_opc,$ci_escol_nac_estd,$ci_escol_ci_mom);
         }
 
+        if (is_exist_student($ci_escolar)) {
+    $errors[] = "La cedula escolar ya existe"; 
+}
+
         if (validar_datos_vacios_sin_espacios($_SESSION['sesionform1']['id_doc_estd']) && validar_datos_vacios_sin_espacios($ci_escolar))  {
         $errors[] = "Debe ingresar la cedula escolar o el documento de identidad del estudiante, tambien pueden ser ambas";                
         }
