@@ -143,5 +143,42 @@ input {
 
 .btn {
     margin-top: 40px;
+    width: 6%;
 }
+
+/* Menú update */
+
+.nav-upd {
+    margin: 20px; 
+    width: 40%;
+    display:flex; 
+    justify-content: center;
+}
+
+.nav-upd li a {
+    list-style: none;
+    font-size: 20px;
+    font-family: Arial;
+    text-decoration: none;
+    padding: 5px;
+    color: #fff;
+}
+
+.nav-upd li a:hover {
+    background-color: #8ec4f08f;
+    padding: 5px;
+
+}
+
+.nav-upd ul {
+    background-color: #077BC6;
+    
+    text-decoration: none;
+    padding: 15px 50px ;
+}
+.nav-upd li ul{
+    display: none;
+    margin-top: 20px;
+}
+
 

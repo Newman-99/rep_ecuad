@@ -17,6 +17,7 @@ body {
     font-family: Roboto;
     background-color: #E1ECF5;
     margin:20px;
+    padding:20px;
   }
 
 /* estilos de */
@@ -117,14 +118,14 @@ input[type="submit"]:hover{
 }
 .tabla{
    /* margin: 100px auto;*/
-   margin-top:150px;
-    margin-left:-90px;
-    margin-right: 250px;
+   margin-top:100px;
+    margin-left:-150px;
+    margin-right: 50px;
     left: 30%;
     width: 90%;
     height: 200px;
     max-width: 70%;
-    position:absolute;
+    position: relative;
     font-size: 20px;
 
 }
