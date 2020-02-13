@@ -3,7 +3,7 @@
 
         <header>
                 <ul class="nav_reg">
-                                            <li><a href='../estudiantes.php' >Volver</a></li>
+                                            <li><a href='../estudiantes.php' >Estudiantes</a></li>
 
                     <ul>
                     <li><a href="../../inicio/dashboard.php">Menú principal</a></li>

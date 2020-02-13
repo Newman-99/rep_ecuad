@@ -6,7 +6,7 @@ $errors = array();
  session_start();
  valid_inicio_sesion('3');
 
-if (isset($_SESSION['ci_escolar'])) {
+if (isset($_GET['clean_ci_escolar'])) {
   unset($_SESSION['ci_escolar']);
 }
 

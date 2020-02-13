@@ -153,7 +153,6 @@
                                         </div>
                                     </div>
 
-                                        <a href="reg-estudiante-1.php" class="btn btn-primary  col-lg-2">VOLVER</a>
                                         
                                     <?php imprimir_msjs_no_style($errors_r); ?>
 

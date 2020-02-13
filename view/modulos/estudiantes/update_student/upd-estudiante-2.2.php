@@ -5,6 +5,7 @@ require '../../../includes/head_reg_est.php';
 
 require '../../../includes/header_reg_est.php'; 
 
+
     session_start();
 
  valid_inicio_sesion('2');
@@ -16,6 +17,7 @@ extract($_SESSION['sesionform2']);
 }
 
 $ci_escolar = $_SESSION['ci_escolar'];
+var_dump($_SESSION['ci_escolar']);
 
 $errors_m = array();
 $errors_m_upd = array();
@@ -45,29 +47,32 @@ $errors_r_upd = array();
 
 <?php if(!is_exist_padre('',$_SESSION['ci_escolar'],'1')){ 
 
-	include 'sub_includes/reg_mom.php';
-	echo " <br><br><br><br>";
-	?>
+    include 'sub_includes/reg_mom.php';
+    ?>
 
 <?php }else{
-	include 'sub_includes/upd_mom.php';
-		echo "<br><br><br><br>";
+    include 'sub_includes/upd_mom.php';
 
-}?>
+}
+    echo " <br><br><br><br>";
+
+?>
 
 
 <?php if(!is_exist_padre('',$_SESSION['ci_escolar'],'2')){ 
 
-	include 'sub_includes/reg_dad.php';
-		echo "<br><br><br><br>";
+    include 'sub_includes/reg_dad.php';
 
-	?>
+    ?>
 
 <?php }else{
-	include 'sub_includes/upd_dad.php';
-		echo "<br><br><br><br>";
+    include 'sub_includes/upd_dad.php';
 
-}?>
+}
+
+        echo "";
+
+?>
 
 <?php 
 $id_represent = obtener_id_represent($_SESSION['ci_escolar']);
@@ -78,11 +83,11 @@ $id_represent = obtener_id_represent($_SESSION['ci_escolar']);
 //var_dump($id_madre);
 //var_dump($id_padre);
 
-    if (!strcmp($id_represent, $id_madre) === 0 || strcmp($id_represent, $id_padre) === 0 || isset($_POST['upd_represent'])){
+    if (strcmp($id_represent, $id_madre) === 0 || strcmp($id_represent, $id_padre) === 0 || isset($_POST['upd_represent'])){
 
-	include 'sub_includes/reg_represent.php';
+    include 'sub_includes/reg_represent.php';
     }else{
-	include 'sub_includes/upd_represent.php';
+    include 'sub_includes/upd_represent.php';
     }
 
 
@@ -90,7 +95,9 @@ $id_represent = obtener_id_represent($_SESSION['ci_escolar']);
  ?>
 
          </form>
-                        
+
+                                        <a href="../menu_upd_student.php" class="btn btn-primary  col-lg-2">Volver</a>
+
                         </div>
                 </div>
 
