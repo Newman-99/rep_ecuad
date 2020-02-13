@@ -82,10 +82,7 @@ if (isset($_SESSION['ci_escolar'])) {
 
         <input type="number" name="año_escolar2" id="" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
 
-|
 
-Persona Relacionada: 
-      <input type="search" class="" placeholder="Documento de identidad" name="id_doc_pers_estd" value="<?php if(isset($id_doc_pers_estd)) echo $id_doc_pers_estd;?>">
 
   			<button id=button name="buscar" value="buscar" class="icon-search" type="submit">Buscar</button>
 
@@ -108,15 +105,9 @@ $ci = htmlentities(addslashes($_POST['ci_estudiante']));
 //    $seccion = htmlentities(addslashes($_POST["seccion"]));
 
  
-    $id_doc_pers_estd = htmlentities(addslashes($_POST["id_doc_pers_estd"]));
 			
       $ci=trim($ci);
 
-    if (!empty($ci)){
-
-if(!is_exist_student($ci)){
-				$errors[] = 'No existe el estudiante o la cedula es invalida';
-			}}
 
 
     $anio_escolar1 = htmlentities(addslashes($_POST["año_escolar1"]));
@@ -151,7 +142,7 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
   $campos = [];
 
   if (!empty($ci)) {
-    array_push($where, 'est.ci_escolar = :ci OR est.id_doc = :ci');
+    array_push($where, 'est.ci_escolar = :ci OR est.id_doc = :ci OR prsd.id_doc = :ci');
     $campos[':ci'] = [
       'valor' => $ci,
       'tipo' => \PDO::PARAM_STR,
@@ -211,16 +202,7 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
       'valor' => $anio_escolar2,
       'tipo' => \PDO::PARAM_STR,
     ];
-  }
-
-  if (!empty($id_doc_pers_estd)) {
-    array_push($where, 'prsd.id_doc = :id_doc_pers_estd');
-    $campos[':id_doc_pers_estd'] = [
-      'valor' => $id_doc_pers_estd,
-      'tipo' => \PDO::PARAM_STR,
-    ];
-  }
-
+}
 
   if (!empty($where)) {
     $sql .= ' WHERE ' . implode(' AND ', $where);
