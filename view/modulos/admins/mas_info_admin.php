@@ -1,4 +1,6 @@
-<? require '../../includes/head.php';
+<?php require '../../includes/init_system.php'; ?>
+
+<?php require '../../includes/head.php';
     session_start();
 
  valid_inicio_sesion('2');
@@ -125,7 +127,7 @@ echo "
             </div>";
 ?>
 
-    <a href='admins.php'>volver</a>
+    <a class="btn btn-primary btn-lg" style="position:absolute;bottom:5px;right:10px;" href='admins.php'>volver</a>
 
     <?php
     if(!empty($errors)){

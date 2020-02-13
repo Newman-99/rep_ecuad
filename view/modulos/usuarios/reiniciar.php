@@ -1,4 +1,7 @@
+<?php require '../../includes/init_system.php'; ?>
+
 <?php  
+
 require '../../../database/connect.php';
 require '../../../functions/functions.php';
 $id_usr=$_GET['id_usr'];

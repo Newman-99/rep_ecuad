@@ -1,11 +1,14 @@
+<?php require '../../includes/init_system.php'; ?>
+
 <?php 
 
 require '../../includes/head.php';
 
+
 if (!empty($_POST['enviar'])) {
     $ci = htmlentities(addslashes($_POST['ci']));
 	if (validar_datos_vacios_sin_espacios($ci)) {
-		$errors_total[] ='El campo cedula no puede poseer epacios ni estar vacia';
+		$errors_total[] ='El campo cedula no puede poseer espacios ni estar vacia';
 	}else{
 		if  (valid_user($ci) || is_string(valid_user($ci))){
             $errors_total[] = "El usuario no Existe o la cedula es invalida ";
@@ -21,7 +24,11 @@ if (!empty($_POST['enviar'])) {
 ?>
       
 <head>
+
     <link rel="stylesheet" type="text/css" href="../../style/css/estilos_login.css">
+
+                <link rel="stylesheet" href="../../style/bootstrap/bootstrap.min.css">
+
 </head>
     <title>Document</title>
 </head>

@@ -7,6 +7,7 @@
 <?php 
 
 
+var_dump($_SESSION['ci_escolar']);
 
     session_start();
 

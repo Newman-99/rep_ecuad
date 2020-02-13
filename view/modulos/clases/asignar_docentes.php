@@ -1,4 +1,6 @@
 <?php 
+require '../../includes/init_system.php'; 
+
 require '../../includes/head.php';
 
     session_start();
@@ -156,7 +158,7 @@ $id_doc_habilitar = $_POST['id_doc_habilitar'];
 
 	$errors[] = valid_ci($id_doc_habilitar);
 
-	if(!validar_exist_docente($id_doc_habilitar)) {
+	if(!is_exist_docente($id_doc_habilitar)) {
     $errors[]="No hay ningun docente con esta cedula registrado";}
 
 if ($id_funcion_clase == '1') {
@@ -350,5 +352,8 @@ global $db;
      ?>
 
 
-                 <a href="clases.php">Volver</a>
+                 <a class="btn btn-primary btn-lg" style="position:absolute;
+    			bottom:5px;
+				right:10px;" href="clases.php">Volver</a>
+				
 <?php require '../../includes/footer.php' ?>

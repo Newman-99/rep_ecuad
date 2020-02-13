@@ -1,8 +1,13 @@
+
+<?php require '../../../includes/init_system_reg.php'; ?>
+
 <?php require '../../../includes/head_reg_est.php'; ?>
 
 <?php require '../../../includes/header_reg_est.php'; ?>
 
 <?php 
+$confirmar= array();
+
 $errors_1= array();
 
 $errors_2= array();
@@ -182,8 +187,8 @@ $errors_pr[] = valid_ci($id_doc_pr);
        $errors_pr[]='Esta cedula no esta registrada en el sistema';
         }
 
-if (validar_datos_vacios($parentesc_pr)) {
-       $errors_pr[]='El campo Parentesco no puede estar vacio';  
+if (validar_datos_vacios($parentesc_pr,$tlf_emerg)) {
+       $errors_pr[]='El campo Parentesco y Telefono de Emergencia no puede estar vacio';  
 
 }
 
@@ -336,7 +341,7 @@ if (validar_datos_vacios($desc_lleg_retir_transp)) {
 $_SESSION['sesionform3'][$clave] = $valor;
 }
 
-$errors_pr[]= "<a href='reg-estudiante-4.php'>
+$confirmar[]= "<a class='btn btn-primary col-lg-9' href='reg-estudiante-4.php'>
     Confirmar
 </a>";
 
@@ -465,7 +470,7 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                             <textarea name="descrip_vacunas" id="" class="form-control" placeholder="Especifique"><?php if(isset($descrip_vacunas)) echo $descrip_vacunas; ?></textarea>
                                         </div>
                                               
-                                              <?php imprimir_msjs($errors_1); ?>
+                                              <?php imprimir_msjs_no_style($errors_1); ?>
                                   </div>
                                   
                                   <br><br><br><br>
@@ -527,7 +532,7 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                                 <input type="radio" name="anex_infor" id="" value="0"
                                                 <?php if(isset($_POST["anex_infor"])){ if($_POST["anex_infor"] == '0') echo "checked";}else{if(isset($anex_infor)){ if($anex_infor == '0') echo "checked";}}?>>
                                         </div>
-                                                <?php imprimir_msjs($errors_2); ?>
+                                                <?php imprimir_msjs_no_style($errors_2); ?>
 
                                     </div>
 
@@ -568,7 +573,7 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                         </div>
                                     </div>
                             
-                                            <?php imprimir_msjs($errors_3); ?>
+                                            <?php imprimir_msjs_no_style($errors_3); ?>
 
 
                                     <br><br><br><br>
@@ -623,7 +628,7 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                           <p for="" class="">Sexo:</p>
                                           <label for="" class="">Masculino</label>
                                           <input type="radio" <?php if(isset($_POST["sexo_pr"])){ if($_POST["sexo_pr"] == '1') echo "checked";}else{if(isset($sexo_pr)){ if($sexo_pr == '1') echo "checked";}}?> name="sexo_pr" value="1" id="">
-
+                                            <br>
                                           <label for="sexo_pr" class="">Femenino</label>
                                           <input type="radio" name="sexo_pr" <?php if(isset($_POST["sexo_pr"])){ if($_POST["sexo_pr"] == '2') echo "checked";}else{if(isset($sexo_pr)){ if($sexo_pr == '2') echo "checked";}} if(isset($sexo_pr)) if($sexo_pr == '2') echo 'checked';?> value="2" id="">
 
@@ -658,14 +663,17 @@ $errors_pr[]= "<a href='reg-estudiante-4.php'>
                                             <input type="checkbox" <?php if(isset($_POST["si_exist_pr"])){ if($_POST["si_exist_pr"] == '1') echo "checked";}else{if(isset($si_exist_pr)){ if($si_exist_pr == '1') echo "checked";}}?> name="si_exist_pr" value="1" id="">
                                         </div>
                        
+
+                                        <?php imprimir_msjs_no_style($errors_pr); ?>
                                      </div>   
                        
-                                        <?php imprimir_msjs($errors_pr); ?>
 
                                     
                                         <a href="reg-estudiante-2.php" class="btn btn-primary col-lg-2 ">VOLVER</a>
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->                                        
                                         <button type='submit' class="btn btn-primary col-lg-9"value="otros_datos" name ='otros_datos'>CONTINUAR</button>
+
+                                        <?php imprimir_msjs_no_style($confirmar); ?>
 
 
                                 </form>   

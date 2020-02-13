@@ -9,7 +9,9 @@ function validar_datos_vacios(...$datos){
     $comprobador = false;
     
     foreach ($datos as $dato) {
+        
         if(empty($dato) || is_null($dato) || comprobar_var_total_espace($dato)){
+            
             $comprobador = true;
         }
 }
@@ -75,6 +77,15 @@ function validar_nombres_apellidos(...$nombres_apells){
 
     }
 
+function calcula_edad($fecha_nacimiento){
+  list($ano,$mes,$dia) = explode("-",$fecha_nacimiento);
+  $ano_diferencia  = date("Y") - $ano;
+  $mes_diferencia = date("m") - $mes;
+  $dia_diferencia   = date("d") - $dia;
+  if ($dia_diferencia < 0 || $mes_diferencia < 0)
+    $ano_diferencia--;
+  return $ano_diferencia;
+}   
 
 function validar_fecha_sintaxis(...$fechas){
 /*    $valores = explode('/', $fecha);
@@ -454,6 +465,21 @@ $result->execute();
 
 // Obtener el tipo de usuario
 
+function obtener_correp_prs($ci){
+
+global $db;
+
+$sql="SELECT correo FROM contact_basic WHERE id_doc = :id";
+                                
+$result=$db->prepare($sql);
+                        
+$result->bindValue(":id",$ci);
+
+$result->execute();
+
+return $correo=$result->fetchColumn();
+
+}
 function obtener_nivel_permiso($ci){
 
 global $db;
@@ -516,7 +542,10 @@ function imprimir_usuario_bienvenida($ci){
     
     $result->execute();
     
-        echo "<p><table border='1'><caption>Sus Datos: </caption>";
+        echo "<p><table border='1' style='  height: 100px;
+  position: relative;
+  left: 20%;
+'>";
   
         echo "<tr>
     <th>Cedula</th>
@@ -538,7 +567,7 @@ function imprimir_usuario_bienvenida($ci){
     
     <form action='../usuarios/seguridad.php' method='post'>
                         
-    <button type='submit' class='' id='' value=".$registro['id_doc']." name ='modif_pass' >Seguridad</button>
+    <button type='submit' style='' id=registrer class='icon-add' value=".$registro['id_doc']." name ='modif_pass' >Seguridad</button>
     
     </form>
 
@@ -606,7 +635,20 @@ $result->execute(array("id_doc"=>$id_doc,"tlf_local"=>$tlf_local,
 
 }
 
+
+function upd_tlf_emerg($id_doc,$tlf_emergecia){
+    global $db;
+
+    $sql = disable_foreing()." UPDATE contact_basic SET tlf_emergecia = :tlf_emergecia where id_doc = :id_doc; ".enable_foreing();
+
+$result=$db->prepare($sql); 
+                            
+$result->execute(array("id_doc"=>$id_doc,"tlf_emergecia"=>$tlf_emergecia));
+
+}
+
 function actualizar_persona($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$tlf_emergecia =''){
+
 
     global $db;
 
@@ -957,6 +999,69 @@ function tipo_student_x_contrato_clas($id_clase,$id_estado){
    
 }
 
+function tipos_student_consultas($id_clase = '',$id_estado,$anio_escolar1='',$anio_escolar2=''){
+    global $db;
+
+    $sql="SELECT DISTINCT(est.ci_escolar),esc.anio_escolar1,esc.anio_escolar2,esc.grado,esc.id_escolaridad,act.id_actualizacion FROM escolaridad esc 
+    INNER JOIN estudiantes est ON esc.ci_escolar = est.ci_escolar
+    INNER JOIN actualizacion act ON esc.ci_escolar = act.ci_escolar";
+                                    
+   
+    $where = [];
+
+  $campos = [];
+
+
+
+  if (!empty($id_estado)) {
+    array_push($where, 'est.id_estado = :id_estado');
+    $campos[':id_estado'] = [
+      'valor' => $id_estado,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+
+  if (!empty($anio_escolar1)) {
+
+    array_push($where, 'esc.anio_escolar1 = :anio_escolar1');
+    $campos[':anio_escolar1'] = [
+      'valor' => $anio_escolar1,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+  if (!empty($anio_escolar2)) {
+
+    array_push($where, 'esc.anio_escolar2 = :anio_escolar2');
+    $campos[':anio_escolar2'] = [
+      'valor' => $anio_escolar2,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+  if (!empty($where)) {
+    $sql .= ' WHERE ' . implode(' AND ', $where);
+  }
+
+
+$sql .= ' GROUP BY est.ci_escolar ORDER BY act.id_actualizacion DESC ';
+
+
+  $result = $db->prepare($sql);
+
+  foreach($campos as $clave => $valores) {
+    $result->bindParam($clave, $valores['valor'], $valores['tipo']);
+  }
+
+  $result->execute();
+
+   $count=$result->rowCount();
+
+   return $count;
+}
+
+
 function tipo_sexo_student_x_clase($id_clase,$id_sexo){
     global $db;
     $sql=" SELECT in_p.id_sexo FROM clases cl
@@ -969,6 +1074,64 @@ function tipo_sexo_student_x_clase($id_clase,$id_sexo){
     $result=$db->prepare($sql);
                             
     $result->execute(array(":id_sexo"=>$id_sexo,":id_clase"=>$id_clase));
+
+   $count=$result->rowCount();
+
+   return $count;
+   }
+
+
+function tipo_sexo_student_general($id_sexo,$anio_escolar1 = '',$anio_escolar2 =''){
+    global $db;
+    $sql=" SELECT DISTINCT(est.ci_escolar), in_p.id_sexo FROM estudiantes est 
+    INNER JOIN info_personal in_p ON est.ci_escolar = in_p.id_doc
+    INNER JOIN escolaridad esc ON est.ci_escolar = esc.ci_escolar";
+                                    
+ 
+     $where = [];
+
+  $campos = [];
+
+  if (!empty($anio_escolar1)) {
+
+    array_push($where, 'esc.anio_escolar1 = :anio_escolar1');
+    $campos[':anio_escolar1'] = [
+      'valor' => $anio_escolar1,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+  if (!empty($anio_escolar2)) {
+
+    array_push($where, 'esc.anio_escolar2 = :anio_escolar2');
+    $campos[':anio_escolar2'] = [
+      'valor' => $anio_escolar2,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+
+  if (!empty($id_sexo)) {
+
+    array_push($where, 'in_p.id_sexo = :id_sexo');
+    $campos[':id_sexo'] = [
+      'valor' => $id_sexo,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+  if (!empty($where)) {
+    $sql .= ' WHERE ' . implode(' AND ', $where);
+  }
+
+
+  $result = $db->prepare($sql);
+
+  foreach($campos as $clave => $valores) {
+    $result->bindParam($clave, $valores['valor'], $valores['tipo']);
+  }
+
+  $result->execute();
 
    $count=$result->rowCount();
 
@@ -1059,28 +1222,104 @@ $result->execute($parameters);
     }
 
     function asignar_clase_for_estudent($id_clase,$id_estado,$id_actualizacion,$ci_escolar){
+
     global $db;
 
-$parameters = array(
-    ':id_clase'=>$id_clase,    
-    ':id_estado'=>$id_estado,
-    ':id_actualizacion'=>$id_actualizacion,
-    ':ci_escolar'=>$ci_escolar,
 
-);
+if (obten_estado_asign_student($ci_escolar,$id_clase) != 3){
+
+if(is_exist_student_in_clase($ci_escolar)){
+
+$sql = disable_foreing()." UPDATE `estudiantes_asignados` SET `id_estado` = 5  WHERE `ci_escolar` = :ci_escolar; ".enable_foreing();
+
+$parameters = array(':ci_escolar'=>$ci_escolar);
+
+$result=$db->prepare($sql);
+
+$result->execute($parameters);
 
 
 $sql = disable_foreing()." INSERT INTO `estudiantes_asignados`(`id_clase`,`id_estado`,`id_actualizacion`,ci_escolar)
 VALUES (:id_clase,:id_estado,:id_actualizacion,:ci_escolar); ".enable_foreing();
 
+ $parameters = array(
+    ':id_clase'=>$id_clase,    
+    ':id_estado'=>$id_estado,
+    ':id_actualizacion'=>$id_actualizacion,
+    ':ci_escolar'=>$ci_escolar);
+
 $result=$db->prepare($sql);
 
 $result->execute($parameters);
-        
+}else{
+
+$sql = disable_foreing()." UPDATE `estudiantes_asignados` SET `id_estado` = 5  WHERE `ci_escolar` = :ci_escolar; ";
+
+$parameters = array(':ci_escolar'=>$ci_escolar);
+
+$result=$db->prepare($sql);
+
+$result->execute($parameters);
+
+
+
+$sql = disable_foreing()." INSERT INTO `estudiantes_asignados`(`id_clase`,`id_estado`,`id_actualizacion`,ci_escolar)
+VALUES (:id_clase,:id_estado,:id_actualizacion,:ci_escolar); ".enable_foreing();
+
+ $parameters = array(
+    ':id_clase'=>$id_clase,    
+    ':id_estado'=>$id_estado,
+    ':id_actualizacion'=>$id_actualizacion,
+    ':ci_escolar'=>$ci_escolar);
+
+$result=$db->prepare($sql);
+
+$result->execute($parameters);
+}
+
+} 
+
+}
+
+
+
+ function is_exist_student_in_clase($ci_escolar){
+      global $db;
+
+
+$sql="SELECT id_clase FROM `estudiantes_asignados` WHERE `ci_escolar` = :ci_escolar;"; 
+                                
+$result=$db->prepare($sql);
+                        
+$result->bindValue(":ci_escolar",$ci_escolar);
+
+$result->execute();
+
+
+   $count=$result->rowCount();
+    if(!$count == 0){ 
+    return true;
+    }else{
+        return false;
     }
+ }
 
 
+ function obten_estado_asign_student($ci_escolar,$id_clase){
+      global $db;
 
+
+$sql="SELECT id_estado FROM `estudiantes_asignados` WHERE `ci_escolar` = :ci_escolar AND id_clase = :id_clase ;"; 
+                                
+$result=$db->prepare($sql);
+                        
+
+      $result->execute(array("ci_escolar"=>$ci_escolar,"id_clase"=>$id_clase));
+
+return $id_estado=$result->fetchColumn();
+
+
+ }
 
 function is_exist_contrato_clase($id_clase,$id_doc_docent,$id_funcion_docent){
 
@@ -1535,8 +1774,8 @@ function mostrar_user_especifico($id){
 
 global $db;
 
-    $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,ar.descripcion cargo,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN areas ar ON a.id_area = ar.id_area INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr ORDER BY s.ult_sesion DESC
- WHERE s.id_doc = :id";
+    $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,ar.descripcion cargo,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN areas ar ON a.id_area = ar.id_area INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr
+ WHERE s.id_doc = :id ORDER BY s.ult_sesion DESC";
     
     $result=$db->prepare($sql);
 
@@ -1548,11 +1787,8 @@ global $db;
 
 function mostrar_users_todos(){
     global $db;
-            $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,ar.descripcion cargo,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN areas ar ON a.id_area = ar.id_area INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr ORDER BY s.ult_sesion DESC";
-
-            $result=$db->prepare($sql);
-
-            imprimir_usuarios($result);                                    
+            $sql="SELECT s.id_doc,i.nombre,i.apellido_p,i.apellido_m,ar.descripcion cargo,s.ult_sesion, tu.descripcion nivel FROM usuarios s INNER JOIN info_personal i ON s.id_doc = i.id_doc INNER JOIN administrativos a ON a.id_doc_admin = s.id_doc INNER JOIN areas ar ON a.id_area = ar.id_area INNER JOIN tip_user tu ON s.id_tip_usr = tu.id_tip_usr";
+            return $sql;
 }
 
     function imprimir_usuarios ($result){
@@ -1595,7 +1831,7 @@ echo "                  <td>".$id_usr."</td>
                         <form action=".$_SERVER['PHP_SELF']." method='post'>
                         
 
-                            <button type='submit' value=".$id_usr." name='modificar'>Modificar</button>
+                            <button type='submit'  value=".$id_usr." name='modificar' class='icon-cancel' id='button-modi' >Modificar</button>
 
                          <br><br>
 
@@ -1877,18 +2113,20 @@ echo "
 
                         <td>".$registro['correo']."</td>
 
-                        <td>".$registro['fecha_ingreso']."</td>";
+                        <td>".$registro['fecha_ingreso']."</td><td>
+";
 
 
 
                         if(valid_inicio_sesion('2')) {
 
                         echo "
-                    <td>
                     <form action='modif_docent.php' method='post'>
                         
                         <button type='submit' id='button-modi' value=".$registro['id_doc']." name ='modificar'> Modificar</button>
-                    </form>";
+                    </form>
+                    <br><br>
+                    ";
 
                         echo "
 
@@ -1896,7 +2134,9 @@ echo "
                         
                         <button type='submit' class='icon-list1' id='button-modi' value=".$registro['id_doc']." name ='mas_info_docent' >Mas Informacion</button>
                          
-                         </form>";
+                         </form>
+                        <br><br> 
+                         ";
 
                         }
 
@@ -1905,7 +2145,7 @@ echo "
 
                         <button type='submit' id='button-modi' value=".$registro['id_doc']." name ='sus_clases' >Sus Clases</button>
 
-                        </form>";
+                        </form><br><br>";
                         
                         if(valid_inicio_sesion('2')) {
                         echo "
@@ -1914,7 +2154,7 @@ echo "
                         
                         <button type='submit' icon='button-cancel' id='button-modi' value=".$registro['id_doc']." name ='eliminar_docent' >Eliminar</button>
                          
-                         </form>"
+                         </form> <br><br>"
 
                          ;
                      }
@@ -2000,14 +2240,14 @@ echo "
                         
                         <button type='submit' class='icon-list1' id='button-modi' value=".$registro['id_doc']." name ='mas_info_admin' >Mas Informacion</button>
                          
-                         </form>";
+                         </form> <br><br>";
 
 
                 echo "
                     <form action='modif_admin.php' method='post'>
                         
                         <button type='submit' id='button-modi' value=".$registro['id_doc']." name ='modificar'> Modificar</button>
-                    </form>";
+                    </form> <br><br>";
 
                   }
                         if(valid_inicio_sesion('1')) {
@@ -2017,11 +2257,11 @@ echo "
                         
                         <button type='submit' icon='button-cancel' id='button-modi' value=".$registro['id_doc']." name ='eliminar_admin' >Eliminar</button>
                          
-                         </form>"
+                         </form> <br><br>"
 
                          ;
                      }
-                    echo  "<br><br></td></tr>";
+                    echo  "</td></tr>";
                  }
                          
    echo " </table>
@@ -2080,12 +2320,30 @@ function consulta_admins(){
 
 }
 
+function imprimir_msjs_no_style($errors){
+    echo "<br>";
+
+    if(!empty($errors)){
+                    echo "<div style='margin-left:auto; margin-right:auto;'><br>";
+        foreach ($errors as $msjs) {
+echo "<p>".$msjs."</p>";
+        }
+        echo "</div>";
+    }
+}
+
 function imprimir_msjs($errors){
     echo "<br>";
+
     if(!empty($errors)){
+            echo "<div   style='background-color:#B7BBCE; border: gray 1px solid;position:absolute;
+    bottom:5px;
+    right:10px;'><br>";
+
         foreach ($errors as $msjs) {
-            echo "<br><p>$msjs<p>";
+echo "<p>".$msjs."</p>";
         }
+        echo "</div>";
     }
 }
 
@@ -2330,10 +2588,6 @@ if(validar_datos_vacios_sin_espacios($ci_escol_nacidad,$ci_escol_nac_estd,$ci_es
 
 $errors = array();
 
-if (is_exist_student($ci_escolar)) {
-    $errors[] = "La cedula escolar ya existe"; 
-}
-
         if(strcmp($ci_escol_nacidad,'V') != 0 || !strcmp($ci_escol_nacidad,'E') != 0 ){
     $errors[] = "Nacionalidad de la cedula escolar Invalida"; 
         }
@@ -2414,7 +2668,7 @@ return $sql = " SELECT act.ci_escolar, act.id_doc_admin, act.grado, act.fecha, a
 function consulta_escolaridad(){
 return $sql = "
 SELECT es.ci_escolar, es.plantel_proced, es.localidad, 
-es.calif_def, es.repitiente, es.observs,es.grado grado_asign,
+es.calif_def, es.repitiente, es.observs,es.grado ,
 es.id_escolaridad,es.id_actualizacion,ac.fecha,ac.id_doc_admin,es.anio_escolar1,es.anio_escolar2,
 in_p.nombre,in_p.apellido_p,in_p.apellido_m
 FROM escolaridad es
@@ -2487,7 +2741,7 @@ INNER JOIN sexo sx ON in_p.id_sexo = sx.id_sexo
 INNER JOIN nacionalidad nac ON in_p.id_nacionalidad = nac.id_nacionalidad
 INNER JOIN est_civil etc ON in_p.id_estado_civil = etc.id_estado_civil
 INNER JOIN pers_est prsd ON prt.id_doc = prsd.id_doc
-INNER JOIN contact_basic cb ON in_p.id_doc = cb.id_doc";
+LEFT JOIN contact_basic cb ON in_p.id_doc = cb.id_doc";
 }
 
 
@@ -2509,6 +2763,7 @@ function msj_bool($msj){
 
     if (empty($msj)) {
         return "No";
+$indic_opc = $ci_scol;
     }
 
     if ($msj) {
@@ -2522,7 +2777,7 @@ function msj_bool($msj){
 function clases_student(){
 
     return $sql="
-SELECT est.ci_escolar,clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2 FROM estudiantes est
+SELECT est.ci_escolar,clas.grado,clas.seccion,clas.id_turno,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2 FROM estudiantes est
             INNER JOIN estudiantes_asignados ea ON est.ci_escolar = ea.ci_escolar
             INNER JOIN clases clas ON ea.id_clase = clas.id_clase
             INNER JOIN turnos tr ON tr.id_turno = clas.id_turno";}
@@ -2618,6 +2873,51 @@ function is_exist_padre($ci_padre,$ci_escolar ='',$id_tipo_padre = ''){
     }
 }
 
+function obtener_id_padres($ci_escolar ='',$id_tipo_padre = ''){
+    global $db;
+
+    $where = [];
+
+  $campos = [];
+
+
+
+
+      if (!empty($ci_escolar)) {
+    array_push($where, 'ci_escolar = :ci_escolar');
+    $campos[':ci_escolar'] = [
+      'valor' => $ci_escolar,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+      if (!empty($id_tipo_padre)) {
+    array_push($where, 'id_tip_padre = :id_tipo_padre');
+    $campos[':id_tipo_padre'] = [
+      'valor' => $id_tipo_padre,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+ $sql="SELECT * FROM padres";   
+ 
+  if (!empty($where)) {
+    $sql .= ' WHERE ' . implode(' AND ', $where);
+  }
+
+    $result=$db->prepare($sql);
+
+
+  foreach($campos as $clave => $valores) {
+    $result->bindParam($clave, $valores['valor'], $valores['tipo']);
+  }
+  
+    $result->execute();
+
+   $id=$result->fetchColumn();
+
+   return $id;
+}
 function is_exist_pers_estd($ci_represent,$ci_escolar =''){
 
     global $db;
@@ -2735,16 +3035,18 @@ $result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar,"id_doc_new"=
 }
 
 
-function update_data_salud_student($ci_escolar,$ci_escolar_new,
+function update_data_salud_student(
+    $ci_escolar,
+    $ci_escolar_new,
              $est_croni, 
              $desc_croni, 
-             $est_visual, 
-             $desc_visual, 
-             $est_auditivo, 
-             $desc_auditivo, 
-             $est_alergia, 
-             $desc_alergia, 
-             $est_condic_esp, 
+             $est_visual,
+             $desc_visual,
+             $est_auditivo,
+             $desc_auditivo,
+             $est_alergia,
+             $desc_alergia,
+             $est_condic_esp,
              $desc_condic_esp,
              $est_vacuna,
              $desc_vacuna,
@@ -2755,7 +3057,7 @@ function update_data_salud_student($ci_escolar,$ci_escolar_new,
              $desc_otras,
              $desc_medicacion,
              $est_medicacion,
-             $anex_inform
+             $anex_inform 
          ){
 
     global $db;
@@ -3837,4 +4139,57 @@ extract($POST);
 
             <?php 
      }
+
+
+
+function sepadador_ci_escolar($id){ 
+
+// Separar Cedula
+
+    if (preg_match('/V|E/',$id,$coincidencias,PREG_OFFSET_CAPTURE)) {
+               $resultado = $coincidencias[0];
+        $nacionalidad = $resultado[0];
+    } 
+
+if (preg_match('/[0-9]{3}/',$id,$coincidencias,PREG_OFFSET_CAPTURE)) {
+        $resultado = $coincidencias[0];
+        $anio_nac = $resultado[0];
+    }
+
+  $id_madre=obtener_id_padres($id,'1');
+  $id_padre=obtener_id_padres($id,'2');
+
+//var_dump($id_padre);
+$busc_padres='/'.$id_padre."|".$id_madre.'/';
+
+if (preg_match($busc_padres,$id,$coincidencias,PREG_OFFSET_CAPTURE)) {
+        $resultado = $coincidencias[0];
+        $id_padre_ci_escol = $resultado[0];
+    }
+
+
+$ci_scol = preg_replace ( '/'.$nacionalidad.'/','', $id );
+
+$ci_scol = preg_replace ( '/'.$id_padre_ci_escol.'/','', $ci_scol );
+
+$ci_scol = preg_replace ( '/'.$anio_nac.'/','', $ci_scol);
+
+$indic_opc = '';
+
+if(preg_match('/[1-9]{1}/',$ci_scol)) {
+$indic_opc = $ci_scol;
+}
+
+
+return $ci_escolar = array('nacionalidad' => $nacionalidad,'id_padre_ci_escol' => $id_padre_ci_escol,'anio_nac'=>$anio_nac,'indic_opc'=>$indic_opc);
+
+}
+
+function is_ci_escolar_id($id){
+        if (preg_match('/V|E/',$id)) {
+        return true;
+        } 
+        return false;
+}
+
 ?>

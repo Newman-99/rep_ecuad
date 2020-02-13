@@ -1,5 +1,7 @@
 <?php
 
+require '../../includes/init_system.php'; 
+
 require '../../includes/head.php';
     session_start();
  valid_inicio_sesion('2');
@@ -122,6 +124,8 @@ if (!comprobar_msjs_array($errors)) {
 
     <h2>Registro de Clases</h2>
 
+
+
     <h3>Registrar Clase</h3>
     <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
         <br>
@@ -137,10 +141,18 @@ if (!comprobar_msjs_array($errors)) {
         </select>
 
         <br>
-
-        Seccion 
-
-        <input type="text" name="seccion" id="" value="<?php if(isset($seccion)) echo $seccion; ?>">
+        <div class="col-lg-3 my-4">
+         <label for="">Seccion</label>
+        <select name="seccion_escolaridad" id="" autocomplete="on" class="form-control">
+        <option value="" > Seleccione </option>
+            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'A') echo 'selected';?> value="A">A</option>
+            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'B') echo 'selected';?> value="B">B</option>
+            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'C') echo 'selected';?> value="C">C</option>
+            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'D') echo 'selected';?> value="D">D</option>
+            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'E') echo 'selected';?> value="E">E</option>
+            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'F') echo 'selected';?> value="F">F</option>
+        </select>
+        </div>
         <br>
 
 Turno:
@@ -168,10 +180,10 @@ Turno:
         Documento de Identidad - Docente Arte y Cultura <input type="number" name="id_doc_docent_arte_cultura" id="" value="<?php if(isset($id_doc_docent_arte_cultura)) echo $id_doc_docent_arte_cultura; ?>">
         <br>
 
-    <input type="submit" value="Registrar" name="registrar">
+    <input class="btn btn-primary btn-lg" type="submit" value="Registrar" name="registrar">
     </form>
 <br>
-<a href="clases.php">Volver</a>
+<a class="btn btn-primary btn-lg" href="clases.php">Volver</a>
         
 
     <?php

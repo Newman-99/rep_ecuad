@@ -2,38 +2,14 @@
 require './functions/functions.php';
 require './database/connect.php';
     session_start();
+          
+//          var_dump(obten_id_clase_student('34999029'));
 
-/*
-  'grado = '1';
-  $seccion='';
-  $no_aula = '18';
-  $id_turno = '1';
-  $anio_escolar1 = '2018';
-  $anio_escolar2 = '2019';
-$id_clase = '1-A-2018-2019-1';
-$id_new_clase = '1-C-2018-2019-1';
-*/
-/*
-$id_doc_admin = '28117208';
-$id_area = '1';	
-$turno = '1';
-$id_estado = '1';
-$fecha_ingreso = '2019-12-04';
-$fecha_inabilitacion='0000-00-00';
+$correo_pr = '';
 
-/*
-$sql =disable_foreing()." INSERT INTO `administrativos`(`id_doc_admin`, `id_turno`, `id_area`, fecha_ingreso,fecha_inabilitacion,id_estado) VALUES (:id_doc,:id_turno,:id_area,:fecha_ingreso,:fecha_inabilitacion,:id_estado);".enable_foreing();
+if (obtener_correp_prs('1289876w7') != FALSE) {
+$correo_pr = obtener_correp_prs('12898767');
+}
 
-$result=$db->prepare($sql);
-
-$result->execute(array("id_doc"=>$id_doc,"id_area"=>$id_area,"id_turno"=>$turno,"id_estado"=>$id_estado,"fecha_ingreso"=>$fecha_ingreso,"fecha_inabilitacion"=>$fecha_inabilitacion));
-
-var_dump($result);*/
-
-
-//$ci_escolar = 'V19913903883';
-$id_doc = '';
-
-// update_movilidad_student('V19913903884','V19913903883','est_ret','desc_ret','est_tranport','desc_tranport');
-
-// update_person_retirar('5930330','5930331','V19913903883','V19913903884');
+var_dump(obtener_correp_prs("1289876w7"));
+?>

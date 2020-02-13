@@ -42,10 +42,17 @@ if (!empty($_POST['enviar'])) {
 <!DOCTYPE html>
 <html>
     <head>
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial -scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<<<<<<< HEAD
 <link rel="stylesheet" type="text/css" href="../../style/css/estilos_login.css">
                         <link rel="stylesheet" href="../../style/bootstrap/bootstrap.min.css">
+=======
+
+<link rel="stylesheet" type="text/css" href="../../style/css/estilos.css">
+
+>>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e
 
     <title>Inicio</title>
 </head>
@@ -110,12 +117,26 @@ if (!empty($_POST['enviar'])) {
 
         </div>
     </div>
-   
+
+    <div class="bienvenido">
+        <div class="row">
+
+        <div class="col-6">
+        <img src="../../img/i.png" width="80px" height="90px">
+        </div>
+        
+        <div class="col-6 mx-4">
+        <h2>U.E.N "República del Ecuador"</h2>
+        </div>
+
+        </div>
+    </div>
+
 </body>
 </html>
 
 <?php
 
-require'../../includes/footer.php';
+require '../../includes/footer.php';
 
   ?>

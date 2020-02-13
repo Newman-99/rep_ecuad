@@ -1,4 +1,6 @@
 <?php
+require '../../includes/init_system.php'; 
+
 require '../../includes/head.php';
     session_start();
 
@@ -148,7 +150,7 @@ Turno:
     <?php } ?>
 
     <br>
-    <a href='clases.php'>volver</a>
+    <a class="btn btn-primary btn-lg"  href='clases.php'>volver</a>
     <br>
     <br>
 </div>

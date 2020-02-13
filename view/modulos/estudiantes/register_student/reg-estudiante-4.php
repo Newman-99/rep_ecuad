@@ -1,3 +1,5 @@
+<?php require '../../../includes/init_system_reg.php'; ?>
+
 <?php require '../../../includes/head_reg_est.php'; ?>
 
 <?php require '../../../includes/header_reg_est.php'; ?>
@@ -54,6 +56,10 @@ if (isset($_POST["repitiente"])) {
         $errors = valid_ci_scolar_xparte($ci_escol_nacidad,$ci_escol_id_opc,$ci_escol_nac_estd,$ci_escol_ci_mom);
         }
 
+        if (is_exist_student($ci_escolar)) {
+    $errors[] = "La cedula escolar ya existe"; 
+}
+
         if (validar_datos_vacios_sin_espacios($_SESSION['sesionform1']['id_doc_estd']) && validar_datos_vacios_sin_espacios($ci_escolar))  {
         $errors[] = "Debe ingresar la cedula escolar o el documento de identidad del estudiante, tambien pueden ser ambas";                
         }
@@ -85,7 +91,7 @@ $_SESSION['sesionform4'][$clave] = $valor;
 
 }
 
-$errors[]= "<a href='final_register.php'>
+$errors[]= "<a class= 'btn btn-primary col-lg-9 'href='final_register.php'>
     Confirmar
 </a>";
 
@@ -94,6 +100,8 @@ $errors[]= "<a href='final_register.php'>
 }
 
 ?>
+
+            <title>Otros datos de inscripcion y escolaridad</title>
             <div class="container">
 
     <!--------------------------- NOVENO FORMULARIO [ Otros datos de inscripcion y escolaridad ]-->
@@ -201,7 +209,7 @@ $errors[]= "<a href='final_register.php'>
                                             <label for="">Turno</label>
                                             <select name="turno_escolaridad" id="" autocomplete="on" class="form-control">
                                             <option value=""> Seleccione </option>
-                                                <option <?php if(isset($turno_escolaridad)) if($turno_escolaridad == '1') echo 'selected';?> value="1">mañana</option>
+                                                <option <?php if(isset($turno_escolaridad)) if($turno_escolaridad == '1') echo 'selected';?> value="1">Mañana</option>
                                                 <option <?php if(isset($turno_escolaridad)) if($turno_escolaridad == '2') echo 'selected';?> value="2">Tarde</option>
                                             </select>
                                         </div>
@@ -237,12 +245,13 @@ $errors[]= "<a href='final_register.php'>
                                         </div>
                                     </div> 
                                             
-                                    <?php imprimir_msjs($errors); ?>
 
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
-                                    <a href="reg-estudiante-3.html" class="btn btn-primary col-lg-2">VOLVER</a>
+                                    <a href="reg-estudiante-3.php" class="btn btn-primary col-lg-2">VOLVER</a>
 
-                                    <button type='submit' class="btn btn-primary col-lg-9 " value="inscrip_escol" name='inscrip_escol'>CONTINUAR</button>
+                                    <button type='submit' class="btn btn-primary col-lg-9" value="inscrip_escol" name='inscrip_escol'>CONTINUAR</button>
+                                    <?php imprimir_msjs_no_style($errors); ?>
+                                    
                                 
                                 </form>   
                             

@@ -1,6 +1,9 @@
+<?php require '../../../includes/init_system_reg.php'; ?>
+
 <?php require '../../../includes/head_reg_est.php'; ?>
 
 <?php require '../../../includes/header_reg_est.php'; ?>
+
 
 
 <?php 
@@ -74,17 +77,6 @@ $_SESSION['sesionform5'][$clave] = $valor;
                                             
                                                 <h3 class="form-titulo2">Datos del Estudiante</h3>
                                               
-                                                <label for="">Grado</label>
-                                              
-                                                <select class="form-control" name="grado_updat">
-                                                    <option value="">-- Seleccione --</option>
-                                                    <option <?php if(isset($grado_updat)) if($grado_updat == '1') echo 'selected'; ?> value="1">1º Grado</option>
-                                                    <option <?php if(isset($grado_updat)) if($grado_updat == '2') echo 'selected'; ?> value="2">2º Grado</option>
-                                                    <option <?php if(isset($grado_updat)) if($grado_updat == '3') echo 'selected'; ?> value="3">3º Grado</option>
-                                                    <option <?php if(isset($grado_updat)) if($grado_updat == '4') echo 'selected'; ?> value="4">4º Grado</option>
-                                                    <option <?php if(isset($grado_updat)) if($grado_updat == '5') echo 'selected'; ?> value="5">5º Grado</option>
-                                                    <option <?php if(isset($grado_updat)) if($grado_updat == '6') echo 'selected'; ?> value="6">6º Grado</option>
-                                                </select>
                                                   
                                                 <label for="" class="my-2">Fecha</label>
                                                 <input type="date" name="fecha_upadt" value="<?php /*if(isset($fecha_upadt))*/ echo obtener_fecha_sistema(); ?>" id=""  class="form-control">

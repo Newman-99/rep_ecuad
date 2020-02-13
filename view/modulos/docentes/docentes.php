@@ -1,14 +1,18 @@
+<?php require '../../includes/init_system.php'; ?>
 <?php
 
 require '../../includes/head.php';
     session_start();
  valid_inicio_sesion('3');
+
+$errors=array();
 ?>
 	    <title>Docentes</title>
 		
 		<?php require '../../includes/header.php' ?>
 	   
 
+<<<<<<< HEAD
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="../../style/css/styless.css">
 <header class="top">
@@ -17,15 +21,18 @@ require '../../includes/head.php';
 			</ul>
 	   </header>
 	<section class="">
+=======
+
+
+
+	<section>
+>>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e
 		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
 			
 			<input type="search" class="search" placeholder="Ingrese Cedula" name="ci_docente" value="<?php if(isset($_POST['ci_docente'])) echo $_POST['ci_docente'];?>">
 			
 			
 			<button id=button class="icon-search" type="submit" name="por_cedula" value="por_cedula">Buscar</button>			
-
-				<br>
-				<br>
 
 				Funcion: 
 				<select name="id_funcion_docent">
@@ -54,14 +61,15 @@ require '../../includes/head.php';
 
 			<button id=button class="icon-search" type="submit" name="por_criterios" value="buscar_docent">Buscar</button>			
 
+			
+			<a href="register_docent.php" style="" id=registrer class="icon-add">Registrar Nuevo Docente</a>
+
+<br>
+			
 
 		</form>
 
 
-			<br>
-			<a href="register_docent.php" style="" id=registrer class="icon-add">Registrar Nuevo Docente</a>
-
-			<br>
 	
 		<?php 
 
@@ -157,11 +165,7 @@ imprimir_docentes($result);
 
 <?php
 
-    if(!empty($errors)){
-        foreach ($errors as $msjs) {
-            echo "<h4 style = 'margin-top:0%;'>$msjs</h4>";
-        }
-    } 
+imprimir_msjs($errors); 
 
 include '../../includes/footer.php';
  

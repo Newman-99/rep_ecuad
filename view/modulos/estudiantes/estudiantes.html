@@ -1,8 +1,14 @@
 <?php 
+require '../../includes/init_system.php'; 
+
 require  '../../includes/head.php';
 $errors = array();
  session_start();
  valid_inicio_sesion('3');
+
+if (isset($_SESSION['ci_escolar'])) {
+  unset($_SESSION['ci_escolar']);
+}
 
 ?>
 <header class="top">
@@ -18,6 +24,7 @@ $errors = array();
 	<section>
 		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
 			
+      Buscar Por: 
 			<input type="search" class="search" placeholder="Cédula escolar o normal" name="ci_estudiante" value="<?php if(isset($ci)) echo $ci;?>">
 			<br>
 
@@ -74,16 +81,26 @@ $errors = array();
             <option value="1">Mañana</option>
             <option value="2">Tarde</option>
         </select> 
-
+-->
         Año Escolar 
 
-        <input type="number" name="año_escolar1" id="" value="<?php if(isset($anio_escolar2)) echo $anio_escolar1; ?>">
+        <input type="number" name="año_escolar1" id="" value="<?php if(isset($anio_escolar1)) echo $anio_escolar1; ?>">
 
         <input type="number" name="año_escolar2" id="" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
+<<<<<<< HEAD:view/modulos/estudiantes/estudiantes.html
+=======
+
+|
+
+Persona Relacionada: 
+      <input type="search" class="" placeholder="Documento de identidad" name="id_doc_pers_estd" value="<?php if(isset($id_doc_pers_estd)) echo $id_doc_pers_estd;?>">
+
+  			<button id=button name="buscar" value="buscar" class="icon-search" type="submit">Buscar</button>
+>>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e:view/modulos/estudiantes/estudiantes.php
 
 			<button id=button name="buscar" value="buscar" class="icon-search" type="submit">Buscar</button>
 
-			<a href="./register_student/reg-estudiante-1.php" style="float:right;margin-top:80px;margin-right:180px;">Registrar Nuevo Estudiante</a>
+			<a href="./register_student/reg-estudiante-1.php" id=registrer class="icon-add";>Registrar Nuevo Estudiante</a>
 
 		</form>
 
@@ -96,6 +113,7 @@ $ci = htmlentities(addslashes($_POST['ci_estudiante']));
     $grado = htmlentities(addslashes($_POST["grado"]));
 
     $grado_design = htmlentities(addslashes($_POST["grado_design"]));
+<<<<<<< HEAD:view/modulos/estudiantes/estudiantes.html
 
     $seccion = htmlentities(addslashes($_POST["seccion"]));
 
@@ -104,6 +122,15 @@ $ci = htmlentities(addslashes($_POST['ci_estudiante']));
 //    $no_aula = htmlentities(addslashes($_POST["no_aula"]));
 //    
 			$ci=trim($ci);
+=======
+
+//    $seccion = htmlentities(addslashes($_POST["seccion"]));
+
+ 
+    $id_doc_pers_estd = htmlentities(addslashes($_POST["id_doc_pers_estd"]));
+			
+      $ci=trim($ci);
+>>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e:view/modulos/estudiantes/estudiantes.php
 
     if (!empty($ci)){
 
@@ -115,7 +142,10 @@ if(!is_exist_student($ci)){
     $anio_escolar1 = htmlentities(addslashes($_POST["año_escolar1"]));
 
     $anio_escolar2 = htmlentities(addslashes($_POST["año_escolar2"]));
+<<<<<<< HEAD:view/modulos/estudiantes/estudiantes.html
 
+=======
+>>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e:view/modulos/estudiantes/estudiantes.php
     if (!empty($grado)){
 
     		$errors[]= validar_grado($grado);
@@ -131,13 +161,14 @@ if(!is_exist_student($ci)){
 
 				if (!comprobar_msjs_array($errors)) {
 
-			$sql=" SELECT DISTINCT est.ci_escolar, est.id_doc,in_p.nombre,in_p.apellido_p,in_p.apellido_m, edo.descripcion estado,es.grado grado_design, clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2 FROM estudiantes est 
+			$sql=" SELECT DISTINCT est.ci_escolar,prsd.id_doc, est.id_doc,in_p.nombre,in_p.apellido_p,in_p.apellido_m, edo.descripcion estado,es.grado grado_design, clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2,es.id_actualizacion id_es,ea.id_actualizacion id_ea FROM estudiantes est 
 LEFT OUTER JOIN info_personal in_p ON est.ci_escolar = in_p.id_doc 
 LEFT OUTER JOIN estudiantes_asignados ea ON est.ci_escolar = ea.ci_escolar 
 LEFT OUTER JOIN clases clas ON ea.id_clase = clas.id_clase 
 LEFT OUTER JOIN turnos tr ON tr.id_turno = clas.id_turno 
 LEFT OUTER JOIN escolaridad es ON est.ci_escolar = es.ci_escolar 
-LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
+LEFT OUTER JOIN pers_est prsd ON est.ci_escolar = prsd.ci_escolar
+LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
 
 			  $where = [];
 
@@ -206,19 +237,35 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
     ];
   }
 
+  if (!empty($id_doc_pers_estd)) {
+    array_push($where, 'prsd.id_doc = :id_doc_pers_estd');
+    $campos[':id_doc_pers_estd'] = [
+      'valor' => $id_doc_pers_estd,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
 
   if (!empty($where)) {
     $sql .= ' WHERE ' . implode(' AND ', $where);
   }
- $sql.=" ORDER BY in_p.nombre";
+
+ $sql.="  GROUP BY es.ci_escolar ORDER BY in_p.nombre, es.id_actualizacion DESC,ea.id_actualizacion DESC";
+
+  
+
+  if (!empty($ci)) {
+ $sql.=" LIMIT 1";
+}
+
   $result = $db->prepare($sql);
+
 
   foreach($campos as $clave => $valores) {
     $result->bindParam($clave, $valores['valor'], $valores['tipo']);
   }
 
   $result->execute();
-
 			if ($result->rowCount() == 0) {
 	$errors[] = "No hay criterios que concidan con su busqueda";
 	}else{
@@ -237,6 +284,7 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
 						<th>Clase</th>
 
 						 <th></th>
+
  			            </tr>
  		            </thead>
  		            
@@ -256,15 +304,14 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
 						 <td>
 
 
-
                      <?php    if(valid_inicio_sesion('2')) {  ?>
 
-                    <td>
-                    <form action='./update_student/upd-estudiante-1.php' method='post'>
+                    <form action='./menu_upd_student.php' method='post'>
                         
                         <button type='submit' id='button-modi1' value="<?php echo $registro['ci_escolar']; ?>" name ='update_student'> Actualizar</button>
                     </form>
 
+                  <br><br> 
 
                         <form action='mas_info_student.php' pethod='post'>
                         
@@ -272,26 +319,29 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado";
                          
                          </form>
 
+<br><br>
                         <?php } ?>
 
                         
                       <?php  if(valid_inicio_sesion('2')) { ?>
 
+<<<<<<< HEAD:view/modulos/estudiantes/estudiantes.html
                      
                         <form action='eliminar_destudiante.php' method='post'>
+=======
+                        <form action='#' method='post'>
+>>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e:view/modulos/estudiantes/estudiantes.php
                         
                         <button type='submit' icon='button-cancel' id='button-modi' value=".$registro['ci_escolar']." name ='eliminar_estudiantet' >Eliminar</button>
                          
                          </form>
 
-                    
+                  <br><br></td>
                      <?php } ?>
-
-                  <br><br></td></tr>
-						</td>
 	<?php  }
 
-echo " 		            </tr>
+echo " 		            
+</tr>
  	            </table>
             </div>
 ";

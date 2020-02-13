@@ -1,16 +1,18 @@
-<? require '../../includes/head.php';
+<?php require '../../includes/init_system.php'; ?>
+
+<?php require '../../includes/head.php';
     session_start();
 
  valid_inicio_sesion('2');
         
 $errors = array();
 
-
+var_dump($_POST['mas_info_docent']);
 if (!empty($_POST['mas_info_docent'])) {
+    $_SESSION["id_doc"] = htmlentities(addslashes($_POST["mas_info_docent"])); 
 
-    $id_doc = htmlentities(addslashes($_POST["mas_info_docent"])); 
 }
-
+$id_doc =$_SESSION["id_doc"];
 ?>
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="../../style/css/styless.css">
@@ -25,8 +27,12 @@ if (!empty($_POST['mas_info_docent'])) {
 <?php require '../../includes/header.php' ?>
 
 
+<<<<<<< HEAD
     <form action='<?php htmlspecialchars($_SERVER['PHP_SELF'])?>' method='post'>
         <br>
+=======
+    <h2>Mas Informacion del Docente</h2>
+>>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e
 <?php
 
     $sql = consulta_docentes()." WHERE doc.id_doc_docent = :id_doc;";
@@ -34,6 +40,7 @@ if (!empty($_POST['mas_info_docent'])) {
     $result=$db->prepare($sql);
     
     $result->bindValue(":id_doc",$id_doc);
+
     $result->execute();
 
 
@@ -147,7 +154,6 @@ echo "
             </div>";
 ?>
 
-    <a href='docentes.php'>volver</a>
 
     <?php
     if(!empty($errors)){
@@ -157,9 +163,8 @@ echo "
     }
 
     ?>
-
-<?php 
-
-require'../../includes/footer.php';
-
- ?>
+    
+    <a class="btn btn-primary" style="position:absolute;
+    bottom:5px;
+    right:10px;" href='docentes.php'>volver</a>
+    

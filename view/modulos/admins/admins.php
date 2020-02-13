@@ -1,3 +1,5 @@
+<?php require '../../includes/init_system.php'; ?>
+
 <?php 
 require '../../includes/head.php';
     session_start();
@@ -18,9 +20,6 @@ require '../../includes/head.php';
 			
 			<button id=button class="icon-search" type="submit" name="por_cedula" value="por_cedula">Buscar</button>			
 
-				<br>
-				<br>
-				
 				Area: 
 				<select name="id_area">
 				
@@ -49,15 +48,14 @@ require '../../includes/head.php';
 
 
 			<button id=button class="icon-search" type="submit" name="por_criterios" value="buscar_docent">Buscar</button>			
+			
+			<a href="reg_admin.php" style="position:absolute; " id=registrer class="icon-add">Registrar Nuevo Administrativo</a>
 
-
+			<br>
+			
 		</form>
 
 
-			<br>
-			<a href="reg_admin.php" style="" id=registrer class="icon-add">Registrar Nuevo Administrativo</a>
-
-			<br>
 			<?php 
 
 	if(!empty($_POST['por_cedula'])){
@@ -146,6 +144,7 @@ imprimir_admins($result);
             </div>
 	    </section>
 <?php
+
 
     if(!empty($errors)){
         foreach ($errors as $msjs) {

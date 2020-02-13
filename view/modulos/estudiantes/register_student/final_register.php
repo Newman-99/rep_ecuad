@@ -1,3 +1,5 @@
+<?php require '../../../includes/init_system_reg.php'; ?>
+
 <?php require '../../../includes/head_reg_est.php'; ?>
 
 <?php require '../../../includes/header_reg_est.php'; ?>
@@ -124,11 +126,14 @@ regist_other_data_student($ci_escolar,$nro_pers_viven,$hermanos,$descrip_herma);
 
 // Proceso de registro de la madre
 
+
  $nombres_m=$nombre1_m." ".$nombre2_m;
  
 if(empty($no_register_m)) {
 
+
  registrar_padres($id_doc_m,'1',$ci_escolar,$convivencia_m,$ocupacion_m,'Madre',$nacionalidad_m,$nombres_m,$apellido_p_m,$apellido_m_m,'2',$fecha_nac_m,$estado_civil_m,$lugar_nac_m,$direcc_hab_m,$tlf_cel_m,$tlf_local_m,$correo_m);
+
 
   registrar_datos_laborales($id_doc_m,$prof_ofi_m,$lug_trab_m,$direcc_trab_m,$tlf_ofic_m);
 
@@ -141,14 +146,15 @@ if(empty($no_register_m)) {
 
  $nombres_p=$nombre1_p." ".$nombre2_p;
  
-if(empty($no_register_p)) {
+ if(empty($no_register_p)) {
 
  registrar_padres($id_doc_p,'2',$ci_escolar,$convivencia_p,$ocupacion_p,'Padre',$nacionalidad_p,$nombres_p,$apellido_p_p,$apellido_m_p,'1',$fecha_nac_p,$estado_civil_p,$lugar_nac_p,$direcc_hab_p,$tlf_cel_p,$tlf_local_p,$correo_p);
-  registrar_datos_laborales($id_doc_p,$prof_ofic_p,$lugar_trab_p,$direcc_trab_p,$tlf_ofic_p);
+  registrar_datos_laborales($id_doc_p,$prof_ofi_p,$lug_trab_p,$direcc_trab_p,$tlf_ofic_p);
 
  if (!empty($is_represent_p)) {
  registrar_representantes($id_doc_p,$ci_escolar);
  }
+
 }
     
 
@@ -201,8 +207,9 @@ $id_actualizacion=obtener_ultimo_id_actualizacion();
 
           $id_clase = generador_id_clases($grado_escolaridad,$seccion_escolaridad,$anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$turno_escolaridad);
 
+
          if (is_exist_clase($id_clase)) {
-            asignar_clase_for_estudent($id_clase,'1',$id_actualizacion,$_SESSION['sesionform1']['id_doc_estd']);
+            asignar_clase_for_estudent($id_clase,'3',$id_actualizacion,$ci_escolar);
           }
 
 //Registrar datos de movilidad del estudiante
@@ -210,19 +217,24 @@ $id_actualizacion=obtener_ultimo_id_actualizacion();
 
 // Registrar persona retirar
 
- registrar_persona($nacionalidad_pr,$id_doc_pr,$nombres_pr,$apellido_p_pr,$apellido_m_pr,$sexo_pr,'',$estado_civil_pr,'','',$tlf_cel_pr,$tlf_local_pr,'',$tlf_emerg);
+if (!empty($si_exist_pr)) {
 
- registrar_person_estudiantes($id_doc_pr,$ci_escolar,'','',$parentesc_pr);
+ registrar_persona($nacionalidad_pr,$id_doc_pr,$nombres_pr,$apellido_p_pr,$apellido_m_pr,$sexo_pr,'',$estado_civil_pr,'','',$tlf_cel_pr,$tlf_local_pr,'',$tlf_emerg);
+}
+
+
+ registrar_person_estudiantes($id_doc_pr,$ci_escolar,0,'',$parentesc_pr);
 
   registrar_pers_retirar($id_doc_pr,$ci_escolar);
+
+upd_tlf_emerg($id_doc_pr,$tlf_emerg);
 
 // Registro de datos de actualizacion
 
 
 // Registro de datos y escolaridad
-/*
+
 registrar_inscrip_scolaridad($ci_escolar,$plantel_proced,$localidad,$anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$grado_escolaridad,$calif_escolaridad,$repitiente,$observacions,$id_actualizacion);
-*/
 ?>
 
     <!--formularios-->
@@ -237,7 +249,6 @@ registrar_inscrip_scolaridad($ci_escolar,$plantel_proced,$localidad,$anio_escola
                                         <div class="col-lg-12">
                                             <h3 class="form-titulo"> Estudiante registrado con exito
 <!----------------------------------------- INSERTA FORM ACA EN EL DIV y por ahí vas entre lg-6 o 12 ---------------->
-                            <button type='submit' class="btn btn-primary btn-block btn-lg"value="data_update" name ='data_update'>Continuar</button>
 </h3>
                             <?php imprimir_msjs($errors); ?>
 
@@ -251,3 +262,11 @@ registrar_inscrip_scolaridad($ci_escolar,$plantel_proced,$localidad,$anio_escola
             </div>
 
 <?php require '../../../includes/footer_reg_est.php'; ?>
+
+<?php unset($_SESSION['sesionform1']);
+unset($_SESSION['sesionform2']);
+unset($_SESSION['sesionform3']);
+unset($_SESSION['sesionform4']);
+unset($_SESSION['ci_escolar']);
+
+ ?>

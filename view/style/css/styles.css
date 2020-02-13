@@ -8,6 +8,7 @@ ul{
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+
 }
 
 body {
@@ -15,7 +16,9 @@ body {
     background-attachment: fixed;
     font-family: Roboto;
     background-color: #E1ECF5;
-    margin:20px;}
+    margin:20px;
+    padding:20px;
+  }
 
 /* estilos de */
 .top{
@@ -76,6 +79,7 @@ body {
 th{
 	width: 30px;
 }
+/*
 button {
     background:#ffa64d;
     color: #000
@@ -93,13 +97,13 @@ button {
     border-radius: 10px;
     margin-top: 12%;
 }
-
+*/
 input[type="submit"]:hover {
     background:#fff;
     color: #000;
 }
 input[type="submit"]:hover{
-    opacity: 0.75;
+    opacity: 0
 }
 
 .search{
@@ -109,22 +113,25 @@ input[type="submit"]:hover{
      display:     ;
      position: absolute;
      right: 15%;
-     top: 35%;
+     top: 25%;
      border-radius: 10px;
 }
+
 .tabla{
    /* margin: 100px auto;*/
-   margin-top:150px;
-    margin-left:-90px;
-    margin-right: 250px;
+   margin-top:100px;
+    margin-left:-150px;
+    margin-right: 50px;
+
     left: 30%;
-    width: 90%;
+    width: 30%;
     height: 200px;
     max-width: 70%;
-    position:absolute;
+    position:relative;
     font-size: 20px;
 
 }
+
 table{
 	background-color: #F5F8F5;
 	text-align: left;
