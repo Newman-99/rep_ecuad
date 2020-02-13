@@ -2782,6 +2782,7 @@ SELECT est.ci_escolar,clas.grado,clas.seccion,clas.id_turno,tr.descripcion turno
             INNER JOIN clases clas ON ea.id_clase = clas.id_clase
             INNER JOIN turnos tr ON tr.id_turno = clas.id_turno";}
 
+
 function is_exist_represent($ci_represent,$ci_escolar =''){
     global $db;
 
@@ -2812,6 +2813,55 @@ function is_exist_represent($ci_represent,$ci_escolar =''){
     }else{
         return true;
     }
+}
+
+function obtener_id_represent($ci_represent = '',$ci_escolar =''){
+
+    global $db;
+
+    $where = [];
+
+  $campos = [];
+
+
+
+
+      if (!empty($ci_escolar)) {
+    array_push($where, 'ci_escolar = :ci_escolar');
+    $campos[':ci_escolar'] = [
+      'valor' => $ci_escolar,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+      if (!empty($ci_represent)) {
+    array_push($where, 'id_doc = :ci_represent');
+    $campos[':ci_represent'] = [
+      'valor' => $ci_represent,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+    $sql="SELECT * FROM representantes";                  
+ 
+  if (!empty($where)) {
+    $sql .= ' WHERE ' . implode(' AND ', $where);
+  }
+
+    $result=$db->prepare($sql);
+
+
+  foreach($campos as $clave => $valores) {
+    $result->bindParam($clave, $valores['valor'], $valores['tipo']);
+  }
+  
+    $result->execute();
+
+   $id=$result->fetchColumn();
+
+   return $id;
+
+
 }
 
 
@@ -2918,6 +2968,8 @@ function obtener_id_padres($ci_escolar ='',$id_tipo_padre = ''){
 
    return $id;
 }
+
+
 function is_exist_pers_estd($ci_represent,$ci_escolar =''){
 
     global $db;
