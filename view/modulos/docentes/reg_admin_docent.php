@@ -51,83 +51,20 @@ if (!comprobar_msjs_array($errors)) {
 
 }
 }
-<meta charset="utf-8">
 
 ?>
-<link rel="stylesheet" type="text/css" href="../../style/css/styless.css">
-
     <title>Registro de Docentes</title>
-<header class="top">
-           <ul style="background-image: url('../../img/th6.jpg');">
-                <li><img src="../../img/i.png" width="80px" height="70px" style="" ><br><p> U-E-N "República del Ecuador"</p></li>
-            </ul>
-       </header>
+
 
 <?php require '../../includes/header.php' ?>
 
-<<<<<<< HEAD
-<div class="container-re">
-    <br>
-    <h2>Registro de personal Docente</h2>
-    <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
-        <br>
-        Documento de Identidad
-
-         <input type="number" name="id_doc" id="" value="<?php if(isset($id_doc)) echo $id_doc; ?>">
-
-        <br>
-        Funcion del docente: 
-        <select name="funcion_docent" id="">
-                        <option value=""></option>
-
-            <option <?php if(isset($funcion_docent)) if($funcion_docent == '1') echo 'selected';?> value="1">En aula</option>
-
-            <option <?php if(isset($funcion_docent)) if($funcion_docent == '2') echo 'selected'; ?> value="2" >Educuacion Fisica</option>
-
-            <option <?php if(isset($funcion_docent)) if($funcion_docent == '3') echo 'selected';?> value="3">Arte y Cultura</option>
-        </select>
-        
-        <br>
-        Turno:
-        <select name="turno" id="">
-
-            <option value=""></option>
-
-            <option <?php if(isset($turno)) if($turno == '1') echo 'selected';?> value="1">Mañana</option>
-            <option <?php if(isset($turno)) if($turno == '2') echo 'selected';?> value="2">Tarde</option>
-        </select> 
-    <br>
-        Fecha de Ingreso:
-        <input type="date" name="fecha_ingreso" id="" value="<?php if(isset($fecha_ingreso)) echo $fecha_ingreso; ?>">
-        <br>
-
-        <input type="submit" value="Registrar" name="registrar" class="reg">
-    </form>
-=======
 <h2>Registro de personal Docente</h2>
 
 <div class="container"> <!-- container -->
->>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e
 
     <div class="row">    
         <div class="col-lg-12">
     
-<<<<<<< HEAD
-    <br>
-    <a href="register_docent.php" style="color: #fff;">volver</a>
-    <br>
-    <br>
-</div>
-    <?php
-    if(!empty($errors)){
-        foreach ($errors as $msjs) {
-            echo "<p>$msjs<p>";
-        }
-    }
-
-    ?>
-
-=======
             <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post" class="form-group text-center">
 
                     <div class="col-12">
@@ -185,7 +122,6 @@ if (!comprobar_msjs_array($errors)) {
 <!-- Container -->
 </div> 
    
->>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e
 <?php 
 
 require'../../includes/footer.php';

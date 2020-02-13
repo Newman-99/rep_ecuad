@@ -72,11 +72,12 @@ $errors[]= 'Cambios registrados con exito';
 }
 
 ?>
-<link rel="stylesheet" type="text/css" href="../../style/css/styless.css">
+
     <title>Modificacion de Clases</title>
 
 
 <?php require '../../includes/header.php' ?>
+
 
     <h2>Modificacion de Clases</h2>
 
@@ -102,9 +103,9 @@ $errors[]= 'Cambios registrados con exito';
 
 
 while($registro=$result->fetch(PDO::FETCH_ASSOC)){
-?><div class="container-re">
-
-    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" >
+?>
+         
+    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
         <br>
 
 
@@ -144,7 +145,7 @@ Turno:
 
         <br>
 
-    <?php echo "<button type='submit' id='button' name='save_docent' value=".$id_clase.">Guardar</button>";?>
+    <?php echo "<button type='submit' id='button-modi' name='save_docent' value=".$id_clase.">Guardar</button>";?>
 
     </form>
     <?php } ?>
@@ -153,7 +154,7 @@ Turno:
     <a class="btn btn-primary btn-lg"  href='clases.php'>volver</a>
     <br>
     <br>
-</div>
+
     <?php
     if(!empty($errors)){
         foreach ($errors as $msjs) {

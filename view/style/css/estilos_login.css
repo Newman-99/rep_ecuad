@@ -60,15 +60,7 @@ body {
     text-decoration: none;
     margin-left: 300px;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 .contenedor input[type="pass"]{
-=======
-.contenedor input[type="password"]{
->>>>>>> c6a719af3939eb70a04dc6b3d2bd300e58effafd
-=======
-.contenedor input[type="pass"]{
->>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e
   width: 40%;
     padding: 6px 6px;
     margin-left: 10px;

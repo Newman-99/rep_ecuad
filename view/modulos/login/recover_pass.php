@@ -14,7 +14,11 @@ if (!empty($_POST['enviar'])) {
             $errors_total[] = "El usuario no Existe o la cedula es invalida ";
         }else{
 
-       
+        $errors_total[]= "  <form id='signupform' role='form' action='answers.php' method='POST' autocomplete='on'>
+            
+            <button id=button class='icon-search' type='submit' name='id_usr' value=".$ci.">Confirmar</button>
+            
+            </form>";
         }
 	}
 
@@ -36,24 +40,16 @@ if (!empty($_POST['enviar'])) {
 <div class="contenedor">
         <div class="formulario">
             <h3>Cuenta que desea Recuperar</h3>
-<br>
-<br>
+
     <form id="signupform" role="form" action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>"
     method="POST" autocomplete="on">
                 
             <input type="text" name="ci" value="<?php if(isset($ci)) echo $ci; ?>" placeholder="Número de Cédula">
 
-                <input type="submit" value="iniciar" name="enviar" id="button">
+                <input type="submit" value="iniciar" name="enviar">
             </form>
         </div>
-        <br>
-        <br>
         <a href="log.php">Volver</a>
-         $errors_total[]= "  <form id='signupform' role='form' action='answers.php' method='POST' autocomplete='on'>
-            
-            <button id=button class='icon-search' type='submit' name='id_usr' value=".$ci.">Confirmar</button>
-            
-            </form>";
 
 </div>
 

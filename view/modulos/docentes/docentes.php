@@ -12,21 +12,10 @@ $errors=array();
 		<?php require '../../includes/header.php' ?>
 	   
 
-<<<<<<< HEAD
-<meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="../../style/css/styless.css">
-<header class="top">
-		   <ul style="background-image: url('../../img/th6.jpg');">
-				<li><img src="../../img/i.png" width="80px" height="70px" style="" ><br><p> U-E-N "República del Ecuador"</p></li>
-			</ul>
-	   </header>
-	<section class="">
-=======
 
 
 
 	<section>
->>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e
 		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
 			
 			<input type="search" class="search" placeholder="Ingrese Cedula" name="ci_docente" value="<?php if(isset($_POST['ci_docente'])) echo $_POST['ci_docente'];?>">

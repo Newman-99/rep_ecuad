@@ -83,10 +83,7 @@ body {
 th{
 	width: 30px;
 }
-<<<<<<< HEAD
-=======
 /*
->>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e
 button {
     background:#ffa64d;
     color: #000
@@ -104,11 +101,7 @@ button {
     border-radius: 10px;
     margin-top: 12%;
 }
-<<<<<<< HEAD
-
-=======
 */
->>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e
 input[type="submit"]:hover {
     background:#fff;
     color: #000;
@@ -136,17 +129,10 @@ input[type="submit"]:hover{
      display:     ;
      position: absolute;
      right: 15%;
-<<<<<<< HEAD
-     top: 35%;
-     border-radius: 10px;
-}
-
-=======
      top: 25%;
      border-radius: 10px;
 }
   
->>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e
 .tabla{
  margin-top:95px;
     margin-left:300px;
@@ -156,13 +142,8 @@ input[type="submit"]:hover{
     height: 200px;
     max-width: 70%;
     font-size: 20px;
-<<<<<<< HEAD
-
-}
-=======
 }
 
->>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e
 .tabla2{
    /* margin: 100px auto;*/
    margin-top:80px;
@@ -844,10 +825,7 @@ text-align: center;
   cursor: pointer;
   color: #fff;
 }
-<<<<<<< HEAD
-=======
 /*
->>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e
 .btn{
 background:#75A3C7;
     color: #000
@@ -863,10 +841,7 @@ background:#75A3C7;
     border-radius: 10px;
     margin-top:-2%;  
 }
-<<<<<<< HEAD
-=======
 */
->>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e
 .name{
  outline: none;
     display: inline-flex;

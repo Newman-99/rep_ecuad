@@ -45,14 +45,9 @@ if (!empty($_POST['enviar'])) {
 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial -scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<<<<<<< HEAD
-<link rel="stylesheet" type="text/css" href="../../style/css/estilos_login.css">
-                        <link rel="stylesheet" href="../../style/bootstrap/bootstrap.min.css">
-=======
 
 <link rel="stylesheet" type="text/css" href="../../style/css/estilos.css">
 
->>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e
 
     <title>Inicio</title>
 </head>

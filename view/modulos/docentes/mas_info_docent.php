@@ -14,25 +14,14 @@ if (!empty($_POST['mas_info_docent'])) {
 }
 $id_doc =$_SESSION["id_doc"];
 ?>
-<meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="../../style/css/styless.css">
-<header class="top">
-           <ul style="background-image: url('../../img/th6.jpg');">
-                <li><img src="../../img/i.png" width="80px" height="70px" style="" ><br><p> U-E-N "República del Ecuador"</p></li>
-            </ul>
-       </header>
 
+    <title>Mas Informacion Docente</title>
 
 
 <?php require '../../includes/header.php' ?>
 
 
-<<<<<<< HEAD
-    <form action='<?php htmlspecialchars($_SERVER['PHP_SELF'])?>' method='post'>
-        <br>
-=======
     <h2>Mas Informacion del Docente</h2>
->>>>>>> 82e2059a0fd07e67b7016260b9dbe6f599b54f1e
 <?php
 
     $sql = consulta_docentes()." WHERE doc.id_doc_docent = :id_doc;";
@@ -45,12 +34,8 @@ $id_doc =$_SESSION["id_doc"];
 
 
 echo "
-
-    <title class="info">Mas Informacion Docente</title>
-
         <div>
-                <table class="tabla">
-
+                <table class='tabla'>
                     <thead>
                         <tr>  
 
