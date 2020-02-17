@@ -263,10 +263,10 @@ registrar_inscrip_scolaridad($ci_escolar,$plantel_proced,$localidad,$anio_escola
 
 <?php require '../../../includes/footer_reg_est.php'; ?>
 
-<?php unset($_SESSION['sesionform1']);
+<?php/* unset($_SESSION['sesionform1']);
 unset($_SESSION['sesionform2']);
 unset($_SESSION['sesionform3']);
 unset($_SESSION['sesionform4']);
 unset($_SESSION['ci_escolar']);
-
+*/
  ?>

@@ -1,3 +1,4 @@
+
 <?php 
         $sql = consulta_represent_student()." WHERE rpt.ci_escolar = :ci_escolar LIMIT 1;";
 
@@ -11,6 +12,7 @@
  
  $nombres_compilacion = explode(" ", $registro['nombre']);
 
+$count_represents++;
     ?>
 
       <br><br><br><br>    
@@ -165,6 +167,8 @@
 
              <button type='submit' class="btn btn-primary col-lg-9" value="upd_represent" name='upd_represent'>Actualizar</button>
 
-             <button type='submit' class="btn btn-primary col-lg-9" value="upd_represent" name='upd_represent'>Añadir nuevo</button>
-
+             <button type='submit' class="btn btn-primary col-lg-9" value="new_represent" name='new_represent'>Añadir nuevo</button>
+            <br><br>
 <?php } ?>
+
+0424-1627158

@@ -36,8 +36,8 @@ if (!empty($_POST['save_docent'])) {
     $id_estado = htmlentities(addslashes($_POST["id_estado"])); 
 
 
-if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc_new,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$fecha_ingreso) || validar_datos_vacios($nombres,$funcion_docent,$apellido_p,$apellido_m,$lugar_nac,$direcc_hab,$turno)){
-    $errors[]= "    Se debe evitar campos vacios
+if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc_new,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$fecha_ingreso) || validar_datos_vacios($nombres,$funcion_docent,$apellido_p,$lugar_nac,$direcc_hab,$turno)){
+    $errors[]= "    Se debe evitar campos vacios, execepto el estado y fecha de Inabilitacion
     <br><br>
   Los siguientes campos no pueden poseer espacios:
       <br><br>
@@ -63,7 +63,11 @@ if (is_exist_ci($id_doc_new)) {
 
 $errors[]= validar_fecha_registro($fecha_ingreso);
 
-$errors[]=validar_nombres_apellidos($nombres,$apellido_p,$apellido_m);
+$errors[]=validar_nombres_apellidos($nombres,$apellido_p);
+
+if (!empty($apellido_m)) {
+$errors[]=validar_nombres_apellidos($apellido_m);
+}
 
 if (!is_valid_email($correo)) { $errors[]='El Correo electronico ingresado es invalido';}
 

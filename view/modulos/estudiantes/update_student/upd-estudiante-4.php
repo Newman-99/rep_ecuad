@@ -17,11 +17,13 @@ extract($_SESSION['sesionform4']);
 }
 }
 
+var_dump($_SESSION['ci_escolar']);
 
 $errors = array();
 
 if (!empty($_POST['inscrip_escol'])) {
 
+    $estado = htmlentities(addslashes($_POST["estado"]));
 
 if (is_ci_escolar_id($_SESSION['ci_escolar'])){
 
@@ -49,7 +51,7 @@ if (isset($_POST["repitiente"])) {
             $repitiente = htmlentities(addslashes($_POST["repitiente"]));
     }
 
-    if (validar_datos_vacios_sin_espacios($anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$grado_escolaridad) || validar_datos_vacios($localidad,$plantel_proced) || !isset($repitiente)){
+    if (validar_datos_vacios_sin_espacios($anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$grado_escolaridad,$estado) || validar_datos_vacios($localidad,$plantel_proced) || !isset($repitiente)){
 
         $errors[] = "Verifique campos vacios y casillas vacias";
     }else{
@@ -93,7 +95,12 @@ $id_actualizacion=obtener_ultimo_id_actualizacion();
 
          if (is_exist_clase($id_clase)) {
             asignar_clase_for_estudent($id_clase,'3',$id_actualizacion,$_SESSION['ci_escolar']);
+            var_dump($estado);
+            update_estado_clases_estudent($_SESSION['ci_escolar'],$estado,$id_clase,$id_actualizacion);
+
           }
+
+update_estado_student($_SESSION['ci_escolar'],$estado);
 
 registrar_inscrip_scolaridad($_SESSION['ci_escolar'],$plantel_proced,$localidad,$anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$grado_escolaridad,$calif_escolaridad,$repitiente,$observacions,$id_actualizacion);
 
@@ -334,11 +341,32 @@ $sql = consulta_escolaridad()." WHERE es.ci_escolar = :ci_escolar ORDER BY ac.id
                                             <textarea name="observacions" id="" class="form-control" placeholder="Ingrese la observacion"><?php if(isset($registro['observs'])) echo $registro['observs'];?></textarea>
                                         </div>
                                     </div>                                             
-<?php } ?>
-<!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
-                                    <a href="reg-estudiante-3.php" class="btn btn-primary col-lg-2">VOLVER</a>
 
-                                    <button type='submit' class="btn btn-primary col-lg-9" value="inscrip_escol" name='inscrip_escol'>CONTINUAR</button>
+                                        <div class="col-lg-3 my-4">
+                                            <label for="">Estado del Estudiante</label>
+                                            <select name="estado" id="calificacion" class="form-control" >
+                                                <option value=""> Seleccione </option>
+                                                <option <?php if(isset($registro['id_estado'])) if($registro['id_estado'] == '3') echo 'selected';?> value="3">Activo</option>
+
+                                                <option   <?php if(isset($registro['id_estado'])) if($registro['id_estado'] == '4') echo 'selected';?> value="4">Irregular</option>
+
+                                                <option  <?php if(isset($registro['id_estado'])) if($registro['id_estado'] == '5') echo 'selected';?> value="5">Retirado</option>
+
+                                                <?php if ($registro['grado'] == '6') {
+                                                 ?>
+                                                <option  <?php if(isset($registro['id_estado'])) if($registro['id_estado'] == '6') echo 'selected';?> value="6">Graduado</option>
+                                            <?php } ?>
+                                                                        
+                                                                 
+
+                                            </select>
+                                        </div>
+<?php } ?>
+
+<!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
+                                    <a href="../menu_upd_student.php" class="btn btn-primary col-lg-2">Volver</a>
+
+                                    <button type='submit' class="btn btn-primary col-lg-9" value="inscrip_escol" name='inscrip_escol'>Continuar</button>
                                    
                                     <?php imprimir_msjs_no_style($errors); ?>
                                     

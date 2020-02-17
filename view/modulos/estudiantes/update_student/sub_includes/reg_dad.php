@@ -1,3 +1,4 @@
+
                                     <div class="row">
                                         <div class="col-12">
                                             <h3 class="form-titulo">Datos del Padre</h3>
@@ -123,7 +124,7 @@
 
                                         <div class="col-lg-3 ">
                                             <label>Es el Representante?:</label>
-                                            <input type="checkbox" <?php if(isset($_POST["is_represent_p"])){ if($_POST["is_represent_p"] == '1') echo "checked";}else{if(isset($is_represent_p)){ if($is_represent_p == '1') echo "checked";}}?> name="is_represent_p" value="1" id="" class="col-3">
+                                            <input type="checkbox" <?php if(isset($is_represent_p)){ if($is_represent_p == '1') echo "checked";}?> name="is_represent_p" value="1" id="" class="col-3">
                                         </div>
 
                                         <div class="col-lg-6 my-2">
@@ -131,28 +132,24 @@
 
                                         <label for="convivencia_p" class="">Si</label>
 
-                                        <input type="radio" <?php if(isset($_POST["convivencia_p"])){ if($_POST["convivencia_p"] == '1') echo "checked";}else{if(isset($convivencia_p)){ if($convivencia_p == '1') echo "checked";}}
+                                        <input type="radio" <?php if(isset($convivencia_p)){ if($convivencia_p == '1') echo "checked";}
                                         ?> name="convivencia_p" value="1" id="">
 
                                         <label for="convivencia_p" class="">No</label>
 
-                                        <input type="radio" name="convivencia_p" <?php if(isset($_POST["convivencia_p"])){ if($_POST["convivencia_p"] == '0') echo "checked";}else{if(isset($convivencia_p)){ if($convivencia_p == '0') echo "checked";}}
+                                        <input type="radio" name="convivencia_p" <?php if(isset($convivencia_p)){ if($convivencia_p == '0') echo "checked";}
                                         ?> value="0" id="">
                                         </div>
                                     </div>
 
                                     <div class="row col-12">
-                                        <div class="col-lg-6 my-2">
-                                            <label>Seleccione si no se registrara:</label>
-                                            <input type="checkbox" <?php if(isset($_POST["no_register_p"])){ if($_POST["no_register_p"] == '1') echo "checked";}else{if(isset($no_register_p)){ if($no_register_p == '1') echo "checked";}}?> name="no_register_p" value="1" id="">
-                                        </div>
 
                                         <div class="col-lg-6 my-2">
                                             <label>Seleccione si ya esta registrado: </label>
-                                            <input type="checkbox" <?php if(isset($_POST["si_exist_p"])){ if($_POST["si_exist_p"] == '1') echo "checked";}else{if(isset($si_exist_p)){ if($si_exist_p == '1') echo "checked";}}?> name="si_exist_p" value="1" id="">
+                                            <input type="checkbox" <?php if(isset($si_exist_p)){ if($si_exist_p == '1') echo "checked";}?> name="si_exist_p" value="1" id="">
                                         </div>
                                     </div>
                                         
                                     <?php imprimir_msjs_no_style($errors_p); ?>
 
-                                        <button type='submit' class="btn btn-primary col-lg-9"value="reg_dad" name ='reg_dad'>Actualizar</button>
+                                        <button type='submit' class="btn btn-primary col-lg-9"value="reg_dad" name ='reg_dad'>Registrar</button>

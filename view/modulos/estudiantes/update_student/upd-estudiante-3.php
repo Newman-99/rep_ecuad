@@ -19,13 +19,19 @@ $errors= array();
 
  valid_inicio_sesion('2');
 
-
+/*
 if (isset($_SESSION['sesionform3'])) {
 if (comprobar_msjs_array($_SESSION['sesionform3'])) {
 extract($_SESSION['sesionform3']);
 }
+}*/
+if (!empty($_POST['new_prs_ret'])) {
+
+                           $_SESSION['new_prs_ret'] = TRUE;
 }
 
+
+ var_dump($_SESSION['ci_escolar']);
 
 if (!empty($_POST['otros_datos'])) {
 
@@ -186,8 +192,8 @@ $errors_pr[] = valid_ci($id_doc_pr);
        $errors_pr[]='Esta cedula no esta registrada en el sistema';
         }
 
-if (validar_datos_vacios($parentesc_pr)) {
-       $errors_pr[]='El campo Parentesco no puede estar vacio';  
+if (validar_datos_vacios($parentesc_pr,$tlf_emerg)) {
+       $errors_pr[]='El parentesco y el telefono de emergecia no puede estar vacio';  
 
 }
 
@@ -197,19 +203,23 @@ if (validar_datos_vacios($parentesc_pr)) {
 $errors_pr[] = valid_ci($id_doc_pr);
 
 
-
-
 if(validar_datos_vacios_sin_espacios($nacionalidad_pr,$estado_civil_pr,$tlf_emerg,$tlf_cel_pr,$tlf_local_pr) || validar_datos_vacios($nombres_pr,$apellido_p_pr,$parentesc_pr) || !isset($_POST["sexo_pr"])){
 
     $errors_pr[]= "
     Se debe evitar campos vacios a exepcion del documento de identidad, el segundo nombre y apellido
-  <br><br>
+  <br>
     <p>Los Siguientes campos no Pueden poseer espacios:</p>
     <p>
     Documento de Identidad
     <br>
     Numeros Telefonicos
     </p>";
+
+if (isset($_SESSION['new_prs_ret'])) {
+    if(is_exist_ci($id_doc_pr)) {
+       $errors_p[] ='Esta cedula no esta registrada en el sistema';
+        }
+}
 
 }else{
 
@@ -371,18 +381,38 @@ if (obtener_correp_prs($id_doc_pr) != FALSE) {
 $correo_pr = obtener_correp_prs($id_doc_pr);
 }
 
+if (isset($_SESSION['new_prs_ret'])) {
+
+
+ registrar_persona($nacionalidad_pr,$id_doc_pr,$nombres_pr,$apellido_p_pr,$apellido_m_pr,$sexo_pr,'',$estado_civil_pr,'','',$tlf_cel_pr,$tlf_local_pr,'',$tlf_emerg);
+
+ registrar_person_estudiantes($id_doc_pr,$_SESSION['ci_escolar'],0,'',$parentesc_pr);
+
+ $id_pers_retirar = obtener_id_pers_retirar($_SESSION['ci_escolar']);
+
+ update_person_retirar($id_doc_pr,$id_pers_retirar,$_SESSION['ci_escolar'],$_SESSION['ci_escolar']);
+
+upd_tlf_emerg($id_doc_pr,$tlf_emerg);
+
+unset($_SESSION['new_prs_ret']);
+
+}else{
+
  actualizar_persona($nacionalidad_pr ,$id_doc_pr,$id_doc_pr,$nombres_pr,$apellido_p_pr,$apellido_m_pr,$sexo_pr,'0000-00-00','','',$tlf_cel_pr,$tlf_local_pr,$correo_pr,$estado_civil_pr,$tlf_emerg);
 
 
 update_person_estudiantes($id_doc_pr,$id_doc_pr,$_SESSION['ci_escolar'],$_SESSION['ci_escolar'],'','',$parentesc_pr);
 
- update_person_retirar($id_doc_pr,$id_doc_pr,$_SESSION['ci_escolar'],$_SESSION['ci_escolar'],'','',$parentesc_pr);
+ update_person_retirar($id_doc_pr,$id_doc_pr,$_SESSION['ci_escolar'],$_SESSION['ci_escolar']);
 
 upd_tlf_emerg($id_doc_pr,$tlf_emerg);
 
 update_other_data_student($_SESSION['ci_escolar'],$_SESSION['ci_escolar'],$nro_pers_viven,$hermanos,$descrip_herma);
 
+}
+
 $errors[]= "Cambios Registrado con Exito";
+
 
 }
 
@@ -690,12 +720,16 @@ $errors[]= "Cambios Registrado con Exito";
 
                                     <br><br><br><br>
 
-<?php } ?>
+                                  <?php } ?>
+
+                                    <?php if (!isset($_SESSION['new_prs_ret'])) {
+?>
+
 
     <?php         $sql = consulta_pers_ret_student()." WHERE prt.ci_escolar = :ci_escolar AND prsd.ci_escolar = :ci_escolar ORDER BY prsd.id_pers_est DESC LIMIT 1;";
 
         $result=$db->prepare($sql);
-            
+
         $result->bindValue(":ci_escolar",$_SESSION['ci_escolar']);
         
         $result->execute();
@@ -792,29 +826,40 @@ $errors[]= "Cambios Registrado con Exito";
                                      </div>   
                        
                                         <?php imprimir_msjs_no_style($errors_pr); ?>
+             <button type='submit' class="btn btn-primary col-lg-9" value="new_prs_ret" name='new_prs_ret'>Añadir nuevo</button>
 
                                     
                                         <!-- <a href="reg-estudiante-2.php" class="btn btn-primary col-lg-2 ">VOLVER</a> -->
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->                                        
+
+
+
+                             <?php } }else{
+
+                          include 'sub_includes/reg_prs_ret.php';
+
+                          
+                        } ?>
+
+                            
                                         <button type='submit' class="btn btn-primary col-lg-9"value="otros_datos" name ='otros_datos'>Actualizar</button>
+
+                                        <a href="../menu_upd_student.php" class="btn btn-primary  col-lg-2">Volver</a>
+
                                         <?php imprimir_msjs_no_style($errors); ?>
-
-
                                 </form> 
 
-                            </div>
-                        </div> <?php } ?>
+
+                  </div>
+                        </div>
                 </div>
 
 
 <!----------- DIV container principal Se arrastra hasta el final (NO BORRAR)---->
             </div>
-
+  
     <!--jquery, boostrap.min.js, bundle.min.js-->
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    
+    <?php require '../../../includes/footer_reg_est.php'; ?>
+
 </body>
 </html>
