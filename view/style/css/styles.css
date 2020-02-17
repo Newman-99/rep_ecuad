@@ -252,7 +252,20 @@ a {
 #registrer{
   opacity: 0.75;
 }
-/*navegar*/
+
+/* -------------- Barra navegar horizontal --------------------------------- */
+.nav-h {
+    background-color: #262F36;
+    color: #FFF;
+    margin: 20px auto;
+    margin-left: 20%;
+    padding: 10px;
+    height: 140px;
+    font-family: Arial, Helvetica, sans-serif;
+    
+}
+
+/* - Navegacion Vertical principal - */
 .nave{
     margin: 30px auto;
     width: 20%;
@@ -292,7 +305,7 @@ a {
     color: #000;
 }
 
--------formulario------
+/*-------formulario------*/
 .contenedor-form {
     background: rgba(0,0,0,.7);
     max-width: 400px;
@@ -301,7 +314,7 @@ a {
     border-radius: 5px;
     color: #fff;
     position: relative;
-    /padding: 40px;*/
+    padding: 40px;
 }
 
 .contenedor-form .toggle {
@@ -436,7 +449,7 @@ border-radius: 10px;
     border-radius: 5px;
     color: #fff;
     position: relative;
-    /padding: 40px;*/
+    padding: 40px;
 }
 .registro input[type="text"]{
     outline: none;

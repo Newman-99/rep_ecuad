@@ -17,21 +17,24 @@ if (isset($_GET['clean_ci_escolar'])) {
 <link rel="stylesheet" type="text/css" href="../../styles/css/styles.css">
 
 	<section>
+  <div class="nav-h"><!----- DIV contenedor BARRA NAVEGACION HORIZONTAL -----> 
+  
 		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
 			
-      Buscar Por: 
-			<input type="search" class="search" placeholder="Cédula escolar o normal" name="ci_estudiante" value="<?php if(isset($ci)) echo $ci;?>">
-			 / 
-		Estado:
-        <select name="estado_student" id="" autocomplete="on">
+        <label for="">Buscar Por:</label>
+			  <input type="search" class="col-3 mx-2" placeholder="Cedula escolar o normal" name="ci_estudiante" value="<?php if(isset($ci)) echo $ci;?>">
+        /
+		    <label class="" for="">Estado:</label>
+        <select name="estado_student" id="" autocomplete="on" class="">
             <option value=''>Todos</option>
             <option value="3">Activo</option>
             <option value="4">Irregular</option>
             <option value="5">Retirado</option>
         </select>
-		
-     / 
-        Grado Designado:
+        
+          /
+        
+        <label for="">Grado Designado:</label>
         <select name="grado_design" id="" autocomplete="on">
             <option value=''>Todos</option>
             <option value="1">1ro</option>
@@ -41,7 +44,7 @@ if (isset($_GET['clean_ci_escolar'])) {
             <option value="5">5to</option>
             <option value="6">6to</option>
         </select>
-
+        
 <!--
 		Por clase - 
 
@@ -76,21 +79,23 @@ if (isset($_GET['clean_ci_escolar'])) {
             <option value="2">Tarde</option>
         </select> 
 -->
-        Año Escolar 
+        /
+        <label for="">Año Escolar:</label>
+        <input type="number" name="año_escolar1" id="" class="col-1" value="<?php if(isset($anio_escolar1)) echo $anio_escolar1; ?>">
+        <input type="number" name="año_escolar2" id="" class="col-1" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
 
-        <input type="number" name="año_escolar1" id="" value="<?php if(isset($anio_escolar1)) echo $anio_escolar1; ?>">
+        
+        <div class="text-center">
+        <a href="./register_student/reg-estudiante-1.php"  class="icon-add btn btn-primary col-3">Registrar Nuevo Estudiante</a>
+        <button id="" name="buscar" value="buscar" class="icon-search btn btn-primary col-2 mx-3" type="submit">Buscar</button>
+        </div>
+        
+    </form>
+    
+  </div> <!----- FIN - DIV contenedor BARRA NAVEGACION HORIZONTAL ----->
 
-        <input type="number" name="año_escolar2" id="" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
-
-
-
-  			<button id=button name="buscar" value="buscar" class="icon-search" type="submit">Buscar</button>
-
-
-			<a href="./register_student/reg-estudiante-1.php" id=registrer class="icon-add";>Registrar Nuevo Estudiante</a>
-
-		</form>
-    <br><br>
+  
+    
 
 		<?php 
 		if(!empty($_POST['buscar'])){
