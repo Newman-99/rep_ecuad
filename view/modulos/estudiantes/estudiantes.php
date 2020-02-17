@@ -104,15 +104,18 @@ $ci = htmlentities(addslashes($_POST['ci_estudiante']));
 
 //    $seccion = htmlentities(addslashes($_POST["seccion"]));
 
- 
-			
+
       $ci=trim($ci);
-
-
 
     $anio_escolar1 = htmlentities(addslashes($_POST["año_escolar1"]));
 
     $anio_escolar2 = htmlentities(addslashes($_POST["año_escolar2"]));
+
+      $anio_escolar1=trim($anio_escolar1);
+      $anio_escolar2=trim($anio_escolar2);
+
+    $estado_student = htmlentities(addslashes($_POST["estado_student"]));
+
     if (!empty($grado)){
 
     		$errors[]= validar_grado($grado);
@@ -128,7 +131,7 @@ $ci = htmlentities(addslashes($_POST['ci_estudiante']));
 
 				if (!comprobar_msjs_array($errors)) {
 
-			$sql=" SELECT DISTINCT est.ci_escolar,prsd.id_doc, est.id_doc,in_p.nombre,in_p.apellido_p,in_p.apellido_m, edo.descripcion estado,es.grado grado_design, clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2,es.id_actualizacion id_es,ea.id_actualizacion id_ea FROM estudiantes est 
+			$sql=" SELECT DISTINCT est.ci_escolar,prsd.id_doc, est.id_doc,in_p.nombre,in_p.apellido_p,in_p.apellido_m, edo.descripcion estado,est.id_estado,es.grado grado_design, clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2,es.id_actualizacion id_es,ea.id_actualizacion id_ea FROM estudiantes est 
 LEFT OUTER JOIN info_personal in_p ON est.ci_escolar = in_p.id_doc 
 LEFT OUTER JOIN estudiantes_asignados ea ON est.ci_escolar = ea.ci_escolar 
 LEFT OUTER JOIN clases clas ON ea.id_clase = clas.id_clase 
@@ -152,11 +155,11 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
 
   if (!empty($grado_design)) {
     /* Agregamos al WHERE la comparación */
-    array_push($where,'est.grado = :grado_design');
+    array_push($where,'es.grado = :grado_design');
     /* Preparamos los datos para la variable preparada */
     $campos[':grado_design'] = [
       'valor' => $grado_design,
-      'tipo' => \PDO::PARAM_INT,
+      'tipo' => \PDO::PARAM_STR,
     ];
   }
 
@@ -203,6 +206,25 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
       'tipo' => \PDO::PARAM_STR,
     ];
 }
+
+
+  if (!empty($estado_student)) {
+    array_push($where, 'est.id_estado = :estado_student');
+    $campos[':estado_student'] = [
+      'valor' => $estado_student,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+}
+
+
+  if (!empty($anio_escolar2)) {
+    array_push($where, 'clas.anio_escolar2 = :anio_escolar2');
+    $campos[':anio_escolar2'] = [
+      'valor' => $anio_escolar2,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+}
+
 
   if (!empty($where)) {
     $sql .= ' WHERE ' . implode(' AND ', $where);
