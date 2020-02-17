@@ -139,12 +139,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row my-4">
-                                        <div class="col-lg-6 ">
-                                            <label>Seleccione si no se registrara:</label>
-                                        <input type="checkbox" <?php if(isset($_POST["no_register_m"])){ if($_POST["no_register_m"] == '1') echo "checked";}else{if(isset($no_register_m)){ if($no_register_m == '1') echo "checked";}}?> name="no_register_m" value="1" id="">
-                                        </div>
-                                    
+                                    <div class="row my-4">                                    
 
                                         <div class="col-lg-6 ">
                                             <label>Seleccione si ya esta registrado: </label>
@@ -153,4 +148,4 @@
                                     </div>
                                         <?php imprimir_msjs_no_style($errors_m); ?>
 
-                                        <button type='submit' class="btn btn-primary col-lg-9"value="reg_mom" name ='reg_mom'>Actualizar</button>
+                                        <button type='submit' class="btn btn-primary col-lg-9"value="reg_mom" name ='reg_mom'>Registrar</button>

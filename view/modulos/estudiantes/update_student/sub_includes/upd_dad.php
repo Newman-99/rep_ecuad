@@ -17,6 +17,7 @@
 
 <!------------------------------- SEGUNDO FORMULARIO [ DATOS DE LA MADRE ] ------------------------------------------------>
 
+
                 <div class="row">    
                         <div class="col-lg-12">
                         <!--<div id="ui">-->
@@ -149,7 +150,8 @@
                                     
                                         <div class="col-lg-3 ">
                                             <label>Es el Representante?:</label>
-                                        <input type="checkbox" <?php if(is_exist_represent($id_doc_p,$ci_escolar)) echo "checked";?> name="is_represent_p" value="1" id="" class="col-3">
+                                        <input type="checkbox" <?php if(is_exist_represent($id_doc_p,$ci_escolar)) echo "checked"; $count_represents++;
+?> name="is_represent_p" value="1" id="" class="col-3">
                                         </div>
 
                                         <div class="col-lg-6 ">

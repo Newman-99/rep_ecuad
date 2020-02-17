@@ -35,18 +35,13 @@ if (!empty($_POST['save_admin'])) {
     $id_estado = htmlentities(addslashes($_POST["id_estado"])); 
 
 
-if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc_new,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$fecha_ingreso) || validar_datos_vacios($nombres,$area,$apellido_p,$lugar_nac,$direcc_hab,$turno)){
-    $errors[]= "Se deben evitar campos vacios
+if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc_new,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$fecha_ingreso) || validar_datos_vacios($nombres,$area,$apellido_p,$lugar_nac,$direcc_hab,$turno)){
+    $errors[]= "Se deben evitar campos vacios execepto el estado y fecha de Inabilitacion
     <p>Los Siguientes campos no Pueden poseer espacios:</p>
     <p><ul>
-
-    <li>Nacionalidad</li>
     <li>Documento de Identidad</li>
-    <li>Sexo</li>
-    <li>Telefono Celular</li>
-    <li>Telefono Local</li>
+    <li>    Numeros Telefonicos</li>
     <li>Correo</li>
-    <li>Estado Civil</li>
     </ul></p>";
 
 }else{
@@ -86,7 +81,9 @@ $nombres=filtrar_nombres_apellidos($nombres);
 
 $apellido_p=filtrar_nombres_apellidos($apellido_p);
 
-$apellido_m=filtrar_nombres_apellidos($apellido_m);
+if (!empty($apellido_m)) {
+$errors[]=validar_nombres_apellidos($apellido_m);
+}
 
 
  actualizar_admins($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellido_p,$apellido_m,$sexo,$area,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion);
@@ -238,12 +235,8 @@ $id_doc = $registro['id_doc'];
     <br>
 
     <?php
-    if(!empty($errors)){
-        foreach ($errors as $msjs) {
-            echo "<p>".$msjs."</p>";
-        }
-    }
 
+    imprimir_msjs_no_style($errors);
     ?>
 
 <?php 

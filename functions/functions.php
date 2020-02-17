@@ -512,6 +512,22 @@ return $id_actualizacion=$result->fetchColumn();
 
 }
 
+function obtener_ultimo_id_actualizacion_clase($ci_escolar){
+
+global $db;
+
+$sql="SELECT id_actualizacion FROM estudiantes_asignados WHERE ci_escolar = :ci_escolar ORDER BY id_actualizacion DESC ;";
+                                
+$result=$db->prepare($sql);
+
+$result->bindValue(":ci_escolar",$ci_escolar);
+
+$result->execute();
+
+return $id_actualizacion=$result->fetchColumn();
+
+}
+
 function obtener_cedula_student($ci_escolar){
 
 global $db;
@@ -652,21 +668,65 @@ function actualizar_persona($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellid
 
     global $db;
 
-$sql = disable_foreing()." UPDATE info_personal SET id_doc =:id_doc_new, nombre = :nombre, apellido_p = :apellido_p, apellido_m = :apellido_m, fecha_nac = :fecha_nac, lugar_nac = :lugar_nac,direcc_hab = :direcc_hab, id_nacionalidad = :id_nacionalidad, id_estado_civil = :id_estado_civil, id_sexo = :id_sexo WHERE id_doc = :id_doc; ".enable_foreing();
+
+if (!empty($fecha_nac) || $fecha_nac != '0000-00-00') {
+$sql = "UPDATE info_personal SET fecha_nac = :fecha_nac WHERE id_doc = :id_doc;";
+
+$result=$db->prepare($sql);
+
+$result->execute(array("id_doc"=>$id_doc,"fecha_nac"=>$fecha_nac));
+
+}
+
+if (!empty($lugar_nac)) {
+$sql = "UPDATE info_personal SET lugar_nac = :lugar_nac WHERE id_doc = :id_doc;";
+
+$result=$db->prepare($sql);
+
+$result->execute(array("id_doc"=>$id_doc,"lugar_nac"=>$lugar_nac));
+}
+
+if (!empty($direcc_hab)) {
+$sql = "UPDATE info_personal SET direcc_hab = :direcc_hab WHERE id_doc = :id_doc;";
+
+$result=$db->prepare($sql);
+
+$result->execute(array("id_doc"=>$id_doc,"direcc_hab"=>$direcc_hab));
+}
+
+
+$sql = disable_foreing()." UPDATE info_personal SET nombre = :nombre, apellido_p = :apellido_p, apellido_m = :apellido_m, id_nacionalidad = :id_nacionalidad, id_estado_civil = :id_estado_civil, id_sexo = :id_sexo WHERE id_doc = :id_doc; ".enable_foreing();
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("id_doc"=>$id_doc,"nombre"=>$nombres,
+"apellido_p"=>$apellido_p,"apellido_m"=>$apellido_m,"id_nacionalidad"=>$nacionalidad,"id_estado_civil"=>$estado_civil,"id_sexo"=>$sexo));
+
+
+if (!empty($tlf_emergecia)) {
+$sql = "UPDATE contact_basic SET tlf_emergecia = :tlf_emergecia WHERE id_doc = :id_doc;";
+
+$result=$db->prepare($sql);
+
+$result->execute(array("id_doc"=>$id_doc,"tlf_emergecia"=>$tlf_emergecia));
+}
+
+if (!empty($correo)) {
+$sql = "UPDATE contact_basic SET correo = :correo WHERE id_doc = :id_doc;";
+
+$result=$db->prepare($sql);
+
+$result->execute(array("id_doc"=>$id_doc,"correo"=>$correo));
+}
+
+
+$sql = disable_foreing()." UPDATE contact_basic SET tlf_local = :tlf_local,tlf_cel = :tlf_cel where id_doc = :id_doc; ".enable_foreing();
 
 
 $result=$db->prepare($sql);
                             
-$result->execute(array("id_doc"=>$id_doc,"id_doc_new"=>$id_doc_new,"nombre"=>$nombres,
-"apellido_p"=>$apellido_p,"apellido_m"=>$apellido_m,"fecha_nac"=>$fecha_nac,"lugar_nac"=>$lugar_nac,"direcc_hab"=>$direcc_hab,"id_nacionalidad"=>$nacionalidad,"id_estado_civil"=>$estado_civil,"id_sexo"=>$sexo));
-
-
-$sql = disable_foreing()." UPDATE contact_basic SET id_doc = :id_doc_new, tlf_local = :tlf_local,tlf_cel = :tlf_cel, correo = :correo,tlf_emergecia = :tlf_emergecia where id_doc = :id_doc; ".enable_foreing();
-
-$result=$db->prepare($sql);
-                            
-$result->execute(array("id_doc"=>$id_doc,"id_doc_new"=>$id_doc_new,"tlf_local"=>$tlf_local,
-"tlf_cel"=>$tlf_cel,"correo"=>$correo,"tlf_emergecia"=>$tlf_emergecia));
+$result->execute(array("id_doc"=>$id_doc,"tlf_local"=>$tlf_local,
+"tlf_cel"=>$tlf_cel));
 
 }
 
@@ -686,9 +746,10 @@ function registrar_padres($id_doc,$tip_padre,$ci_escolar,$convivencia,$ocupacion
     
     global $db;
 
-registrar_person_estudiantes($id_doc,$ci_escolar,$convivencia,$ocupacion,$parentesco);
 
  registrar_persona($nacionalidad ,$id_doc,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$estado_civil,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo);
+
+registrar_person_estudiantes($id_doc,$ci_escolar,$convivencia,$ocupacion,$parentesco);
 
 
 $sql = "INSERT INTO `padres`(`id_doc`, `id_tip_padre`,ci_escolar) VALUES (:id_doc,:id_tip_padre,:ci_escolar)";
@@ -786,11 +847,11 @@ function actualizar_docentes($id_doc,$id_doc_new,$id_funcion_predet,$turno,$id_e
 
     // Insertando datos personales genericos
     
-$sql =disable_foreing()."UPDATE docentes SET id_doc_docent = :id_doc_new,id_funcion_predet = :id_funcion_predet,id_turno = :id_turno,id_estado = :id_estado,fecha_ingreso = :fecha_ingreso,fecha_inabilitacion = :fecha_inabilitacion where id_doc_docent = :id_doc_docent; ".enable_foreing();
+$sql =disable_foreing()."UPDATE docentes SET id_funcion_predet = :id_funcion_predet,id_turno = :id_turno,id_estado = :id_estado,fecha_ingreso = :fecha_ingreso,fecha_inabilitacion = :fecha_inabilitacion where id_doc_docent = :id_doc_docent; ".enable_foreing();
 
 $result=$db->prepare($sql);
 
-$result->execute(array("id_doc_docent"=>$id_doc,"id_doc_new"=>$id_doc_new,"id_funcion_predet"=>$id_funcion_predet,"id_turno"=>$turno,"id_estado"=>$id_estado,"fecha_ingreso"=>$fecha_ingreso,"fecha_inabilitacion"=>$fecha_inabilitacion));
+$result->execute(array("id_doc_docent"=>$id_doc,"id_funcion_predet"=>$id_funcion_predet,"id_turno"=>$turno,"id_estado"=>$id_estado,"fecha_ingreso"=>$fecha_ingreso,"fecha_inabilitacion"=>$fecha_inabilitacion));
 
 if (is_exist_admin($id_doc)) {
 actualizar_admin($id_doc,$id_doc_new);
@@ -824,13 +885,13 @@ $sql =disable_foreing()." UPDATE administrativos SET id_doc_admin = :id_doc_new 
 
 $result=$db->prepare($sql);
 
-$result->execute(array("id_doc_admin"=>$id_doc,"id_doc_new"=>$id_doc_new));
+$result->execute(array("id_doc_admin"=>$id_doc));
 
 $sql =disable_foreing()." UPDATE `usuarios` SET `id_doc`= :id_doc_new where id_doc = :id_doc_admin; ".enable_foreing();
 
 $result=$db->prepare($sql);
 
-$result->execute(array("id_doc_admin"=>$id_doc,"id_doc_new"=>$id_doc_new));
+$result->execute(array("id_doc_admin"=>$id_doc));
 }
 
 
@@ -840,20 +901,20 @@ function actualizar_admins($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellido
 
     // Insertando datos personales genericos
     
-$sql = disable_foreing()." UPDATE info_personal SET id_doc =:id_doc_new, nombre = :nombre, apellido_p = :apellido_p, apellido_m = :apellido_m, fecha_nac = :fecha_nac, lugar_nac = :lugar_nac,direcc_hab = :direcc_hab, id_nacionalidad = :id_nacionalidad, id_estado_civil = :id_estado_civil, id_sexo = :id_sexo WHERE id_doc = :id_doc; ".enable_foreing();
+$sql = disable_foreing()." UPDATE info_personal SET nombre = :nombre, apellido_p = :apellido_p, apellido_m = :apellido_m, fecha_nac = :fecha_nac, lugar_nac = :lugar_nac,direcc_hab = :direcc_hab, id_nacionalidad = :id_nacionalidad, id_estado_civil = :id_estado_civil, id_sexo = :id_sexo WHERE id_doc = :id_doc; ".enable_foreing();
 
 
 $result=$db->prepare($sql);
                             
-$result->execute(array("id_doc"=>$id_doc,"id_doc_new"=>$id_doc_new,"nombre"=>$nombres,
+$result->execute(array("id_doc"=>$id_doc,"nombre"=>$nombres,
 "apellido_p"=>$apellido_p,"apellido_m"=>$apellido_m,"fecha_nac"=>$fecha_nac,"lugar_nac"=>$lugar_nac,"direcc_hab"=>$direcc_hab,"id_nacionalidad"=>$nacionalidad,"id_estado_civil"=>$estado_civil,"id_sexo"=>$sexo));
 
 
-$sql = disable_foreing()." UPDATE contact_basic SET id_doc = :id_doc_new, tlf_local = :tlf_local,tlf_cel = :tlf_cel, correo = :correo where id_doc = :id_doc; ".enable_foreing();
+$sql = disable_foreing()." UPDATE contact_basic SET tlf_local = :tlf_local,tlf_cel = :tlf_cel, correo = :correo where id_doc = :id_doc; ".enable_foreing();
 
 $result=$db->prepare($sql);
                             
-$result->execute(array("id_doc"=>$id_doc,"id_doc_new"=>$id_doc_new,"tlf_local"=>$tlf_local,
+$result->execute(array("id_doc"=>$id_doc,"tlf_local"=>$tlf_local,
 "tlf_cel"=>$tlf_cel,"correo"=>$correo));
 
 
@@ -861,13 +922,13 @@ $sql =disable_foreing()."UPDATE administrativos SET id_doc_admin = :id_doc_new,i
 
 $result=$db->prepare($sql);
 
-$result->execute(array("id_doc_admin"=>$id_doc,"id_doc_new"=>$id_doc_new,"id_area"=>$area,"id_turno"=>$turno,"id_estado"=>$id_estado,"fecha_ingreso"=>$fecha_ingreso,"fecha_inabilitacion"=>$fecha_inabilitacion));
+$result->execute(array("id_doc_admin"=>$id_doc,"id_area"=>$area,"id_turno"=>$turno,"id_estado"=>$id_estado,"fecha_ingreso"=>$fecha_ingreso,"fecha_inabilitacion"=>$fecha_inabilitacion));
 
 $sql =disable_foreing()."UPDATE `usuarios` SET `id_doc`= :id_doc_new where id_doc = :id_doc_admin; ".enable_foreing();
 
 $result=$db->prepare($sql);
 
-$result->execute(array("id_doc_admin"=>$id_doc,"id_doc_new"=>$id_doc_new));
+$result->execute(array("id_doc_admin"=>$id_doc));
 
 
 }
@@ -1253,7 +1314,7 @@ $result=$db->prepare($sql);
 $result->execute($parameters);
 }else{
 
-$sql = disable_foreing()." UPDATE `estudiantes_asignados` SET `id_estado` = 5  WHERE `ci_escolar` = :ci_escolar; ";
+$sql = disable_foreing()." UPDATE `estudiantes_asignados` SET `id_estado` = 5  WHERE `ci_escolar` = :ci_escolar; ".enable_foreing();;
 
 $parameters = array(':ci_escolar'=>$ci_escolar);
 
@@ -1282,6 +1343,39 @@ $result->execute($parameters);
 }
 
 
+    // Actuliza el estado de todas las clases si el alumno se retiro de la intitucion y coloca como irregular la ultima clase si el alumno lo es
+    function update_estado_clases_estudent($ci_escolar,$id_estado,$id_clase = ''){
+            global $db;
+
+$id_actualizacion = obtener_ultimo_id_actualizacion_clase($ci_escolar);
+
+var_dump($id_actualizacion);
+
+    if ($id_estado != '5' ) {
+        echo "Se Actuliza";
+
+        $sql = disable_foreing()." UPDATE `estudiantes_asignados` SET `id_estado` = :id_estado  WHERE `ci_escolar` = :ci_escolar AND id_clase = :id_clase AND id_actualizacion = :id_actualizacion; ".enable_foreing();;
+
+$parameters = array(':ci_escolar'=>$ci_escolar,':id_estado'=>$id_estado,':id_clase'=>$id_clase,':id_actualizacion'=>$id_actualizacion);
+
+$result=$db->prepare($sql);
+
+$result->execute($parameters);
+
+           }       
+
+           if ($id_estado == '5') {
+
+        $sql = disable_foreing()." UPDATE `estudiantes_asignados` SET `id_estado` = :id_estado  WHERE `ci_escolar` = :ci_escolar; ".enable_foreing();
+
+$parameters = array(':ci_escolar'=>$ci_escolar,':id_estado'=>$id_estado);
+
+$result=$db->prepare($sql);
+
+$result->execute($parameters);
+           }
+
+}
 
  function is_exist_student_in_clase($ci_escolar){
       global $db;
@@ -2322,7 +2416,6 @@ function consulta_admins(){
 
 function imprimir_msjs_no_style($errors){
     echo "<br>";
-
     if(!empty($errors)){
                     echo "<div style='margin-left:auto; margin-right:auto;'><br>";
         foreach ($errors as $msjs) {
@@ -2670,10 +2763,11 @@ return $sql = "
 SELECT es.ci_escolar, es.plantel_proced, es.localidad, 
 es.calif_def, es.repitiente, es.observs,es.grado ,
 es.id_escolaridad,es.id_actualizacion,ac.fecha,ac.id_doc_admin,es.anio_escolar1,es.anio_escolar2,
-in_p.nombre,in_p.apellido_p,in_p.apellido_m
+in_p.nombre,in_p.apellido_p,in_p.apellido_m,estd.id_estado
 FROM escolaridad es
 LEFT JOIN actualizacion ac ON es.id_actualizacion = ac.id_actualizacion
-LEFT JOIN info_personal in_p ON ac.id_doc_admin = in_p.id_doc"; 
+LEFT JOIN info_personal in_p ON ac.id_doc_admin = in_p.id_doc
+INNER JOIN estudiantes estd ON es.ci_escolar = estd.ci_escolar"; 
 }
 
 function consulta_clases_student(){
@@ -2815,7 +2909,7 @@ function is_exist_represent($ci_represent,$ci_escolar =''){
     }
 }
 
-function obtener_id_represent($ci_represent = '',$ci_escolar =''){
+function obtener_id_represent($ci_escolar ='',$ci_represent = ''){
 
     global $db;
 
@@ -2842,6 +2936,7 @@ function obtener_id_represent($ci_represent = '',$ci_escolar =''){
     ];
   }
 
+
     $sql="SELECT * FROM representantes";                  
  
   if (!empty($where)) {
@@ -2854,16 +2949,64 @@ function obtener_id_represent($ci_represent = '',$ci_escolar =''){
   foreach($campos as $clave => $valores) {
     $result->bindParam($clave, $valores['valor'], $valores['tipo']);
   }
-  
+
     $result->execute();
 
    $id=$result->fetchColumn();
 
    return $id;
 
-
 }
 
+
+function obtener_id_pers_retirar($ci_escolar ='',$ci_pers_ret = ''){
+
+    global $db;
+
+    $where = [];
+
+  $campos = [];
+
+
+
+
+      if (!empty($ci_escolar)) {
+    array_push($where, 'ci_escolar = :ci_escolar');
+    $campos[':ci_escolar'] = [
+      'valor' => $ci_escolar,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+      if (!empty($ci_pers_ret)) {
+    array_push($where, 'id_doc = :ci_pers_ret');
+    $campos[':ci_pers_ret'] = [
+      'valor' => $ci_pers_ret,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+
+    $sql="SELECT * FROM pers_retirar";                  
+ 
+  if (!empty($where)) {
+    $sql .= ' WHERE ' . implode(' AND ', $where);
+  }
+
+    $result=$db->prepare($sql);
+
+
+  foreach($campos as $clave => $valores) {
+    $result->bindParam($clave, $valores['valor'], $valores['tipo']);
+  }
+
+    $result->execute();
+
+   $id=$result->fetchColumn();
+
+   return $id;
+
+}
 
 
 function is_exist_padre($ci_padre,$ci_escolar ='',$id_tipo_padre = ''){
@@ -3011,13 +3154,28 @@ function update_basic_data_student($ci_escolar,$ci_escolar_new,$id_doc,$id_estad
 
     // Insertando datos personales genericos
     
-$sql =disable_foreing()."UPDATE `estudiantes` SET `ci_escolar`=:ci_escolar_new,`id_doc`= :id_doc,`id_estado`=:id_estado WHERE 
+$sql =disable_foreing()."UPDATE `estudiantes` SET `id_doc`= :id_doc,`id_estado`=:id_estado WHERE 
  ci_escolar = :ci_escolar; ".enable_foreing();
 
 
 $result=$db->prepare($sql);
                             
 $result->execute(array("ci_escolar" => $ci_escolar,"ci_escolar_new" => $ci_escolar_new,"id_doc"=>$id_doc,"id_estado"=>$id_estado));
+
+
+}
+
+function update_estado_student($ci_escolar,$id_estado){
+
+    global $db;
+    
+$sql =disable_foreing()."UPDATE `estudiantes` SET `id_estado`= :id_estado WHERE 
+ ci_escolar = :ci_escolar; ".enable_foreing();
+
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("ci_escolar" => $ci_escolar,"id_estado"=>$id_estado));
 
 
 }
@@ -3032,7 +3190,7 @@ function update_other_data_student($ci_escolar,$ci_escolar_new,$nro_pers_viven,$
                 $result = $db->prepare($sql);
 
                 $result->execute(array("nro_pers_viven"=>$nro_pers_viven,
-                    "ci_escolar"=>$ci_escolar,/*"ci_escolar_new"=>$ci_escolar_new,*/"hermanos"=>$hermanos,"descrip_hermanos"=>$descrip_hermanos));
+                    "ci_escolar"=>$ci_escolar,/**/"hermanos"=>$hermanos,"descrip_hermanos"=>$descrip_hermanos));
 }
 
 
@@ -3041,11 +3199,20 @@ function update_person_estudiantes($id_doc,$id_doc_new,$ci_escolar,$ci_escolar_n
     global $db;
 
 
-$sql = disable_foreing()." UPDATE `pers_est` SET `ci_escolar`=:ci_escolar_new,`id_doc`=:id_doc_new,`convivencia`=:convivencia,`ocupacion`=:ocupacion,`parentesco`=:parentesco WHERE ci_escolar = :ci_escolar AND id_doc = :id_doc; ".enable_foreing();
+$sql = disable_foreing()." UPDATE `pers_est` SET `convivencia`=:convivencia,`parentesco`=:parentesco WHERE ci_escolar = :ci_escolar AND id_doc = :id_doc; ".enable_foreing();
 
 $result=$db->prepare($sql);
                             
-$result->execute(array("id_doc"=>$id_doc,"id_doc_new"=>$id_doc_new,"ci_escolar"=>$ci_escolar,"ci_escolar_new"=>$ci_escolar_new,"convivencia"=>$convivencia,"ocupacion"=>$ocupacion,"parentesco"=>$parentesco));
+$result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar,"convivencia"=>$convivencia,"parentesco"=>$parentesco));
+
+
+if (!empty($ocupacion)) {
+$sql = "UPDATE pers_est SET ocupacion = :ocupacion WHERE id_doc = :id_doc;";
+
+$result=$db->prepare($sql);
+
+$result->execute(array("id_doc"=>$id_doc,"ocupacion"=>$ocupacion));
+}
 
 }
 
@@ -3054,11 +3221,11 @@ function update_person_padres($id_doc_new,$id_doc,$ci_escolar,$ci_escolar_new){
 
 global $db;
 
-$sql = disable_foreing()."UPDATE `padres` SET `id_doc`=:id_doc_new,`ci_escolar`=:ci_escolar_new WHERE ci_escolar = :ci_escolar AND id_doc = :id_doc;".enable_foreing();
+$sql = disable_foreing()."UPDATE `padres` SET WHERE ci_escolar = :ci_escolar AND id_doc = :id_doc; ".enable_foreing();
 
 $result=$db->prepare($sql);
                             
-$result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar,"id_doc_new"=>$id_doc_new,"ci_escolar_new"=>$ci_escolar_new));
+$result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar));
 
 }
 
@@ -3066,22 +3233,21 @@ function update_datos_laborales($id_doc,$id_doc_new,$prof_ofic,$lugar_trab,$dire
     
     global $db;
 
-$sql = "UPDATE `laboral` SET `id_doc`=:id_doc_new,`prof_ofic`=:prof_ofic,`lugar_trab`=:lugar_trab,`direcc_trab`=:direcc_trab,`tlf_ofic`= :tlf_ofic WHERE id_doc = :id_doc;";
+$sql = "UPDATE `laboral` SET `prof_ofic`=:prof_ofic,`lugar_trab`=:lugar_trab,`direcc_trab`=:direcc_trab,`tlf_ofic`= :tlf_ofic WHERE id_doc = :id_doc ;";
 
 $result=$db->prepare($sql);
                             
-$result->execute(array("id_doc"=>$id_doc,"id_doc_new"=>$id_doc_new,"prof_ofic"=>$prof_ofic,"lugar_trab"=>$lugar_trab,"direcc_trab"=>$direcc_trab,"tlf_ofic"=>$tlf_ofic));
+$result->execute(array("id_doc"=>$id_doc,"prof_ofic"=>$prof_ofic,"lugar_trab"=>$lugar_trab,"direcc_trab"=>$direcc_trab,"tlf_ofic"=>$tlf_ofic));
 }
 
 function update_person_represent($id_doc_new,$id_doc,$ci_escolar,$ci_escolar_new){
-    
+   
     global $db;
-$sql = disable_foreing()."UPDATE `representantes` SET `id_doc`=:id_doc_new,`ci_escolar`=:ci_escolar_new WHERE ci_escolar = :ci_escolar AND id_doc = :id_doc;".enable_foreing();
+$sql = disable_foreing()."UPDATE `representantes` SET id_doc = :id_doc_new WHERE ci_escolar = :ci_escolar AND id_doc = :id_doc; ".enable_foreing();
 
 $result=$db->prepare($sql);
                             
-$result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar,"id_doc_new"=>$id_doc_new,"ci_escolar_new"=>$ci_escolar_new));
-
+$result->execute(array("id_doc"=>$id_doc,"id_doc_new"=>$id_doc_new,"ci_escolar"=>$ci_escolar));
 
 
 }
@@ -3115,7 +3281,6 @@ function update_data_salud_student(
     global $db;
             
             $sql = disable_foreing()." UPDATE salud SET 
-            ci_escolar= :ci_escolar_new, 
              est_croni=:est_croni, 
              desc_croni=:desc_croni, 
             est_visual=:est_visual, 
@@ -3142,7 +3307,7 @@ function update_data_salud_student(
 
                 $result->execute(array("est_croni"=>$est_croni,
                     "ci_escolar"=>$ci_escolar,
-                    "ci_escolar_new"=>$ci_escolar_new,
+                    
                 "desc_croni"=>$desc_croni,
                 "est_visual"=>$est_visual,
                 "desc_visual"=>$desc_visual,
@@ -3174,7 +3339,7 @@ $sql = disable_foreing().' UPDATE `movilidad` SET ci_escolar=:ci_escolar_new,est
 
                     $result = $db->prepare($sql);
 
-    $result->execute(array("ci_escolar"=>$ci_escolar,"ci_escolar_new"=>$ci_escolar_new,"est_ret"=>$est_ret, "desc_ret"=>$desc_ret,"est_tranport"=>$est_tranport,"desc_tranport"=>$desc_tranport));
+    $result->execute(array("ci_escolar"=>$ci_escolar,"est_ret"=>$est_ret, "desc_ret"=>$desc_ret,"est_tranport"=>$est_tranport,"desc_tranport"=>$desc_tranport));
 
 }
 
@@ -3182,1016 +3347,13 @@ function update_person_retirar($id_doc_new,$id_doc,$ci_escolar,$ci_escolar_new){
     
     global $db;
 
-    $sql = disable_foreing()."UPDATE `pers_retirar` SET `id_doc`=:id_doc_new,`ci_escolar`=:ci_escolar_new WHERE ci_escolar = :ci_escolar AND id_doc = :id_doc;".enable_foreing();
+    $sql = disable_foreing()."UPDATE `pers_retirar` SET id_doc = :id_doc_new WHERE ci_escolar = :ci_escolar AND id_doc = :id_doc;".enable_foreing();
 
 $result=$db->prepare($sql);
                             
-$result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar,"id_doc_new"=>$id_doc_new,"ci_escolar_new"=>$ci_escolar_new));
+$result->execute(array("id_doc"=>$id_doc,":id_doc_new"=>$id_doc_new,"ci_escolar"=>$ci_escolar));
 
 }
-
-function form_represent_full($result){
-
- while($registro=$result->fetch(PDO::FETCH_ASSOC)){
- 
- $nombres_compilacion = explode(" ", $registro['nombre']);
-
-    ?>
-
-      <br><br><br><br>    
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <h3 class="form-titulo">Datos del Representante</h3>
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Primer Apellido:</label>
-                                            <input type="text" name="apellido_p_r" id="" placeholder="Apellido" class="form-control" value="<?php echo $registro['apellido_p']; ?>" >
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Segundo Apellido:</label>
-                                            <input type="text" name="apellido_m_r" id="" placeholder="Apellido" class="form-control" value="<?php echo $registro['apellido_m']; ?>" >
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row">
-                                        <div class="col-lg-6 my-2">
-                                            <label>Primer Nombre:</label>
-                                            <input type="text" name="nombre1_r" id="" placeholder="Nombre" class="form-control"  value="<?php echo $nombres_compilacion[0]; ?>">
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Segundo Nombre:</label>
-                                            <input type="text" name="nombre2_r" id="" placeholder="Nombre" class="form-control" value="<?php for ($i=1; $i < count($nombres_compilacion); $i++) { 
-                                echo $nombres_compilacion[$i].' ';} ?>">
-                                        </div>
-                                    </div>
-
-                                
-                                    <div class="row">
-                                        <div class="col-lg-3 my-3">
-                                            <label></label>
-                                        <select name="nacionalidad_r" id="cedula" class="form-control" >
-                                            <option value=""> Seleccione </option>
-                                            <option <?php if($registro['id_nacionalidad'] == '1') echo 'selected';?> value="1">V</option>
-                                            <option <?php if($registro['id_nacionalidad'] == '2') echo 'selected';?> value="2">E</option>
-                                        </select>
-                                        </div>
-
-                                        <div class="col-lg-3 my-2">
-                                            <label>Cedula:</label>
-                                            <input type="text" maxlength="8" placeholder="C.I" class="form-control"  name="id_doc_r" value="<?php echo $registro['id_doc']; ?>">     
-                                        </div>
-                                        
-                                        <div class="col-lg-6 my-2">
-                                            <p for="" class="">Sexo:</p>
-
-                                            <label for="" class="">Masculino:</label>
-                                            <input type="radio" <?php if($registro['id_sexo'] == '1') echo "checked";?> name="sexo_r" value="1" id="" >
-
-                                            <label for="sexo_r" class="">Femenino:</label>
-
-                                            <input type="radio" name="sexo_r" <?php if($registro['id_sexo'] == '2') echo "checked";?> value="2" id="" >
-                                        </div>                                        
-                                    </div> 
-                                
-                                    <div class="row my-4"> 
-                                        <div class="col-lg-6 ">
-                                            <label>Ocupacion:</label>
-                                            <input type="text" name="ocupacion_r" id="" placeholder="Ocupacion" class="form-control" value="<?php echo $registro['ocupacion'];?>">
-                                        </div>
-
-                                        <div class="col-lg-3 ">
-                                            <label for="">Fecha de Nacimiento:</label>
-                                            <input type="text" name="fecha_nac_r" id="" placeholder="Fecha" class="form-control" value="<?php echo $registro['fecha_nac']; ?>">
-                                        </div>
-    
-
-                                        <div class="col-lg-3 ">
-                                            <label>Estado civil:</label>
-                                            <select name="estado_civil_r" id="cedula" class="form-control"  >
-                                                <option value=""> Seleccione </option>
-                                                <option <?php if($registro['id_estado_civil'] == '1') echo 'selected';?> value="1">Soltero/a</option>
-                                                <option <?php if($registro['id_estado_civil'] == '2') echo 'selected';?> value="2">Casado/a</option>
-                                                <option <?php if($registro['id_estado_civil'] == '3') echo 'selected';?> value="3">Divorciado/a</option>
-                                                <option <?php if($registro['id_estado_civil'] == '4') echo 'selected';?> value="4">Viudo/a</option>
-                                            </select>
-                                        </div>
-                                    </div>
-    
-                                
-                                    <div class="row my-4">
-                                        <div class="col-lg-6 ">
-                                            <label for="">Lugar de Nacimiento</label>
-                                            <textarea rows="3" cols="40" placeholder="Lugar de nacimiento" class="form-control"  name="lugar_nac_r" id="" ><?php echo $registro['lugar_nac'];?></textarea>
-                                        </div>
-
-                                        <div class="col-lg-6 ">
-                                            <label for="">Direccion de Habitacion</label>
-                                            <textarea rows="3" cols="40" name="direcc_hab_r"  id="" placeholder="Direccion de Habitacion" class="form-control" ><?php echo $registro['direcc_hab'];?></textarea>
-                                        </div>
-                                    </div>
-    
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-3 ">
-                                            <label for="">Telefono local</label>
-                                            <input type="number" name="tlf_local_r" id="" placeholder="Telefono local" class="form-control" value="<?php echo $registro['tlf_local']; ?>" >    
-                                        </div>
-                                        
-                                        <div class="col-lg-3 ">
-                                            <label for="">Telefono celular</label>
-                                            <input type="number" name="tlf_cel_r" id="" placeholder="Telefono celular" class="form-control" value="<?php echo $registro['tlf_cel']; ?>" >    
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <label>Correo Electronico:</label>
-                                            <input type="email" name="correo_r" id="" placeholder="Correo electronico" class="form-control" value="<?php echo $registro['correo']; ?>">
-                                        </div>
-                                        
-                                    </div>
-
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-6 my-4">
-                                            <label >Profesion u Oficio:</label>
-                                            <input type="text" name="prof_ofi_r" id="" placeholder="Profesion u Oficio" class="form-control" value="<?php echo $registro['prof_ofic']; ?>">
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <label for="">Lugar de trabajo:</label>
-                                            <textarea rows="3" cols="40" name="lug_trab_r"  id="" placeholder="Lugar de trabajo" class="form-control" ><?php echo $registro['lugar_trab'];?></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-6 ">
-                                            <label for="">Direccion de trabajo:</label>
-                                            <textarea rows="3" cols="40" name="direcc_trab_r"  id="" placeholder="Direccion de trabajo" class="form-control" ><?php  echo $registro['direcc_trab'];?></textarea>
-                                        </div>
-
-                                        <div class="col-lg-6 my-4">
-                                            <label for="">Telefono de oficina:</label>
-                                            <input type="number" name="tlf_ofic_r" id="" placeholder="Telefono de oficina" class="form-control" value="<?php echo $registro['tlf_ofic'];?>">
-                                        </div>
-                                    </div>
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-6 my-2">
-                                            <label>Parentesco:</label>
-                                            <input type="text" name="parentesco_r" id="" placeholder="Parentesco" class="form-control" value="<?php  echo $registro['parentesco'];?>">
-                                        </div>
-
-                                        <div class="col-lg-6 my-2">
-                                            <label>Vive con el estudiante:</label>
-                                            <input type="checkbox" <?php if($registro['convivencia']) echo "checked";?> name="convivencia_r" value="1" id="">
-                                        </div>
-                                    </div>
-                <br><br>                    
-
-<?php } 
-}?>
-
-<?php 
-    
-    function form_padres_full($result,$ci_escolar){
-
-
-    while($registro=$result->fetch(PDO::FETCH_ASSOC)){
-     
-
-  ?>
-    <!--formularios-->
-            <div class="container">
-<?php $nombres_compilacion = explode(" ", $registro['nombre']);?>
-
-<!------------------------------- SEGUNDO FORMULARIO [ DATOS DE LA MADRE ] ------------------------------------------------>
-
-                <div class="row">    
-                        <div class="col-lg-12">
-                        <!--<div id="ui">-->
-                            <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>"  method="POST" class="form-group text-center">
-                              
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <h3 class="form-titulo">Datos del Padre
-                                            </h3>
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Primer Apellido:</label>
-                                            <input type="text" name="apellido_p_p" id="" placeholder="Apellido" class="form-control" value="<?php echo $registro['apellido_p']; ?>" >
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Segundo Apellido:</label>
-                                            <input type="text" name="apellido_m_p" id="" placeholder="Apellido" class="form-control" value="<?php echo $registro['apellido_m']; ?>">
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row">
-                                        <div class="col-lg-6 my-2">
-                                            <label>Primer Nombre:</label>
-                                            <input type="text" name="nombre1_p" id="" placeholder="Nombre" class="form-control"  value="<?php echo $nombres_compilacion[0]; ?>" >
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Segundo Nombre:</label>
-                                            <input type="text" name="nombre2_p" id="" placeholder="Nombre" class="form-control" value="<?php for ($i=1; $i < count($nombres_compilacion); $i++) { 
-                                echo $nombres_compilacion[$i].' ';
-                                } ?>">
-                                        </div>
-                                    </div>
-
-                                
-                                    <div class="row">
-                                        
-                                        <div class="col-lg-2 ">
-                                         <label for=""></label>
-                                        <select name="nacionalidad_p" id="cedula" class="form-control my-3"  >
-                                            
-                                            <option value=""> Seleccione </option>
-                                            <option <?php if(isset($registro['id_nacionalidad'])) if($registro['id_nacionalidad'] == '1') echo 'selected';?> value="1">V</option>
-                                            <option <?php if(isset($registro['id_nacionalidad'])) if($registro['id_nacionalidad'] == '2') echo 'selected';?> value="2">E</option>
-                                        </select>
-                                        </div>
-
-                                        <?php $id_doc_p = $registro['id_doc']; ?>
-                                        <div class="col-lg-4 my-2">
-                                        <label class="form-inline col-1">Cedula:</label> 
-                                            <input type="text" maxlength="8" placeholder="C.I" class="form-control "  name="id_doc_p" value="<?php echo $registro['id_doc']; ?>" >     
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Ocupacion:</label>
-                                            <input type="text" name="ocupacion_p" id="" placeholder="Ocupacion" class="form-control" value="<?php echo $registro['ocupacion']; ?>" >
-                                        </div>
-                                    </div> 
-                                
-                                    <div class="row my-2">
-                                        <div class="col-lg-3 my-4">
-                                            <label for="">Fecha de Nacimiento:</label>
-                                            <input type="text" name="fecha_nac_p" id="" placeholder="Fecha" class="form-control" value="<?php echo $registro['fecha_nac']; ?>" >
-                                        </div>
-    
-
-                                        <div class="col-lg-3 my-4">
-                                            <label>Estado civil:</label>
-                                            <select name="estado_civil_p" id="cedula" class="form-control"  >
-                                                <option value="0"> Seleccione </option>
-                                                <option <?php if(isset($registro['id_estado_civil'])) if($registro['id_estado_civil'] == '1') echo 'selected';?> value="1">Soltero/a</option>
-                                                <option <?php if(isset($registro['id_estado_civil'])) if($registro['id_estado_civil'] == '2') echo 'selected';?> value="2">Casado/a</option>
-                                                <option <?php if(isset($registro['id_estado_civil'])) if($registro['id_estado_civil'] == '3') echo 'selected';?> value="3">Divorciado/a</option>
-                                                <option <?php if(isset($registro['id_estado_civil'])) if($registro['id_estado_civil'] == '4') echo 'selected';?> value="4">Viudo/a</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-lg-6 ">
-                                            <label for="">Lugar de Nacimiento:</label>
-                                            <textarea rows="3" cols="40" placeholder="Lugar de nacimiento" class="form-control"  name="lugar_nac_p" id=""  ><?php if(isset($registro['lugar_nac'])) echo $registro['lugar_nac'];?></textarea>
-                                        </div>
-                                    </div>
-    
-                                    <div class="row my-2">
-                                        <div class="col-lg-6 ">
-                                            <label for="">Direccion de Habitación:</label>
-                                            <textarea rows="3" cols="40" name="direcc_hab_p"  id="" placeholder="Direccion de habitación" class="form-control"   ><?php if(isset($registro['direcc_hab'])) echo $registro['direcc_hab'];?></textarea>
-                                        </div>
-    
-                                        <div class="col-lg-3 my-4">
-                                            <label for="">Telefono local</label>
-                                            <input type="number" name="tlf_local_p" id="" placeholder="Telefono local" class="form-control" value="<?php if(isset($registro['tlf_local'])) echo $registro['tlf_local']; ?>" >    
-                                        </div>
-                                        
-                                        <div class="col-lg-3 my-4">
-                                            <label for="">Telefono celular</label>
-                                            <input type="number" name="tlf_cel_p" id="" placeholder="Telefono celular" class="form-control" value="<?php echo $registro['tlf_cel']; ?>"  >    
-                                        </div>
-                                    </div>
-    
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-6">
-                                            <label>Correo Electronico:</label>
-                                            <input type="email" name="correo_p" id="" placeholder="Correo electronico" class="form-control" value="<?php if(isset($registro['correo'])) echo $registro['correo']; ?>" >
-                                        </div>
-                                        
-                                        <div class="col-lg-6 ">
-                                            <label >Profesion u Oficio:</label>
-                                            <input type="text" name="prof_ofi_p" id="" placeholder="Profesion u Oficio" class="form-control" value="<?php  echo $registro['prof_ofic']; ?>">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-6">
-                                            <label for="">Lugar de trabajo:</label>
-                                            <textarea rows="3" cols="40" name="lug_trab_p"  id="" placeholder="Lugar de trabajo" class="form-control" ><?php echo $registro['lugar_trab'];?></textarea>
-                                        </div>
-            
-                                        <div class="col-lg-6 ">
-                                            <label for="">Direccion de trabajo:</label>
-                                            <textarea rows="3" cols="40" name="direcc_trab_p"  id="" placeholder="Direccion de trabajo" class="form-control" ><?php echo $registro['direcc_trab']?></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-3 ">
-                                            <label for="">Telefono de oficina:</label>
-                                            <input type="number" name="tlf_ofic_p" id="" placeholder="Telefono de oficina" class="form-control" value="<?php echo $registro['tlf_ofic'];?>">
-                                        </div>
-                                    
-                                        <div class="col-lg-3 ">
-                                            <label>Es el Representante?:</label>
-                                        <input type="checkbox" <?php if(is_exist_represent($id_doc_p,$ci_escolar)) echo "checked";?> name="is_represent_p" value="1" id="" class="col-3">
-                                        </div>
-
-                                        <div class="col-lg-6 ">
-                                        <p for="" class="">Vive con el estudiante:</p>
-
-                                        <label for="convivencia_p" class="">Si</label>
-
-                                        <input type="radio" <?php if($registro['convivencia'] == '1') echo "checked";?> name="convivencia_p" value="1" id="">
-
-                                        <label for="convivencia_p" class="">No</label>
-    
-                                        <input type="radio" name="convivencia_p" <?php if($registro['convivencia']  == '0') echo "checked";?> value="0" id="">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row my-4">
-                                    
-                                    </div>
-                                        <?php 
-
-                                    }
-                                        return $id_doc_p;
-
-}?>
-
-
-<?php 
-
-    function form_madres_full($result,$ci_escolar){
-
-
-    while($registro=$result->fetch(PDO::FETCH_ASSOC)){
-     
-
-  ?>
-    <!--formularios-->
-            <div class="container">
-<?php $nombres_compilacion = explode(" ", $registro['nombre']);?>
-
-<!------------------------------- SEGUNDO FORMULARIO [ DATOS DE LA MADRE ] ------------------------------------------------>
-                <div class="row">    
-                        <div class="col-lg-12">
-                        <!--<div id="ui">-->
-                            <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>"  method="POST" class="form-group text-center">
-                              
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <h3 class="form-titulo">Datos de la Madre</h3>
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Primer Apellido:</label>
-                                            <input type="text" name="apellido_p_m" id="" placeholder="Apellido" class="form-control" value="<?php echo $registro['apellido_p']; ?>" >
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Segundo Apellido:</label>
-                                            <input type="text" name="apellido_m_m" id="" placeholder="Apellido" class="form-control" value="<?php echo $registro['apellido_m']; ?>">
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row">
-                                        <div class="col-lg-6 my-2">
-                                            <label>Primer Nombre:</label>
-                                            <input type="text" name="nombre1_m" id="" placeholder="Nombre" class="form-control"  value="<?php echo $nombres_compilacion[0]; ?>" >
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Segundo Nombre:</label>
-                                            <input type="text" name="nombre2_m" id="" placeholder="Nombre" class="form-control" value="<?php for ($i=1; $i < count($nombres_compilacion); $i++) { 
-                                echo $nombres_compilacion[$i].' ';
-                                } ?>">
-                                        </div>
-                                    </div>
-
-                                
-                                    <div class="row">
-                                        
-                                        <div class="col-lg-2 ">
-                                         <label for=""></label>
-                                        <select name="nacionalidad_m" id="cedula" class="form-control my-3"  >
-                                            
-                                            <option value=""> Seleccione </option>
-                                            <option <?php if(isset($registro['id_nacionalidad'])) if($registro['id_nacionalidad'] == '1') echo 'selected';?> value="1">V</option>
-                                            <option <?php if(isset($registro['id_nacionalidad'])) if($registro['id_nacionalidad'] == '2') echo 'selected';?> value="2">E</option>
-                                        </select>
-                                        </div>
-                                        <div class="col-lg-4 my-2">
-                                        <label class="form-inline col-1">Cedula:</label> 
-                                            <input type="text" maxlength="8" placeholder="C.I" class="form-control "  name="id_doc_m" value="<?php $id_doc_m = $registro['id_doc']; echo $registro['id_doc']; ?>" >     
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Ocupacion:</label>
-                                            <input type="text" name="ocupacion_m" id="" placeholder="Ocupacion" class="form-control" value="<?php echo $registro['ocupacion']; ?>" >
-                                        </div>
-                                    </div> 
-                                
-                                    <div class="row my-2">
-                                        <div class="col-lg-3 my-4">
-                                            <label for="">Fecha de Nacimiento:</label>
-                                            <input type="text" name="fecha_nac_m" id="" placeholder="Fecha" class="form-control" value="<?php echo $registro['fecha_nac']; ?>" >
-                                        </div>
-    
-
-                                        <div class="col-lg-3 my-4">
-                                            <label>Estado civil:</label>
-                                            <select name="estado_civil_m" id="cedula" class="form-control"  >
-                                                <option value="0"> Seleccione </option>
-                                                <option <?php if(isset($registro['id_estado_civil'])) if($registro['id_estado_civil'] == '1') echo 'selected';?> value="1">Soltero/a</option>
-                                                <option <?php if(isset($registro['id_estado_civil'])) if($registro['id_estado_civil'] == '2') echo 'selected';?> value="2">Casado/a</option>
-                                                <option <?php if(isset($registro['id_estado_civil'])) if($registro['id_estado_civil'] == '3') echo 'selected';?> value="3">Divorciado/a</option>
-                                                <option <?php if(isset($registro['id_estado_civil'])) if($registro['id_estado_civil'] == '4') echo 'selected';?> value="4">Viudo/a</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-lg-6 ">
-                                            <label for="">Lugar de Nacimiento:</label>
-                                            <textarea rows="3" cols="40" placeholder="Lugar de nacimiento" class="form-control"  name="lugar_nac_m" id=""  ><?php if(isset($registro['lugar_nac'])) echo $registro['lugar_nac'];?></textarea>
-                                        </div>
-                                    </div>
-    
-                                    <div class="row my-2">
-                                        <div class="col-lg-6 ">
-                                            <label for="">Direccion de Habitación:</label>
-                                            <textarea rows="3" cols="40" name="direcc_hab_m"  id="" placeholder="Direccion de habitación" class="form-control"   ><?php if(isset($registro['direcc_hab'])) echo $registro['direcc_hab'];?></textarea>
-                                        </div>
-    
-                                        <div class="col-lg-3 my-4">
-                                            <label for="">Telefono local</label>
-                                            <input type="number" name="tlf_local_m" id="" placeholder="Telefono local" class="form-control" value="<?php if(isset($registro['tlf_local'])) echo $registro['tlf_local']; ?>" >    
-                                        </div>
-                                        
-                                        <div class="col-lg-3 my-4">
-                                            <label for="">Telefono celular</label>
-                                            <input type="number" name="tlf_cel_m" id="" placeholder="Telefono celular" class="form-control" value="<?php if(isset($registro['tlf_cel'])) echo $registro['tlf_cel_m']; ?>"  >    
-                                        </div>
-                                    </div>
-    
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-6">
-                                            <label>Correo Electronico:</label>
-                                            <input type="email" name="correo_m" id="" placeholder="Correo electronico" class="form-control" value="<?php if(isset($registro['correo'])) echo $registro['correo']; ?>" >
-                                        </div>
-                                        
-                                        <div class="col-lg-6 ">
-                                            <label >Profesion u Oficio:</label>
-                                            <input type="text" name="prof_ofi_m" id="" placeholder="Profesion u Oficio" class="form-control" value="<?php if(isset($registro['prof_ofi'])) echo $registro['prof_ofi']; ?>">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-6">
-                                            <label for="">Lugar de trabajo:</label>
-                                            <textarea rows="3" cols="40" name="lug_trab_m"  id="" placeholder="Lugar de trabajo" class="form-control" ><?php echo $registro['lugar_trab'];?></textarea>
-                                        </div>
-            
-                                        <div class="col-lg-6 ">
-                                            <label for="">Direccion de trabajo:</label>
-                                            <textarea rows="3" cols="40" name="direcc_trab_m"  id="" placeholder="Direccion de trabajo" class="form-control" ><?php echo $registro['direcc_trab']?></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-3 ">
-                                            <label for="">Telefono de oficina:</label>
-                                            <input type="number" name="tlf_ofic_m" id="" placeholder="Telefono de oficina" class="form-control" value="<?php echo $registro['tlf_ofic'];?>">
-                                        </div>
-                                    
-                                        <div class="col-lg-3 ">
-                                            <label>Es el Representante?:</label>
-                                        <input type="checkbox" <?php if(is_exist_represent($id_doc_m,$ci_escolar)) echo "checked";?> name="is_represent_m" value="1" id="" class="col-3">
-                                        </div>
-
-                                        <div class="col-lg-6 ">
-                                        <p for="" class="">Vive con el estudiante:</p>
-
-                                        <label for="convivencia_m" class="">Si</label>
-
-                                        <input type="radio" <?php if($registro['convivencia']) echo "checked";?> name="convivencia_m" value="1" id="">
-
-                                        <label for="convivencia_m" class="">No</label>
-
-                                        <input type="radio" name="convivencia_m" <?php if($registro['convivencia'] == '0') echo "checked";?> value="0" id="">
-                                        </div>
-                                    </div>
-
-                                    <div class="row my-4">
-                                    
-                                    </div>
-                                        <?php return $id_doc_m;}                                                                                
-}
-?>
-
-<?php 
-  function form_madres_empty($POST = ''){
-if (!empty($POST)) {
-extract($POST);
-}
-?>
-               <div class="row">    
-                        <div class="col-lg-12">
-                        <!--<div id="ui">-->
-                            <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>"  method="POST" class="form-group text-center">
-                              
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <h3 class="form-titulo">Datos de la Madre</h3>
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Primer Apellido:</label>
-                                            <input type="text" name="apellido_p_m" id="" placeholder="Apellido" class="form-control" value="<?php if(isset($apellido_p_m)) echo $apellido_p_m; ?>" >
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Segundo Apellido:</label>
-                                            <input type="text" name="apellido_m_m" id="" placeholder="Apellido" class="form-control" value="<?php if(isset($apellido_m_m)) echo $apellido_m_m; ?>">
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row">
-                                        <div class="col-lg-6 my-2">
-                                            <label>Primer Nombre:</label>
-                                            <input type="text" name="nombre1_m" id="" placeholder="Nombre" class="form-control"  value="<?php if(isset($nombre1_m)) echo $nombre1_m; ?>" >
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Segundo Nombre:</label>
-                                            <input type="text" name="nombre2_m" id="" placeholder="Nombre" class="form-control" value="<?php if(isset($nombre2_m)) echo $nombre2_m; ?>">
-                                        </div>
-                                    </div>
-
-                                
-                                    <div class="row">
-                                        
-                                        <div class="col-lg-2 ">
-                                         <label for=""></label>
-                                        <select name="nacionalidad_m" id="cedula" class="form-control my-3"  >
-                                            
-                                            <option value=""> Seleccione </option>
-                                            <option <?php if(isset($nacionalidad_m)) if($nacionalidad_m == '1') echo 'selected';?> value="1">V</option>
-                                            <option <?php if(isset($nacionalidad_m)) if($nacionalidad_m == '2') echo 'selected';?> value="2">E</option>
-                                        </select>
-                                        </div>
-                                        <div class="col-lg-4 my-2">
-                                        <label class="form-inline col-1">Cedula:</label> 
-                                            <input type="text" maxlength="8" placeholder="C.I" class="form-control "  name="id_doc_m_new" value="<?php if(isset($id_doc_m_new)) echo $id_doc_m_new; ?>" >     
-                                        </div>
-                                        
-                                        <div class="col-lg-6 my-2">
-                                            <label>Ocupacion:</label>
-                                            <input type="text" name="ocupacion_m" id="" placeholder="Ocupacion" class="form-control" value="<?php if(isset($ocupacion_m)) echo $ocupacion_m; ?>" >
-                                        </div>
-                                    </div> 
-                                
-                                    <div class="row my-2">
-                                        <div class="col-lg-3 my-4">
-                                            <label for="">Fecha de Nacimiento:</label>
-                                            <input type="text" name="fecha_nac_m" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_m)) echo $fecha_nac_m; ?>" >
-                                        </div>
-    
-
-                                        <div class="col-lg-3 my-4">
-                                            <label>Estado civil:</label>
-                                            <select name="estado_civil_m" id="cedula" class="form-control"  >
-                                                <option value="0"> Seleccione </option>
-                                                <option <?php if(isset($estado_civil_m)) if($estado_civil_m == '1') echo 'selected';?> value="1">Soltero/a</option>
-                                                <option <?php if(isset($estado_civil_m)) if($estado_civil_m == '2') echo 'selected';?> value="2">Casado/a</option>
-                                                <option <?php if(isset($estado_civil_m)) if($estado_civil_m == '3') echo 'selected';?> value="3">Divorciado/a</option>
-                                                <option <?php if(isset($estado_civil_m)) if($estado_civil_m == '4') echo 'selected';?> value="4">Viudo/a</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-lg-6 ">
-                                            <label for="">Lugar de Nacimiento:</label>
-                                            <textarea rows="3" cols="40" placeholder="Lugar de nacimiento" class="form-control"  name="lugar_nac_m" id=""  ><?php if(isset($lugar_nac_m)) echo $lugar_nac_m;?></textarea>
-                                        </div>
-                                    </div>
-    
-                                    <div class="row my-2">
-                                        <div class="col-lg-6 ">
-                                            <label for="">Direccion de Habitación:</label>
-                                            <textarea rows="3" cols="40" name="direcc_hab_m"  id="" placeholder="Direccion de habitación" class="form-control"   ><?php if(isset($direcc_hab_m)) echo $direcc_hab_m;?></textarea>
-                                        </div>
-    
-                                        <div class="col-lg-3 my-4">
-                                            <label for="">Telefono local</label>
-                                            <input type="number" name="tlf_local_m" id="" placeholder="Telefono local" class="form-control" value="<?php if(isset($tlf_local_m)) echo $tlf_local_m; ?>" >    
-                                        </div>
-                                        
-                                        <div class="col-lg-3 my-4">
-                                            <label for="">Telefono celular</label>
-                                            <input type="number" name="tlf_cel_m" id="" placeholder="Telefono celular" class="form-control" value="<?php if(isset($tlf_cel_m)) echo $tlf_cel_m; ?>"  >    
-                                        </div>
-                                    </div>
-    
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-6">
-                                            <label>Correo Electronico:</label>
-                                            <input type="email" name="correo_m" id="" placeholder="Correo electronico" class="form-control" value="<?php if(isset($correo_m)) echo $correo_m; ?>" >
-                                        </div>
-                                        
-                                        <div class="col-lg-6 ">
-                                            <label >Profesion u Oficio:</label>
-                                            <input type="text" name="prof_ofi_m" id="" placeholder="Profesion u Oficio" class="form-control" value="<?php if(isset($prof_ofi_m)) echo $prof_ofi_m; ?>">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-6">
-                                            <label for="">Lugar de trabajo:</label>
-                                            <textarea rows="3" cols="40" name="lug_trab_m"  id="" placeholder="Lugar de trabajo" class="form-control" ><?php if(isset($lug_trab_m)) echo $lug_trab_m;?></textarea>
-                                        </div>
-            
-                                        <div class="col-lg-6 ">
-                                            <label for="">Direccion de trabajo:</label>
-                                            <textarea rows="3" cols="40" name="direcc_trab_m"  id="" placeholder="Direccion de trabajo" class="form-control" ><?php if(isset($direcc_trab_m)) echo $direcc_trab_m;?></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-3 ">
-                                            <label for="">Telefono de oficina:</label>
-                                            <input type="number" name="tlf_ofic_m" id="" placeholder="Telefono de oficina" class="form-control" value="<?php if(isset($tlf_ofic_m)) echo $tlf_ofic_m;?>">
-                                        </div>
-                                    
-                                        <div class="col-lg-3 ">
-                                            <label>Es el Representante?:</label>
-                                        <input type="checkbox" <?php if(isset($_POST["is_represent_m"])){ if($_POST["is_represent_m"] == '1') echo "checked";}else{if(isset($is_represent_m)){ if($is_represent_m == '1') echo "checked";}}?> name="is_represent_m" value="1" id="" class="col-3">
-                                        </div>
-
-                                        <div class="col-lg-6 ">
-                                        <p for="" class="">Vive con el estudiante:</p>
-
-                                        <label for="convivencia_m" class="">Si</label>
-
-                                        <input type="radio" <?php if(isset($_POST["convivencia_m"])){ if($_POST["convivencia_m"] == '1') echo "checked";}else{if(isset($convivencia_m)){ if($convivencia_m == '1') echo "checked";}}
-                                        ?> name="convivencia_m" value="1" id="">
-
-                                        <label for="convivencia_m" class="">No</label>
-
-                                        <input type="radio" name="convivencia_m" <?php if(isset($_POST["convivencia_m"])){ if($_POST["convivencia_m"] == '0') echo "checked";}else{if(isset($convivencia_m)){ if($convivencia_m == '0') echo "checked";}}
-                                        ?> value="2" id="">
-                                        </div>
-                                    </div>
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-6 ">
-                                            <label>Seleccione si no se registrara:</label>
-                                        <input type="checkbox" <?php if(isset($_POST["no_register_m"])){ if($_POST["no_register_m"] == '1') echo "checked";}else{if(isset($no_register_m)){ if($no_register_m == '1') echo "checked";}}?> name="no_register_m" value="1" id="">
-                                        </div>
-                                    
-
-                                        <div class="col-lg-6 ">
-                                            <label>Seleccione si ya esta registrado: </label>
-                                            <input type="checkbox" <?php if(isset($_POST["si_exist_m"])){ if($_POST["si_exist_m"] == '1') echo "checked";}else{if(isset($si_exist_m)){ if($si_exist_m == '1') echo "checked";}}?> name="si_exist_m" value="1" id="">
-                                        </div>
-                                    </div>
-                                        <?php } ?>
-                             
-
-<?php function form_padre_empty($POST = ''){
-if (!empty($POST)) {
-extract($POST);
-}
- ?>
-<!------------------------------- TERCER FORMULARIO [ DATOS DEL PADRE ] ------------------------------------------------>
-
-                                     <br><br><br><br>
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <h3 class="form-titulo">Datos del Padre</h3>
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Primer Apellido:</label>
-                                            <input type="text" name="apellido_p_p" id="" placeholder="Apellido" class="form-control" value="<?php if(isset($apellido_p_p)) echo $apellido_p_p; ?>" >
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Segundo Apellido:</label>
-                                            <input type="text" name="apellido_m_p" id="" placeholder="Apellido" class="form-control" value="<?php if(isset($apellido_m_p)) echo $apellido_m_p; ?>" >
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row">
-                                        <div class="col-lg-6 my-2">
-                                            <label>Primer Nombre:</label>
-                                            <input type="text" name="nombre1_p" id="" placeholder="Nombre" class="form-control"  value="<?php if(isset($nombre1_p)) echo $nombre1_p; ?>" >
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Segundo Nombre:</label>
-                                            <input type="text" name="nombre2_p" id="" placeholder="Nombre" class="form-control" value="<?php if(isset($nombre2_p)) echo $nombre2_p; ?>">
-                                        </div>
-                                    </div>
-
-                                
-                                    <div class="row">
-                                        <div class="col-lg-2 my-3">
-                                            <label></label>
-                                            <select name="nacionalidad_p" id="cedula" class="form-control" >
-                                                <option value=""> Seleccione </option>
-                                                <option <?php if(isset($nacionalidad_p)) if($nacionalidad_p == '1') echo 'selected';?> value="1">V</option>
-                                                <option <?php if(isset($nacionalidad_p)) if($nacionalidad_p == '2') echo 'selected';?> value="2">E</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-lg-4 my-2">
-                                            <label class="form-inline">Cedula:</label>
-                                            <input type="text" maxlength="8" placeholder="C.I" class="form-control"  name="id_doc_p" value="<?php if(isset($id_doc_p)) echo $id_doc_p; ?>">     
-                                        </div>
-                                        
-                                        <div class="col-lg-6 my-2">
-                                            <label>Ocupacion:</label>
-                                            <input type="text" name="ocupacion_p" id="" placeholder="Ocupacion" class="form-control" value="<?php if(isset($ocupacion_p)) echo $ocupacion_p;?>">
-                                        </div>
-                                    </div> 
-                                
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-3 my-4">
-                                            <label for="">Fecha de Nacimiento:</label>
-                                            <input type="text" name="fecha_nac_p" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_p)) echo $fecha_nac_p; ?>">
-                                        </div>
-    
-                                        <div class="col-lg-3 my-4">
-                                            <label>Estado civil:</label>
-                                            <select name="estado_civil_p" id="cedula" class="form-control "  >
-                                                <option value="0"> Seleccione </option>
-                                                <option <?php if(isset($estado_civil_p)) if($estado_civil_p == '1') echo 'selected';?> value="1">Soltero/a</option>
-                                                <option <?php if(isset($estado_civil_p)) if($estado_civil_p == '2') echo 'selected';?> value="2">Casado/a</option>
-                                                <option <?php if(isset($estado_civil_p)) if($estado_civil_p == '3') echo 'selected';?> value="3">Divorciado/a</option>
-                                                <option <?php if(isset($estado_civil_p)) if($estado_civil_p == '4') echo 'selected';?> value="4">Viudo/a</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-lg-6 ">
-                                            <label for="">Lugar de Nacimiento</label>
-                                         <textarea rows="3" cols="40" placeholder="Lugar de nacimiento" class="form-control"  name="lugar_nac_p" id="" ><?php if(isset($lugar_nac_p)) echo $lugar_nac_p;?></textarea>
-                                        </div>
-                                    </div>
-    
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-6 ">
-                                            <label for="">Direccion de Habitacion</label>
-                                            <textarea rows="3" cols="40" name="direcc_hab_p"  id="" placeholder="Direccion de Habitacion" class="form-control" ><?php if(isset($direcc_hab_p)) echo $direcc_hab_p;?></textarea>
-                                        </div>
-    
-                                        <div class="col-lg-3 my-4">
-                                            <label for="">Telefono local</label>
-                                            <input type="number" name="tlf_local_p" id="" placeholder="Telefono local" class="form-control" value="<?php if(isset($tlf_local_p)) echo $tlf_local_p; ?>" >    
-                                        </div>
-                                        
-                                        <div class="col-lg-3 my-4">
-                                            <label for="">Telefono celular</label>
-                                            <input type="number" name="tlf_cel_p" id="" placeholder="Telefono celular" class="form-control" value="<?php if(isset($tlf_cel_p)) echo $tlf_cel_p; ?>" >    
-                                        </div>
-                                    </div>
-    
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-6">
-                                            <label>Correo Electronico:</label>
-                                            <input type="email" name="correo_p" id="" placeholder="Correo electronico" class="form-control" value="<?php if(isset($correo_p)) echo $correo_p; ?>">
-                                        </div>
-                                        
-                                        <div class="col-lg-6 ">
-                                            <label >Profesion u Oficio:</label>
-                                            <input type="text" name="prof_ofi_p" id="" placeholder="Profesion u Oficio" class="form-control" value="<?php if(isset($prof_ofi_p)) echo $prof_ofi_p; ?>">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-6">
-                                            <label for="">Lugar de trabajo:</label>
-                                            <textarea rows="3" cols="40" name="lug_trab_p"  id="" placeholder="Lugar de trabajo" class="form-control" ><?php if(isset($lug_trab_p)) echo $lug_trab_p;?></textarea>
-                                        </div>
-            
-                                        <div class="col-lg-6 ">
-                                            <label for="">Direccion de trabajo:</label>
-                                            <textarea rows="3" cols="40" name="direcc_trab_p"  id="" placeholder="Direccion de trabajo" class="form-control" ><?php if(isset($direcc_trab_p)) echo $direcc_trab_p;?></textarea>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="row">
-                                        <div class="col-lg-3">
-                                            <label for="">Telefono de oficina:</label>
-                                            <input type="number" name="tlf_ofic_p" id="" placeholder="Telefono de oficina" class="form-control" value="<?php if(isset($tlf_ofic_p)) echo $tlf_ofic_p;?>">
-                                        </div>
-                                                 
-
-                                        <div class="col-lg-3 ">
-                                            <label>Es el Representante?:</label>
-                                            <input type="checkbox" <?php if(isset($_POST["is_represent_p"])){ if($_POST["is_represent_p"] == '1') echo "checked";}else{if(isset($is_represent_p)){ if($is_represent_p == '1') echo "checked";}}?> name="is_represent_p" value="1" id="" class="col-3">
-                                        </div>
-
-                                        <div class="col-lg-6 my-2">
-                                        <p for="" class="">Vive con el estudiante:</p>
-
-                                        <label for="convivencia_p" class="">Si</label>
-
-                                        <input type="radio" <?php if(isset($_POST["convivencia_p"])){ if($_POST["convivencia_p"] == '1') echo "checked";}else{if(isset($convivencia_p)){ if($convivencia_p == '1') echo "checked";}}
-                                        ?> name="convivencia_p" value="1" id="">
-
-                                        <label for="convivencia_p" class="">No</label>
-
-                                        <input type="radio" name="convivencia_p" <?php if(isset($_POST["convivencia_p"])){ if($_POST["convivencia_p"] == '0') echo "checked";}else{if(isset($convivencia_p)){ if($convivencia_p == '0') echo "checked";}}
-                                        ?> value="0" id="">
-                                        </div>
-                                    </div>
-
-                                    <div class="row col-12">
-                                        <div class="col-lg-6 my-2">
-                                            <label>Seleccione si no se registrara:</label>
-                                            <input type="checkbox" <?php if(isset($_POST["no_register_p"])){ if($_POST["no_register_p"] == '1') echo "checked";}else{if(isset($no_register_p)){ if($no_register_p == '1') echo "checked";}}?> name="no_register_p" value="1" id="">
-                                        </div>
-
-                                        <div class="col-lg-6 my-2">
-                                            <label>Seleccione si ya esta registrado: </label>
-                                            <input type="checkbox" <?php if(isset($_POST["si_exist_p"])){ if($_POST["si_exist_p"] == '1') echo "checked";}else{if(isset($si_exist_p)){ if($si_exist_p == '1') echo "checked";}}?> name="si_exist_p" value="1" id="">
-                                        </div>
-                                    </div>
-
-            <?php 
-     }
-?>
-
-<?php 
-  function form_represent_empty($POST = ''){
-if (!empty($POST)) {
-extract($POST);
-}
- ?>
-
-
-    <br><br><br><br>    
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <h3 class="form-titulo">Datos del Representante</h3>
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Primer Apellido:</label>
-                                            <input type="text" name="apellido_p_r" id="" placeholder="Apellido" class="form-control" value="<?php if(isset($apellido_p_r)) echo $apellido_p_r; ?>" >
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Segundo Apellido:</label>
-                                            <input type="text" name="apellido_m_r" id="" placeholder="Apellido" class="form-control" value="<?php if(isset($apellido_m_r)) echo $apellido_m_r; ?>" >
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row">
-                                        <div class="col-lg-6 my-2">
-                                            <label>Primer Nombre:</label>
-                                            <input type="text" name="nombre1_r" id="" placeholder="Nombre" class="form-control"  value="<?php if(isset($nombre1_r)) echo $nombre1_r; ?>">
-                                        </div>
-                                        <div class="col-lg-6 my-2">
-                                            <label>Segundo Nombre:</label>
-                                            <input type="text" name="nombre2_r" id="" placeholder="Nombre" class="form-control" value="<?php if(isset($nombre1_r)) echo $nombre1_r; ?>">
-                                        </div>
-                                    </div>
-
-                                
-                                    <div class="row">
-                                        <div class="col-lg-3 my-3">
-                                            <label></label>
-                                        <select name="nacionalidad_r" id="cedula" class="form-control" >
-                                            <option value=""> Seleccione </option>
-                                            <option <?php if(isset($nacionalidad_r)) if($nacionalidad_r == '1') echo 'selected';?> value="1">V</option>
-                                            <option <?php if(isset($nacionalidad_r)) if($nacionalidad_r == '2') echo 'selected';?> value="2">E</option>
-                                        </select>
-                                        </div>
-
-                                        <div class="col-lg-3 my-2">
-                                            <label>Cedula:</label>
-                                            <input type="text" maxlength="8" placeholder="C.I" class="form-control"  name="id_doc_r_new" value="<?php if(isset($id_doc_r_new)) echo $id_doc_r_new; ?>">     
-                                        </div>
-                                        
-                                        <div class="col-lg-6 my-2">
-                                            <p for="" class="">Sexo:</p>
-
-                                            <label for="" class="">Masculino:</label>
-                                            <input type="radio" <?php if(isset($_POST["sexo_r"])){ if($_POST["sexo_r"] == '1') echo "checked";}else{if(isset($sexo_r)){ if($sexo_r == '1') echo "checked";}};
-                                            ?> name="sexo_r" value="1" id="" >
-
-                                            <label for="sexo_r" class="">Femenino:</label>
-
-                                            <input type="radio" name="sexo_r" <?php if(isset($_POST["sexo_r"])){ if($_POST["sexo_r"] == '2') echo "checked";}else{if(isset($sexo_r)){ if($sexo_r == '2') echo "checked";}}
-                                            ?> value="2" id="" >
-                                        </div>                                        
-                                    </div> 
-                                
-                                    <div class="row my-4">
-                                        <div class="col-lg-6 ">
-                                            <label>Ocupacion:</label>
-                                            <input type="text" name="ocupacion_r" id="" placeholder="Ocupacion" class="form-control" value="<?php if(isset($ocupacion_r)) echo $ocupacion_r;?>">
-                                        </div>
-
-                                        <div class="col-lg-3 ">
-                                            <label for="">Fecha de Nacimiento:</label>
-                                            <input type="text" name="fecha_nac_r" id="" placeholder="Fecha" class="form-control" value="<?php if(isset($fecha_nac_r)) echo $fecha_nac_r; ?>">
-                                        </div>
-    
-
-                                        <div class="col-lg-3 ">
-                                            <label>Estado civil:</label>
-                                            <select name="estado_civil_r" id="cedula" class="form-control"  >
-                                                <option value=""> Seleccione </option>
-                                                <option <?php if(isset($estado_civil_r)) if($estado_civil_r == '1') echo 'selected';?> value="1">Soltero/a</option>
-                                                <option <?php if(isset($estado_civil_r)) if($estado_civil_r == '2') echo 'selected';?> value="2">Casado/a</option>
-                                                <option <?php if(isset($estado_civil_r)) if($estado_civil_r == '3') echo 'selected';?> value="3">Divorciado/a</option>
-                                                <option <?php if(isset($estado_civil_r)) if($estado_civil_r == '4') echo 'selected';?> value="4">Viudo/a</option>
-                                            </select>
-                                        </div>
-                                    </div>
-    
-                                
-                                    <div class="row my-4">
-                                        <div class="col-lg-6 ">
-                                            <label for="">Lugar de Nacimiento</label>
-                                            <textarea rows="3" cols="40" placeholder="Lugar de nacimiento" class="form-control"  name="lugar_nac_r" id="" ><?php if(isset($lugar_nac_r)) echo $lugar_nac_r;?></textarea>
-                                        </div>
-
-                                        <div class="col-lg-6 ">
-                                            <label for="">Direccion de Habitacion</label>
-                                            <textarea rows="3" cols="40" name="direcc_hab_r"  id="" placeholder="Direccion de Habitacion" class="form-control" ><?php if(isset($direcc_hab_r)) echo $direcc_hab_r;?></textarea>
-                                        </div>
-                                    </div>
-    
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-3 ">
-                                            <label for="">Telefono local</label>
-                                            <input type="number" name="tlf_local_r" id="" placeholder="Telefono local" class="form-control" value="<?php if(isset($tlf_local_r)) echo $tlf_local_r; ?>" >    
-                                        </div>
-                                        
-                                        <div class="col-lg-3 ">
-                                            <label for="">Telefono celular</label>
-                                            <input type="number" name="tlf_cel_r" id="" placeholder="Telefono celular" class="form-control" value="<?php if(isset($tlf_cel_r)) echo $tlf_cel_r; ?>" >    
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <label>Correo Electronico:</label>
-                                            <input type="email" name="correo_r" id="" placeholder="Correo electronico" class="form-control" value="<?php if(isset($correo_r)) echo $correo_r; ?>">
-                                        </div>
-                                        
-                                    </div>
-
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-6 my-4">
-                                            <label >Profesion u Oficio:</label>
-                                            <input type="text" name="prof_ofi_r" id="" placeholder="Profesion u Oficio" class="form-control" value="<?php if(isset($prof_ofi_r)) echo $prof_ofi_r; ?>">
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <label for="">Lugar de trabajo:</label>
-                                            <textarea rows="3" cols="40" name="lug_trab_r"  id="" placeholder="Lugar de trabajo" class="form-control" ><?php if(isset($lug_trab_r)) echo $lug_trab_r;?></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-lg-6 ">
-                                            <label for="">Direccion de trabajo:</label>
-                                            <textarea rows="3" cols="40" name="direcc_trab_r"  id="" placeholder="Direccion de trabajo" class="form-control" ><?php if(isset($direcc_trab_r)) echo $direcc_trab_r;?></textarea>
-                                        </div>
-
-                                        <div class="col-lg-6 my-4">
-                                            <label for="">Telefono de oficina:</label>
-                                            <input type="number" name="tlf_ofic_r" id="" placeholder="Telefono de oficina" class="form-control" value="<?php if(isset($tlf_ofic_r)) echo $tlf_ofic_r;?>">
-                                        </div>
-                                    </div>
-
-                                    <div class="row my-4">
-                                        <div class="col-lg-6 my-2">
-                                            <label>Parentesco:</label>
-                                            <input type="text" name="parentesco_r" id="" placeholder="Parentesco" class="form-control" value="<?php if(isset($parentesco_r)) echo $parentesco_r;?>">
-                                        </div>
-
-                                        <div class="col-lg-6 my-2">
-                                            <label>Vive con el estudiante:</label>
-                                            <input type="checkbox" <?php if(isset($_POST["convivencia_r"])){ if($_POST["convivencia_r"] == '1') echo "checked";}else{if(isset($convivencia_r)){ if($convivencia_r == '1') echo "checked";}}?> name="convivencia_r" value="1" id="">
-                                        </div>
-                                    </div>
-
-                                    <div class="row ">
-                                        <div class="col-lg-12 my-2">
-                                            <label>Seleccione si ya esta registrado: </label>
-                                            <input type="checkbox" <?php if(isset($_POST["si_exist_r"])){ if($_POST["si_exist_r"] == '1') echo "checked";}else{if(isset($si_exist_r)){ if($si_exist_r == '1') echo "checked";}}?> name="si_exist_r" value="1" id="">
-                                        </div>
-                                    </div>
-
-            <?php 
-     }
-
 
 
 function sepadador_ci_escolar($id){ 

@@ -242,7 +242,7 @@ $apellido_m_p=filtrar_nombres_apellidos($apellido_m_p);
 
 
 
-if (empty($is_represent_r) && empty($is_represent_m) ) {
+if (empty($is_represent_p) && empty($is_represent_m) ) {
 
     $nacionalidad_r = htmlentities(addslashes($_POST["nacionalidad_r"]));
     $id_doc_r = htmlentities(addslashes($_POST["id_doc_r"]));

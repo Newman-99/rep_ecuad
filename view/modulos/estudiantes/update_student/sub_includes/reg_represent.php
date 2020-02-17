@@ -141,13 +141,23 @@
                                         </div>
 
                                         <div class="col-lg-6 my-2">
-                                            <label>Vive con el estudiante:</label>
-                                            <input type="checkbox" <?php if(isset($convivencia_r)){ if($convivencia_r == '1') echo "checked";}?> name="convivencia_r" value="1" id="">
-                                        </div>
-                                    </div>
+                                        <p for="" class="">Vive con el estudiante:</p>
 
-                                    <div class="row ">
-                                        <div class="col-lg-12 my-2">
+                                        <label for="convivencia_r" class="">Si</label>
+
+                                        <input type="radio" <?php if(isset($convivencia_r)){ if($convivencia_r == '1') echo "checked";}/*else{if(isset($convivencia_r)){ if($convivencia_r == '1') echo "checked";}}*/
+                                        ?> name="convivencia_r" value="1" id="">
+
+                                        <label for="convivencia_r" class="">No</label>
+
+                                        <input type="radio" name="convivencia_r" <?php if(isset($convivencia_r)){ if($convivencia_r == '0') echo "checked";}/*else{if(isset($convivencia_r)){ if($convivencia_r == '0') echo "checked";}}*/
+                                        ?> value="0" id="">
+                                    </div>    
+                                </div>
+
+                                    <div class="row col-12">
+
+                                        <div class="col-lg-6 my-2">
                                             <label>Seleccione si ya esta registrado: </label>
                                             <input type="checkbox" <?php if(isset($si_exist_r)){ if($si_exist_r == '1') echo "checked";}?> name="si_exist_r" value="1" id="">
                                         </div>
@@ -156,7 +166,7 @@
                                         
                                     <?php imprimir_msjs_no_style($errors_r); ?>
 
-                                        <button type='submit' class="btn btn-primary col-lg-9" value="datos_student" name='datos_pers_estd'>Registrar</button>
+                                        <button type='submit' class="btn btn-primary col-lg-9" value="reg_represent" name='reg_represent'>Registrar</button>
                                         
                                         
                                     

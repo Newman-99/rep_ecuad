@@ -102,10 +102,9 @@
                                             <label for="">Telefono local</label>
                                             <input type="number" name="tlf_local_m" id="" placeholder="Telefono local" class="form-control" value="<?php if(isset($registro['tlf_local'])) echo $registro['tlf_local']; ?>" >    
                                         </div>
-                                        
                                         <div class="col-lg-3 my-4">
                                             <label for="">Telefono celular</label>
-                                            <input type="number" name="tlf_cel_m" id="" placeholder="Telefono celular" class="form-control" value="<?php if(isset($registro['tlf_cel'])) echo $registro['tlf_cel_m']; ?>"  >    
+                                            <input type="number" name="tlf_cel_m" id="" placeholder="Telefono celular" class="form-control" value="<?php if(isset($registro['tlf_cel'])) echo $registro['tlf_cel']; ?>"  >    
                                         </div>
                                     </div>
     
@@ -115,10 +114,9 @@
                                             <label>Correo Electronico:</label>
                                             <input type="email" name="correo_m" id="" placeholder="Correo electronico" class="form-control" value="<?php if(isset($registro['correo'])) echo $registro['correo']; ?>" >
                                         </div>
-                                        
                                         <div class="col-lg-6 ">
                                             <label >Profesion u Oficio:</label>
-                                            <input type="text" name="prof_ofi_m" id="" placeholder="Profesion u Oficio" class="form-control" value="<?php if(isset($registro['prof_ofi'])) echo $registro['prof_ofi']; ?>">
+                                            <input type="text" name="prof_ofi_m" id="" placeholder="Profesion u Oficio" class="form-control" value="<?php if(isset($registro['prof_ofic'])) echo $registro['prof_ofic']; ?>">
                                         </div>
                                     </div>
 
@@ -143,7 +141,7 @@
                                     
                                         <div class="col-lg-3 ">
                                             <label>Es el Representante?:</label>
-                                        <input type="checkbox" <?php if(is_exist_represent($id_doc_m,$ci_escolar)) echo "checked";?> name="is_represent_m" value="1" id="" class="col-3">
+                                        <input type="checkbox" <?php if(is_exist_represent($id_doc_m,$ci_escolar)) echo "checked";$count_represents++;?> name="is_represent_m" value="1" id="" class="col-3">
                                         </div>
 
                                         <div class="col-lg-6 ">
