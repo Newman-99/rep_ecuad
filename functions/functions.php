@@ -3153,17 +3153,30 @@ function update_basic_data_student($ci_escolar,$ci_escolar_new,$id_doc,$id_estad
     global $db;
 
     // Insertando datos personales genericos
-    
-$sql =disable_foreing()."UPDATE `estudiantes` SET `id_doc`= :id_doc,`id_estado`=:id_estado WHERE 
- ci_escolar = :ci_escolar; ".enable_foreing();
 
+if (!empty($id_estado)) {
+
+$sql =disable_foreing()."UPDATE `estudiantes` SET `id_estado`=:id_estado WHERE 
+ ci_escolar = :ci_escolar; ".enable_foreing();
 
 $result=$db->prepare($sql);
                             
-$result->execute(array("ci_escolar" => $ci_escolar,"ci_escolar_new" => $ci_escolar_new,"id_doc"=>$id_doc,"id_estado"=>$id_estado));
+$result->execute(array("ci_escolar" => $ci_escolar,"id_estado"=>$id_estado));
+}
+
+if (!empty($id_doc)) {
+$sql = "UPDATE estudiantes SET id_doc = :id_doc WHERE ci_escolar = :ci_escolar;";
+
+$result=$db->prepare($sql);
+
+$result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar));
+}
+
 
 
 }
+
+
 
 function update_estado_student($ci_escolar,$id_estado){
 

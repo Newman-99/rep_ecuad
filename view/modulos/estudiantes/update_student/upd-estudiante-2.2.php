@@ -923,10 +923,10 @@ if (!isset($_POST['new_represent'])) {
 
 
  ?>
-
+                <a href="../menu_upd_student.php" class="btn btn-primary  col-lg-2">Volver</a>
          </form>
 
-                                        <a href="../menu_upd_student.php" class="btn btn-primary  col-lg-2">Volver</a>
+                                        
 
                         </div>
                 </div>
