@@ -20,7 +20,7 @@ if (isset($_GET['clean_ci_escolar'])) {
   <div class="nav-h"><!----- DIV contenedor BARRA NAVEGACION HORIZONTAL -----> 
   
 		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
-			
+    <div class="text-center">
         <label for="">Buscar Por:</label>
 			  <input type="search" class="col-3 mx-2" placeholder="Cedula escolar o normal" name="ci_estudiante" value="<?php if(isset($ci)) echo $ci;?>">
         /
@@ -83,7 +83,7 @@ if (isset($_GET['clean_ci_escolar'])) {
         <label for="">Año Escolar:</label>
         <input type="number" name="año_escolar1" id="" class="col-1" value="<?php if(isset($anio_escolar1)) echo $anio_escolar1; ?>">
         <input type="number" name="año_escolar2" id="" class="col-1" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
-
+        </div>
         
         <div class="text-center">
         <a href="./register_student/reg-estudiante-1.php"  class="icon-add btn btn-primary col-3">Registrar Nuevo Estudiante</a>
