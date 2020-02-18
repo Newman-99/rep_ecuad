@@ -22,7 +22,6 @@
                                             <input type="text" name="nombre2_r" id="" placeholder="Nombre" class="form-control" value="<?php if(isset($nombre2_r)) echo $nombre2_r; ?>">
                                         </div>
                                     </div>
-
                                 
                                     <div class="row">
                                         <div class="col-lg-3 my-3">

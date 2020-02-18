@@ -95,7 +95,6 @@ $id_actualizacion=obtener_ultimo_id_actualizacion();
 
          if (is_exist_clase($id_clase)) {
             asignar_clase_for_estudent($id_clase,'3',$id_actualizacion,$_SESSION['ci_escolar']);
-            var_dump($estado);
             update_estado_clases_estudent($_SESSION['ci_escolar'],$estado,$id_clase,$id_actualizacion);
 
           }
@@ -105,6 +104,7 @@ update_estado_student($_SESSION['ci_escolar'],$estado);
 registrar_inscrip_scolaridad($_SESSION['ci_escolar'],$plantel_proced,$localidad,$anio_escolar1_escolaridad,$anio_escolar2_escolaridad,$grado_escolaridad,$calif_escolaridad,$repitiente,$observacions,$id_actualizacion);
 
 //$errors[]= " <button type='submit' class='btn btn-primary col-lg-9' value='confirm_4' name='confirm_4'>CONTINUAR</button>";
+
 
 $errors[]= "Cambios Registrado con Exito";
 
@@ -343,14 +343,19 @@ $sql = consulta_escolaridad()." WHERE es.ci_escolar = :ci_escolar ORDER BY ac.id
                                     </div>                                             
 
                                         <div class="col-lg-3 my-4">
-                                            <label for="">Estado del Estudiante</label>
                                             <select name="estado" id="calificacion" class="form-control" >
+                                            <label for="">Estado del Estudiante</label>
+
+                                            <?php if ($registro['grado'] != '6') {
+                                                ?>
                                                 <option value=""> Seleccione </option>
                                                 <option <?php if(isset($registro['id_estado'])) if($registro['id_estado'] == '3') echo 'selected';?> value="3">Activo</option>
 
                                                 <option   <?php if(isset($registro['id_estado'])) if($registro['id_estado'] == '4') echo 'selected';?> value="4">Irregular</option>
 
                                                 <option  <?php if(isset($registro['id_estado'])) if($registro['id_estado'] == '5') echo 'selected';?> value="5">Retirado</option>
+
+                                            <?php } ?>
 
                                                 <?php if ($registro['grado'] == '6') {
                                                  ?>

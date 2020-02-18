@@ -480,6 +480,31 @@ $result->execute();
 return $correo=$result->fetchColumn();
 
 }
+
+function obtener_anios_escolar_actual(){
+
+global $db;
+
+$sql="SELECT anio_escolar1 FROM anio_escolar_actual";
+                                
+$result=$db->prepare($sql);
+                        
+$result->execute();
+
+ $anio_escolar_1=$result->fetchColumn();
+
+
+$sql="SELECT anio_escolar2 FROM anio_escolar_actual";
+                                
+$result=$db->prepare($sql);
+                        
+$result->execute();
+
+ $anio_escolar_2=$result->fetchColumn();
+
+ return $anio_escolar_actual = array('anio_escolar_1' => $anio_escolar_1,'anio_escolar_2' => $anio_escolar_2);
+}
+
 function obtener_nivel_permiso($ci){
 
 global $db;
@@ -1349,10 +1374,8 @@ $result->execute($parameters);
 
 $id_actualizacion = obtener_ultimo_id_actualizacion_clase($ci_escolar);
 
-var_dump($id_actualizacion);
 
     if ($id_estado != '5' ) {
-        echo "Se Actuliza";
 
         $sql = disable_foreing()." UPDATE `estudiantes_asignados` SET `id_estado` = :id_estado  WHERE `ci_escolar` = :ci_escolar AND id_clase = :id_clase AND id_actualizacion = :id_actualizacion; ".enable_foreing();;
 
@@ -1376,6 +1399,7 @@ $result->execute($parameters);
            }
 
 }
+
 
  function is_exist_student_in_clase($ci_escolar){
       global $db;
@@ -2459,7 +2483,7 @@ function validar_datos_personales($nacionalidad,
     $lug_trab,
     $tlf_ofic){
 
-if(validar_datos_vacios_sin_espacios($nacionalidad,$estado_civil,$correo,$tlf_cel,$tlf_local,$fecha_nac) || validar_datos_vacios($nombre1,$apellido_p,$lugar_nac,$direcc_hab,$sexo)){
+if(validar_datos_vacios_sin_espacios($nacionalidad,$estado_civil,$correo,$tlf_cel,$tlf_local,$fecha_nac) || validar_datos_vacios($nombre1,$apellido_p,$lugar_nac,$direcc_hab,$sexo,$ocupacion)){
     $errors[]= "
     Se debe evitar campos vacios a exepcion del segundo nombre y apellido
     <br><br>
@@ -2472,6 +2496,8 @@ if(validar_datos_vacios_sin_espacios($nacionalidad,$estado_civil,$correo,$tlf_ce
     Numeros Telefonicos
     <br><br>
     Correos Electronicos
+    <br><br>
+    Ocupacion
     ";
 
 
@@ -3177,6 +3203,20 @@ $result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar));
 
 
 
+function update_anio_escol_actual($anio_escolar1,$anio_escolar2){
+
+    global $db;
+    
+$sql = "UPDATE `anio_escolar_actual` SET `anio_escolar1`= :anio_escolar1,`anio_escolar2`= :anio_escolar2 ; ";
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("anio_escolar1" => $anio_escolar1,"anio_escolar2"=>$anio_escolar2));
+
+
+}
+
+
 function update_estado_student($ci_escolar,$id_estado){
 
     global $db;
@@ -3184,14 +3224,12 @@ function update_estado_student($ci_escolar,$id_estado){
 $sql =disable_foreing()."UPDATE `estudiantes` SET `id_estado`= :id_estado WHERE 
  ci_escolar = :ci_escolar; ".enable_foreing();
 
-
 $result=$db->prepare($sql);
                             
 $result->execute(array("ci_escolar" => $ci_escolar,"id_estado"=>$id_estado));
 
 
 }
-
 
 function update_other_data_student($ci_escolar,$ci_escolar_new,$nro_pers_viven,$hermanos,$descrip_hermanos){
 
@@ -3240,6 +3278,19 @@ $result=$db->prepare($sql);
 $result->execute(array("id_doc"=>$id_doc,"ci_escolar"=>$ci_escolar));
 
 }
+
+function update_recursos_public($ci_escolar,$colecc_bicent,$canaima,$contrato){
+
+global $db;
+
+$sql = disable_foreing()."UPDATE `recursos_public` SET `colecc_bicent`=:colecc_bicent,`canaima`=:canaima,`contrato`=:contrato WHERE ci_escolar = :ci_escolar; ".enable_foreing();
+
+$result=$db->prepare($sql);
+                            
+$result->execute(array("ci_escolar"=>$ci_escolar,"colecc_bicent"=>$colecc_bicent,"canaima"=>$canaima,"contrato"=>$contrato));
+
+}
+
 
 function update_datos_laborales($id_doc,$id_doc_new,$prof_ofic,$lugar_trab,$direcc_trab,$tlf_ofic){
     
@@ -3347,7 +3398,7 @@ function update_movilidad_student($ci_escolar,$ci_escolar_new,$est_ret,$desc_ret
 
 global $db;
 
-$sql = disable_foreing().' UPDATE `movilidad` SET ci_escolar=:ci_escolar_new,est_ret=:est_ret,desc_ret=:desc_ret,est_tranport =:est_tranport, desc_tranport=:desc_tranport WHERE ci_escolar = :ci_escolar; '.enable_foreing();
+$sql = disable_foreing().' UPDATE `movilidad` SET est_ret=:est_ret,desc_ret=:desc_ret,est_tranport =:est_tranport, desc_tranport=:desc_tranport WHERE ci_escolar = :ci_escolar; '.enable_foreing();
 
                     $result = $db->prepare($sql);
 
