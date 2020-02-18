@@ -9,12 +9,14 @@
 		<link rel="stylesheet" href="../../style/css/estilos_gregorio.css">
 		<!-- 
 	    <link rel="stylesheet" href="../../style/css/estilos.css">
-		-->
-	    <link rel="stylesheet" href="../../style/css/styles.css">
-
-	    <link rel="stylesheet" href="../../style/css/style.css">
+		--> 
+	    <link rel="stylesheet" href="../../style/css/styles.css"> 
+		
+		<link rel="stylesheet" href="../../style/css/iconos.css">
+		
+		<link rel="stylesheet" href="../../style/css/style.css">
 
 	    <link rel="stylesheet" href="../../style/bootstrap/bootstrap.min.css">
 
-	    <link rel="stylesheet" href="../../style/css/iconos.css">
+	    
 

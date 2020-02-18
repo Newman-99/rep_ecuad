@@ -15,7 +15,7 @@ if (isset($_GET['clean_ci_escolar'])) {
 	    <title>Estudiantes</title>
 	    
 <?php require '../../includes/header.php'; ?>	
-<link rel="stylesheet" type="text/css" href="../../styles/css/styles.css">
+
 
 	<section>
   <div class="nav-h"><!----- DIV contenedor BARRA NAVEGACION HORIZONTAL -----> 
@@ -24,19 +24,19 @@ if (isset($_GET['clean_ci_escolar'])) {
   <div class="text-center">
       <label for="">Buscar Por:</label>
       <input type="search" class="col-3 mx-2" placeholder="Cedula escolar o normal" name="ci_estudiante" value="<?php if(isset($ci)) echo $ci;?>">
-      /
+      
       <label class="" for="">Estado:</label>
-      <select name="estado_student" id="" autocomplete="on" class="">
+      <select name="estado_student" id="" autocomplete="on" class="mx-2">
           <option value=''>Todos</option>
           <option value="3">Activo</option>
           <option value="4">Irregular</option>
           <option value="5">Retirado</option>
       </select>
       
-        /
+        
       
       <label for="">Grado Designado:</label>
-      <select name="grado_design" id="" autocomplete="on">
+      <select name="grado_design" id="" autocomplete="on" class="mx-2">
           <option value=''>Todos</option>
           <option value="1">1ro</option>
           <option value="2">2do</option>
@@ -80,8 +80,8 @@ if (isset($_GET['clean_ci_escolar'])) {
           <option value="2">Tarde</option>
       </select> 
 -->
-      /
-      <label for="">Año Escolar:</label>
+      
+      <label class="mx-2">Año Escolar:</label>
       <input type="number" name="año_escolar1" id="" class="col-1" value="<?php if(isset($anio_escolar1)) echo $anio_escolar1; ?>">
       <input type="number" name="año_escolar2" id="" class="col-1" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
       </div>
@@ -292,18 +292,18 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
 
                     <form action='./menu_upd_student.php' method='post'>
                         
-                        <button type='submit' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='update_student'> Actualizar</button>
+                        <button type='submit' class="btn btn-dark btn-sm col-12"  value="<?php echo $registro['ci_escolar']; ?>" name ='update_student'> Actualizar</button>
                     </form>
 
-                  <br><br> 
+                   
 
                         <form action='mas_info_student.php' method='post'>
                         
-                        <button type='submit' class='icon-list1' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='mas_info_student' >Mas Informacion</button>
+                        <button type='submit' class='icon-list1 btn btn-dark btn-sm col-12'  value="<?php echo $registro['ci_escolar']; ?>" name ='mas_info_student' >Mas Informacion</button>
                          
                          </form>
 
-<br><br>
+
                         <?php } ?>
 
                         
@@ -311,7 +311,7 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
 
                         <form action='#' method='post'>
                         
-                        <button type='submit' icon='button-cancel' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='eliminar_estudiantet' >Eliminar</button>
+                        <button type='submit' class='button-cancel btn btn-dark btn-sm col-12'  value="<?php echo $registro['ci_escolar']; ?>" name ='eliminar_estudiantet' >Eliminar</button>
                          
                          </form>
 

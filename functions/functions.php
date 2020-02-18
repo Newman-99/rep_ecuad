@@ -583,7 +583,7 @@ function imprimir_usuario_bienvenida($ci){
     
     <form action='../usuarios/seguridad.php' method='post'>
                         
-    <button type='submit' style='' id=registrer class='icon-add' value=".$registro['id_doc']." name ='modif_pass' >Seguridad</button>
+    <button type='submit' class='btn btn-dark  col-12' id='' class='icon-add' value=".$registro['id_doc']." name ='modif_pass' >Seguridad</button>
     
     </form>
 

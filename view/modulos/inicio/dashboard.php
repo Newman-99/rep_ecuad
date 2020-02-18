@@ -25,7 +25,8 @@ if (isset($_GET['clean_ci_escolar'])) {
     imprimir_usuario_bienvenida($ci);
 
 
-?>    
+?>  
+
 	        <div>
 
 
