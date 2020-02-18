@@ -21,6 +21,13 @@ $errors=array();
 			<!--
 			<button id=button class="icon-search" type="submit" name="por_cedula" value="por_cedula">Buscar</button> -->
 				
+				<label for="">Sexo:</label>
+      				<select name="" id="" class="mx-2">
+        			<option value="">Todos</option>
+        			<option value="1">Masculino</option>
+        			<option value="2">Femenino</option>
+      				</select>
+
 				Funcion: 
 				<select name="id_funcion_docent" class="mx-2">
 				<option value="">Todos</option>				
@@ -46,9 +53,8 @@ $errors=array();
 			</select>
 	</div>
 			<div class="text-center">
-			<a href="register_docent.php"  id="" class="icon-add btn btn-primary col-3">Registrar Nuevo Docente</a>
-			
 			<button id="" class="icon-search btn btn-primary col-2 mx-3" type="submit" name="por_criterios" value="buscar_docent">Buscar</button>		
+			<a href="register_docent.php"  id="" class="icon-add btn btn-primary col-3">Registrar Nuevo Docente</a>
 			</div>
 
 		</form>

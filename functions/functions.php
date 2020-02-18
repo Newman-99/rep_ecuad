@@ -1925,11 +1925,9 @@ echo "                  <td>".$id_usr."</td>
                         <form action=".$_SERVER['PHP_SELF']." method='post'>
                         
 
-                            <button type='submit'  value=".$id_usr." name='modificar' class='icon-cancel' id='button-modi' >Modificar</button>
+                            <button type='submit'  value=".$id_usr." name='modificar' class='icon-cancel btn btn-dark btn-sm col-12' id=''>Modificar</button>
 
-                         <br><br>
-
-                        <button type='submit' value=".$id_usr." name='reiniciar' class='icon-cancel' id='button-modi'>Reiniciar</button>
+                        <button type='submit' value=".$id_usr." name='reiniciar' class='icon-cancel btn btn-dark btn-sm col-12' id=''>Reiniciar</button>
 
                         </td>
                           </tr>";
@@ -2177,7 +2175,10 @@ echo "
                          <th>Correo</th>
                          <th>Fecha Ingreso</th>
                          <th></th>
-                        </tr>
+                         <th></th>
+
+                         <th></th>
+                         </tr>
                     </thead>";
 
             while($registro=$result->fetch(PDO::FETCH_ASSOC)){  
@@ -2214,45 +2215,43 @@ echo "
 
                         if(valid_inicio_sesion('2')) {
 
-                        echo "
+                        echo "<td>
                     <form action='modif_docent.php' method='post'>
                         
-                        <button type='submit' id='button-modi' value=".$registro['id_doc']." name ='modificar'> Modificar</button>
+                        <button type='submit' id=''  class='btn btn-dark btn-sm col-12' value=".$registro['id_doc']." name ='modificar'> Modificar</button>
                     </form>
-                    <br><br>
                     ";
 
                         echo "
 
                         <form action='mas_info_docent.php' method='post'>
                         
-                        <button type='submit' class='icon-list1' id='button-modi' value=".$registro['id_doc']." name ='mas_info_docent' >Mas Informacion</button>
+                        <button type='submit' class='icon-list1 btn btn-dark btn-sm col-12' id='' value=".$registro['id_doc']." name ='mas_info_docent' >Mas Informacion</button>
                          
-                         </form>
-                        <br><br> 
+                         </form></td>
                          ";
 
                         }
 
                         echo"
-                        <form action='clases_asignadas.php' method='post'>
+                        <td><form action='clases_asignadas.php' method='post'>
 
-                        <button type='submit' id='button-modi' value=".$registro['id_doc']." name ='sus_clases' >Sus Clases</button>
+                        <button type='submit' id='' class='btn btn-dark btn-sm col-12' value=".$registro['id_doc']." name ='sus_clases' >Sus Clases</button>
 
-                        </form><br><br>";
+                        </form>";
                         
                         if(valid_inicio_sesion('2')) {
                         echo "
 
                         <form action='eliminar_docent.php' method='post'>
                         
-                        <button type='submit' icon='button-cancel' id='button-modi' value=".$registro['id_doc']." name ='eliminar_docent' >Eliminar</button>
+                        <button type='submit' icon='button-cancel' id='' class='btn btn-dark btn-sm col-12' value=".$registro['id_doc']." name ='eliminar_docent' >Eliminar</button>
                          
-                         </form> <br><br>"
+                         </form></td>"
 
                          ;
                      }
-                    echo  "<br><br></td></tr>";
+                    echo  "</td></tr>";
                  }
                          
    echo " </table>
@@ -2332,16 +2331,16 @@ echo "
                         echo "
                         <form action='mas_info_admin.php' method='post'>
                         
-                        <button type='submit' class='icon-list1' id='button-modi' value=".$registro['id_doc']." name ='mas_info_admin' >Mas Informacion</button>
+                        <button type='submit' class='icon-list1 btn btn-dark btn-sm col-12' id='' value=".$registro['id_doc']." name ='mas_info_admin' >Mas Informacion</button>
                          
-                         </form> <br><br>";
+                         </form> ";
 
 
                 echo "
                     <form action='modif_admin.php' method='post'>
                         
-                        <button type='submit' id='button-modi' value=".$registro['id_doc']." name ='modificar'> Modificar</button>
-                    </form> <br><br>";
+                        <button type='submit' id='' class='btn btn-dark btn-sm col-12' value=".$registro['id_doc']." name ='modificar'> Modificar</button>
+                    </form> ";
 
                   }
                         if(valid_inicio_sesion('1')) {
@@ -2349,9 +2348,9 @@ echo "
 
                         <form action='eliminar_admin.php' method='post'>
                         
-                        <button type='submit' icon='button-cancel' id='button-modi' value=".$registro['id_doc']." name ='eliminar_admin' >Eliminar</button>
+                        <button type='submit' icon='button-cancel' id='' class='btn btn-dark btn-sm col-12' value=".$registro['id_doc']." name ='eliminar_admin' >Eliminar</button>
                          
-                         </form> <br><br>"
+                         </form> "
 
                          ;
                      }

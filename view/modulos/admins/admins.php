@@ -13,26 +13,34 @@ require '../../includes/head.php';
 
 
 	<section>
+	<div class="nav-h">
 		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
+		<div class="text-center">
+
+			<input type="search" class="col-3 mx-4" placeholder="Ingrese Cedula" name="id_doc_admin" value="<?php if(isset($_POST['id_doc_admin'])) echo $_POST['id_doc_admin'];?>">
 			
-			<input type="search" class="search" placeholder="Ingrese Cedula" name="id_doc_admin" value="<?php if(isset($_POST['id_doc_admin'])) echo $_POST['id_doc_admin'];?>">
-			
-			
+			<!--
 			<button id=button class="icon-search" type="submit" name="por_cedula" value="por_cedula">Buscar</button>			
+			-->
+
+				<label for="">Sexo:</label>
+      				<select name="" id="" class="mx-3">
+        			<option value="">Todos</option>
+        			<option value="1">Masculino</option>
+        			<option value="2">Femenino</option>
+      				</select>
 
 				Area: 
-				<select name="id_area">
+				<select name="id_area" class="mx-3">
 				
 				<option value="">Todos</option>				
 				<option value="1">Directiva</option>
 				<option value="2">Estadistica</option>
-
 				<option value="3">Pedagogica</option>
-
-			</select>
+				</select>
 		
 		Estado: 
-		<select name="id_estado">
+		<select name="id_estado" class="mx-3">
 				<option value="">Todos</option>				
 				<option value="1">Habilitado</option>
 				<option value="2">Inabilitado</option>
@@ -40,21 +48,19 @@ require '../../includes/head.php';
 			</select>
 
 		Turno: 
-		<select name="id_turno">
+		<select name="id_turno" class="mx-3">
 			<option value="">Todos</option>	
 				<option value="1">Mañana</option>
 				<option value="2">Tarde</option>
 			</select>
 
-
-			<button id=button class="icon-search" type="submit" name="por_criterios" value="buscar_docent">Buscar</button>			
-			
-			<a href="reg_admin.php" style="position:absolute; " id=registrer class="icon-add">Registrar Nuevo Administrativo</a>
-
-			<br>
-			
+				<div class="text-center">
+					<button id='' class="icon-search btn btn-primary col-2" type="submit" name="por_criterios" value="buscar_docent">Buscar</button>
+					<a href="reg_admin.php"  id='' class="icon-add btn btn-primary col-3">Registrar Nuevo Administrativo</a>
+				</div>
+			</div>			
 		</form>
-
+	</div>
 
 			<?php 
 

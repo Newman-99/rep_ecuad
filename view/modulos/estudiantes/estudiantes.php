@@ -23,10 +23,17 @@ if (isset($_GET['clean_ci_escolar'])) {
   <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
   <div class="text-center">
       <label for="">Buscar Por:</label>
-      <input type="search" class="col-3 mx-2" placeholder="Cedula escolar o normal" name="ci_estudiante" value="<?php if(isset($ci)) echo $ci;?>">
+      <input type="search" class="" style='width: 18%;' placeholder="Cedula escolar o normal" name="ci_estudiante" value="<?php if(isset($ci)) echo $ci;?>">
       
+      <label for="">Sexo:</label>
+      <select name="" id="">
+        <option value="">Todos</option>
+        <option value="1">Masculino</option>
+        <option value="2">Femenino</option>
+      </select>
+
       <label class="" for="">Estado:</label>
-      <select name="estado_student" id="" autocomplete="on" class="mx-2">
+      <select name="estado_student" id="" autocomplete="on" class="">
           <option value=''>Todos</option>
           <option value="3">Activo</option>
           <option value="4">Irregular</option>
@@ -36,7 +43,7 @@ if (isset($_GET['clean_ci_escolar'])) {
         
       
       <label for="">Grado Designado:</label>
-      <select name="grado_design" id="" autocomplete="on" class="mx-2">
+      <select name="grado_design" id="" autocomplete="on" class="">
           <option value=''>Todos</option>
           <option value="1">1ro</option>
           <option value="2">2do</option>
@@ -81,14 +88,15 @@ if (isset($_GET['clean_ci_escolar'])) {
       </select> 
 -->
       
-      <label class="mx-2">Año Escolar:</label>
+      <label class="">Año Escolar:</label>
       <input type="number" name="año_escolar1" id="" class="col-1" value="<?php if(isset($anio_escolar1)) echo $anio_escolar1; ?>">
+      -
       <input type="number" name="año_escolar2" id="" class="col-1" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
       </div>
       
       <div class="text-center">
-      <a href="./register_student/reg-estudiante-1.php"  class="icon-add btn btn-primary col-3">Registrar Nuevo Estudiante</a>
       <button id="" name="buscar" value="buscar" class="icon-search btn btn-primary col-2 mx-3" type="submit">Buscar</button>
+      <a href="./register_student/reg-estudiante-1.php"  class="icon-add btn btn-primary col-3">Registrar Nuevo Estudiante</a>
       </div>
       
   </form>
@@ -289,7 +297,7 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
 
 
                      <?php    if(valid_inicio_sesion('2')) {  ?>
-
+                     
                     <form action='./menu_upd_student.php' method='post'>
                         
                         <button type='submit' class="btn btn-dark btn-sm col-12"  value="<?php echo $registro['ci_escolar']; ?>" name ='update_student'> Actualizar</button>
