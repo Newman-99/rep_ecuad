@@ -198,24 +198,20 @@ if (!comprobar_msjs_array($errors)) {
 		
 		<?php require '../../includes/header.php'?>
 
-<div>
-
-
+<div class="nav-h">
 		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
-		<select name="orden" type="search" class="search">
-				
+			<div class="text-center">
+			<select name="orden" type="search" class="mx-3 col-6">
 				<option value="<?php echo $orden_estado_contrato; ?>">Estado del Contrato</option>
-
 				<option value="<?php echo $orden_tipo_docent ?>">Tipo Docente</option>
-
 				<option value="<?php echo $orden_asignacion ?>">Asignacion</option>
-
-							
 			</select>
+			
+				<div class="text-center">
+				<button id="" class="btn btn-primary col-3" type="submit" name='ordenar' value="<?php echo $id_doc; ?>">Ordenar</button>
+				</div>
 
-		<button id="button" class="" type="submit" name='ordenar' value="<?php echo $id_doc; ?>">Ordenar</button>
-
-
+			</div>
 		</form>
 </div>
 
@@ -246,8 +242,9 @@ global $db;
 
 	        echo "<div>";
  	          echo "<table class='tabla'>
- 	          <caption> Contrato de la clase: ".$_SESSION['id_clase']."</caption>
- 		            <thead>";
+ 	          
+					 <thead>";
+					 echo "<tr><td colspan='14' class='text-center'><h4>Contrato de la clase: ".$_SESSION['id_clase']."</h4></td></tr>";
  			            echo"<tr>";
 
 						echo"<th>Cedula del docente </th> 
@@ -281,9 +278,9 @@ global $db;
 						
 						echo "<form action=".htmlspecialchars($_SERVER['PHP_SELF'])." method='POST'>
 						<br>
-                        <button type='submit' id='button-modi' value=".$registro['id_contrato_clase'].'-'.$registro['id_funcion_docent']."-".$registro['id_doc_docent']." name ='asignar_docente' >Asignar Docente</button>
+                        <button type='submit' id='' class='btn btn-dark btn-sm col-12 mx-2' value=".$registro['id_contrato_clase'].'-'.$registro['id_funcion_docent']."-".$registro['id_doc_docent']." name ='asignar_docente' >Asignar Docente</button>
 
-                        	<input type='number' placeholder='Numero de Cedula' name ='id_doc_habilitar'>
+                        	<input type='number' class='col-12' placeholder='Numero de Cedula' name ='id_doc_habilitar'>
                          </form>
                          <br>
                          <br>";
@@ -294,7 +291,7 @@ global $db;
 
                        	echo "<form action=".htmlspecialchars($_SERVER['PHP_SELF'])." method='post'>
 						<br>
-                         <button type='submit' id='button-modi' value=".$registro['id_contrato_clase'].'-'.$registro['id_funcion_docent']."-".$registro['id_doc_docent']." name ='inabilitar_contrato' >Inabilitar</button>
+                         <button type='submit' id='' class='btn btn-dark btn-sm col-12 mx-2' value=".$registro['id_contrato_clase'].'-'.$registro['id_funcion_docent']."-".$registro['id_doc_docent']." name ='inabilitar_contrato' >Inabilitar</button>
                          <form>
                          <br>
                          <br>";
@@ -305,7 +302,7 @@ global $db;
                        	echo "<form action=".htmlspecialchars($_SERVER['PHP_SELF'])." 
                        	method='post'>
 
-                       	<button type='submit' id='button-modi' value=".$registro['id_contrato_clase'].'-'.$registro['id_funcion_docent']."-".$registro['id_doc_docent']." name ='eliminar_contrato' >Eliminar</button>
+                       	<button type='submit' id='' class='btn btn-dark btn-sm col-12 mx-2' value=".$registro['id_contrato_clase'].'-'.$registro['id_funcion_docent']."-".$registro['id_doc_docent']." name ='eliminar_contrato' >Eliminar</button>
                          <form>
 
                          ";
@@ -316,7 +313,7 @@ global $db;
 
                        	echo "<form action=".htmlspecialchars($_SERVER['PHP_SELF'])." method='post'>
                       
-                       <button type='submit' id='button-modi' value=".$registro['id_contrato_clase'].'-'.$registro['id_funcion_docent']."-".$registro['id_doc_docent']." name ='habilitar_contrato' >Habilitar</button>
+                       <button type='submit' id='' class='btn btn-dark btn-sm col-12 mx-2' value=".$registro['id_contrato_clase'].'-'.$registro['id_funcion_docent']."-".$registro['id_doc_docent']." name ='habilitar_contrato' >Habilitar</button>
                          <form>
                          <br>
                          <br>
@@ -353,7 +350,7 @@ global $db;
 
 
                  <a class="btn btn-primary btn-lg" style="position:absolute;
-    			bottom:5px;
-				right:10px;" href="clases.php">Volver</a>
+    			bottom:-850px;
+				right:10px; margin-right: 40px;" href="clases.php">Volver</a>
 				
 <?php require '../../includes/footer.php' ?>

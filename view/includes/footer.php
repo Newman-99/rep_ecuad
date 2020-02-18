@@ -1,4 +1,12 @@
-	    </section>
+		</section>
+		
+		<footer class="estilo-footer">
+        <div class="">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+        </div>
+		</footer>
+		
+
 	    <section class=""></section>
     		<script src="../../style/js/jquery-3.4.1.min.js"></script>
 			<script src="../../style/js/bootstrap.bundle.min.js"></script>
@@ -12,6 +20,8 @@
 
 <script>
 		        $.material.init();
-	        </script>
-    </body>
+			</script>
+			
+</body>
+	
 </html>

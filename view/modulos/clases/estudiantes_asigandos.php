@@ -17,36 +17,54 @@ $id = $_SESSION['id'];
 	    <title>Estudiantes en Clase</title>
 		
 		<?php require '../../includes/header.php' ?>
-
-		<h3>Estudiantes en Clase</h3>
-
-
-		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
+<div class="container">
+	<div class="row">    
+        <div class="col-lg-12">
 		
+		
+
+		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post" class="form-group text-center">
+		<h3 class="form-titulo">Estudiantes en Clase</h3>
+
+		<div class="row">
+
+			<div class="col-3 my-3">
 		Estado del Estudiante
-        <select name="tipo_student" id="" autocomplete="on">
+        <select name="tipo_student" id="" autocomplete="on" class="form-control ">
             <option value=''>Todos</option>
             <option value="3">Activo</option>
             <option value="4">Irregular</option>
             <option value="5">Retirado</option>
             <option value="2">Cambiados</option>
         </select>
+			</div>
 
+			<div class="col-3 my-3">
 		Sexo
-        <select name="sexo" id="" autocomplete="on">
+        <select name="sexo" id="" autocomplete="on" class="form-control">
             <option value=''>Todos</option>
             <option value="1">Varones</option>
             <option value="2">Hembras</option>
         </select>
+			</div>
 
+			<div class="col-3 my-3">
 		Alfabeticamente
-        <select name="alfabet" id="" autocomplete="on">
+        <select name="alfabet" id="" autocomplete="on" class="form-control ">
             <option value=''>Nombre</option>
             <option value="1">Apellido</option>
         </select>
+			</div>
 
-		<button id=button class="icon-search" type="submit" name='filtrar' value="<?php echo $id_doc; ?>">Buscar</button>
-		</form>
+			<div class="col-3 ">
+				<button  class="btn btn-primary col-8" type="submit" name='filtrar' value="<?php echo $id_doc; ?>">Buscar</button>
+			</div>
+		</div>
+	</form>
+
+		</div>
+	</div>
+</div>
 
 <?php  
 
@@ -130,9 +148,7 @@ LEFT OUTER JOIN estado edo ON ea.id_estado = edo.id_estado WHERE clas.id_clase =
             }
 ?>
 
-                 <a class="btn btn-primary btn-lg" style="position:absolute;
-    			bottom:5px;
-    			right:10px;" href="clases.php">Volver</a>
+                 <a class="btn btn-primary btn-lg col-1" style="position:absolute;bottom:-250px;right:10px;" href="clases.php">Volver</a>
 
 
             

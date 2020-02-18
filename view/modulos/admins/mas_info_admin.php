@@ -36,7 +36,7 @@ if (!empty($_POST['mas_info_admin'])) {
 
 echo "
         <div>
-                <table class='tabla'>
+                <table class='tabla-2'>
                     <thead>
                         <tr>  
 
@@ -127,7 +127,7 @@ echo "
             </div>";
 ?>
 
-    <a class="btn btn-primary btn-lg" style="position:absolute;bottom:5px;right:10px;" href='admins.php'>volver</a>
+    <a class="btn btn-primary btn-lg" style="position:absolute;bottom:-150px;right:30px;" href='admins.php'>volver</a>
 
     <?php
     if(!empty($errors)){

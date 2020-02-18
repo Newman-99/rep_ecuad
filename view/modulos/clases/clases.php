@@ -70,11 +70,10 @@ require '../../includes/head.php';
         <input type="number" name="año_escolar2" id="" class="mx-3 col-1" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
 		
 
-
-		<button id='' class="icon-search btn btn-primary col-2" type="submit" name="buscar">Buscar</button>
-
-			<a href="register_clases.php"  id='' class="icon-add btn btn-primary col-4">Registrar Nueva Clase</a>
-
+          <div class="text-center">
+		        <button id='' class="icon-search btn btn-primary col-2" type="submit" name="buscar">Buscar</button>
+			      <a href="register_clases.php"  id='' class="icon-add btn btn-primary col-4">Registrar Nueva Clase</a>
+          </div>
       </div>
 		</form>
 </div>

@@ -30,19 +30,16 @@ $errors = array();
 			</select>
 
 				<div class="text-center">
-				<button id='' class="icon-search btn btn-primary col-3" type="submit" name="busc" value="busc">Buscar</button>
+				<button id='' class=" btn btn-primary col-3" type="submit" name="busc" value="busc">Buscar</button>
 				</div>
 			</div>
 		</form>
 	</div>
 
+	
 <?php
-
 			// Proceso Para ver todos los usuarios
-			
-
 				// Proceso para ver usuarios especifico segun su cedula
-
 		if (!empty($_POST['busc'])){
 
 
@@ -114,41 +111,27 @@ imprimir_usuarios($result);
 }
 }
 
-
-if (!empty($_POST['reiniciar'])) {
-$id_usr=$_POST['reiniciar'];
-
-$errors[]=" <br><br><div style='float: right ;'> Esta seguro de reiniciar el usuario ".$id_usr."
-<br>
-		<form action=".$_SERVER['PHP_SELF']." method='post'>
-
-<button type='submit' value='La operacion ha sido cancelada' name='cancel' id=registrer class='icon-add'>Cancelar</button>
-<br><br>
-<button type='submit' value=".$id_usr." name='confirmar_reinicio' id=registrer class='icon-add'>Confirmar</button>
-
-	</form> </div>
-";
-
-}
-
-
-
-
-if (!empty($_POST['confirmar_reinicio'])) {
-	
-		$id_usr=$_POST['confirmar_reinicio'];
-		delete_usr($id_usr);
-
-		$errors[]=" El usuario: ".$id_usr." ha sido reiniciado por lo que debe volver a registrarse";
-
-}
-
 if (!empty($_POST['modificar'])){
 
 	$id_usr=$_POST['modificar'];
 
 mostrar_user_especifico($id_usr);
 
+
+if (!empty($_POST['guardar'])) {
+
+
+	$id_usr=$_POST["guardar"];
+
+    $tipo_usr = htmlentities(addslashes($_POST["tipo_usr"]));
+
+    modificar_user($id_usr,$tipo_usr);
+
+	echo "<p>Cambios Realizados</p>";
+
+	mostrar_user_especifico($id_usr);
+
+}	
 	?>
 
 <br>
@@ -179,25 +162,41 @@ mostrar_user_especifico($id_usr);
 		
 		</form>
 </div>
+
+
+
 <?php
+if (!empty($_POST['reiniciar'])) {
+$id_usr=$_POST['reiniciar'];
+
+$errors[]=" <br><br><div style='float: right ;'> Esta seguro de reiniciar el usuario ".$id_usr."
+<br>
+		<form action=".$_SERVER['PHP_SELF']." method='post'>
+
+<button type='submit' value='La operacion ha sido cancelada' name='cancel' id=registrer class='icon-add'>Cancelar</button>
+<br><br>
+<button type='submit' value=".$id_usr." name='confirmar_reinicio' id=registrer class='icon-add'>Confirmar</button>
+
+	</form> </div>
+";
 
 }
 
 
-if (!empty($_POST['guardar'])) {
 
 
-	$id_usr=$_POST["guardar"];
+if (!empty($_POST['confirmar_reinicio'])) {
+	
+		$id_usr=$_POST['confirmar_reinicio'];
+		delete_usr($id_usr);
 
-    $tipo_usr = htmlentities(addslashes($_POST["tipo_usr"]));
-
-    modificar_user($id_usr,$tipo_usr);
-
-	echo "<p>Cambios Realizados</p>";
-
-	mostrar_user_especifico($id_usr);
+		$errors[]=" El usuario: ".$id_usr." ha sido reiniciado por lo que debe volver a registrarse";
 
 }
+
+}
+
+
 
 		if(!empty($_POST['cancel'])){
 		$cancel=$_POST['cancel'];

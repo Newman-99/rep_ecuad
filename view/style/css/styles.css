@@ -17,8 +17,8 @@ body {
     background-attachment: fixed;
     font-family: Roboto;
     background-color: #E1ECF5;
-    margin:20px;
-    padding:20px;
+    margin:20px auto;
+    padding: none;
   }
 
 /* estilos de */
@@ -98,18 +98,26 @@ input[type="submit"]:hover{
      top: 25%;
      border-radius: 10px;
 }
-/* ---------------------Estilo   J O S E --------------
-------------------------------------------------------- */
-/* tabla individual 
-.tabla-masinf-d {
 
+/* --- tabla de mas informacion ---*/
+
+.tabla-2 {
+    margin-top:0;
+    margin-left:20px;
+    margin-right: 0;
+    margin-bottom: 30px;
+    width: 50%;
+    height: 100px;
+    max-width: 70%;
+    font-size: 20px;
 }
-*/
+
 .tabla{
    
-   margin-top:100px;
+    margin-top:100px;
     margin-left:-150px;
     margin-right: 50px;
+    margin-bottom: -400px;
     left: 30%;
     width: 30%;
     height: 200px;
@@ -250,7 +258,7 @@ a {
 .nav-h {
     background-color: #262F36;
     color: #FFF;
-    margin: 20px auto;
+    margin: 40px auto;
     margin-left: 20%;
     padding: 10px;
     height: 140px;
@@ -263,16 +271,21 @@ a {
     color: #FFF;
     margin: 10px auto;
     margin-left: 20%;
+    margin-top: 400px;
+    margin-bottom: -400px;
+    margin-right: 20px;
     padding: 10px;
     width: 25%;
     height: 200px;
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     float: right;
+    
 }
 /* - Navegacion Vertical principal - */
 .nave{
     margin: 30px auto;
+    margin-left: 8px;
     width: 20%;
     max-width: 90%;
     position: absolute;
@@ -558,4 +571,22 @@ border-radius: 10px;
 }
 #year{
   width: 70px;
+}
+
+
+/* --- Footer --- */
+
+.estilo-footer {
+    background-color:#2d8dcb;
+    border-top: 10px solid #283036;
+    margin-top: 10px;
+    margin: auto;
+    width: 100%;
+    position: relative;
+    height: 50px;
+    /*position: absolute; */
+    bottom: -450px;
+    color: #fff;
+    text-align: center;
+    clear: both;
 }
