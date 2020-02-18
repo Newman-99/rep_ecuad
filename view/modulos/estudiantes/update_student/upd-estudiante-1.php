@@ -128,8 +128,13 @@ $nombre2=filtrar_nombres_apellidos($nombre2);
 
 extract($_SESSION['sesionform1']);
 
-actualizar_persona($nacionalidad,$ci_escolar,$ci_escolar,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,'','','','','');
+actualizar_persona($nacionalidad,$_SESSION['ci_escolar'],$_SESSION['ci_escolar'],$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,'','','','','');
+ update_basic_data_student($_SESSION['ci_escolar'],$_SESSION['ci_escolar'],$id_doc_new,'');
+
+  update_recursos_public($_SESSION['ci_escolar'],$colecc_bicent,$canaima,$contrato_canaima);
+
 $errors[]= "Cambios Registrados con Exito";
+
 
 
 }
@@ -217,22 +222,15 @@ $errors[]= "Cambios Registrados con Exito";
                                             <option <?php if($registro['id_nacionalidad'] == '1') echo 'selected';?> value="1">V</option>
                                             <option <?php if($registro['id_nacionalidad'] == '2') echo 'selected'; ?> value="2">E</option>
                                         </select>
+                                </div>
 
-                                        <br>
-                                        <br>
-                                        Cedula
+                                <div class="col-lg-6 my-2">
+                                    <label>Cedula</label>
+                                        
                                         <input type="number" maxlength="8" placeholder="Cedula" class="form-control" value="<?php if(isset($registro['id_doc'])) echo $registro['id_doc']; ?>" name="id_doc_new">
                                          </div>
 
-                                        
-                                    <!------ OPCIONAL SI hay que colocar manual la nacionalidad de procedencia ((((No SELECT ))))
-                                    <div class="col-lg-6 my-2">
-                                        <label for="" class="">Nacionalidad:</label>
-                                        <input type="text" name="" id="" placeholder="Ingresar nacionalidad" class="form-control">
-                                    </div>
-                                    -->
-                                </div>
-
+                                        </div>
 
                                 <div class="row">
                                     <div class="col-lg-3 my-2">
@@ -307,13 +305,14 @@ $errors[]= "Cambios Registrados con Exito";
                                 </div>
 
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
+                                                            <?php imprimir_msjs_no_style($errors); ?>
 
                         
                         
                         <button type='submit' class="btn btn-primary btn-block btn-lg"value="datos_student" name ='datos_student'>Actualizar</button>
-                         
+                                                             <a href="../menu_upd_student.php" class="btn btn-primary col-lg-2">Volver</a>
+
                                 <!-- <input type="submit" name="continuar" value="CONTINUAR" class="btn btn-primary btn-block btn-lg" id="boton-enviar"> --> 
-                                                            <?php imprimir_msjs_no_style($errors); ?>
 
                             </form>
                     <!--</div>-->

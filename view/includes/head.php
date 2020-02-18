@@ -18,3 +18,5 @@
 
 	    <link rel="stylesheet" href="../../style/bootstrap/bootstrap.min.css">
 
+	    <link rel="stylesheet" href="../../view/style/css/iconos.css">
+

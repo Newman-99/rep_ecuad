@@ -45,10 +45,10 @@
                                         <div class="col-lg-3 my-2">
                                           <p for="" class="">Sexo:</p>
                                           <label for="" class="">Masculino</label>
-                                          <input type="radio" <?php if(isset($_POST["sexo_pr"])){ if($_POST["sexo_pr"] == '1') echo "checked";}else{if(isset($sexo_pr)){ if($sexo_pr == '1') echo "checked";}}?> name="sexo_pr" value="1" id="">
+                                          <input type="radio" name="sexo_pr" <?php if(isset($sexo_pr)){ if($sexo_pr == '1') echo "checked";}?> name="sexo_pr" value="1" id="">
                                             <br>
                                           <label for="sexo_pr" class="">Femenino</label>
-                                          <input type="radio" name="sexo_pr" <?php if(isset($_POST["sexo_pr"])){ if($_POST["sexo_pr"] == '2') echo "checked";}else{if(isset($sexo_pr)){ if($sexo_pr == '2') echo "checked";}} if(isset($sexo_pr)) if($sexo_pr == '2') echo 'checked';?> value="2" id="">
+                                          <input type="radio" name="sexo_pr" <?php if(isset($sexo_pr)){ if($sexo_pr == '2') echo "checked";}?> value="2" id="">
 
                                         </div>
 

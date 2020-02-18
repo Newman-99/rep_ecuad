@@ -372,10 +372,17 @@ extract($_SESSION['sesionform3']);
              $medicacion,
              $anex_infor); 
 
-         // Registrar persona retirar
  ;
+update_other_data_student($_SESSION['ci_escolar'],$_SESSION['ci_escolar'],$nro_pers_viven,$hermanos,$descrip_herma);
+
+
+update_movilidad_student($_SESSION['ci_escolar'],$_SESSION['ci_escolar'],$lleg_retir,$descrip_lleg_retir,$lleg_retir_transp,$desc_lleg_retir_transp);
+
+
+         // Registrar persona retirar
 
 $correo_pr = '';
+
 
 if (obtener_correp_prs($id_doc_pr) != FALSE) {
 $correo_pr = obtener_correp_prs($id_doc_pr);
@@ -407,7 +414,6 @@ update_person_estudiantes($id_doc_pr,$id_doc_pr,$_SESSION['ci_escolar'],$_SESSIO
 
 upd_tlf_emerg($id_doc_pr,$tlf_emerg);
 
-update_other_data_student($_SESSION['ci_escolar'],$_SESSION['ci_escolar'],$nro_pers_viven,$hermanos,$descrip_herma);
 
 }
 
