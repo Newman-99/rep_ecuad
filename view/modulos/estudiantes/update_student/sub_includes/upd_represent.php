@@ -1,12 +1,12 @@
 
 <?php 
-        $sql = consulta_represent_student()." WHERE rpt.ci_escolar = :ci_escolar LIMIT 1;";
+        $sql = consulta_represent_student()." WHERE rpt.ci_escolar = :ci_escolar ORDER BY id_pers_est DESC LIMIT 1;";
 
         $result=$db->prepare($sql);
             
         $result->bindValue(":ci_escolar",$ci_escolar);
         
-        $result->execute();
+            $result->execute();
 
  while($registro=$result->fetch(PDO::FETCH_ASSOC)){
  
@@ -170,5 +170,3 @@ $count_represents++;
              <button type='submit' class="btn btn-primary col-lg-9" value="new_represent" name='new_represent'>Añadir nuevo</button>
             <br><br>
 <?php } ?>
-
-0424-1627158

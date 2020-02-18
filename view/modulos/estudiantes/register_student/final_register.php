@@ -217,13 +217,10 @@ $id_actualizacion=obtener_ultimo_id_actualizacion();
 
 // Registrar persona retirar
 
-if (!empty($si_exist_pr)) {
 
  registrar_persona($nacionalidad_pr,$id_doc_pr,$nombres_pr,$apellido_p_pr,$apellido_m_pr,$sexo_pr,'',$estado_civil_pr,'','',$tlf_cel_pr,$tlf_local_pr,'',$tlf_emerg);
-}
 
-
- registrar_person_estudiantes($id_doc_pr,$ci_escolar,0,'',$parentesc_pr);
+registrar_person_estudiantes($id_doc_pr,$ci_escolar,0,'',$parentesc_pr);
 
   registrar_pers_retirar($id_doc_pr,$ci_escolar);
 

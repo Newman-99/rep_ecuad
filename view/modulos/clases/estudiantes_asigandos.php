@@ -12,6 +12,11 @@ $_SESSION['id'] = $_POST['estudiantes_asigandos'];
 $id = $_SESSION['id'];
 
 
+
+if (isset($_GET['clean_ci_escolar'])) {
+  unset($_SESSION['ci_escolar']);
+}
+
 ?>
 
 	    <title>Estudiantes en Clase</title>
@@ -119,8 +124,30 @@ LEFT OUTER JOIN estado edo ON ea.id_estado = edo.id_estado WHERE clas.id_clase =
 						<td><?php echo $registro['nombre']?></td>
 						<td><?php echo $registro['apellido_p']." ".$registro['apellido_m'] ?></td> 
 						<td><?php echo $registro['estado']?></td>
-						</td>
- 		            </tr>
+						<td>
+ 		            
+<?php    if(valid_inicio_sesion('2')) {  ?>
+
+                    <form action='./menu_upd_student.php' method='post'>
+                        
+                        <button type='submit' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='update_student_clas'> Actualizar</button>
+                    </form>
+
+                  <br><br> 
+
+                        <form action='./menu_upd_student.php' method='post'>
+                        
+                        <button type='submit' class='icon-list1' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='mas_info_student' >Mas Informacion</button>
+                         
+                         </form>
+
+<br><br>
+                        <?php } ?>
+
+                    </td>
+                        
+
+
 
 <?php 
  		          		} 

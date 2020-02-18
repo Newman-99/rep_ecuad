@@ -12,7 +12,7 @@ $errors = array();
 if(!empty($_POST['registrar'])){
 
     $grado = htmlentities(addslashes($_POST["grado"]));
-
+    
     $seccion = htmlentities(addslashes($_POST["seccion"]));
 
     $turno = htmlentities(addslashes($_POST["turno"]));
@@ -66,7 +66,7 @@ if (is_numeric($id_doc_docent_arte_cultura)) {
 if (!comprobar_turno_docent_clase($id_doc_docent_normal,$turno)){
     $errors[]="El Docente en Aula ya tiene este turno ocupado";}
 
-if (comprobar_aula_ocupada($no_aula)){$errors[]="El Aula ya esta Ocupada";}
+if (comprobar_aula_ocupada($no_aula)){$errors[]="El Aula ya esta ocupada";}
 
 $id_clase= generador_id_clases($grado,$seccion,$anio_escolar1,$anio_escolar2,$turno);
 
@@ -85,7 +85,7 @@ if (!comprobar_msjs_array($errors)) {
         $anio_escolar1,
         $anio_escolar2);
 
-         $errors[] ="Felicidades clase ya Registrada";
+         $errors[] ="Felicidades clase ya registrada";
 
     $errors[]= validar_grado($grado);
 
@@ -143,14 +143,14 @@ if (!comprobar_msjs_array($errors)) {
         <br>
         <div class="col-lg-3 my-4">
          <label for="">Seccion</label>
-        <select name="seccion_escolaridad" id="" autocomplete="on" class="form-control">
+        <select name="seccion" id="" autocomplete="on" class="form-control">
         <option value="" > Seleccione </option>
-            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'A') echo 'selected';?> value="A">A</option>
-            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'B') echo 'selected';?> value="B">B</option>
-            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'C') echo 'selected';?> value="C">C</option>
-            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'D') echo 'selected';?> value="D">D</option>
-            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'E') echo 'selected';?> value="E">E</option>
-            <option <?php if(isset($seccion)) if($seccion_escolaridad == 'F') echo 'selected';?> value="F">F</option>
+            <option <?php if(isset($seccion)) if($seccion == 'A') echo 'selected';?> value="A">A</option>
+            <option <?php if(isset($seccion)) if($seccion == 'B') echo 'selected';?> value="B">B</option>
+            <option <?php if(isset($seccion)) if($seccion == 'C') echo 'selected';?> value="C">C</option>
+            <option <?php if(isset($seccion)) if($seccion == 'D') echo 'selected';?> value="D">D</option>
+            <option <?php if(isset($seccion)) if($seccion == 'E') echo 'selected';?> value="E">E</option>
+            <option <?php if(isset($seccion)) if($seccion == 'F') echo 'selected';?> value="F">F</option>
         </select>
         </div>
         <br>

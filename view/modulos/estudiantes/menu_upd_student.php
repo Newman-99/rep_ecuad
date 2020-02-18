@@ -24,6 +24,11 @@ unset($_SESSION['new_prs_ret']);
 $_SESSION['ci_escolar'] = $_POST['update_student'];
  }
 
+    if (isset($_POST['update_student_clas'])) {
+    	
+$_SESSION['ci_escolar'] = $_POST['update_student_clas'];
+ }
+
  ?>
 
 
@@ -37,6 +42,20 @@ $_SESSION['ci_escolar'] = $_POST['update_student'];
     
 </div>
 
+    <?php 
+   
+   /* if (isset($_POST['update_student']) || !isset($_SESSION['ci_escolar']) AND ) {
+ */   	
+    	if (isset($_POST['update_student'])){
+$_SESSION['ci_escolar'] = $_POST['update_student'];
+}
+?>
+<a href='./estudiantes.php?clean_ci_escolar=TRUE' class='btn btn-primary btn-lg' style='position:relative;bottom:5px;right:10px;'>Volver</a>
 
-<a href="./estudiantes.php?clean_ci_escolar=TRUE" class="btn btn-primary btn-lg" style="position:relative;bottom:5px;right:10px;">Volver</a>
+<?php 
+// }
+
+
+
+ ?>
 

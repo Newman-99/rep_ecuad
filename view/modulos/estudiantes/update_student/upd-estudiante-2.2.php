@@ -488,7 +488,9 @@ $errors_r[] = 'No se puede registrar a mas de un representante y asegurese de de
 $si_exist_r = 0;
 
 if (isset($_POST["si_exist_r"])) {
+
 $si_exist_r = 1;
+
 if (validar_datos_vacios($id_doc_r,$parentesco_r) || !isset($convivencia_r)) {
            $errors_r[]='El documento de identidad no puede estar vacio , indique si vive con el estudiante y su parentesco ';  
 
@@ -584,6 +586,122 @@ update_person_represent($id_doc_r,$id_represent,$_SESSION['ci_escolar'],$_SESSIO
 }
 
 }
+
+// Registro de Representantes
+
+if (!empty($_POST['upd_represent'])) {
+
+    $nacionalidad_r = htmlentities(addslashes($_POST["nacionalidad_r"]));
+    $id_doc_r = htmlentities(addslashes($_POST["id_doc_r"]));
+    $nombre1_r = htmlentities(addslashes($_POST["nombre1_r"]));
+    $nombre2_r = htmlentities(addslashes($_POST["nombre2_r"]));
+    $apellido_p_r = htmlentities(addslashes($_POST["apellido_p_r"]));
+    $apellido_m_r = htmlentities(addslashes($_POST["apellido_m_r"]));
+    $fecha_nac_r = htmlentities(addslashes($_POST["fecha_nac_r"]));    
+    $lugar_nac_r = htmlentities(addslashes($_POST["lugar_nac_r"])); 
+    $direcc_hab_r = htmlentities(addslashes($_POST["direcc_hab_r"]));   
+    $tlf_cel_r = htmlentities(addslashes($_POST["tlf_cel_r"]));    
+    $tlf_local_r = htmlentities(addslashes($_POST["tlf_local_r"]));    
+    $correo_r = htmlentities(addslashes($_POST["correo_r"])); 
+    $estado_civil_r = htmlentities(addslashes($_POST["estado_civil_r"])); 
+    $ocupacion_r = htmlentities(addslashes($_POST["ocupacion_r"])); 
+    $prof_ofi_r = htmlentities(addslashes($_POST["prof_ofi_r"]));
+    $direcc_trab_r = htmlentities(addslashes($_POST["direcc_trab_r"]));
+    $lug_trab_r = htmlentities(addslashes($_POST["lug_trab_r"]));
+    $tlf_ofic_r = htmlentities(addslashes($_POST["tlf_ofic_r"]));
+
+if (isset($_POST["sexo_r"])) {
+            $sexo_r = htmlentities(addslashes($_POST["sexo_r"]));
+    }
+
+    $parentesco_r = htmlentities(addslashes($_POST["parentesco_r"]));
+
+    $convivencia_r = 0;
+
+    if (isset($_POST["convivencia_r"])) {
+
+    $convivencia_r = htmlentities(addslashes($_POST["convivencia_r"]));
+}
+
+if (!isset($_POST["sexo_r"])) {
+$_POST["sexo_r"] = '';
+}
+
+if ($count_represents>1) {
+$errors_r_upd[] = 'No se puede registrar a mas de un representante y asegurese de desmarcar uno de los padres si añadira otro';
+}else{
+
+
+
+$errors_r_upd = validar_datos_personales($nacionalidad_r,
+    $id_doc_r,
+    $_POST["sexo_r"],
+    $nombre1_r, 
+    $nombre2_r, 
+    $apellido_p_r,
+    $apellido_m_r,
+    $fecha_nac_r,     
+    $lugar_nac_r,     
+    $direcc_hab_r,   
+    $tlf_cel_r,    
+    $tlf_local_r,     
+    $correo_r, 
+    $estado_civil_r,
+    $ocupacion_r,  
+    $prof_ofi_r,
+    $direcc_trab_r,
+    $lug_trab_r,
+    $tlf_ofic_r);
+
+
+if (validar_datos_vacios($parentesco_r)) {
+    $errors_r_upd[]= 'Por favor introduzca el parentesco';
+}
+
+$si_exist_r = 0;
+
+$parentesco_r=trim($parentesco_r);
+$lugar_nac_r=trim($lugar_nac_r);
+$direcc_hab_r=trim($direcc_hab_r);
+$ocupacion_r=trim($ocupacion_r);
+$prof_ofi_r=trim($prof_ofi_r);
+$direcc_trab_r=trim($direcc_trab_r);
+$lug_trab_r=trim($lug_trab_r);
+$fecha_nac_r=trim($fecha_nac_r);
+$correo_r = filter_var($correo_r, FILTER_SANITIZE_EMAIL);
+$nombre1_r=filtrar_nombres_apellidos($nombre1_r);
+$nombre2_r=filtrar_nombres_apellidos($nombre2_r);
+$apellido_p_r=filtrar_nombres_apellidos($apellido_p_r);
+$apellido_m_r=filtrar_nombres_apellidos($apellido_m_r);
+
+
+}
+
+    if (!comprobar_msjs_array($errors_r_upd)) {    
+
+        $errors_r_upd[]= 'Representante actualizado exitosamente';
+
+ $nombres_r=$nombre1_r." ".$nombre2_r;
+
+ $nombres_r=$nombre1_r." ".$nombre2_r;
+
+$id_represent = obtener_id_represent($_SESSION['ci_escolar']);
+
+
+ actualizar_persona($nacionalidad_r,$id_doc_r,$id_doc_r,$nombres_r,$apellido_p_r,$apellido_m_r,$sexo_r,$fecha_nac_r,$lugar_nac_r,$direcc_hab_r,$tlf_cel_r,$tlf_local_r,$correo_r,$estado_civil_r,'');
+
+update_datos_laborales($id_doc_r,$id_doc_r,$prof_ofi_r,$lug_trab_r,$direcc_trab_r,$tlf_ofic_r);
+
+  update_person_estudiantes($id_doc_r,$id_doc_r,$_SESSION['ci_escolar'],$_SESSION['ci_escolar'],$convivencia_r,$ocupacion_r,$parentesco_r);
+
+update_person_represent($id_doc_r,$id_represent,$_SESSION['ci_escolar'],$_SESSION['ci_escolar']);
+
+
+
+}
+
+}
+
 
 if (!empty($_POST['reg_mom'])) {
 
