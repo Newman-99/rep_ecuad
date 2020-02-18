@@ -1,3 +1,4 @@
+
 ul{
   list-style: none; 
 }
@@ -21,6 +22,7 @@ body {
   }
 
 /* estilos de */
+
 .top{
     margin: auto; 
     width: 100%;
@@ -49,8 +51,6 @@ body {
 
 .top span{
      color: #fff;
-/*     display: inline-block;
-     position: absolute;*/
      right: 5%;
      top: 30px;
      font-size: 60px;
@@ -79,25 +79,7 @@ body {
 th{
 	width: 30px;
 }
-/*
-button {
-    background:#ffa64d;
-    color: #000
-    width: 4%;
-    border: none;
-    padding: 27px 0;
-    font-size: 16px;
-    font-weight: normal;
-    font-family: Roboto;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all .5s ease;
-     position: absolute;
-     right: 15%;
-    border-radius: 10px;
-    margin-top: 12%;
-}
-*/
+
 input[type="submit"]:hover {
     background:#fff;
     color: #000;
@@ -110,19 +92,24 @@ input[type="submit"]:hover{
     padding: 10px;
     width: 20%;
     border: none;
-     display:     ;
+     
      position: absolute;
      right: 15%;
      top: 25%;
      border-radius: 10px;
 }
+/* ---------------------Estilo   J O S E --------------
+------------------------------------------------------- */
+/* tabla individual 
+.tabla-masinf-d {
 
+}
+*/
 .tabla{
-   /* margin: 100px auto;*/
+   
    margin-top:100px;
     margin-left:-150px;
     margin-right: 50px;
-
     left: 30%;
     width: 30%;
     height: 200px;
@@ -252,7 +239,38 @@ a {
 #registrer{
   opacity: 0.75;
 }
-/*navegar*/
+
+
+/* ---------------------Estilo   J O S E --------------
+------------------------------------------------------- */
+
+
+/* -------------- Barra navegar horizontal --------------------------------- */
+
+.nav-h {
+    background-color: #262F36;
+    color: #FFF;
+    margin: 20px auto;
+    margin-left: 20%;
+    padding: 10px;
+    height: 140px;
+    font-family: Arial, Helvetica, sans-serif;
+    display: block;
+}
+
+.nav-usr {
+    background-color: #262F36;
+    color: #FFF;
+    margin: 10px auto;
+    margin-left: 20%;
+    padding: 10px;
+    width: 25%;
+    height: 200px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    float: right;
+}
+/* - Navegacion Vertical principal - */
 .nave{
     margin: 30px auto;
     width: 20%;
@@ -292,7 +310,7 @@ a {
     color: #000;
 }
 
--------formulario------
+/*-------formulario------*/
 .contenedor-form {
     background: rgba(0,0,0,.7);
     max-width: 400px;
@@ -301,7 +319,7 @@ a {
     border-radius: 5px;
     color: #fff;
     position: relative;
-    /padding: 40px;*/
+    padding: 40px;
 }
 
 .contenedor-form .toggle {
@@ -436,7 +454,7 @@ border-radius: 10px;
     border-radius: 5px;
     color: #fff;
     position: relative;
-    /padding: 40px;*/
+    padding: 40px;
 }
 .registro input[type="text"]{
     outline: none;

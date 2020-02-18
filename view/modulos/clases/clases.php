@@ -27,11 +27,13 @@ require '../../includes/head.php';
 
     <?php require '../../includes/header.php'; ?>	   
 
-	<section>			
-	<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post"
->
+	<section>	
+  <div class="nav-h">		
+  <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
+    <div class="text-center"> 
+
         Grado Escolar:
-        <select name="grado" id="" autocomplete="on">
+        <select name="grado" id="" autocomplete="on" class="mx-3">
             <option value=''>Todos</option>
             <option value="1">1ro</option>
             <option value="2">2do</option>
@@ -43,8 +45,8 @@ require '../../includes/head.php';
         </select>
 
 
-        Seccion 
-            <select name="seccion" id="" autocomplete="on">
+        Seccion: 
+            <select name="seccion" id="" autocomplete="on" class="mx-3">
          <option value="">Todos</option>
             <option <?php if(isset($seccion)) if($seccion == 'A') echo 'selected';?> value="A">A</option>
             <option <?php if(isset($seccion)) if($seccion == 'B') echo 'selected';?> value="B">B</option>
@@ -55,7 +57,7 @@ require '../../includes/head.php';
         </select>
 
 		Turno:
-        <select name="turno" id="">
+        <select name="turno" id="" class="mx-3">
         	 <option value=''>Todos</option>
             <option value="1">Mañana</option>
             <option value="2">Tarde</option>
@@ -63,20 +65,20 @@ require '../../includes/head.php';
 
         Año Escolar 
 
-        <input type="number" name="año_escolar1" id="" value="<?php if(isset($anio_escolar2)) echo $anio_escolar1; ?>">
-
-        <input type="number" name="año_escolar2" id="" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
+        <input type="number" name="año_escolar1" id="" class="mx-3 col-1" value="<?php if(isset($anio_escolar2)) echo $anio_escolar1; ?>">
+  -
+        <input type="number" name="año_escolar2" id="" class="mx-3 col-1" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
 		
 
 
-		<button id=button class="icon-search" type="submit" name="buscar">Buscar</button>
+		<button id='' class="icon-search btn btn-primary col-2" type="submit" name="buscar">Buscar</button>
 
-			<a href="register_clases.php" style="float:right;margin-top:80px;margin-right:180px;" id='registrer' class="icon-add">Registrar Nueva Clase</a>
+			<a href="register_clases.php"  id='' class="icon-add btn btn-primary col-4">Registrar Nueva Clase</a>
 
-
+      </div>
 		</form>
- 
-<br><br>
+</div>
+
    
 
 	<?php 	
@@ -242,21 +244,16 @@ if ($result->rowCount() == 0) {
               <br><br>
 -->
           <form action="estudiantes_asigandos.php" method="post">
-             <button id="button-modi" class="icon-list1" type="submit" name='estudiantes_asigandos' value="<?php echo $registro['id_clase'] ?>">Estudiantes</button>
+             <button id="" class="icon-list1 btn btn-dark btn-sm col-12" type="submit" name='estudiantes_asigandos' value="<?php echo $registro['id_clase'] ?>">Estudiantes</button>
           </form>
-              <br><br>
 		
 					<form action="asignar_docentes.php" method="post">
-						 <button id="button-modi" type="submit" name='docent_asig' value="<?php echo $registro['id_clase'] ?>">Docentes</button>
+						 <button id="" class="btn btn-dark btn-sm col-12" type="submit" name='docent_asig' value="<?php echo $registro['id_clase'] ?>">Docentes</button>
 					</form>
-              <br><br>
 					
 					<form action="modificar_clase.php" method="post">
-					<button id="button-modi" type="submit" name='modif_clas' value="<?php echo $registro['id_clase'] ?>">Modificar</button>
+					<button id="" class="btn btn-dark btn-sm col-12" type="submit" name='modif_clas' value="<?php echo $registro['id_clase'] ?>">Modificar</button>
 					</form>
-
-
-					<br><br>
 				</td>
 
 				<?php }

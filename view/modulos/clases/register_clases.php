@@ -124,24 +124,31 @@ if (!comprobar_msjs_array($errors)) {
 
     <h2>Registro de Clases</h2>
 
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
 
+    
+    <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post" class="form-group text-center">
+<div class="row">
+        <div class="col-12">
+        <h3 class="form-titulo">Registrar Clase</h3>
+        </div>
 
-    <h3>Registrar Clase</h3>
-    <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
-        <br>
-        Grado Escolar:
-        <select name="grado" id="" autocomplete="on">
+        <div class="col-lg-2 my-2">
+        <label for="">Grado Escolar</label>
+        <select name="grado" id="" autocomplete="on" class="form-control">
+            <option value="">Seleccione</option>
             <option value="1">1ro</option>
             <option value="2">2do</option>
             <option value="3">3ro</option>
             <option value="4">4to</option>
             <option value="5">5to</option>
             <option value="6">6to</option>
-
         </select>
+        </div>
 
-        <br>
-        <div class="col-lg-3 my-4">
+        <div class="col-lg-2 my-2">
          <label for="">Seccion</label>
         <select name="seccion" id="" autocomplete="on" class="form-control">
         <option value="" > Seleccione </option>
@@ -153,38 +160,57 @@ if (!comprobar_msjs_array($errors)) {
             <option <?php if(isset($seccion)) if($seccion == 'F') echo 'selected';?> value="F">F</option>
         </select>
         </div>
-        <br>
-
-Turno:
-        <select name="turno" id="">
-            <option value="1">Mañana</option>
-            <option value="2">Tarde</option>
-        </select> 
-        <br>
-        Numero de Aula <input type="text" name="no_aula" id="" value="<?php if(isset($no_aula)) echo $no_aula; ?>">
-        <br>
-
-        Año Escolar 
-
-        <input type="number" name="año_escolar1" id="" value="<?php if(isset($anio_escolar2)) echo $anio_escolar1; ?>">
-
-        <input type="number" name="año_escolar2" id="" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
-        <br>
-
-        Documento de Identidad - Docente en Aula <input type="number" name="id_doc_docent_normal" id="" value="<?php if(isset($id_doc_docent_normal)) echo $id_doc_docent_normal; ?>">
-
-        <br>
-        Documento de Identidad - Docente Educacion Fisica <input type="number" name="id_doc_educ_fisica" id="" value="<?php if(isset($id_doc_educ_fisica)) echo $id_doc_educ_fisica; ?>">
-
-        <br>
-        Documento de Identidad - Docente Arte y Cultura <input type="number" name="id_doc_docent_arte_cultura" id="" value="<?php if(isset($id_doc_docent_arte_cultura)) echo $id_doc_docent_arte_cultura; ?>">
-        <br>
-
-    <input class="btn btn-primary btn-lg" type="submit" value="Registrar" name="registrar">
-    </form>
-<br>
-<a class="btn btn-primary btn-lg" href="clases.php">Volver</a>
         
+        <div class="col-lg-2 my-2">
+            <label for="">Turno:</label>
+            <select name="turno" id="" class="form-control">
+                <option value="">Seleccione</option>
+                <option value="1">Mañana</option>
+                <option value="2">Tarde</option>
+            </select> 
+        </div>
+
+        <div class="col-lg-2 my-2">
+            <label for="">Numero de Aula</label> 
+            <input type="text" name="no_aula" id="" placeholder="Nro Aula" class="form-control" value="<?php if(isset($no_aula)) echo $no_aula; ?>">
+        </div>
+
+        <div class="col-lg-3 my-2">
+            <label for="">Año Escolar</label>
+            <input type="number" name="año_escolar1" id="" placeholder="0000" class="form-control" value="<?php if(isset($anio_escolar2)) echo $anio_escolar1; ?>">
+            <input type="number" name="año_escolar2" id="" placeholder="0000" class="form-control" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
+        </div>
+
+</div>
+
+<div class="row">
+        
+        <div class="col-lg-4 my-2">
+            <label class="my-1">Documento de Identidad / Docente en Aula:</label>
+            <input type="number" name="id_doc_docent_normal" id="" Placeholder="C.I" class="form-control" value="<?php if(isset($id_doc_docent_normal)) echo $id_doc_docent_normal; ?>">
+        </div>
+        <br>
+        <div class="col-lg-4 my-2">
+        <label for="">Documento de Identidad / Docente Educacion Fisica</label>
+        <input type="number" name="id_doc_educ_fisica" id="" Placeholder="C.I" class="form-control" value="<?php if(isset($id_doc_educ_fisica)) echo $id_doc_educ_fisica; ?>">
+        </div>
+        
+        
+        <div class="col-lg-4 my-2">
+        <label for="">Documento de Identidad / Docente de Arte y Cultura</label>
+        <input type="number" name="id_doc_docent_arte_cultura" id="" Placeholder="C.I" class="form-control" value="<?php if(isset($id_doc_docent_arte_cultura)) echo $id_doc_docent_arte_cultura; ?>">
+        </div>
+
+        
+</div>
+    
+        <a class="btn btn-primary col-2" href="clases.php">Volver</a>
+        <button class="btn btn-primary col-9" type="submit" value="Registrar" name="registrar">Registrar</button>
+    </form>
+
+        </div>
+    </div>
+</div>  
 
     <?php
     if(!empty($errors)){

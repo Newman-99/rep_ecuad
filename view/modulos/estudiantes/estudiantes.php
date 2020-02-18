@@ -1,3 +1,4 @@
+
 <?php 
 require '../../includes/init_system.php'; 
 
@@ -14,83 +15,94 @@ if (isset($_GET['clean_ci_escolar'])) {
 	    <title>Estudiantes</title>
 	    
 <?php require '../../includes/header.php'; ?>	
-<link rel="stylesheet" type="text/css" href="../../styles/css/styles.css">
+
 
 	<section>
-		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
-			
-      Buscar Por: 
-			<input type="search" class="search" placeholder="Cédula escolar o normal" name="ci_estudiante" value="<?php if(isset($ci)) echo $ci;?>">
-			 / 
-		Estado:
-        <select name="estado_student" id="" autocomplete="on">
-            <option value=''>Todos</option>
-            <option value="3">Activo</option>
-            <option value="4">Irregular</option>
-            <option value="5">Retirado</option>
-        </select>
-		
-     / 
-        Grado Designado:
-        <select name="grado_design" id="" autocomplete="on">
-            <option value=''>Todos</option>
-            <option value="1">1ro</option>
-            <option value="2">2do</option>
-            <option value="3">3ro</option>
-            <option value="4">4to</option>
-            <option value="5">5to</option>
-            <option value="6">6to</option>
-        </select>
+  <div class="nav-h"><!----- DIV contenedor BARRA NAVEGACION HORIZONTAL -----> 
+  
+  <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
+  <div class="text-center">
+      <label for="">Buscar Por:</label>
+      <input type="search" class="" style='width: 18%;' placeholder="Cedula escolar o normal" name="ci_estudiante" value="<?php if(isset($ci)) echo $ci;?>">
+      
+      <label for="">Sexo:</label>
+      <select name="" id="">
+        <option value="">Todos</option>
+        <option value="1">Masculino</option>
+        <option value="2">Femenino</option>
+      </select>
 
+      <label class="" for="">Estado:</label>
+      <select name="estado_student" id="" autocomplete="on" class="">
+          <option value=''>Todos</option>
+          <option value="3">Activo</option>
+          <option value="4">Irregular</option>
+          <option value="5">Retirado</option>
+      </select>
+      
+        
+      
+      <label for="">Grado Designado:</label>
+      <select name="grado_design" id="" autocomplete="on" class="">
+          <option value=''>Todos</option>
+          <option value="1">1ro</option>
+          <option value="2">2do</option>
+          <option value="3">3ro</option>
+          <option value="4">4to</option>
+          <option value="5">5to</option>
+          <option value="6">6to</option>
+      </select>
+      
 <!--
-		Por clase - 
+  Por clase - 
 
-        Grado Escolar:
-        <select name="grado" id="" autocomplete="on">
-            <option value=''>Todos</option>
-            <option value="1">1ro</option>
-            <option value="2">2do</option>
-            <option value="3">3ro</option>
-            <option value="4">4to</option>
-            <option value="5">5to</option>
-            <option value="6">6to</option>
+      Grado Escolar:
+      <select name="grado" id="" autocomplete="on">
+          <option value=''>Todos</option>
+          <option value="1">1ro</option>
+          <option value="2">2do</option>
+          <option value="3">3ro</option>
+          <option value="4">4to</option>
+          <option value="5">5to</option>
+          <option value="6">6to</option>
 
-        </select>
+      </select>
 
-        Seccion 
-            <select name="seccion" id="" autocomplete="on">
-         <option value="">Todos</option>
-            <option <?php if(isset($seccion)) if($seccion == 'A') echo 'selected';?> value="A">A</option>
-            <option <?php if(isset($seccion)) if($seccion == 'B') echo 'selected';?> value="B">B</option>
-            <option <?php if(isset($seccion)) if($seccion == 'C') echo 'selected';?> value="C">C</option>
-            <option <?php if(isset($seccion)) if($seccion == 'D') echo 'selected';?> value="D">D</option>
-            <option <?php if(isset($seccion)) if($seccion == 'E') echo 'selected';?> value="E">E</option>
-            <option <?php if(isset($seccion)) if($seccion == 'F') echo 'selected';?> value="F">F</option>
-        </select>
+      Seccion 
+          <select name="seccion" id="" autocomplete="on">
+       <option value="">Todos</option>
+          <option <?php if(isset($seccion)) if($seccion == 'A') echo 'selected';?> value="A">A</option>
+          <option <?php if(isset($seccion)) if($seccion == 'B') echo 'selected';?> value="B">B</option>
+          <option <?php if(isset($seccion)) if($seccion == 'C') echo 'selected';?> value="C">C</option>
+          <option <?php if(isset($seccion)) if($seccion == 'D') echo 'selected';?> value="D">D</option>
+          <option <?php if(isset($seccion)) if($seccion == 'E') echo 'selected';?> value="E">E</option>
+          <option <?php if(isset($seccion)) if($seccion == 'F') echo 'selected';?> value="F">F</option>
+      </select>
 
 
-		Turno:
-        <select name="turno" id="">
-        	 <option value=''>Todos</option>
-            <option value="1">Mañana</option>
-            <option value="2">Tarde</option>
-        </select> 
+  Turno:
+      <select name="turno" id="">
+         <option value=''>Todos</option>
+          <option value="1">Mañana</option>
+          <option value="2">Tarde</option>
+      </select> 
 -->
-        Año Escolar 
+      
+      <label class="">Año Escolar:</label>
+      <input type="number" name="año_escolar1" id="" class="col-1" value="<?php if(isset($anio_escolar1)) echo $anio_escolar1; ?>">
+      -
+      <input type="number" name="año_escolar2" id="" class="col-1" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
+      </div>
+      
+      <div class="text-center">
+      <button id="" name="buscar" value="buscar" class="icon-search btn btn-primary col-2 mx-3" type="submit">Buscar</button>
+      <a href="./register_student/reg-estudiante-1.php"  class="icon-add btn btn-primary col-3">Registrar Nuevo Estudiante</a>
+      </div>
+      
+  </form>
+  
+</div> <!----- FIN - DIV contenedor BARRA NAVEGACION HORIZONTAL ----->
 
-        <input type="number" name="año_escolar1" id="" value="<?php if(isset($anio_escolar1)) echo $anio_escolar1; ?>">
-
-        <input type="number" name="año_escolar2" id="" value="<?php if(isset($anio_escolar2)) echo $anio_escolar2; ?>">
-
-
-
-  			<button id=button name="buscar" value="buscar" class="icon-search" type="submit">Buscar</button>
-
-
-			<a href="./register_student/reg-estudiante-1.php" id=registrer class="icon-add";>Registrar Nuevo Estudiante</a>
-
-		</form>
-    <br><br>
 
 		<?php 
 		if(!empty($_POST['buscar'])){
@@ -285,21 +297,21 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
 
 
                      <?php    if(valid_inicio_sesion('2')) {  ?>
-
+                     
                     <form action='./menu_upd_student.php' method='post'>
                         
-                        <button type='submit' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='update_student'> Actualizar</button>
+                        <button type='submit' class="btn btn-dark btn-sm col-12"  value="<?php echo $registro['ci_escolar']; ?>" name ='update_student'> Actualizar</button>
                     </form>
 
-                  <br><br> 
+                   
 
                         <form action='mas_info_student.php' method='post'>
                         
-                        <button type='submit' class='icon-list1' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='mas_info_student' >Mas Informacion</button>
+                        <button type='submit' class='icon-list1 btn btn-dark btn-sm col-12'  value="<?php echo $registro['ci_escolar']; ?>" name ='mas_info_student' >Mas Informacion</button>
                          
                          </form>
 
-<br><br>
+
                         <?php } ?>
 
                         
@@ -307,7 +319,7 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
 
                         <form action='#' method='post'>
                         
-                        <button type='submit' icon='button-cancel' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='eliminar_estudiantet' >Eliminar</button>
+                        <button type='submit' class='button-cancel btn btn-dark btn-sm col-12'  value="<?php echo $registro['ci_escolar']; ?>" name ='eliminar_estudiantet' >Eliminar</button>
                          
                          </form>
 
@@ -336,3 +348,4 @@ echo "
 	imprimir_msjs($errors);
 require'../../includes/footer.php';
 ?>
+

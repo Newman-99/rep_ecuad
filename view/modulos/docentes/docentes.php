@@ -11,20 +11,25 @@ $errors=array();
 		
 		<?php require '../../includes/header.php' ?>
 	   
-
-
-
-
 	<section>
+	<div class="nav-h"><!----- DIV contenedor BARRA NAVEGACION HORIZONTAL ----->
 		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
+		<div class="text-center">
+
+			<input type="search" class="col-3 mx-4" placeholder="Ingrese Cedula" name="ci_docente" value="<?php if(isset($_POST['ci_docente'])) echo $_POST['ci_docente'];?>">
 			
-			<input type="search" class="search" placeholder="Ingrese Cedula" name="ci_docente" value="<?php if(isset($_POST['ci_docente'])) echo $_POST['ci_docente'];?>">
-			
-			
-			<button id=button class="icon-search" type="submit" name="por_cedula" value="por_cedula">Buscar</button>			
+			<!--
+			<button id=button class="icon-search" type="submit" name="por_cedula" value="por_cedula">Buscar</button> -->
+				
+				<label for="">Sexo:</label>
+      				<select name="" id="" class="mx-2">
+        			<option value="">Todos</option>
+        			<option value="1">Masculino</option>
+        			<option value="2">Femenino</option>
+      				</select>
 
 				Funcion: 
-				<select name="id_funcion_docent">
+				<select name="id_funcion_docent" class="mx-2">
 				<option value="">Todos</option>				
 				<option value="1">En Aula</option>
 				<option value="2">Educacion Fisica</option>
@@ -33,7 +38,7 @@ $errors=array();
 			</select>
 		
 				Estado: 
-		<select name="id_estado_docent">
+			<select name="id_estado_docent" class="mx-2">
 				<option value="">Todos</option>				
 				<option value="1">Activo</option>
 				<option value="2">Inactivo</option>
@@ -41,24 +46,20 @@ $errors=array();
 			</select>
 
 			Turno: 
-		<select name="id_docent_turno">
+		<select name="id_docent_turno" class="mx-2">
 			<option value="">Todos</option>	
 				<option value="1">Mañana</option>
 				<option value="2">Tarde</option>
 			</select>
-
-
-			<button id=button class="icon-search" type="submit" name="por_criterios" value="buscar_docent">Buscar</button>			
-
-			
-			<a href="register_docent.php" style="" id=registrer class="icon-add">Registrar Nuevo Docente</a>
-
-<br>
-			
+	</div>
+			<div class="text-center">
+			<button id="" class="icon-search btn btn-primary col-2 mx-3" type="submit" name="por_criterios" value="buscar_docent">Buscar</button>		
+			<a href="register_docent.php"  id="" class="icon-add btn btn-primary col-3">Registrar Nuevo Docente</a>
+			</div>
 
 		</form>
 
-
+	</div> <!----- FIN - DIV contenedor BARRA NAVEGACION HORIZONTAL ----->
 	
 		<?php 
 

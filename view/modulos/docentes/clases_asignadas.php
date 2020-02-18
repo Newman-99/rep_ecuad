@@ -15,8 +15,10 @@ $id_doc = $_SESSION['id_doc'];
 	    <title>Clases del Docentes</title>
 		
 		<?php require '../../includes/header.php' ?>
-
-		<h3>Clases del Docente</h3>
+<div class="container">
+	<div class="row">    
+        <div class="col-lg-12">
+		
 <?php
 
 $orden_grado = 'ORDER BY cl.grado';
@@ -29,24 +31,33 @@ $orden_turno = 'ORDER BY tr.id_turno';
 $orden_anio="ORDER BY cl.anio_escolar1 AND cl.anio_escolar2;";
 ?>
 
-		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
-		
-		<select name="orden">
+		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post" class="form-group text-center">
+		<div class="row">
+
+			<div class="col-12">
+				<h3 class="form-titulo">Clases del Docente</h3>
+			</div>
+			<div class="col-3"></div>
+			<div class="col-3 my-5">
+				<select name="orden" class="form-control">
+					<option value="">Seleccione</option>			
+					<option value="<?php echo $orden_estado_contrato; ?>">Estado del Contrato</option>
+					<option value="<?php echo $orden_anio; ?>">Año Escolar</option>
+					<option value="<?php echo $orden_grado; ?>">Grado</option>
+					<option value="<?php echo $orden_seccion; ?>">Seccion</option>
+					<option value="<?php echo $orden_turno ?>">Turno</option>
+				</select>			
+			</div>
 			
-				<option value="<?php echo $orden_estado_contrato; ?>">Estado del Contrato</option>
+			<div class="col-3 my-1">
+				<button  class='btn btn-dark col-6' type="submit" name='ordenar' value="<?php echo $id_doc; ?>">Ordenar</button>
+			</div>
+			<div class="col-3"></div>
+		</div>
 
-				<option value="<?php echo $orden_anio; ?>">Año Escolar</option>
-
-				<option value="<?php echo $orden_grado; ?>">Grado</option>
-
-				<option value="<?php echo $orden_seccion; ?>">Seccion</option>
-
-				<option value="<?php echo $orden_turno ?>">Turno</option>
-
-			</select>
 		
-		<button id=button class="icon-search" type="submit" name='ordenar' value="<?php echo $id_doc; ?>">Ordenar</button>
-		</form>
+		
+		
 
 <?php  
 $orden = $orden_anio;
@@ -118,11 +129,7 @@ INNER JOIN funciones_docentes fd ON ca.id_funcion_docent = fd.id_funcion_docent
             }
 ?>
 
-                 <a  class="btn btn-primary "href="docentes.php">Volver</a>
-
-
-            
-
+				 
 <?php
 
     if(!empty($errors)){
@@ -131,4 +138,10 @@ INNER JOIN funciones_docentes fd ON ca.id_funcion_docent = fd.id_funcion_docent
         }
     }
 
- require '../../includes/footer.php' ?>
+?>		
+				<a  class="btn btn-primary col-3"href="docentes.php">Volver</a>
+		</form>
+		</div>
+	</div>
+</div>
+<?php require '../../includes/footer.php' ?>

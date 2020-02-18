@@ -15,25 +15,26 @@ $errors = array();
 <?php require '../../includes/header.php'; ?>	   
 
 	<section>
+		<div class="nav-h">
 		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
-			
-			<input type="search" class="search" placeholder="Cédula" name="ci_user" value="<?php if(isset($ci)) echo $ci;?>">
+			<div class="text-center">
 
-			<button id=button class="icon-search" type="submit" name="busc" value="busc">Buscar</button>
-			
-						<select name="id_tipo_usr">
+			<input type="search" class="col-3 mx-3" placeholder="Cédula" name="ci_user" value="<?php if(isset($ci)) echo $ci;?>">
+				<label for="">Buscar por:</label>
+				<select name="id_tipo_usr" class="mx-3">
 				<option value="">Todos</option>				
 				<option value="0">Inabilitado</option>
 				<option value="1">Administrador</option>
 				<option value="2">Normal</option>
 				<option value="3">Invitado</option>
-
 			</select>
 
-
-
-			<br>
+				<div class="text-center">
+				<button id='' class="icon-search btn btn-primary col-3" type="submit" name="busc" value="busc">Buscar</button>
+				</div>
+			</div>
 		</form>
+	</div>
 
 <?php
 
@@ -152,7 +153,7 @@ mostrar_user_especifico($id_usr);
 
 <br>
 
-		<div style="float: right ;">	
+		<div style="" class="nav-usr">	
 
 				<h3>Modificacion de Usuario</h3>
 
@@ -167,10 +168,10 @@ mostrar_user_especifico($id_usr);
 
 			</select>
 			<br>
-			<br>
-       <?php echo "<button type='submit' value=".$id_usr." name='guardar' id=registrer class='icon-add'>Guardar</button> <br><br>";
+			
+       <?php echo "<button type='submit' value=".$id_usr." name='guardar' id='' class='icon-add btn btn-dark btn-sm col-5 mx-2'>Guardar</button>";
 
-       echo "<button type='submit' value='La operacion ha sido cancelada' name='cancel' id=registrer class='icon-add'>Cancelar</button>";
+       echo "<button type='submit' value='La operacion ha sido cancelada' name='cancel' id='' class='icon-add btn btn-dark btn-sm col-5 mx-2'>Cancelar</button>";
 
 	/*echo "<br><a href=".$_SERVER['PHP_SELF']."?msj=Operacion&nbsp;Cancelada>Cancelar</a>";*/
 
