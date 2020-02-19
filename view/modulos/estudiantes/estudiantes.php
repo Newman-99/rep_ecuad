@@ -26,7 +26,7 @@ if (isset($_GET['clean_ci_escolar'])) {
       <input type="search" class="" style='width: 18%;' placeholder="Cedula escolar o normal" name="ci_estudiante" value="<?php if(isset($ci)) echo $ci;?>">
       
       <label for="">Sexo:</label>
-      <select name="" id="">
+      <select name="sexo" id="">
         <option value="">Todos</option>
         <option value="1">Masculino</option>
         <option value="2">Femenino</option>
@@ -102,6 +102,7 @@ if (isset($_GET['clean_ci_escolar'])) {
   </form>
   
 </div> <!----- FIN - DIV contenedor BARRA NAVEGACION HORIZONTAL ----->
+      </section>
 
 
 		<?php 
@@ -118,6 +119,8 @@ $ci = htmlentities(addslashes($_POST['ci_estudiante']));
 
 
       $ci=trim($ci);
+
+    $sexo = htmlentities(addslashes($_POST["sexo"]));
 
     $anio_escolar1 = htmlentities(addslashes($_POST["año_escolar1"]));
 
@@ -143,7 +146,7 @@ $ci = htmlentities(addslashes($_POST['ci_estudiante']));
 
 				if (!comprobar_msjs_array($errors)) {
 
-			$sql=" SELECT DISTINCT est.ci_escolar,prsd.id_doc, est.id_doc,in_p.nombre,in_p.apellido_p,in_p.apellido_m, edo.descripcion estado,est.id_estado,es.grado grado_design, clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2,es.id_actualizacion id_es,ea.id_actualizacion id_ea FROM estudiantes est 
+			$sql=" SELECT DISTINCT est.ci_escolar,prsd.id_doc, est.id_doc,in_p.nombre,in_p.apellido_p,in_p.apellido_m, edo.descripcion estado,est.id_estado,es.grado grado_design, clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2,es.id_actualizacion id_es,ea.id_actualizacion id_ea, in_p.id_sexo FROM estudiantes est 
 LEFT OUTER JOIN info_personal in_p ON est.ci_escolar = in_p.id_doc 
 LEFT OUTER JOIN estudiantes_asignados ea ON est.ci_escolar = ea.ci_escolar 
 LEFT OUTER JOIN clases clas ON ea.id_clase = clas.id_clase 
@@ -172,6 +175,17 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
     $campos[':grado_design'] = [
       'valor' => $grado_design,
       'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+
+  if (!empty($sexo)) {
+    /* Agregamos al WHERE la comparación */
+    array_push($where,'in_p.id_sexo = :sexo');
+    /* Preparamos los datos para la variable preparada */
+    $campos[':sexo'] = [
+      'valor' => $sexo,
+      'tipo' => \PDO::PARAM_INT,
     ];
   }
 
@@ -257,15 +271,21 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
     $result->bindParam($clave, $valores['valor'], $valores['tipo']);
   }
 
+
   $result->execute();
+var_dump($result->rowCount());
+
 			if ($result->rowCount() == 0) {
 	$errors[] = "No hay criterios que concidan con su busqueda";
 	}else{
 					?>
 
 	        <div>
- 	            <table class="tabla" border="1">
+<?php msjs_coincidencias($result); ?>
+
+ 	            <table class="tabla">
  		            <thead>
+
  			            <tr>
 						 <th>Cedula Escolar</th> 
 						 <th>Cédula</th> 
@@ -296,12 +316,13 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
 						 <td>
 
 
-                     <?php    if(valid_inicio_sesion('2')) {  ?>
-                     
+                     <?php    if(comprob_permisos('2')) {  ?>
+                          
                     <form action='./menu_upd_student.php' method='post'>
                         
                         <button type='submit' class="btn btn-dark btn-sm col-12"  value="<?php echo $registro['ci_escolar']; ?>" name ='update_student'> Actualizar</button>
                     </form>
+                        <?php } ?>
 
                    
 
@@ -312,19 +333,20 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
                          </form>
 
 
-                        <?php } ?>
 
                         
-                      <?php  if(valid_inicio_sesion('2')) { ?>
-
+                      <?php  if(comprob_permisos('1')) { ?>
+      
+      <!--
                         <form action='#' method='post'>
                         
                         <button type='submit' class='button-cancel btn btn-dark btn-sm col-12'  value="<?php echo $registro['ci_escolar']; ?>" name ='eliminar_estudiantet' >Eliminar</button>
-                         
                          </form>
+-->
+                     <?php } ?>
+                         
 
                   <br><br></td>
-                     <?php } ?>
 	<?php  }
 
 echo " 		            
@@ -339,9 +361,6 @@ echo "
 		
 
 				<?php require '../../includes/menu_bar.php' ?>
-
-            </div>
-	    </section>
 
 <?php
 

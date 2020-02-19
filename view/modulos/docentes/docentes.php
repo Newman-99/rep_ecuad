@@ -22,7 +22,7 @@ $errors=array();
 			<button id=button class="icon-search" type="submit" name="por_cedula" value="por_cedula">Buscar</button> -->
 				
 				<label for="">Sexo:</label>
-      				<select name="" id="" class="mx-2">
+      				<select name="sexo" id="" class="mx-2">
         			<option value="">Todos</option>
         			<option value="1">Masculino</option>
         			<option value="2">Femenino</option>
@@ -63,22 +63,15 @@ $errors=array();
 	
 		<?php 
 
-	if(!empty($_POST['por_cedula'])){
-	
-	$ci_docente = htmlentities(addslashes($_POST["ci_docente"]));
-
-	$errors[]=valid_ci($ci_docente);
-	
-	if(!is_exist_docente($ci_docente)){$errors[] = "No existe el Docente";}	
-	
-	if (!comprobar_msjs_array($errors)) {
-
-	mostrar_docente_cedula($ci_docente);
-	}
-}
 
 
 	if(!empty($_POST['por_criterios'])){
+
+
+	$id_doc = htmlentities(addslashes($_POST["ci_docente"]));
+		
+	
+	$sexo = htmlentities(addslashes($_POST["sexo"]));
 
 
 	    $id_funcion_docent = htmlentities(addslashes($_POST["id_funcion_docent"]));
@@ -94,6 +87,24 @@ $sql = consulta_docentes();
 
   $campos = [];
 
+
+  if (!empty($id_doc)){
+    array_push($where,'in_p.id_doc = :id_doc');
+    $campos[':id_doc'] = [
+      'valor' => $id_doc,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+  }
+
+
+
+  if (!empty($sexo)){
+    array_push($where,'in_p.id_sexo = :sexo');
+    $campos[':sexo'] = [
+      'valor' => $sexo,
+      'tipo' => \PDO::PARAM_INT,
+    ];
+  }
 
   if (!empty($id_funcion_docent)){
     /* Agregamos al WHERE la comparación */
@@ -133,6 +144,7 @@ if (!empty($id_estado_docent)) {
   foreach($campos as $clave => $valores) {
     $result->bindParam($clave, $valores['valor'], $valores['tipo']);
   }
+
 
   $result->execute();
 

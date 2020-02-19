@@ -24,7 +24,7 @@ require '../../includes/head.php';
 			-->
 
 				<label for="">Sexo:</label>
-      				<select name="" id="" class="mx-3">
+      				<select name="sexo" id="" class="mx-3">
         			<option value="">Todos</option>
         			<option value="1">Masculino</option>
         			<option value="2">Femenino</option>
@@ -81,6 +81,8 @@ require '../../includes/head.php';
 	if(!empty($_POST['por_criterios'])){
 
 
+	    $sexo = htmlentities(addslashes($_POST["sexo"]));
+
 	    $id_area = htmlentities(addslashes($_POST["id_area"]));
 
 	    $id_estado = htmlentities(addslashes($_POST["id_estado"]));
@@ -93,6 +95,16 @@ $sql = consulta_admins();
   $where = [];
 
   $campos = [];
+
+  if (!empty($sexo)){
+    /* Agregamos al WHERE la comparación */
+    array_push($where,'in_p.id_sexo = :sexo');
+    /* Preparamos los datos para la variable preparada */
+    $campos[':sexo'] = [
+      'valor' => $sexo,
+      'tipo' => \PDO::PARAM_INT,
+    ];
+  }
 
 
   if (!empty($id_area)){

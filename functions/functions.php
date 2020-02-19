@@ -174,22 +174,29 @@ function valid_inicio_sesion($nivel_requerido = '3'){
     if(!isset($_SESSION["id_user"])){
       
       header("Location:../../../index.php");
-
-      return false;
         
-   }else{
+   }
 
     $nivel_permiso=$_SESSION['nivel_usuario'];
 
-    if ($nivel_permiso > $nivel_requerido || $nivel_permiso == 0) {
-           
-    header("Location:../../../index.php");
+if ($nivel_permiso > $nivel_requerido || $nivel_permiso == 0 ) {
+  
+
+ header("Location:../../../index.php");
     
-    }else{
-      return true;
     }
 }
-}    
+
+function comprob_permisos($nivel_requerido = '3'){
+        $nivel_permiso=$_SESSION['nivel_usuario'];
+
+if ($nivel_permiso > $nivel_requerido || $nivel_permiso == 0 ) {
+    return FALSE;
+}else{
+    return TRUE;
+}
+}
+    
 
 //Validar un par de valores
 
@@ -583,6 +590,8 @@ function imprimir_usuario_bienvenida($ci){
     
     $result->execute();
     
+    echo "          <div>";
+
         echo "<p><table border='1' style='  height: 100px;
   position: relative;
   left: 20%;
@@ -616,7 +625,7 @@ function imprimir_usuario_bienvenida($ci){
 
     </tr>";
 
-echo "</table></p>";
+echo "</table> </div></p>";
     }
         
     }
@@ -1913,8 +1922,11 @@ function mostrar_users_todos(){
         $result->execute();
 
 
-echo "          <div>
-                <table class='tabla' border='1'>
+echo "          <div>";
+
+msjs_coincidencias($result);
+
+echo                " <table class='tabla' border='1'>
                     <thead>
                         <tr>
                          <th>Cédula</th> 
@@ -2165,6 +2177,11 @@ function consulta_docentes(){
 }
 
 
+function msjs_coincidencias($result){
+    $result->execute();
+                    echo "<div style='float: right;'> '<h1>Se han econtrado ".$result->rowCount()." coincidencias</h1></div>";
+}
+
 
 function mostrar_docente_cedula($id_doc){
 global $db;
@@ -2183,8 +2200,12 @@ global $db;
 
 function imprimir_docentes($result){ 
 
-echo "
-        <div>
+
+echo "<div>";
+
+msjs_coincidencias($result);
+
+echo " 
                 <table class='tabla'>
                     <thead>
                         <tr>
@@ -2204,6 +2225,8 @@ echo "
                          <th></th>
                          </tr>
                     </thead>";
+
+
 
             while($registro=$result->fetch(PDO::FETCH_ASSOC)){  
                   
@@ -2237,7 +2260,7 @@ echo "
 
 
 
-                        if(valid_inicio_sesion('2')) {
+                        if(comprob_permisos('2')) {
 
                         echo "<td>
                     <form action='modif_docent.php' method='post'>
@@ -2245,6 +2268,7 @@ echo "
                         <button type='submit' id=''  class='btn btn-dark btn-sm col-12' value=".$registro['id_doc']." name ='modificar'> Modificar</button>
                     </form>
                     ";
+                        }
 
                         echo "
 
@@ -2255,7 +2279,6 @@ echo "
                          </form></td>
                          ";
 
-                        }
 
                         echo"
                         <td><form action='clases_asignadas.php' method='post'>
@@ -2263,8 +2286,9 @@ echo "
                         <button type='submit' id='' class='btn btn-dark btn-sm col-12' value=".$registro['id_doc']." name ='sus_clases' >Sus Clases</button>
 
                         </form>";
+
                         
-                        if(valid_inicio_sesion('2')) {
+                        if(comprob_permisos('1')) {
                         echo "
 
                         <form action='eliminar_docent.php' method='post'>
@@ -2303,7 +2327,10 @@ global $db;
 function imprimir_admins($result){ 
 
 echo "
-        <div>
+        <div>";
+
+        msjs_coincidencias($result);
+echo "
                 <table class='tabla'>
                     <thead>
                         <tr>
@@ -2351,7 +2378,7 @@ echo "
                         <td>".$registro['fecha_ingreso']."</td><td>";
 
 
-                        if(valid_inicio_sesion('2')){
+                        if(comprob_permisos('2')){
                         echo "
                         <form action='mas_info_admin.php' method='post'>
                         
@@ -2367,7 +2394,7 @@ echo "
                     </form> ";
 
                   }
-                        if(valid_inicio_sesion('1')) {
+                        if(comprob_permisos('1')) {
                         echo "
 
                         <form action='eliminar_admin.php' method='post'>

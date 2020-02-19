@@ -1,4 +1,5 @@
 <?php 
+
 require '../../includes/init_system.php'; 
 
 require '../../includes/head.php';
@@ -103,6 +104,9 @@ LEFT OUTER JOIN estado edo ON ea.id_estado = edo.id_estado WHERE clas.id_clase =
 
 
 	        echo "<div>";
+                    
+                    echo "<div style='float: right;'> '<h1>Se han econtrado ".$result->rowCount()." Contratos</h1></div>";
+
  	          echo "<table class='tabla'>
  	          <caption> Estudiantes de la Clase: ".$id."</caption>
  		            <thead>";
@@ -126,7 +130,7 @@ LEFT OUTER JOIN estado edo ON ea.id_estado = edo.id_estado WHERE clas.id_clase =
 						<td><?php echo $registro['estado']?></td>
 						<td>
  		            
-<?php    if(valid_inicio_sesion('2')) {  ?>
+<?php    if(comprob_permisos('2')) {  ?>
 
                     <form action='./menu_upd_student.php' method='post'>
                         
@@ -135,6 +139,9 @@ LEFT OUTER JOIN estado edo ON ea.id_estado = edo.id_estado WHERE clas.id_clase =
 
                   <br><br> 
 
+                                          <?php } ?>
+
+
                         <form action='./menu_upd_student.php' method='post'>
                         
                         <button type='submit' class='icon-list1' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='mas_info_student' >Mas Informacion</button>
@@ -142,7 +149,6 @@ LEFT OUTER JOIN estado edo ON ea.id_estado = edo.id_estado WHERE clas.id_clase =
                          </form>
 
 <br><br>
-                        <?php } ?>
 
                     </td>
                         

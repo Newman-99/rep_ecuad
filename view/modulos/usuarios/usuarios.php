@@ -10,6 +10,7 @@ require '../../includes/head.php';
 
 $errors = array();
 ?>
+
 	    <title>Usuarios</title>
 	    
 <?php require '../../includes/header.php'; ?>	   

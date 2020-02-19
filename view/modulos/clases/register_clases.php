@@ -164,9 +164,9 @@ if (!comprobar_msjs_array($errors)) {
         <div class="col-lg-2 my-2">
             <label for="">Turno:</label>
             <select name="turno" id="" class="form-control">
-                <option value="">Seleccione</option>
-                <option value="1">Mañana</option>
-                <option value="2">Tarde</option>
+                <option  value="">Seleccione</option>
+                <option <?php if(isset($turno)) if($turno == '1') echo 'selected';?> value="1">Mañana</option>
+                <option  <?php if(isset($turno)) if($turno == '2') echo 'selected'; ?> value="2">Tarde</option>
             </select> 
         </div>
 

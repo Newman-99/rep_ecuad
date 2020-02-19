@@ -95,6 +95,8 @@ INNER JOIN funciones_docentes fd ON ca.id_funcion_docent = fd.id_funcion_docent
 			$result->execute();	
 
 	        echo "<div>";
+	                            echo "<div style='float: right;'> '<h1>Se han econtrado ".$result->rowCount()." Contratos</h1></div>";
+
  	          echo "<table class='tabla'>
  	          <caption> Clases 	del docente: ".$id_doc."</caption>
  		            <thead>";

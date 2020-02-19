@@ -17,6 +17,9 @@ extract($_SESSION['sesionform4']);
 }
 }
 
+if (!isset($_SESSION['sesionform1'],$_SESSION['sesionform2'],$_SESSION['sesionform3'])) {
+header('location:reg-estudiante-3.php');
+}
 
 $errors = array();
 
@@ -247,9 +250,9 @@ $errors[]= "<a class= 'btn btn-primary col-lg-9 'href='final_register.php'>
                                             
 
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
-                                    <a href="reg-estudiante-3.php" class="btn btn-primary col-lg-2">VOLVER</a>
+                                    <a href="reg-estudiante-3.php" class="btn btn-primary col-lg-2">Volver</a>
 
-                                    <button type='submit' class="btn btn-primary col-lg-9" value="inscrip_escol" name='inscrip_escol'>CONTINUAR</button>
+                                    <button type='submit' class="btn btn-primary col-lg-9" value="inscrip_escol" name='inscrip_escol'>Continuar</button>
                                     <?php imprimir_msjs_no_style($errors); ?>
                                     
                                 
