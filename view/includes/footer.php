@@ -1,8 +1,22 @@
 		</section>
 		
-		<footer class="estilo-footer">
+		<footer class="estilo-footer" style="height: 60px; font-size: 20px;font-family: Times New Roman;">
         <div class="">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+            <?php  $anio_escol_actual = obtener_anios_escolar_actual(); 
+$anio_escolar1 = $anio_escol_actual['anio_escolar_1'];
+$anio_escolar2 = $anio_escol_actual['anio_escolar_2'];
+
+    date_default_timezone_set("America/Caracas");
+    $fecha_actual = date("Y-m-d (H:i:s)");
+	
+
+ ?>
+
+            <p><?php echo "Año Escolar: ".$anio_escolar1."-".$anio_escolar2; ?>
+	|
+
+ 	Fecha del Sistema: <?php echo $fecha_actual; ?>
+            </p>
         </div>
 		</footer>
 		

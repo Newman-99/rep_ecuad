@@ -592,13 +592,17 @@ function imprimir_usuario_bienvenida($ci){
     
     echo "          <div>";
 
-        echo "<p><table border='1' style='  height: 100px;
+        echo "<p><table style='  height: 100px;t-align:center;
   position: relative;
-  left: 20%;
-'>";
+  left: 35%;' class='tabla-2'>";
   
         echo "<tr>
-    <th>Cedula</th>
+    <th style='text-align:center;' colspan='5'>Bienvenido Usuario: ".$ci."</th>
+    </tr>
+
+    <tr>
+     <th>Cedula</th>
+
      <th>Nombre</th>
     <th>Apellidos</th>
     <th>Area</th>
@@ -620,7 +624,7 @@ function imprimir_usuario_bienvenida($ci){
     <button type='submit' class='btn btn-dark  col-12' id='' class='icon-add' value=".$registro['id_doc']." name ='modif_pass' >Seguridad</button>
     
     </form>
-
+    <br>
     </td>
 
     </tr>";

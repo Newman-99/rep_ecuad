@@ -429,7 +429,7 @@ $confirmar[]= "<a class='btn btn-primary col-lg-9' href='reg-estudiante-4.php'>
                                             <?php if(isset($_POST["problem_audi"])){ if($_POST["problem_audi"] == '0') echo "checked";}else{if(isset($problem_audi)){ if($problem_audi == '0') echo "checked";}}?>>
                                             <br>
                                             <label for="" class="my-4">Especifique:</label>
-                                            <textarea name="descrip_problem_audi" id="" class="form-control" placeholder="descrip_problem_audi"><?php if(isset($descrip_problem_audi)) echo $descrip_problem_audi; ?></textarea>
+                                            <textarea name="descrip_problem_audi" id="" class="form-control" placeholder="Especifique"><?php if(isset($descrip_problem_audi)) echo $descrip_problem_audi; ?></textarea>
                                       </div>
 
                                       <div class="col-lg-6 my-4">
