@@ -2440,7 +2440,7 @@ function consulta_admins(){
 function imprimir_msjs_no_style($errors){
     echo "<br>";
     if(!empty($errors)){
-                    echo "<div style='margin-left:auto; margin-right:auto;'><br>";
+                    echo "<div style='background-color: white; margin-left:auto; margin-right:auto;border-radius: 5px; border:solid rgba(183, 187, 206, 0.521) 2px; color: red;'><br>";
         foreach ($errors as $msjs) {
 echo "<p>".$msjs."</p>";
         }
@@ -2452,9 +2452,7 @@ function imprimir_msjs($errors){
     echo "<br>";
 
     if(!empty($errors)){
-            echo "<div   style='background-color:#B7BBCE; border: gray 1px solid;position:absolute;
-    bottom:5px;
-    right:10px;'><br>";
+            echo "<div   style='background-color:white;padding: 3px; border-radius: 5px; border:solid rgba(183, 187, 206, 0.521) 2px;color: rgb(255, 0, 0); position:absolute;bottom:-150px;right:30%;'><br>";
 
         foreach ($errors as $msjs) {
 echo "<p>".$msjs."</p>";
