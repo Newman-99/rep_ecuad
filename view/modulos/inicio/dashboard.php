@@ -53,8 +53,9 @@ update_anio_escol_actual($anio_escolar1,$anio_escolar2);
 update_anio_escol_actual($anio_escolar1,$anio_escolar2);
 
     }
-}
     unset($_POST['upd_anio_scol']);
+
+}
 
 ?>
 
@@ -62,7 +63,7 @@ update_anio_escol_actual($anio_escolar1,$anio_escolar2);
 	        <div style="">
 
 
- 	            <table class="tabla" border="" style="position: relative; margin-top: 30px; text-align: center; float: left;margin: 20px">
+ 	            <table class="tabla" border="" style="position: relative; margin-top: 40px; text-align: center;left:40%;float:left; margin: 20px;width: 20%;">
  		            <tr>
                 <thead>  
 						 <th> Estadisticas Generales </th>
@@ -89,7 +90,7 @@ update_anio_escol_actual($anio_escolar1,$anio_escolar2);
       </table>
 
 
-              <table class="tabla" border="" style="position: relative; margin-top: 40px; text-align: center; float: left; margin: 15px">
+              <table class="tabla" border="" style="position: relative; margin-top: 40px; text-align: center;left:40%;float:left;  margin: 20px;width: 20%;">
                 <tr>
                 <thead>  
              <th>Estadisticas <?php echo $anio_escolar1."-".$anio_escolar2 ?></th>

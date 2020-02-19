@@ -859,6 +859,8 @@ $errors_r[]= "<a class='btn btn-primary col-lg-9' href='reg-estudiante-3.php'>
                                         </div>
                                     </div>
 
+                                    
+
                                     <div class="row ">
                                         <div class="col-lg-12 my-2">
                                             <label>Seleccione si ya esta registrado: </label>

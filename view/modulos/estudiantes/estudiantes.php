@@ -278,9 +278,9 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
 	$errors[] = "No hay criterios que concidan con su busqueda";
 	}else{
 					?>
+<?php msjs_coincidencias($result); ?>
 
 	        <div>
-<?php msjs_coincidencias($result); ?>
 
  	            <table class="tabla">
  		            <thead>

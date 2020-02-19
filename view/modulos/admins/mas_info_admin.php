@@ -127,7 +127,7 @@ echo "
             </div>";
 ?>
 
-    <a class="btn btn-primary btn-lg" style="position:absolute;bottom:-150px;right:30px;" href='admins.php'>volver</a>
+    <a class="btn btn-primary btn-lg" style="position:absolute;bottom:-100px;right:30px;" href='admins.php'>volver</a>
 
     <?php
     if(!empty($errors)){

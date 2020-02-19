@@ -15,7 +15,7 @@
     session_start();
 
 
- if(!isset($_SESSION['sesionform1']) || !isset($_SESSION['sesionform2']) || !isset($_SESSION['sesionform3']) || !isset($_SESSION['sesionform4']) || !isset($_SESSION['ci_escolar'])){
+ if(!isset($_SESSION['sesionform1']) || !isset($_SESSION['sesionform2']) || !isset($_SESSION['sesionform3']) || !isset($_SESSION['sesionform4'])){
     header('location:reg-estudiante-1.php');
  }
 
@@ -120,12 +120,14 @@ $tlf_emerg=trim($tlf_emerg);
 
 
 // Procesos de Registro de Estudiante
-    $ci_escolar = $ci_escol_nacidad."".$ci_escol_id_opc."".$ci_escol_nac_estd."".$ci_escol_ci_mom;
 
-if (empty($ci_escolar)) {
-  $ci_escolar = $id_doc_estd;
+if (!comprobar_msjs_array (valid_ci_scolar_xparte($ci_escol_nacidad,$ci_escol_id_opc,$ci_escol_nac_estd,$ci_escol_ci_mom))) {
+    $ci_escolar = $ci_escol_nacidad."".$ci_escol_id_opc."".$ci_escol_nac_estd."".$ci_escol_ci_mom;
+}else{
+      $ci_escolar = $id_doc_estd;
 }
 
+var_dump($ci_escolar);
  registrar_estudiante($nacionalidad ,$id_doc_estd,$ci_escolar,$nombre1,$nombre2,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,$colecc_bicent,$canaima,$contrato_canaima);
 
 regist_other_data_student($ci_escolar,$nro_pers_viven,$hermanos,$descrip_herma);
@@ -224,8 +226,9 @@ $id_actualizacion=obtener_ultimo_id_actualizacion();
 
 // Registrar persona retirar
 
-
+ if(empty($si_exist_pr)) {
  registrar_persona($nacionalidad_pr,$id_doc_pr,$nombres_pr,$apellido_p_pr,$apellido_m_pr,$sexo_pr,'',$estado_civil_pr,'','',$tlf_cel_pr,$tlf_local_pr,'',$tlf_emerg);
+}
 
 registrar_person_estudiantes($id_doc_pr,$ci_escolar,0,'',$parentesc_pr);
 
@@ -268,10 +271,10 @@ registrar_inscrip_scolaridad($ci_escolar,$plantel_proced,$localidad,$anio_escola
 <?php require '../../../includes/footer_reg_est.php'; ?>
 
 <?php 
+
  unset($_SESSION['sesionform1']);
 unset($_SESSION['sesionform2']);
 unset($_SESSION['sesionform3']);
 unset($_SESSION['sesionform4']);
 unset($_SESSION['ci_escolar']);
-
  ?>

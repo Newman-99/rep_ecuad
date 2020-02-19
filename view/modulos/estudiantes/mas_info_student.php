@@ -181,7 +181,7 @@ echo "
         <div>
                 <table class='tabla-2'>
                     <thead>
-                        <tr><td colspan='14' class='text-center'><h4>Informacion de la Madre</h4></td></tr>
+                        <tr><td colspan='17' class='text-center'><h4>Informacion de la Madre</h4></td></tr>
                         <tr>  
 
                         <th>Nacionalidad</th>     
@@ -299,7 +299,7 @@ echo "
         <div>
                 <table class='tabla-2'>
                     <thead>
-                    <tr><td colspan='14' class='text-center'><h4>Informacion del Padre</h4></td></tr>
+                    <tr><td colspan='17' class='text-center'><h4>Informacion del Padre</h4></td></tr>
                         <tr>  
 
                         <th>Nacionalidad</th>     
@@ -404,7 +404,7 @@ echo "<td></td> <td> El Padre No fue Registrado</td></tr></table>
 }
 if (!isset($is_represent_m) && !isset($is_represent_p)) {
 	
-	    $sql = consulta_represent_student()." WHERE rpt.ci_escolar = :ci_escolar;";
+	    $sql = consulta_represent_student()." WHERE rpt.ci_escolar = :ci_escolar LIMIT 1;";
 
     $result=$db->prepare($sql);
     
@@ -416,7 +416,7 @@ echo "
         <div>
                 <table class='tabla-2'>
                     <thead>
-                    <tr><td colspan='14' class='text-center'><h4>Informacion del Representante</h4></td></tr>
+                    <tr><td colspan='18' class='text-center'><h4>Informacion del Representante</h4></td></tr>
                         <tr>  
 
                         <th>Nacionalidad</th>     
@@ -658,7 +658,7 @@ echo "
             </div>";
 
 
-    $sql = consulta_pers_ret_student()." WHERE prt.ci_escolar = :ci_escolar;";
+    $sql = consulta_pers_ret_student()." WHERE prt.ci_escolar = :ci_escolar LIMIT 1;";
 
     $result=$db->prepare($sql);
     

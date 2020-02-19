@@ -181,7 +181,7 @@ LEFT OUTER JOIN estado edo ON ea.id_estado = edo.id_estado ";
                                           <?php } ?>
 
 
-                        <form action='./menu_upd_student.php' method='post'>
+                        <form action='../estudiantes/mas_info_student.php' method='post'>
                         
                         <button type='submit' class=' btn btn-dark btn-sm col-12' id='' value="<?php echo $registro['ci_escolar']; ?>" name ='mas_info_student' >Mas Informacion</button>
                          
@@ -197,7 +197,7 @@ LEFT OUTER JOIN estado edo ON ea.id_estado = edo.id_estado ";
             </div>";
 ?>
 
-                 <a class="btn btn-primary btn-lg col-1" style="position:absolute;bottom:-750px;right:30px;" href="clases.php">Volver</a>
+                 <a class="btn btn-primary btn-lg col-1" style="position:absolute;bottom:-300px;right:30px;" href="clases.php">Volver</a>
 
 
             

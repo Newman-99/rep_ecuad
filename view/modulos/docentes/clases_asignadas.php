@@ -54,6 +54,8 @@ $orden_anio="ORDER BY cl.anio_escolar1 AND cl.anio_escolar2;";
 			</div>
 			<div class="col-3"></div>
 		</div>
+						<a  class="btn btn-primary col-3"href="docentes.php">Volver</a>
+		</form>
 
 		
 		
@@ -94,8 +96,9 @@ INNER JOIN funciones_docentes fd ON ca.id_funcion_docent = fd.id_funcion_docent
 			
 			$result->execute();	
 
+	                            echo "<div style='float:right;margin:20px;display: inline; background-color:white;width:30%;'> <h5> Se han econtrado ".$result->rowCount()." Contratos</h5></div>";
+
 	        echo "<div>";
-	                            echo "<div style='float: right;'> '<h1>Se han econtrado ".$result->rowCount()." Contratos</h1></div>";
 
  	          echo "<table class='tabla'>
  	          <caption> Clases 	del docente: ".$id_doc."</caption>
@@ -141,8 +144,6 @@ INNER JOIN funciones_docentes fd ON ca.id_funcion_docent = fd.id_funcion_docent
     }
 
 ?>		
-				<a  class="btn btn-primary col-3"href="docentes.php">Volver</a>
-		</form>
 		</div>
 	</div>
 </div>

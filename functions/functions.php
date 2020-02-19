@@ -1163,7 +1163,7 @@ $sql .= ' GROUP BY est.ci_escolar ORDER BY act.id_actualizacion DESC ';
 
 function tipo_sexo_student_x_clase($id_clase,$id_sexo){
     global $db;
-    $sql=" SELECT in_p.id_sexo FROM clases cl
+    $sql=" SELECT DISTINCT(in_p.id_doc),in_p.id_sexo FROM clases cl
     INNER JOIN estudiantes_asignados esa ON cl.id_clase = esa.id_clase
     INNER JOIN estudiantes est ON esa.ci_escolar = est.ci_escolar 
     INNER JOIN info_personal in_p ON est.ci_escolar = in_p.id_doc
@@ -2289,7 +2289,7 @@ echo "
 
                         </form>";
 
-                        
+                        /*
                         if(comprob_permisos('1')) {
                         echo "
 
@@ -2300,7 +2300,7 @@ echo "
                          </form></td>"
 
                          ;
-                     }
+                     }*/
                     echo  "</td></tr>";
                  }
                          
