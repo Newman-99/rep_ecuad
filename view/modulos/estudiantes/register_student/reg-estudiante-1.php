@@ -95,6 +95,13 @@ $err_nom_apell=validar_nombres_apellidos($nombre2);
     $nombre2 = "";
 }
 
+if(!empty($nombre1)){
+$nombre1=filtrar_nombres_apellidos($nombre1);
+$err_nom_apell=validar_nombres_apellidos($nombre1);
+}else{
+    $nombre1 = "";
+}
+
 $errors[] = $err_nom_apell;
 
     if (!comprobar_msjs_array($errors)) {    

@@ -13,6 +13,11 @@ require '../../../includes/header_reg_est.php';
 
 $ci_escolar = $_SESSION['ci_escolar'];
 
+if (!isset($_SESSION['ci_escolar'])) {
+header('location:../estudiantes.php');
+}
+
+
 
 if (isset($_SESSION['sesionform1'])) {
 if (comprobar_msjs_array($_SESSION['sesionform1'])) {

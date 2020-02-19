@@ -146,7 +146,7 @@ $ci = htmlentities(addslashes($_POST['ci_estudiante']));
 
 				if (!comprobar_msjs_array($errors)) {
 
-			$sql=" SELECT DISTINCT est.ci_escolar,prsd.id_doc, est.id_doc,in_p.nombre,in_p.apellido_p,in_p.apellido_m, edo.descripcion estado,est.id_estado,es.grado grado_design, clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2,es.id_actualizacion id_es,ea.id_actualizacion id_ea, in_p.id_sexo FROM estudiantes est 
+			$sql=" SELECT DISTINCT est.ci_escolar,prsd.id_doc, est.id_doc,in_p.nombre,in_p.apellido_p,in_p.apellido_m, edo.descripcion estado,est.id_estado,es.grado grado_design, clas.grado,clas.seccion,tr.descripcion turno,clas.anio_escolar1,clas.anio_escolar2,es.id_actualizacion id_es,ea.id_actualizacion id_ea, in_p.id_sexo,es.anio_escolar2 anio_escolar2_es,es.anio_escolar1 anio_escolar1_es FROM estudiantes est 
 LEFT OUTER JOIN info_personal in_p ON est.ci_escolar = in_p.id_doc 
 LEFT OUTER JOIN estudiantes_asignados ea ON est.ci_escolar = ea.ci_escolar 
 LEFT OUTER JOIN clases clas ON ea.id_clase = clas.id_clase 
@@ -273,7 +273,6 @@ LEFT OUTER JOIN estado edo ON est.id_estado = edo.id_estado ";
 
 
   $result->execute();
-var_dump($result->rowCount());
 
 			if ($result->rowCount() == 0) {
 	$errors[] = "No hay criterios que concidan con su busqueda";
@@ -292,7 +291,8 @@ var_dump($result->rowCount());
 						 <th>Nombres</th> 
 						 <th>Apellidos</th> 
 						 <th>Estado</th>
-						<th>Grado Designado</th>  
+						<th>Grado </th>  
+            <th> Año Escolar </th>  
 						<th>Clase</th>
 
 						 <th></th>
@@ -309,6 +309,7 @@ var_dump($result->rowCount());
 						<td><?php echo $registro['apellido_p']." ".$registro['apellido_m'] ?></td> 
 						<td><?php echo $registro['estado']?></td>
 						<td><?php echo $registro['grado_design']?></td>
+            <td><?php echo $registro['anio_escolar1_es']."-".$registro['anio_escolar2_es'] ?></td>
 							
 						<td> <?php echo $registro['grado']." ".$registro['seccion']." ".$registro['turno']." " .$registro['anio_escolar1']."-".$registro['anio_escolar2'];?>
 						</td>

@@ -15,13 +15,12 @@ if (isset($_GET['clean_ci_escolar'])) {
 
 
     <title>Inicio</title>
-
 <?php require '../../includes/header.php'; 
 
     $ci = $_SESSION["id_user"];
 ?>
 
-  <h3>Bienvenido Usuario: <?php echo $ci;
+  <?php
     
     imprimir_usuario_bienvenida($ci);
 
@@ -55,12 +54,15 @@ update_anio_escol_actual($anio_escolar1,$anio_escolar2);
 
     }
 }
+    unset($_POST['upd_anio_scol']);
 
 ?>
+
+<br><br>
 	        <div style="">
 
 
- 	            <table class="tabla" border="1" style="position: relative; margin-top: 40px; text-align: center; float: left;margin: 15px">
+ 	            <table class="tabla" border="" style="position: relative; margin-top: 30px; text-align: center; float: left;margin: 20px">
  		            <tr>
                 <thead>  
 						 <th> Estadisticas Generales </th>
@@ -77,7 +79,7 @@ update_anio_escol_actual($anio_escolar1,$anio_escolar2);
 						<br><br>
             Retirados: <?php echo tipos_student_consultas('','2','','');?>
             <br><br>
-	          MAsculinos: <?php echo tipo_sexo_student_general('1');?>
+	          Masculinos: <?php echo tipo_sexo_student_general('1');?>
             <br><br>
             Femeninos: <?php echo tipo_sexo_student_general('2');?>
       </td>
@@ -87,7 +89,7 @@ update_anio_escol_actual($anio_escolar1,$anio_escolar2);
       </table>
 
 
-              <table class="tabla" border="1" style="position: relative; margin-top: 40px; text-align: center; float: left; margin: 15px">
+              <table class="tabla" border="" style="position: relative; margin-top: 40px; text-align: center; float: left; margin: 15px">
                 <tr>
                 <thead>  
              <th>Estadisticas <?php echo $anio_escolar1."-".$anio_escolar2 ?></th>
@@ -102,7 +104,7 @@ update_anio_escol_actual($anio_escolar1,$anio_escolar2);
 						<br><br>
             Retirados: <?php echo tipos_student_consultas('','5',$anio_escolar1,$anio_escolar2);?>
 	       		<br><br>
-	          MAsculinos: <?php echo tipo_sexo_student_general('1',$anio_escolar1,$anio_escolar2);?>
+	          Masculinos: <?php echo tipo_sexo_student_general('1',$anio_escolar1,$anio_escolar2);?>
             <br><br>
             Femeninos: <?php echo tipo_sexo_student_general('2',$anio_escolar1,$anio_escolar2);?>
 

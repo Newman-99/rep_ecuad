@@ -51,15 +51,15 @@ if (validar_datos_vacios($id_doc_docent_arte_cultura)){$id_doc_docent_arte_cultu
 
             // Si Hay Una Cedula se procedera a buscar si existe el docent
 if (is_numeric($id_doc_docent_normal)) {
-    if (!validar_exist_docente($id_doc_docent_normal)) {
+    if (!is_exist_docente($id_doc_docent_normal)) {
     $errors[]="No hay ningun docente en Aula con esta cedula registrado";}}
             
 if (is_numeric($id_doc_educ_fisica)) {
-    if(!validar_exist_docente($id_doc_educ_fisica)) {
+    if(!is_exist_docente($id_doc_educ_fisica)) {
     $errors[]="No hay ningun docente de educacion fisica con esta cedula registrado";}}
 
 if (is_numeric($id_doc_docent_arte_cultura)) {
-    if (!validar_exist_docente($id_doc_docent_arte_cultura)) {
+    if (!is_exist_docente($id_doc_docent_arte_cultura)) {
     $errors[]="No hay ningun docente de Arte y Cultura con esta cedula registrado";}}
 
 
@@ -139,12 +139,12 @@ if (!comprobar_msjs_array($errors)) {
         <label for="">Grado Escolar</label>
         <select name="grado" id="" autocomplete="on" class="form-control">
             <option value="">Seleccione</option>
-            <option value="1">1ro</option>
-            <option value="2">2do</option>
-            <option value="3">3ro</option>
-            <option value="4">4to</option>
-            <option value="5">5to</option>
-            <option value="6">6to</option>
+            <option <?php if(isset($grado)) if($grado == '1') echo 'selected'; ?> value="1">1ro</option>
+            <option <?php if(isset($grado)) if($grado == '2') echo 'selected'; ?> value="2">2do</option>
+            <option <?php if(isset($grado)) if($grado == '3') echo 'selected'; ?> value="3">3ro</option>
+            <option <?php if(isset($grado)) if($grado == '4') echo 'selected'; ?> value="4">4to</option>
+            <option <?php if(isset($grado)) if($grado == '5') echo 'selected'; ?> value="5">5to</option>
+            <option <?php if(isset($grado)) if($grado == '6') echo 'selected'; ?> value="6">6to</option>
         </select>
         </div>
 

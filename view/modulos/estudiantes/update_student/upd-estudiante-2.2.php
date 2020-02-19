@@ -10,6 +10,11 @@ require '../../../includes/header_reg_est.php';
 
 
  valid_inicio_sesion('2');
+
+if (!isset($_SESSION['ci_escolar'])) {
+header('location:../estudiantes.php');
+}
+
 /*
 if (isset($_SESSION['sesionform2'])) {
 if (comprobar_msjs_array($_SESSION['sesionform2'])) {
@@ -18,7 +23,6 @@ extract($_SESSION['sesionform2']);
 }
 */
 
-unset($_SESSION['sesionform2']);
 $ci_escolar = $_SESSION['ci_escolar'];
 var_dump($_SESSION['ci_escolar']);
 
@@ -491,6 +495,7 @@ if (isset($_POST["si_exist_r"])) {
 
 $si_exist_r = 1;
 
+echo "YA REGISTER";
 if (validar_datos_vacios($id_doc_r,$parentesco_r) || !isset($convivencia_r)) {
            $errors_r[]='El documento de identidad no puede estar vacio , indique si vive con el estudiante y su parentesco ';  
 
@@ -552,12 +557,12 @@ $apellido_m_r=filtrar_nombres_apellidos($apellido_m_r);
 
 }
 
-if ($count_represents>1) {
-$errors_r = 'No se puede registrar a mas de un representante y asegurese de desmarcar uno de los padres si añadira otro';
 }
 
 
     if (!comprobar_msjs_array($errors_r)) {    
+
+        echo "REGISTRO";
 
         $errors_r_upd[]= 'Representante registrado exitosamente';
 
@@ -576,14 +581,12 @@ $id_represent = obtener_id_represent($_SESSION['ci_escolar']);
 update_person_represent($id_doc_r,$id_represent,$_SESSION['ci_escolar'],$_SESSION['ci_escolar']);
 
 
-
   registrar_datos_laborales($id_doc_r,$prof_ofi_r,$lug_trab_r,$direcc_trab_r,$tlf_ofic_r);
 
   unset($_SESSION['new_represent']);
 
 }
 
-}
 
 }
 
@@ -1032,7 +1035,7 @@ if (!isset($_POST['new_represent'])) {
 //    var_dump(isset($_POST['new_represent']));
   //  var_dump(isset($_SESSION['new_represent']));
 
-    if (strcmp($id_represent, $id_madre) === 0 || strcmp($id_represent, $id_padre) === 0 || isset($_POST['new_represent']) || isset($_SESSION['new_represent'])){
+    if (strcmp($id_represent, $id_madre) === 0 || strcmp($id_represent, $id_padre) === 0 || isset($_SESSION['new_represent'])){
     include 'sub_includes/reg_represent.php';
     }else{
     include 'sub_includes/upd_represent.php';
