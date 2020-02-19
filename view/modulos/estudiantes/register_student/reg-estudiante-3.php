@@ -688,11 +688,4 @@ $confirmar[]= "<a class='btn btn-primary col-lg-9' href='reg-estudiante-4.php'>
 <!----------- DIV container principal Se arrastra hasta el final (NO BORRAR)---->
             </div>
 
-    <!--jquery, boostrap.min.js, bundle.min.js-->
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    
-</body>
-</html>
+ <?php require '../../../includes/footer_reg_est.php'; ?>

@@ -11,10 +11,10 @@ require '../../../functions/functions.php';
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial -scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 
-<link rel="stylesheet" href="../../style/css/estilos_gregorio.css"
-
-        <link rel="stylesheet" href="../../style/css/estilos.css">
-        <link rel="stylesheet" href="../../style/css/styless.css">
+<link rel="stylesheet" href="../../style/css/estilos_gregorio.css">
+        <!--
+        <link rel="stylesheet" href="../../style/css/estilos.css">-->
+        <link rel="stylesheet" href="../../style/css/styless.css?v=<%=DateTime.Now%>">
 
         <link rel="stylesheet" href="../../style/bootstrap/bootstrap.min.css">
 
@@ -54,10 +54,13 @@ $errors = array();
 echo "
 
 
-<h4>Informacion Basica</h4>
+
         <div>
-                <table class='tabla'>
-                    <thead>
+                <table class='tabla-2'>
+                
+                <thead>
+                        <tr><td colspan='14' class='text-center'><h4>Informacion Basica</h4></td></tr>
+                        
                         <tr>  
 
                         <th>Nacionalidad</th>     
@@ -174,10 +177,11 @@ echo "
 
 echo "
 
-<h4>Informacion de la Madre</h4>
+
         <div>
-                <table class='tabla'>
+                <table class='tabla-2'>
                     <thead>
+                        <tr><td colspan='14' class='text-center'><h4>Informacion de la Madre</h4></td></tr>
                         <tr>  
 
                         <th>Nacionalidad</th>     
@@ -291,10 +295,11 @@ echo "<td></td> <td>La Madre No fue Registrada</td></tr></table>
     $result->execute();
 echo "
 
-<h4>Informacion del Padre</h4>
+
         <div>
-                <table class='tabla'>
+                <table class='tabla-2'>
                     <thead>
+                    <tr><td colspan='14' class='text-center'><h4>Informacion del Padre</h4></td></tr>
                         <tr>  
 
                         <th>Nacionalidad</th>     
@@ -407,10 +412,11 @@ if (!isset($is_represent_m) && !isset($is_represent_p)) {
     $result->execute();
 echo "
 
-<h4>Informacion del Representante</h4>
+
         <div>
-                <table class='tabla'>
+                <table class='tabla-2'>
                     <thead>
+                    <tr><td colspan='14' class='text-center'><h4>Informacion del Representante</h4></td></tr>
                         <tr>  
 
                         <th>Nacionalidad</th>     
@@ -509,10 +515,11 @@ echo "
     $result->execute();
 echo "
 
-<h4> <br><br> Otros Datos</h4>
+
         <div>
-                <table class='tabla'>
+                <table class='tabla-2'>
                     <thead>
+                    <tr><td colspan='14' class='text-center'><h4>Otros Datos</h4></td></tr>
                         <tr>  
 
                         <th>Nro de Personas que viven con el estudiante</th>     
@@ -550,10 +557,11 @@ echo "
 
 echo "
 
-<h4>Informacion de Salud</h4>
+
         <div>
-                <table class='tabla'>
+                <table class='tabla-2'>
                     <thead>
+                    <tr><td colspan='14' class='text-center'><h4>Informacion de Salud</h4></td></tr>
                         <tr>  
 
                         <th>Enfermedad Cronica</th>     
@@ -624,10 +632,11 @@ echo "
 
 echo "
 
-<h4>Acceso y reptiro de la intitucion</h4>
+
         <div>
-                <table class='tabla'>
+                <table class='tabla-2'>
                     <thead>
+                    <tr><td colspan='14' class='text-center'><h4>Acceso y reptiro de la intitucion</h4></td></tr>
                         <tr>  
 
                         <th>LLega y se retira solo</th>     
@@ -659,10 +668,11 @@ echo "
 
 echo "
 
-<h4>Persona autorizada a retirar</h4>
+
         <div>
-                <table class='tabla'>
+                <table class='tabla-2'>
                     <thead>
+                    <tr><td colspan='14' class='text-center'><h4>Persona autorizada a retirar</h4></td></tr>
                         <tr>  
 
                         <th>Nacionalidad</th>     
@@ -724,10 +734,11 @@ echo "
 
 echo "
 
-<h4>Otros datos de inscripcion y escolaridad</h4>
+
         <div>
-                <table class='tabla'>
+                <table class='tabla-2'>
                     <thead>
+                    <tr><td colspan='14' class='text-center'><h4>Otros datos de inscripcion y escolaridad</h4></td></tr>
                         <tr>  
 
                         <th>Plantel de procedencia</th>     
@@ -784,10 +795,11 @@ echo "
 
 echo "
 
-<h4>Clases</h4>
+
         <div>
-                <table class='tabla'>
+                <table class='tabla-2'>
                     <thead>
+                    <tr><td colspan='14' class='text-center'><h4>Clases</h4></td></tr>
                         <tr>  
 
                         <th>Clase</th>

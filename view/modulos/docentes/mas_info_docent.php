@@ -35,7 +35,7 @@ $id_doc =$_SESSION["id_doc"];
 
 echo "
         <div>
-                <table class=''>
+                <table class='tabla-2'>
                     <thead>
                         <tr>  
 

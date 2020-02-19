@@ -143,6 +143,18 @@ input[type="submit"]:hover{
     max-width: 70%;
     font-size: 20px;
 }
+/* --- tabla de mas informacion ---*/
+.tabla-2 {
+  margin-top:0;
+  margin-left:20px;
+  margin-right: 0;
+  margin-bottom: 30px;
+  width: 50%;
+  height: 100px;
+  max-width: 70%;
+  font-size: 20px;
+}
+
 
 .tabla2{
    /* margin: 100px auto;*/
