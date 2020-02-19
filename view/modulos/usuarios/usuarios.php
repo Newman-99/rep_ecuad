@@ -153,9 +153,9 @@ if (!empty($_POST['guardar'])) {
 			</select>
 			<br>
 			
-       <?php echo "<button type='submit' value=".$id_usr." name='guardar' id='' class='icon-add btn btn-dark btn-sm col-5 mx-2'>Guardar</button>";
+       <?php echo "<button type='submit' value=".$id_usr." name='guardar' id='' class=' btn btn-dark btn-sm col-5 mx-2'>Guardar</button>";
 
-       echo "<button type='submit' value='La operacion ha sido cancelada' name='cancel' id='' class='icon-add btn btn-dark btn-sm col-5 mx-2'>Cancelar</button>";
+       echo "<button type='submit' value='La operacion ha sido cancelada' name='cancel' id='' class=' btn btn-dark btn-sm col-5 mx-2'>Cancelar</button>";
 
 	/*echo "<br><a href=".$_SERVER['PHP_SELF']."?msj=Operacion&nbsp;Cancelada>Cancelar</a>";*/
 
@@ -174,9 +174,9 @@ $errors[]=" <br><br><div style='float: right ;'> Esta seguro de reiniciar el usu
 <br>
 		<form action=".$_SERVER['PHP_SELF']." method='post'>
 
-<button type='submit' value='La operacion ha sido cancelada' name='cancel' id=registrer class='icon-add'>Cancelar</button>
+<button type='submit' value='La operacion ha sido cancelada' name='cancel' id=registrer class=''>Cancelar</button>
 <br><br>
-<button type='submit' value=".$id_usr." name='confirmar_reinicio' id=registrer class='icon-add'>Confirmar</button>
+<button type='submit' value=".$id_usr." name='confirmar_reinicio' id=registrer class=''>Confirmar</button>
 
 	</form> </div>
 ";

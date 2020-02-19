@@ -2,6 +2,7 @@
 		
 		<footer class="estilo-footer" style="height: 60px; font-size: 20px;font-family: Times New Roman;">
         <div class="">
+
             <?php  $anio_escol_actual = obtener_anios_escolar_actual(); 
 $anio_escolar1 = $anio_escol_actual['anio_escolar_1'];
 $anio_escolar2 = $anio_escol_actual['anio_escolar_2'];
@@ -17,7 +18,8 @@ $anio_escolar2 = $anio_escol_actual['anio_escolar_2'];
 
  	Fecha del Sistema: <?php echo $fecha_actual; ?>
             </p>
-        </div>
+
+      </div>
 		</footer>
 		
 

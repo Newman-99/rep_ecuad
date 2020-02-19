@@ -20,7 +20,7 @@ require '../../includes/head.php';
 			<input type="search" class="col-3 mx-4" placeholder="Ingrese Cedula" name="id_doc_admin" value="<?php if(isset($_POST['id_doc_admin'])) echo $_POST['id_doc_admin'];?>">
 			
 			<!--
-			<button id=button class="icon-search" type="submit" name="por_cedula" value="por_cedula">Buscar</button>			
+			<button id=button class="" type="submit" name="por_cedula" value="por_cedula">Buscar</button>			
 			-->
 
 				<label for="">Sexo:</label>
@@ -55,8 +55,8 @@ require '../../includes/head.php';
 			</select>
 
 				<div class="text-center">
-					<button id='' class="icon-search btn btn-primary col-2" type="submit" name="por_criterios" value="buscar_docent">Buscar</button>
-					<a href="reg_admin.php"  id='' class="icon-add btn btn-primary col-3">Registrar Nuevo Administrativo</a>
+					<button id='' class=" btn btn-primary col-2" type="submit" name="por_criterios" value="buscar_docent">Buscar</button>
+					<a href="reg_admin.php"  id='' class=" btn btn-primary col-3">Registrar Nuevo Administrativo</a>
 				</div>
 			</div>			
 		</form>

@@ -19,7 +19,7 @@ $errors=array();
 			<input type="search" class="col-3 mx-4" placeholder="Ingrese Cedula" name="ci_docente" value="<?php if(isset($_POST['ci_docente'])) echo $_POST['ci_docente'];?>">
 			
 			<!--
-			<button id=button class="icon-search" type="submit" name="por_cedula" value="por_cedula">Buscar</button> -->
+			<button id=button class="" type="submit" name="por_cedula" value="por_cedula">Buscar</button> -->
 				
 				<label for="">Sexo:</label>
       				<select name="sexo" id="" class="mx-2">
@@ -53,8 +53,8 @@ $errors=array();
 			</select>
 	</div>
 			<div class="text-center">
-			<button id="" class="icon-search btn btn-primary col-2 mx-3" type="submit" name="por_criterios" value="buscar_docent">Buscar</button>		
-			<a href="register_docent.php"  id="" class="icon-add btn btn-primary col-3">Registrar Nuevo Docente</a>
+			<button id="" class=" btn btn-primary col-2 mx-3" type="submit" name="por_criterios" value="buscar_docent">Buscar</button>		
+			<a href="register_docent.php"  id="" class=" btn btn-primary col-3">Registrar Nuevo Docente</a>
 			</div>
 
 		</form>

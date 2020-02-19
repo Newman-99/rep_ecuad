@@ -104,13 +104,14 @@ $errors[]= 'Cambios registrados con exito';
 
 while($registro=$result->fetch(PDO::FETCH_ASSOC)){
 ?>
-         
+      <div class="form-group text-center">   
     <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
-        <br>
+        
+        <div class="row">
 
-
+        <div class="col-lg-2">
         Grado Escolar:
-        <select name="grado" id="" autocomplete="on">
+        <select name="grado" id="" autocomplete="on" class="form-control">
             <option <?php if($registro['grado'] == '1') echo 'selected';?> value="1">1ro
             </option>
             <option <?php if($registro['grado'] == '2') echo 'selected';?> value="2">2do</option>
@@ -120,40 +121,44 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
             <option <?php if($registro['grado'] == '6') echo 'selected';?> value="6">6to</option>
 
         </select>
-
-        <br>
-
-        Seccion 
-
-        <input type="text" name="seccion" id="" value="<?php echo $registro['seccion']; ?>">
-        <br>
-
-Turno:
-        <select name="turno" id="">
+        </div>
+        
+        <div class="col-lg-2">
+        Seccion
+        <input type="text" name="seccion" id="" class="form-control" value="<?php echo $registro['seccion']; ?>">
+        </div>
+        
+        <div class="col-lg-2">
+        Turno:
+        <select name="turno" id="" class="form-control">
             <option <?php if($registro['id_turno'] == '1') echo 'selected';?> value="1">Mañana</option>
             <option <?php if($registro['id_turno'] == '2') echo 'selected';?> value="2">Tarde</option>
         </select> 
-        <br>
-        Numero de Aula <input type="text" name="no_aula" id="" value="<?php echo $registro['no_aula']; ?>">
-        <br>
+        </div>
 
-        Año Escolar 
+        <div class="col-lg-2">
+        Numero de Aula <input type="text" name="no_aula" id="" class="form-control" value="<?php echo $registro['no_aula']; ?>">
+        </div>
 
-        <input type="number" name="año_escolar1" id="" value="<?php echo $registro['anio_escolar1']; ?>">
+        
+        <div class="col-2">
+        Año Escolar
+        <input type="number" name="año_escolar1" id="" class="form-control" value="<?php echo $registro['anio_escolar1']; ?>">
+        </div>
+        
+        <div class="col-2">
+        <input type="number" name="año_escolar2" id="" class="form-control my-4" value="<?php echo $registro['anio_escolar2']; ?>">
+        </div>
 
-        <input type="number" name="año_escolar2" id="" value="<?php echo $registro['anio_escolar2']; ?>">
+        </div>
 
-        <br>
+        <div class="row" >
+        <a class="btn btn-primary col-3 mx-3"  style='left: 20px;' href='clases.php'>volver</a>
+        <?php echo "<button type='submit' id='' class='btn btn-primary col-8 mx-3' name='save_docent' value=".$id_clase.">Guardar</button>";?>
+        
 
-    <?php echo "<button type='submit' id='button-modi' name='save_docent' value=".$id_clase.">Guardar</button>";?>
-
-    </form>
-    <?php } ?>
-
-    <br>
-    <a class="btn btn-primary btn-lg"  href='clases.php'>volver</a>
-    <br>
-    <br>
+        </div>    
+    
 
     <?php
     if(!empty($errors)){
@@ -163,9 +168,15 @@ Turno:
     }
 
     ?>
+        </div>
+    </form>
+    <?php } ?>
 
+    
+        
+    
 <?php 
 
-require'../../includes/footer.php';
+require '../../includes/footer.php';
 
  ?>

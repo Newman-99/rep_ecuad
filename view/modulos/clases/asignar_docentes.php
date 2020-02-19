@@ -198,23 +198,29 @@ if (!comprobar_msjs_array($errors)) {
 		
 		<?php require '../../includes/header.php'?>
 
-<div class="nav-h">
-		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
-			<div class="text-center">
-			<select name="orden" type="search" class="mx-3 col-6">
+<div class="container">
+	<div class="row">    
+        <div class="col-lg-12">
+		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post" class="form-group text-center">
+		<div class="row">
+
+			<div class="col-6 my-3">
+			<select name="orden" type="search" class="mx-3 form-control">
 				<option value="<?php echo $orden_estado_contrato; ?>">Estado del Contrato</option>
 				<option value="<?php echo $orden_tipo_docent ?>">Tipo Docente</option>
 				<option value="<?php echo $orden_asignacion ?>">Asignacion</option>
 			</select>
-			
-				<div class="text-center">
-				<button id="" class="btn btn-primary col-3" type="submit" name='ordenar' value="<?php echo $id_doc; ?>">Ordenar</button>
-				</div>
-
 			</div>
-		</form>
-</div>
 
+			<div class="col-6" style="margin-top:-25px;" >
+				<button id="" class="btn btn-primary col-6" type="submit" name='ordenar' value="<?php echo $id_doc; ?>">Ordenar</button>
+			</div>
+
+		</div>
+		</form>
+		</div>
+	</div>
+</div>
 		<?php
 
 
@@ -252,7 +258,7 @@ global $db;
 						 <th>Apellido </th> 
 						 <th> Funcion </th> 
 						 <th>Estado del contrato</th>
-						<th></th>
+						<th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 						 ";
  			            	
  			           echo "</tr>
@@ -269,23 +275,23 @@ global $db;
 					    
 					    <td>".$registro['funcion']."</td>
 
-					    <td>".$registro['estado_contrato']."</td>";
-
-					    echo "<td>";
-
-				
-					    	if (!strcmp($registro['id_doc_docent'],'No asignado') != 0){
+						<td>".$registro['estado_contrato']."</td>
 						
-						echo "<form action=".htmlspecialchars($_SERVER['PHP_SELF'])." method='POST'>
-						<br>
-                        <button type='submit' id='' class='btn btn-dark btn-sm col-12 mx-2' value=".$registro['id_contrato_clase'].'-'.$registro['id_funcion_docent']."-".$registro['id_doc_docent']." name ='asignar_docente' >Asignar Docente</button>
+						<td>";
+						if (!strcmp($registro['id_doc_docent'],'No asignado') != 0){
+						
+							echo "<form action=".htmlspecialchars($_SERVER['PHP_SELF'])." method='POST'>
+							<br>
+							<button type='submit' id='' class='btn btn-dark btn-sm col-12 mx-2' value=".$registro['id_contrato_clase'].'-'.$registro['id_funcion_docent']."-".$registro['id_doc_docent']." name ='asignar_docente' >Asignar Docente</button>
+	
+								<input type='number'  class='col-12 my-3 mx-2 ' placeholder='Numero de Cedula' name ='id_doc_habilitar'>
+							 </form>
+							 <br>
+							 <br>";
+	
+						 }
 
-                        	<input type='number' class='col-12' placeholder='Numero de Cedula' name ='id_doc_habilitar'>
-                         </form>
-                         <br>
-                         <br>";
-
-                     }
+		
 
                        if (strcmp($registro['id_doc_docent'],'No asignado') != 0 && $registro['id_estado'] == 1){
 
@@ -315,8 +321,7 @@ global $db;
                       
                        <button type='submit' id='' class='btn btn-dark btn-sm col-12 mx-2' value=".$registro['id_contrato_clase'].'-'.$registro['id_funcion_docent']."-".$registro['id_doc_docent']." name ='habilitar_contrato' >Habilitar</button>
                          <form>
-                         <br>
-                         <br>
+                         
                          ";
 	
 							}	
@@ -350,7 +355,7 @@ global $db;
 
 
                  <a class="btn btn-primary btn-lg" style="position:absolute;
-    			bottom:-850px;
+    			bottom:-800px;
 				right:10px; margin-right: 40px;" href="clases.php">Volver</a>
 				
 <?php require '../../includes/footer.php' ?>

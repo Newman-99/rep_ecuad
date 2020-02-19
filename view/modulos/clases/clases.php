@@ -70,8 +70,8 @@ require '../../includes/head.php';
 		
 
           <div class="text-center">
-		        <button id='' class="icon-search btn btn-primary col-2" type="submit" name="buscar">Buscar</button>
-			      <a href="register_clases.php"  id='' class="icon-add btn btn-primary col-4">Registrar Nueva Clase</a>
+		        <button id='' class=" btn btn-primary col-2" type="submit" name="buscar">Buscar</button>
+			      <a href="register_clases.php"  id='' class=" btn btn-primary col-4">Registrar Nueva Clase</a>
           </div>
       </div>
 		</form>
@@ -192,10 +192,10 @@ if ($result->rowCount() == 0) {
 	}else{
 					?>
 
+<?php msjs_coincidencias($result); ?>
 
 	        <div>
 
-            <?php msjs_coincidencias($result); ?>
 
  	            <table class="tabla">
  		            <thead>
@@ -246,12 +246,12 @@ if ($result->rowCount() == 0) {
  <td>
 					<!--
 					<form action="info_docent.php" method="post">
-						 <button id="button-modi" class="icon-list1" type="submit" name='docent_asig' value="<?php echo $registro['id_clase'] ?>">Mas Informacion</button>
+						 <button id="button-modi" class="" type="submit" name='docent_asig' value="<?php echo $registro['id_clase'] ?>">Mas Informacion</button>
 					</form>
               <br><br>
 -->
           <form action="estudiantes_asigandos.php" method="post">
-             <button id="" class="icon-list1 btn btn-dark btn-sm col-12" type="submit" name='estudiantes_asigandos' value="<?php echo $registro['id_clase'] ?>">Estudiantes</button>
+             <button id="" class=" btn btn-dark btn-sm col-12" type="submit" name='estudiantes_asigandos' value="<?php echo $registro['id_clase'] ?>">Estudiantes</button>
           </form>
 		<?php                         if(comprob_permisos('1')) { ?>
 					<form action="asignar_docentes.php" method="post">

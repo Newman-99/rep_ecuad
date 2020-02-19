@@ -621,7 +621,7 @@ function imprimir_usuario_bienvenida($ci){
     
     <form action='../usuarios/seguridad.php' method='post'>
                         
-    <button type='submit' class='btn btn-dark  col-12' id='' class='icon-add' value=".$registro['id_doc']." name ='modif_pass' >Seguridad</button>
+    <button type='submit' class='btn btn-dark  col-12' id='' class='' value=".$registro['id_doc']." name ='modif_pass' >Seguridad</button>
     
     </form>
     <br>
@@ -1771,8 +1771,8 @@ function register_user($ci,$pass,$pass_confirm,$respuesta1,$respuesta2){
             $errors_total[] = "Debe llenar todos los campos, evitando espacios en la cedula";    
     }else{
         if(!valid_user($ci)){
-            $errors_total[] = "<p>El usuario ya existe</p> 
-            <p></p>Si desea puede Iniciar Sesion"; 
+            $errors_total[] = "El usuario ya existe <br><br>
+            Si desea puede Iniciar Sesion"; 
             return $errors_total;
         }else{
 
@@ -1925,11 +1925,9 @@ function mostrar_users_todos(){
     function imprimir_usuarios ($result){
         $result->execute();
 
+        msjs_coincidencias($result);
 
 echo "          <div>";
-
-msjs_coincidencias($result);
-
 echo                " <table class='tabla' border='1'>
                     <thead>
                         <tr>
@@ -1965,9 +1963,9 @@ echo "                  <td>".$id_usr."</td>
                         <form action=".$_SERVER['PHP_SELF']." method='post'>
                         
 
-                            <button type='submit'  value=".$id_usr." name='modificar' class='icon-cancel btn btn-dark btn-sm col-12' id=''>Modificar</button>
+                            <button type='submit'  value=".$id_usr." name='modificar' class=' btn btn-dark btn-sm col-12' id=''>Modificar</button>
 
-                        <button type='submit' value=".$id_usr." name='reiniciar' class='icon-cancel btn btn-dark btn-sm col-12' id=''>Reiniciar</button>
+                        <button type='submit' value=".$id_usr." name='reiniciar' class=' btn btn-dark btn-sm col-12' id=''>Reiniciar</button>
 
                         </td>
                           </tr>";
@@ -2183,7 +2181,7 @@ function consulta_docentes(){
 
 function msjs_coincidencias($result){
     $result->execute();
-                    echo "<div style='float: right;'> '<h1>Se han econtrado ".$result->rowCount()." coincidencias</h1></div>";
+                    echo "<div class='text-center' style='float:right;margin:20px;display: inline; background-color:white;width:30%;'><h5>Se han econtrado ".$result->rowCount()." coincidencias</h5></div>";
 }
 
 
@@ -2278,7 +2276,7 @@ echo "
 
                         <form action='mas_info_docent.php' method='post'>
                         
-                        <button type='submit' class='icon-list1 btn btn-dark btn-sm col-12' id='' value=".$registro['id_doc']." name ='mas_info_docent' >Mas Informacion</button>
+                        <button type='submit' class=' btn btn-dark btn-sm col-12' id='' value=".$registro['id_doc']." name ='mas_info_docent' >Mas Informacion</button>
                          
                          </form></td>
                          ";
@@ -2386,7 +2384,7 @@ echo "
                         echo "
                         <form action='mas_info_admin.php' method='post'>
                         
-                        <button type='submit' class='icon-list1 btn btn-dark btn-sm col-12' id='' value=".$registro['id_doc']." name ='mas_info_admin' >Mas Informacion</button>
+                        <button type='submit' class=' btn btn-dark btn-sm col-12' id='' value=".$registro['id_doc']." name ='mas_info_admin' >Mas Informacion</button>
                          
                          </form> ";
 
@@ -2471,7 +2469,7 @@ function consulta_admins(){
 function imprimir_msjs_no_style($errors){
     echo "<br>";
     if(!empty($errors)){
-                    echo "<div style='margin-left:auto; margin-right:auto;'><br>";
+                    echo "<div style='background-color: white; margin-left:auto; margin-right:auto;border-radius: 5px; border:solid rgba(183, 187, 206, 0.521) 2px; color: red;'><br>";
         foreach ($errors as $msjs) {
 echo "<p>".$msjs."</p>";
         }
@@ -2483,9 +2481,7 @@ function imprimir_msjs($errors){
     echo "<br>";
 
     if(!empty($errors)){
-            echo "<div   style='background-color:#B7BBCE; border: gray 1px solid;position:absolute;
-    bottom:5px;
-    right:10px;'><br>";
+            echo "<div   style='background-color:white;padding: 3px; border-radius: 5px; border:solid rgba(183, 187, 206, 0.521) 2px;color: rgb(255, 0, 0); position:absolute;bottom:-150px;right:30%;'><br>";
 
         foreach ($errors as $msjs) {
 echo "<p>".$msjs."</p>";
