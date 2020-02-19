@@ -99,7 +99,7 @@ if (!empty($_POST['enviar'])) {
         <?php
         if(!empty($errors_total)){
                 foreach($errors_total as $pos => $msj){
-                        echo "<p style='padding:7px;'>".$msj."</p>";}};
+                        echo "<p style='padding:7px;color: red;text-align: center;'>".$msj."</p>";}};
                 
                     ?>
 

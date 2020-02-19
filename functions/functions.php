@@ -617,7 +617,7 @@ function imprimir_usuario_bienvenida($ci){
     
     <form action='../usuarios/seguridad.php' method='post'>
                         
-    <button type='submit' class='btn btn-dark  col-12' id='' class='icon-add' value=".$registro['id_doc']." name ='modif_pass' >Seguridad</button>
+    <button type='submit' class='btn btn-dark  col-12' id='' class='' value=".$registro['id_doc']." name ='modif_pass' >Seguridad</button>
     
     </form>
 
@@ -1767,8 +1767,8 @@ function register_user($ci,$pass,$pass_confirm,$respuesta1,$respuesta2){
             $errors_total[] = "Debe llenar todos los campos, evitando espacios en la cedula";    
     }else{
         if(!valid_user($ci)){
-            $errors_total[] = "<p>El usuario ya existe</p> 
-            <p></p>Si desea puede Iniciar Sesion"; 
+            $errors_total[] = "El usuario ya existe <br><br>
+            Si desea puede Iniciar Sesion"; 
             return $errors_total;
         }else{
 
@@ -1921,11 +1921,9 @@ function mostrar_users_todos(){
     function imprimir_usuarios ($result){
         $result->execute();
 
+        msjs_coincidencias($result);
 
 echo "          <div>";
-
-msjs_coincidencias($result);
-
 echo                " <table class='tabla' border='1'>
                     <thead>
                         <tr>
@@ -1961,9 +1959,9 @@ echo "                  <td>".$id_usr."</td>
                         <form action=".$_SERVER['PHP_SELF']." method='post'>
                         
 
-                            <button type='submit'  value=".$id_usr." name='modificar' class='icon-cancel btn btn-dark btn-sm col-12' id=''>Modificar</button>
+                            <button type='submit'  value=".$id_usr." name='modificar' class=' btn btn-dark btn-sm col-12' id=''>Modificar</button>
 
-                        <button type='submit' value=".$id_usr." name='reiniciar' class='icon-cancel btn btn-dark btn-sm col-12' id=''>Reiniciar</button>
+                        <button type='submit' value=".$id_usr." name='reiniciar' class=' btn btn-dark btn-sm col-12' id=''>Reiniciar</button>
 
                         </td>
                           </tr>";
@@ -2179,7 +2177,7 @@ function consulta_docentes(){
 
 function msjs_coincidencias($result){
     $result->execute();
-                    echo "<div style='float: right;'> '<h1>Se han econtrado ".$result->rowCount()." coincidencias</h1></div>";
+                    echo "<div class='text-center' style='float:right;margin:20px;display: inline; background-color:white;width:30%;'><h5>Se han econtrado ".$result->rowCount()." coincidencias</h5></div>";
 }
 
 
@@ -2274,7 +2272,7 @@ echo "
 
                         <form action='mas_info_docent.php' method='post'>
                         
-                        <button type='submit' class='icon-list1 btn btn-dark btn-sm col-12' id='' value=".$registro['id_doc']." name ='mas_info_docent' >Mas Informacion</button>
+                        <button type='submit' class=' btn btn-dark btn-sm col-12' id='' value=".$registro['id_doc']." name ='mas_info_docent' >Mas Informacion</button>
                          
                          </form></td>
                          ";
@@ -2382,7 +2380,7 @@ echo "
                         echo "
                         <form action='mas_info_admin.php' method='post'>
                         
-                        <button type='submit' class='icon-list1 btn btn-dark btn-sm col-12' id='' value=".$registro['id_doc']." name ='mas_info_admin' >Mas Informacion</button>
+                        <button type='submit' class=' btn btn-dark btn-sm col-12' id='' value=".$registro['id_doc']." name ='mas_info_admin' >Mas Informacion</button>
                          
                          </form> ";
 

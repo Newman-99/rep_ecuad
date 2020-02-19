@@ -95,8 +95,8 @@ if (isset($_GET['clean_ci_escolar'])) {
       </div>
       
       <div class="text-center">
-      <button id="" name="buscar" value="buscar" class="icon-search btn btn-primary col-2 mx-3" type="submit">Buscar</button>
-      <a href="./register_student/reg-estudiante-1.php"  class="icon-add btn btn-primary col-3">Registrar Nuevo Estudiante</a>
+      <button id="" name="buscar" value="buscar" class=" btn btn-primary col-2 mx-3" type="submit">Buscar</button>
+      <a href="./register_student/reg-estudiante-1.php"  class=" btn btn-primary col-3">Registrar Nuevo Estudiante</a>
       </div>
       
   </form>
@@ -328,7 +328,7 @@ var_dump($result->rowCount());
 
                         <form action='mas_info_student.php' method='post'>
                         
-                        <button type='submit' class='icon-list1 btn btn-dark btn-sm col-12'  value="<?php echo $registro['ci_escolar']; ?>" name ='mas_info_student' >Mas Informacion</button>
+                        <button type='submit' class=' btn btn-dark btn-sm col-12'  value="<?php echo $registro['ci_escolar']; ?>" name ='mas_info_student' >Mas Informacion</button>
                          
                          </form>
 

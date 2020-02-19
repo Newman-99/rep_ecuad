@@ -120,10 +120,10 @@ LEFT OUTER JOIN estado edo ON ea.id_estado = edo.id_estado WHERE clas.id_clase =
 			
 			$result->execute();	
 
-
+			echo "<div class='text-center' style='float:right;margin:20px;display: inline; background-color:white;width:30%;'><h5>Se han econtrado ".$result->rowCount()." Contratos</h5></div>";
 	        echo "<div>";
                     
-                    echo "<div style='float: right;'> '<h1>Se han econtrado ".$result->rowCount()." Contratos</h1></div>";
+                   
 
  	          echo "<table class='tabla'>
  	          <caption> Estudiantes de la Clase: ".$id."</caption>
@@ -152,17 +152,17 @@ LEFT OUTER JOIN estado edo ON ea.id_estado = edo.id_estado WHERE clas.id_clase =
 
                     <form action='./menu_upd_student.php' method='post'>
                         
-                        <button type='submit' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='update_student_clas'> Actualizar</button>
+                        <button type='submit' id='' class="btn btn-dark btn-sm col-12" value="<?php echo $registro['ci_escolar']; ?>" name ='update_student_clas'> Actualizar</button>
                     </form>
 
-                  <br><br> 
+                  
 
                                           <?php } ?>
 
 
                         <form action='./menu_upd_student.php' method='post'>
                         
-                        <button type='submit' class='icon-list1' id='button-modi' value="<?php echo $registro['ci_escolar']; ?>" name ='mas_info_student' >Mas Informacion</button>
+                        <button type='submit' class=' btn btn-dark btn-sm col-12' id='' value="<?php echo $registro['ci_escolar']; ?>" name ='mas_info_student' >Mas Informacion</button>
                          
                          </form>
 
@@ -181,7 +181,7 @@ LEFT OUTER JOIN estado edo ON ea.id_estado = edo.id_estado WHERE clas.id_clase =
             }
 ?>
 
-                 <a class="btn btn-primary btn-lg col-1" style="position:absolute;bottom:-250px;right:10px;" href="clases.php">Volver</a>
+                 <a class="btn btn-primary btn-lg col-1" style="position:absolute;bottom:-750px;right:30px;" href="clases.php">Volver</a>
 
 
             

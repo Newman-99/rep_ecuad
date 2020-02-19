@@ -2,7 +2,7 @@
 		
 		<footer class="estilo-footer">
         <div class="">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+
         </div>
 		</footer>
 		

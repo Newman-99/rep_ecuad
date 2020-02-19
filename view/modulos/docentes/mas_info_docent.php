@@ -150,6 +150,7 @@ echo "
     ?>
     
     <a class="btn btn-primary" style="position:absolute;
-    bottom:5px;
+    bottom:-150px;
     right:10px;" href='docentes.php'>volver</a>
     
+    <?php require '../../includes/footer.php' ?>

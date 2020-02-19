@@ -16,7 +16,7 @@ if (!empty($_POST['enviar'])) {
 
         $errors_total[]= "  <form id='signupform' role='form' action='answers.php' method='POST' autocomplete='on'>
             
-            <button id=button class='icon-search' type='submit' name='id_usr' value=".$ci.">Confirmar</button>
+            <button style='left:37%;' class='btn btn-primary col-3 text-center' type='submit' name='id_usr' value=".$ci.">Confirmar</button>
             
             </form>";
         }
@@ -36,7 +36,7 @@ if (!empty($_POST['enviar'])) {
 </head>
     <title>Document</title>
 </head>
-<body>
+<body style="background-color:#9ABFD8;">
 <div class="contenedor">
         <div class="formulario">
             <h3>Cuenta que desea Recuperar</h3>
@@ -46,10 +46,10 @@ if (!empty($_POST['enviar'])) {
                 
             <input type="text" name="ci" value="<?php if(isset($ci)) echo $ci; ?>" placeholder="Número de Cédula">
 
-                <input type="submit" value="iniciar" name="enviar">
+                <input  type="submit" value="iniciar" name="enviar">
             </form>
         </div>
-        <a href="log.php">Volver</a>
+        <a class="btn btn-primary col-3" href="log.php">Volver</a>
 
 </div>
 

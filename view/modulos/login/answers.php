@@ -3,7 +3,7 @@
 require  '../../../database/connect.php';
 
 require '../../../functions/functions.php';
-
+$errors = array();
 ?>
 
 
@@ -30,7 +30,7 @@ if (!empty($_POST['answers'])) {
 	if (!comprobar_msjs_array($errors)) {
 		$errors[] = "<form id='signupform' role='form' action='new_pass.php' method='POST' autocomplete='on'>
 			
-            <button id=button class='icon-search' type='submit' name='id_usr' value=".$id_usr.">Confirmar</button>
+            <button  class='btn btn-primary col-12' type='submit' name='id_usr' value=".$id_usr.">Confirmar</button>
 			
 			</form>";
 	}
@@ -51,33 +51,40 @@ require '../../includes/head.php';
 		<br>
 
  <form id="signupform" role="form" action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>"
-    method="POST" autocomplete="on">
-	
+    method="POST" autocomplete="on" class="form-group">
+		<div class="row">
+	<div class="col-6">
 	¿Cual es su artista favorito?
-	<input type="pass" name="respuesta1" id="" value="<?php if(isset($respuesta1)) echo $respuesta1; ?>">
-	<br>
-	<br>
+	<input type="pass" name="respuesta1" id="" class='form-control' value="<?php if(isset($respuesta1)) echo $respuesta1; ?>">
+	</div>
+	
+	<div class="col-6">
 	¿Cual es el nombre de su primera mascota? 
-	<input type="pass" name="respuesta2" id="" value="<?php if(isset($respuesta2)) echo $respuesta2; ?>">
+	<input type="pass" name="respuesta2" id="" class='form-control' value="<?php if(isset($respuesta2)) echo $respuesta2; ?>">
+	</div>
+		</div>
 
-            <button id=button class='icon-search' type='submit' name='answers' value='<?php echo $id_usr; ?>' style="color: #fff;">Enviar</button>
+		<div class="row ">
+			
+			<a style="left: 30px;" class='btn btn-primary col-3 ' href="log.php">Volver</a>
+			<button style="left: 70px;" class='btn btn-primary col-8 ' type='submit' name='answers' value='<?php echo $id_usr; ?>'>Enviar</button>
+			</form>
+		
+		<?php imprimir_msjs($errors); ?>
+		</div>
 
-            <br><br><br><br>
-<a href="log.php">Volver</a>
+		<?php     
 
-
-
-</form>
-<?php     
-        if(!empty($errors)){
-
-imprimir_msjs($errors);
-}
  ?>
+		
+
+
+
+
 
 </div>
 </div>
     <?php
     
-require'../../includes/footer.php';
+require '../../includes/footer.php';
   ?>

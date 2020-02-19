@@ -107,8 +107,16 @@ $errors[]= 'Cambios registrados con exito';
 
 
     <h2>Modificacion de Administrativos</h2>
-    <form action='<?php htmlspecialchars($_SERVER['PHP_SELF'])?>' method='post'>
-        <br>
+
+<div class="container"> <!-- container -->
+    <div class="row">    
+        <div class="col-lg-12">
+    <form action='<?php htmlspecialchars($_SERVER['PHP_SELF'])?>' method='post' class="form-group text-center" style="margin-bottom:-200px;">
+
+        <div class="col-lg-12 " >
+        <h3 class="form-titulo">Modificacion de Administrativos</h3>
+        </div>
+    
 <?php
 
     $sql = consulta_admins()." WHERE adm.id_doc_admin = :id_doc;";
@@ -123,83 +131,102 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
 
 $id_doc = $registro['id_doc'];
 ?>
-            Documento de Identidad
-        <select name='nacionalidad' id='' autocomplete='on'>
+                <div class="row">
+        <div class="col-lg-2 my-4">  
+        <select name='nacionalidad' id='' autocomplete='on' class="form-control">
             <option <?php if($registro['id_nacionalidad'] == '1') echo 'selected';?>
              value='1'>V</option>
-
             <option <?php if($registro['id_nacionalidad'] == '2') echo 'selected';?> value='2'>E</option>
         </select>
+        </div>
+        <div class="col-lg-3">
+        Documento de Identidad
+         <input type='number' name='id_doc' id='' class="form-control" value='<?php echo $registro['id_doc']; ?>'>
+        </div>
 
-    
-         <input type='number' name='id_doc' id='' value='<?php echo $registro['id_doc']; ?>'>
-
-        <br>
+         <div class="col-lg-3 ">
         Nombres:
-        <input type='text' name='nombre' id='' value='<?php echo $registro['nombre']; ?>' >
-        
-         <br>
+        <input type='text' name='nombre' id='' class="form-control" value='<?php echo $registro['nombre']; ?>' >
+        </div>
+
+        <div class="col-lg-3 ">
         Apellido Paterno:
-        <input type='text' name='apellido_p' id='' value='<?php echo $registro['apellido_p']; ?>'>
-        
+        <input type='text' name='apellido_p' id='' class="form-control" value='<?php echo $registro['apellido_p']; ?>'>
+        </div>
+                </div>
 
-        <br>
+                <div class="row">
+        <div class="col-lg-3 my-2">
         Apellido Materno:
-        <input type='text' name='apellido_m' id='' value='<?php echo $registro['apellido_m']; ?>'>
-       
-        <br>
+        <input type='text' name='apellido_m' id='' class="form-control" value='<?php echo $registro['apellido_m']; ?>'>
+        </div>
+        
+        <div class="col-lg-3 my-2">
         Sexo:
-        <select name='sexo' id=''>
+        <select name='sexo' id='' class="form-control">
             <option <?php if($registro['id_sexo'] == '1') echo 'selected';?> value='1'>Masculino</option>
-
             <option <?php if($registro['id_sexo'] == '2') echo 'selected';?> value='2'>Femenino</option>
         </select>
-
-        <br>
+        </div>
+        
+        <div class="col-lg-3 my-2">
         Area: 
-        <select name='area' id=''>
+        <select name='area' id='' class="form-control">
             <option <?php if($registro['id_area'] == '1') echo 'selected';?> value='1'>Directiva</option>
 
             <option <?php if($registro['id_area'] == '2') echo 'selected';?> value='2'>Estaditica</option>
 
             <option <?php if($registro['id_area'] == '3') echo 'selected';?> value='3'>Pedagogica</option>
         </select>
-        <br>
-
+        </div>
+        
+        <div class="col-lg-3 my-2">
         Fecha de Nacimiento:
-        <input type='date' name='fecha_nac' id='' value='<?php echo $registro['fecha_nac']; ?>'>
+        <input type='date' name='fecha_nac' id='' class="form-control" value='<?php echo $registro['fecha_nac']; ?>'>
+        </div>
+                </div>
 
-        <br>
+                <div class="row">
+        <div class="col-lg-3 my-2">
         Fecha de Ingreso:
-        <input type='date' name='fecha_ingreso' id='' value='<?php echo $registro['fecha_ingreso']; ?>'>
-
-        <br>
+        <input type='date' name='fecha_ingreso' id='' class="form-control" value='<?php echo $registro['fecha_ingreso']; ?>'>
+        </div>
+        
+        <div class="col-lg-3 my-2">
         Fecha de Inabilitacion:
-        <input type='date' name='fecha_inabilitacion' id='' value='<?php echo $registro['fecha_inabilitacion']; ?>'>
-
-        <br>
-
+        <input type='date' name='fecha_inabilitacion' id='' class="form-control" value='<?php echo $registro['fecha_inabilitacion']; ?>'>
+        </div>
+        
+        <div class="col-lg-3 my-2">
         Lugar de Nacimiento:
-        <textarea rows="3" cols="40" name="lugar_nac" id=""><?php echo $registro['lugar_nac'];?></textarea>
-        
+        <textarea rows="3" cols="40" name="lugar_nac" id="" class="form-control"><?php echo $registro['lugar_nac'];?></textarea>
+        </div>
         <br>
+        <div class="col-lg-3 my-2">
         Direccion de Habitacion:
-        <textarea rows="3" cols="40" name="direcc_hab" id=""><?php echo $registro['direcc_hab'];?></textarea>
+        <textarea rows="3" cols="40" name="direcc_hab" id="" class="form-control"><?php echo $registro['direcc_hab'];?></textarea>
+        </div>
+                </div>
 
-        <br>
+                <div class="row">
+        <div class="col-lg-3 my-2">
         Telefono Celular:
-        <input type='number' name='tlf_cel' id='' value='<?php echo $registro['tlf_cel'] ?>'>
+        <input type='number' name='tlf_cel' id='' class="form-control" value='<?php echo $registro['tlf_cel'] ?>'>
+        </div>
 
-        <br>
+        <div class="col-lg-3 my-2">
         Telefono Local:
-        <input type='number' name='tlf_local' id='' value='<?php echo $registro['tlf_local'] ?>'>
-        <br>
+        <input type='number' name='tlf_local' id='' class="form-control" value='<?php echo $registro['tlf_local'] ?>'>
+        </div>
+
+        <div class="col-lg-3 my-2">
         Correo:
-        <input type='email' name='correo' id='' value='<?php echo $registro['correo']; ?>'>
+        <input type='email' name='correo' id='' class="form-control" value='<?php echo $registro['correo']; ?>'>
+        </div>
         
-        <br>
+        <div class="col-lg-3 my-2">
         Estado Civil:
-        <select name='estado_civil' id=''>
+        <select name='estado_civil' id='' class="form-control">
             <option <?php if($registro['id_estado_civil'] == '1') echo 'selected';?> value='1'>Soltero/a</option>
 
             <option <?php if($registro['id_estado_civil'] == '2') echo 'selected';?> value='2'>Casado/a</option>
@@ -208,39 +235,45 @@ $id_doc = $registro['id_doc'];
 
             <option <?php if($registro['id_estado_civil'] == '4') echo 'selected';?> value='4'>Viudo/a</option>
         </select>
-        
-        <br>
+        </div>
+                </div>
+
+                <div class="row">
+
+        <div class="col-lg-3 my-2">           
         Turno:
-        <select name='turno' id=''>
+        <select name='turno' id=''class="form-control">
             <option <?php if($registro['id_turno'] == '1') echo 'selected';?> value='1'>Mañana</option>
             <option <?php if($registro['id_turno'] == '2') echo 'selected';?>  value='2'>Tarde</option>
-        </select> 
-        <br>
-    Estado
-            <select name='id_estado' id=''>
+        </select>
+        </div> 
+        
+        <div class="col-lg-3 my-2">
+            Estado
+            <select name='id_estado' id=''class="form-control">
             <option <?php if($registro['id_estado'] == '1') echo 'selected';?> value='1'>Activo</option>
 
             <option <?php if($registro['id_estado'] == '2') echo 'selected';?> value='2'>Inactivo</option>
         </select>
-<br>
+        </div>
+                </div>
 
-    <?php echo "<button type='submit' id='button-modi' name='save_admin' value=".$id_doc.">Guardar</button>";?>
+                <div class="row">
+                <a class="btn btn-primary col-2  mx-3"  href='admins.php'>Volver</a>
+                <?php echo "<button type='submit' id='' class='btn btn-primary col-9 mx-3' name='save_admin' value=".$id_doc.">Guardar</button>";?>
+                </div>
 
+                <?php
+                imprimir_msjs_no_style($errors);
+                ?>
     </form>
+
     <?php } ?>
 
-    <br>
-    <a class="btn btn-primary btn-lg"  href='admins.php'>Volver</a>
-    <br>
-    <br>
-
-    <?php
-
-    imprimir_msjs_no_style($errors);
-    ?>
+    
 
 <?php 
 
-require'../../includes/footer.php';
+require '../../includes/footer.php';
 
  ?>
