@@ -11,12 +11,16 @@
  valid_inicio_sesion('2');
 
 
-if (isset($_SESSION['sesionform4'])) {
+if (!isset($_SESSION['ci_escolar'])) {
+header('location:../estudiantes.php');
+}
+
+/*if (isset($_SESSION['sesionform4'])) {
 if (comprobar_msjs_array($_SESSION['sesionform4'])) {
 extract($_SESSION['sesionform4']);
 }
 }
-
+*/
 var_dump($_SESSION['ci_escolar']);
 
 $errors = array();
