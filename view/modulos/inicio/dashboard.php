@@ -5,6 +5,7 @@
     session_start();
 
  valid_inicio_sesion('3');
+
 if (isset($_GET['clean_ci_escolar'])) {
   unset($_SESSION['ci_escolar']);
 }
@@ -56,58 +57,57 @@ update_anio_escol_actual($anio_escolar1,$anio_escolar2);
 }
 
 ?>
-	        <div>
+	        <div style="">
 
 
- 	            <table class="tabla" border="1" style="position: relative; margin-top: 40px;">
- 		            <thead>
- 			            <tr>
-
+ 	            <table class="tabla" border="1" style="position: relative; margin-top: 40px; text-align: center; float: left;margin: 15px">
+ 		            <tr>
+                <thead>  
 						 <th> Estadisticas Generales </th>
-
-
-						 <th>Estadisticas <?php echo $anio_escolar1."-".$anio_escolar2 ?></th>
  		            </thead>
-
  		            </tr>
 
 			<td>
 
-            Estudiantes Activos: <?php echo tipos_student_consultas('','3','','');?>
-						<br><br>
-            Estudiantes Irregulares: <?php echo tipos_student_consultas('','4','','');?>
-						<br><br>
-            Estudiantes Retirados: <?php echo tipos_student_consultas('','2','','');?>
-            			<br><br>
-            Estudiantes Transferidos: <?php echo tipos_student_consultas('','2','','');?>
-			<br><br>
-	
-	        Estudiantes Varones: <?php echo tipo_sexo_student_general('1');?>
+            Estudiantes:
             <br><br>
-            Estudiantes Femeninos: <?php echo tipo_sexo_student_general('2');?>
+            Activos: <?php echo tipos_student_consultas('','3','','');?>
+						<br><br>
+            Irregulares: <?php echo tipos_student_consultas('','4','','');?>
+						<br><br>
+            Retirados: <?php echo tipos_student_consultas('','2','','');?>
+            <br><br>
+	          MAsculinos: <?php echo tipo_sexo_student_general('1');?>
+            <br><br>
+            Femeninos: <?php echo tipo_sexo_student_general('2');?>
+      </td>
 
              </td>
+  </tr>
+      </table>
 
+
+              <table class="tabla" border="1" style="position: relative; margin-top: 40px; text-align: center; float: left; margin: 15px">
+                <tr>
+                <thead>  
+             <th>Estadisticas <?php echo $anio_escolar1."-".$anio_escolar2 ?></th>
+                </thead>
+                </tr>
 			<td>
-
-<?php  $anio_escol_actual = obtener_anios_escolar_actual(); 
-$anio_escolar1 = $anio_escol_actual['anio_escolar_1'];
-$anio_escolar2 = $anio_escol_actual['anio_escolar_2'];
- ?>
-            Estudiantes Activos: <?php echo tipos_student_consultas('','3',$anio_escolar1,$anio_escolar2);?>
+            Estudiantes:
+        <br><br>
+            Activos: <?php echo tipos_student_consultas('','3',$anio_escolar1,$anio_escolar2);?>
 						<br><br>
-            Estudiantes Irregulares: <?php echo tipos_student_consultas('','4',$anio_escolar1,$anio_escolar2);?>
+            Irregulares: <?php echo tipos_student_consultas('','4',$anio_escolar1,$anio_escolar2);?>
 						<br><br>
-            Estudiantes Retirados: <?php echo tipos_student_consultas('','2',$anio_escolar1,$anio_escolar2);?>
-            			<br><br>
-            Estudiantes Transferidos: <?php echo tipos_student_consultas('','2',$anio_escolar1,$anio_escolar2);?>
-			<br><br>
-	
-	        Estudiantes Varones: <?php echo tipo_sexo_student_general('1',$anio_escolar1,$anio_escolar2);?>
+            Retirados: <?php echo tipos_student_consultas('','5',$anio_escolar1,$anio_escolar2);?>
+	       		<br><br>
+	          MAsculinos: <?php echo tipo_sexo_student_general('1',$anio_escolar1,$anio_escolar2);?>
             <br><br>
-            Estudiantes Femenino: <?php echo tipo_sexo_student_general('2',$anio_escolar1,$anio_escolar2);?>
+            Femeninos: <?php echo tipo_sexo_student_general('2',$anio_escolar1,$anio_escolar2);?>
 
-<br>
+<?php                         if(comprob_permisos('1')) {
+ ?>
     <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post" style="text-align: center;">
 
         <button type='submit' class="btn btn-dark btn-sm col-2" value="2" name ='upd_anio_scol'> < </button>
@@ -115,20 +115,13 @@ $anio_escolar2 = $anio_escol_actual['anio_escolar_2'];
         <button type='submit' class="btn btn-dark btn-sm col-2" value="1" name ='upd_anio_scol'> > </button>
     </form>
 
+<?php } ?>
+
              </td>
+  </tr>
+      </table>
 
-
-
-	</tr>
-
-
-			</table>
-
-<?php 
- ?>
-
-           	</div>
-
+            </div>
 
  <?php  
   require '../../includes/menu_bar.php';

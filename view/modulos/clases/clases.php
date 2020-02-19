@@ -27,7 +27,6 @@ require '../../includes/head.php';
 
     <?php require '../../includes/header.php'; ?>	   
 
-	<section>	
   <div class="nav-h">		
   <form action="<?php htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
     <div class="text-center"> 
@@ -195,7 +194,10 @@ if ($result->rowCount() == 0) {
 
 
 	        <div>
- 	            <table class="tabla" border="1">
+
+            <?php msjs_coincidencias($result); ?>
+
+ 	            <table class="tabla">
  		            <thead>
  			            <tr>
 						 <th> Grado </th> 
@@ -203,9 +205,11 @@ if ($result->rowCount() == 0) {
 						 <th> Numero de Aula </th> 
 						 <th> Turno </th> 
 						 <th> Año Escolar </th> 
-						 <th> Estadisticas </th>
-<div style='position: relative;border-color:white;'><br><p>$msjs<p></div>
+						 <th colspan="2" style="text-align: center;"> Estadisticas </th>
+             <th></th>
+
 						 <th></th>
+
  			            </tr>
  		            </thead>
 				
@@ -220,22 +224,26 @@ if ($result->rowCount() == 0) {
 						<td><?php echo $registro['anio_escolar1']."-".$registro['anio_escolar2'];?></td>
 
 						<?php $id_clase=$registro['id_clase']; ?>
-						<td> 
 
-            Estudiantes Activos: <?php echo tipo_student_x_contrato_clas($id_clase,'3');?>
-						<br><br>
-            Estudiantes Irregulares: <?php echo tipo_student_x_clase($id_clase,'4');?>
-						<br><br>
-            Estudiantes Retirados: <?php echo tipo_student_x_clase($id_clase,'2');?>
+  <td>
+    
+            Activos: <?php echo tipo_student_x_contrato_clas($id_clase,'3');?>
             <br><br>
-            Estudiantes Transferidos: <?php echo tipo_student_x_contrato_clas($id_clase,'2');?>
-						<br><br>
-            Estudiantes Varones: <?php echo tipo_sexo_student_x_clase($id_clase,'1');?>
+            Irregulares: <?php echo tipo_student_x_clase($id_clase,'4');?>
             <br><br>
-            Estudiantes Femenino: <?php echo tipo_sexo_student_x_clase($id_clase,'2');?>
+            Retirados: <?php echo tipo_student_x_clase($id_clase,'2');?>
              
-             <td>
 
+  </td>
+
+<td>                         
+            Masculinos: <?php echo tipo_sexo_student_x_clase($id_clase,'1');?>
+            <br>
+            <br>
+            Femeninos: <?php echo tipo_sexo_student_x_clase($id_clase,'2');?>
+ </td>
+
+ <td>
 					<!--
 					<form action="info_docent.php" method="post">
 						 <button id="button-modi" class="icon-list1" type="submit" name='docent_asig' value="<?php echo $registro['id_clase'] ?>">Mas Informacion</button>
@@ -245,7 +253,7 @@ if ($result->rowCount() == 0) {
           <form action="estudiantes_asigandos.php" method="post">
              <button id="" class="icon-list1 btn btn-dark btn-sm col-12" type="submit" name='estudiantes_asigandos' value="<?php echo $registro['id_clase'] ?>">Estudiantes</button>
           </form>
-		
+		<?php                         if(comprob_permisos('1')) { ?>
 					<form action="asignar_docentes.php" method="post">
 						 <button id="" class="btn btn-dark btn-sm col-12" type="submit" name='docent_asig' value="<?php echo $registro['id_clase'] ?>">Docentes</button>
 					</form>
@@ -255,7 +263,11 @@ if ($result->rowCount() == 0) {
 					</form>
 				</td>
 
-				<?php }
+
+
+				<?php 
+}
+      }
 
 				}
 
@@ -264,8 +276,9 @@ if ($result->rowCount() == 0) {
 	 } 
 	
 	?>
-
-			</table>
+	
+  </tr>
+		</table>
            	</div>
 
 				<?php include '../../includes/menu_bar.php' ?>

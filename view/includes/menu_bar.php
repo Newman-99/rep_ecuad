@@ -14,11 +14,10 @@
 
  
 
-<?php if (valid_inicio_sesion('1')) {
-echo "<li><a href='../usuarios/usuarios.php'>Administracion de Usuarios </a></li>
-<li><a href='#'>Configuraciones</a></li>
+<?php if (comprob_permisos('1')) {
+echo "<li><a href='../usuarios/usuarios.php'>Administracion de Usuarios </a></li>";} ?>
 
-";} ?>
+<!--<li><a href='#'>Configuraciones</a></li>-->
 
 <li><a href='../../modulos/login/logout.php'>Cerrar Sesion</a></li>
 

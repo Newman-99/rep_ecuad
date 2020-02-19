@@ -10,7 +10,14 @@
 
 
 
+
+
     session_start();
+
+
+ if(!isset($_SESSION['sesionform1']) || !isset($_SESSION['sesionform2']) || !isset($_SESSION['sesionform3']) || !isset($_SESSION['sesionform4']) || !isset($_SESSION['ci_escolar'])){
+    header('location:reg-estudiante-1.php');
+ }
 
  valid_inicio_sesion('2');
 $errors = array();
@@ -260,10 +267,11 @@ registrar_inscrip_scolaridad($ci_escolar,$plantel_proced,$localidad,$anio_escola
 
 <?php require '../../../includes/footer_reg_est.php'; ?>
 
-<?php/* unset($_SESSION['sesionform1']);
+<?php 
+ unset($_SESSION['sesionform1']);
 unset($_SESSION['sesionform2']);
 unset($_SESSION['sesionform3']);
 unset($_SESSION['sesionform4']);
 unset($_SESSION['ci_escolar']);
-*/
+
  ?>

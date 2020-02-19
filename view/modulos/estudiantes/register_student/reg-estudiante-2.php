@@ -16,6 +16,10 @@ extract($_SESSION['sesionform2']);
 }
 }
 
+if (!isset($_SESSION['sesionform1'])) {
+header('location:reg-estudiante-1.php');
+}
+
 $errors_m = array();
 $errors_p = array();
 $errors_r = array();
@@ -840,9 +844,18 @@ $errors_r[]= "<a class='btn btn-primary col-lg-9' href='reg-estudiante-3.php'>
                                             <input type="text" name="parentesco_r" id="" placeholder="Parentesco" class="form-control" value="<?php if(isset($parentesco_r)) echo $parentesco_r;?>">
                                         </div>
 
-                                        <div class="col-lg-6 my-2">
-                                            <label>Vive con el estudiante:</label>
-                                            <input type="checkbox" <?php if(isset($_POST["convivencia_r"])){ if($_POST["convivencia_r"] == '1') echo "checked";}else{if(isset($convivencia_r)){ if($convivencia_r == '1') echo "checked";}}?> name="convivencia_r" value="1" id="">
+                                        <div class="col-lg-6 ">
+                                        <p for="" class="">Vive con el estudiante:</p>
+
+                                        <label for="convivencia_m" class="">Si</label>
+
+                                        <input type="radio" <?php if(isset($_POST["convivencia_r"])){ if($_POST["convivencia_r"] == '1') echo "checked";}else{if(isset($convivencia_r)){ if($convivencia_r == '1') echo "checked";}}
+                                        ?> name="convivencia_r" value="1" id="">
+
+                                        <label for="convivencia_r" class="">No</label>
+
+                                        <input type="radio" name="convivencia_r" <?php if(isset($_POST["convivencia_r"])){ if($_POST["convivencia_r"] == '0') echo "checked";}else{if(isset($convivencia_r)){ if($convivencia_r == '0') echo "checked";}}
+                                        ?> value="2" id="">
                                         </div>
                                     </div>
 

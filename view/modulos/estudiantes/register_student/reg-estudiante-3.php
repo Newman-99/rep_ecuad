@@ -27,6 +27,9 @@ extract($_SESSION['sesionform3']);
 }
 }
 
+if (!isset($_SESSION['sesionform2'])) {
+header('location:reg-estudiante-2.php');
+}
 
 if (!empty($_POST['otros_datos'])) {
 

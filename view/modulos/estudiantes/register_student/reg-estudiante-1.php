@@ -202,12 +202,10 @@ $errors[]= "<a  class='btn btn-primary btn-block btn-lg' href='reg-estudiante-2.
                                     <div class="col-lg-6 my-2">
                                         <p for="" class="">Posee coleccion bicentenaria:</p>
                                         <label for="" class="">Si:</label>
-                                        <input type="radio" name="colecc_bicent" 
-
-                                        <?php if(isset($_POST["colecc_bicent"])){ if($_POST["colecc_bicent"] == '1') echo "checked";}else{if(isset($colecc_bicent)){ if($colecc_bicent == '1') echo "checked";}}?>  value="1" id="">
+                                        <input type="radio" name="colecc_bicent" <?php if(isset($_POST["colecc_bicent"])){ if($_POST["colecc_bicent"] == '1') echo "checked";}else{if(isset($colecc_bicent)){ if($colecc_bicent == '1') echo "checked";}}?>  value="1" id="">
 
                                         <label for="" class="">No:</label>
-                                        <input type="radio" name="colecc_bicent" <?php if(isset($_POST["colecc_bicent"])){ if($_POST["colecc_bicent"] == '1') echo "checked";}else{if(isset($colecc_bicent)){ if($colecc_bicent == '0') echo "checked";}}
+                                        <input type="radio" name="colecc_bicent" <?php if(isset($_POST["colecc_bicent"])){ if($_POST["colecc_bicent"] == '0') echo "checked";}else{if(isset($colecc_bicent)){ if($colecc_bicent == '0') echo "checked";}}
                                         ?> value="0" id="">
                                     </div>
 
