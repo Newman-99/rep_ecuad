@@ -107,12 +107,12 @@ require '../../includes/header.php';
     
     <div class="col-lg-4 my-4">
     <label for="">¿Cual es su artista favorito?</label>
-    <input type="pass" name="respuesta1" id="" value="<?php if(isset($respuesta1)) echo $respuesta1; ?>" class="form-control" placeholder="¿Cual es su artista favorito?">
+    <input type="password" name="respuesta1" id="" value="<?php if(isset($respuesta1)) echo $respuesta1; ?>" class="form-control" placeholder="¿Cual es su artista favorito?">
     </div>
 
     <div class="col-lg-4">
     <label for="">¿Cual es el nombre de su primera mascota?</label> 
-    <input type="pass" name="respuesta2" id="" value="<?php if(isset($respuesta2)) echo $respuesta2; ?>" class="form-control" placeholder="¿Nombre de su primera mascota?">
+    <input type="password" name="respuesta2" id="" value="<?php if(isset($respuesta2)) echo $respuesta2; ?>" class="form-control" placeholder="¿Nombre de su primera mascota?">
     </div>
     </div>
 
@@ -179,18 +179,23 @@ require '../../includes/header.php';
         <div class="row justify-content-center">  
             <div class="col-4">
             <a class="btn btn-primary btn-block " href='../inicio/dashboard.php'>Volver</a>
+
             </div>
+
+
         </div> 
+    <?php
+imprimir_msjs_no_style($errors);
+    ?>
+
     </form>
+
 </div>
 </div>
 </div> <!-- Fin container -->
     
 
 
-    <?php
-imprimir_msjs($errors);
-    ?>
 
 <?php 
 

@@ -1,44 +1,25 @@
 
-<?php
+<?php require '../../includes/init_system.php'; ?>
 
-require  '../../../database/connect.php';
-
-require '../../../functions/functions.php';
-?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, user-scalable=no, initial -scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-
-<link rel="stylesheet" href="../../style/css/estilos_gregorio.css">
-        <!--
-        <link rel="stylesheet" href="../../style/css/estilos.css">-->
-        <link rel="stylesheet" href="../../style/css/styless.css?v=<%=DateTime.Now%>">
-
-        <link rel="stylesheet" href="../../style/bootstrap/bootstrap.min.css">
-
-
-<?php //require '../../includes/head.php';
-
-if (!empty($_POST['mas_info_student'])) {
-
-    $ci_escolar = htmlentities(addslashes($_POST["mas_info_student"])); 
-}
-    
+<?php require '../../includes/head.php';
     session_start();
 
  valid_inicio_sesion('2');
         
 $errors = array();
 
+if (!empty($_POST['mas_info_student'])) {
+
+    $ci_escolar = htmlentities(addslashes($_POST["mas_info_student"])); 
+}
+    
+    
 
 ?>
 
     <title>Mas Informacion Estudiante</title>
 
 <?php require '../../includes/header.php' ?>
-
 
     <h2>Mas Informacion del Estudiante</h2>
     
@@ -811,7 +792,7 @@ echo "
 
 
             if ($result->rowCount() == 0) {
-echo "<td> No tiene clases asigmas</td></tr></table>
+echo "<td> No tiene clases asignadas</td></tr></table>
             </div>";
 
     }else{
@@ -832,4 +813,5 @@ echo "<td> No tiene clases asigmas</td></tr></table>
 
 <br><br><br>
     <a class="btn btn-primary" href='estudiantes.php'>volver</a>
-
+    
+    <?php require '../../includes/footer.php' ?>

@@ -27,10 +27,6 @@ if(validar_datos_vacios_sin_espacios($id_doc,$turno,$fecha_ingreso,$area)){;
 $errors[] = valid_ci($id_doc);
 
 
-        if (is_exist_ci($id_doc)) {
-       $errors_total[]='La cedula ya esta registrada en el sistema';
-        }else{
-
 if (!is_exist_admin($id_doc)){
     $errors[]= "Un Administrativo con esta cedula ya esta registrado";
 }
@@ -40,7 +36,6 @@ if (!is_exist_docente($id_doc)){
     $errors[]= "No existe un Docente con esta cedula registrado";    
 }
 
-}
 
 $errors[]= validar_fecha_registro($fecha_ingreso);
 
@@ -108,11 +103,8 @@ regist_admins($id_doc,$area,$turno,'1',$fecha_ingreso,'0000-00-00');
         </div>
 
 <?php
-    if(!empty($errors)){
-        foreach ($errors as $msjs) {
-            echo "<p>$msjs<p>";
-        }
-    }
+
+imprimir_msjs_no_style($errors);
 
     ?>
             <div class="row">

@@ -10,8 +10,10 @@ require '../../includes/head.php';
 $errors = array();
 
 if (!empty($_POST['modificar'])) {
-    $id_doc=$_POST['modificar'];
+    $_SESSION['id_doc']=$_POST['modificar'];
 }
+    $id_doc=$_SESSION['id_doc'];
+
 if (!empty($_POST['save_admin'])) {
 
     $id_doc = htmlentities(addslashes($_POST["save_admin"]));
@@ -48,17 +50,13 @@ if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc_new,$sexo,$tl
 
 $errors[] = valid_ci($id_doc);
 
-if (strcmp($id_doc, $id_doc_new) != 0) {
 
-    if (is_exist_ci($id_doc_new)) {
-       $errors_total[]='La cedula ya esta registrada en el sistema';
-        }
 
-        if (!is_exist_admin($id_doc_new)){
-    $errors[]= "Un Administrativo con esta cedula ya esta registrado";
+if (!validar_datos_vacios($fecha_inabilitacion) || $id_estado == 2) {
+if ($id_estado != 2 || validar_datos_vacios($fecha_inabilitacion)) {
+       $errors[]='Si desean inabilitar el docente tiene que colocar la fecha de inabilitacion y cambiar su estado';
 }
 }
-
 
 $errors[]= validar_fecha_registro($fecha_ingreso);
 
@@ -84,6 +82,7 @@ $apellido_p=filtrar_nombres_apellidos($apellido_p);
 if (!empty($apellido_m)) {
 $errors[]=validar_nombres_apellidos($apellido_m);
 }
+
 
 
  actualizar_admins($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellido_p,$apellido_m,$sexo,$area,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion);
@@ -251,9 +250,9 @@ $id_doc = $registro['id_doc'];
         <div class="col-lg-3 my-2">
             Estado
             <select name='id_estado' id=''class="form-control">
-            <option <?php if($registro['id_estado'] == '1') echo 'selected';?> value='1'>Activo</option>
+            <option <?php if($registro['id_estado'] == '1') echo 'selected';?> value='1'>Habilitado</option>
 
-            <option <?php if($registro['id_estado'] == '2') echo 'selected';?> value='2'>Inactivo</option>
+            <option <?php if($registro['id_estado'] == '2') echo 'selected';?> value='2'>Inabilitado</option>
         </select>
         </div>
                 </div>

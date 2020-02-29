@@ -9,6 +9,7 @@
 
  valid_inicio_sesion('2');
 
+unset($_SESSION['ci_escolar']);
 
 if (isset($_SESSION['sesionform1'])) {
 if (comprobar_msjs_array($_SESSION['sesionform1'])) {
@@ -237,10 +238,10 @@ $errors[]= "<a  class='btn btn-primary btn-block btn-lg' href='reg-estudiante-2.
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->
 
                         
+                                                            <?php imprimir_msjs_no_style($errors); ?>
                         
                         <button type='submit' class="btn btn-primary btn-block btn-lg"value="datos_student" name ='datos_student'>Continuar</button>
 
-                                                            <?php imprimir_msjs_no_style($errors); ?>
                          
                                 <!-- <input type="submit" name="continuar" value="CONTINUAR" class="btn btn-primary btn-block btn-lg" id="boton-enviar"> --> 
 

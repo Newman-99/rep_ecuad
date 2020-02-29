@@ -53,9 +53,11 @@ update_anio_escol_actual($anio_escolar1,$anio_escolar2);
 update_anio_escol_actual($anio_escolar1,$anio_escolar2);
 
     }
-    unset($_POST['upd_anio_scol']);
+header("location:../clean_post_get.php?dashboard_return=inicio/dashboard.php");
+
 
 }
+
 
 ?>
 
@@ -74,11 +76,15 @@ update_anio_escol_actual($anio_escolar1,$anio_escolar2);
 
             Estudiantes:
             <br><br>
+            Total: <?php echo tipos_student_consultas('','','','');?>
+            <br><br>
             Activos: <?php echo tipos_student_consultas('','3','','');?>
 						<br><br>
             Irregulares: <?php echo tipos_student_consultas('','4','','');?>
 						<br><br>
             Retirados: <?php echo tipos_student_consultas('','2','','');?>
+            <br><br>
+            Graduados: <?php echo tipos_student_consultas('','6','','');?>
             <br><br>
 	          Masculinos: <?php echo tipo_sexo_student_general('1');?>
             <br><br>
@@ -98,13 +104,17 @@ update_anio_escol_actual($anio_escolar1,$anio_escolar2);
                 </tr>
 			<td>
             Estudiantes:
-        <br><br>
+            <br><br>
+            Total: <?php echo tipos_student_consultas('','',$anio_escolar1,$anio_escolar2);?>
+            <br><br>
             Activos: <?php echo tipos_student_consultas('','3',$anio_escolar1,$anio_escolar2);?>
 						<br><br>
             Irregulares: <?php echo tipos_student_consultas('','4',$anio_escolar1,$anio_escolar2);?>
 						<br><br>
             Retirados: <?php echo tipos_student_consultas('','5',$anio_escolar1,$anio_escolar2);?>
-	       		<br><br>
+            <br><br>
+            Graduados: <?php echo tipos_student_consultas('','6',$anio_escolar1,$anio_escolar2);?>
+            <br><br>
 	          Masculinos: <?php echo tipo_sexo_student_general('1',$anio_escolar1,$anio_escolar2);?>
             <br><br>
             Femeninos: <?php echo tipo_sexo_student_general('2',$anio_escolar1,$anio_escolar2);?>

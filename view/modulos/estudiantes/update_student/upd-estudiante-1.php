@@ -18,12 +18,12 @@ header('location:../estudiantes.php');
 }
 
 
-
+/*
 if (isset($_SESSION['sesionform1'])) {
 if (comprobar_msjs_array($_SESSION['sesionform1'])) {
 extract($_SESSION['sesionform1']);
 }
-}
+}*/
 
 $errors = array();
 ?>
@@ -131,7 +131,7 @@ $nombre2=filtrar_nombres_apellidos($nombre2);
 
     $nombres = $nombre1.' '.$nombre2;
 
-extract($_SESSION['sesionform1']);
+//extract($_SESSION['sesionform1']);
 
 actualizar_persona($nacionalidad,$_SESSION['ci_escolar'],$_SESSION['ci_escolar'],$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,'','','','','');
  update_basic_data_student($_SESSION['ci_escolar'],$_SESSION['ci_escolar'],$id_doc_new,'');
@@ -255,17 +255,17 @@ $errors[]= "Cambios Registrados con Exito";
                                         <input type="text" name="fecha_nac" value="<?php if(isset($registro['fecha_nac'])) echo $registro['fecha_nac']; ?>" id="" class="form-control" required>
                                     </div>
 
+
+                            <div class="row">
+
                                     <div class="col-lg-6 my-2">
             
             <label for="">Lugar de Nacimiento:</label>
         <br>
         <textarea rows="3" cols="40" name="lugar_nac" id="" required><?php if(isset($registro['lugar_nac'])) echo $registro['lugar_nac'];?></textarea>
-
-                                    </div>
                                 </div>
 
                              
-                                <div class="row">
 
                                     <div class="col-lg-6 my-5">
                                         <label for="">Direccion de Habitacion:</label>
@@ -273,29 +273,7 @@ $errors[]= "Cambios Registrados con Exito";
         <textarea rows="3" cols="40" name="direcc_hab" id="" required><?php if(isset($registro['direcc_hab'])) echo $registro['direcc_hab']; ?></textarea>        
                                     </div>
 
-                                </div>
 
-
-                                <div class="row">
-                                    <div class="col-lg-6 my-2">
-                                        <p for="" class="">Posee Canaima:</p>
-
-                                        
-
-            
-                                        <label for="" class="">Si:</label>
-                                        <input type="radio" name="canaima" <?php if(isset($registro["canaima"])) if($registro["canaima"] == '1') echo "checked";
-                                        ?> value="1" id="">
-
-                                        <label for="" class="">No:</label>
-                                        <input type="radio" name="canaima" <?php if(isset($registro["canaima"])) if($registro["canaima"] == '0') echo "checked";
-                                        ?> value="0" id="">
-                                        <label for="" class="">Contrato:</label>
-
-                                        <input type="text" name="contrato_canaima" value="<?php if(isset($registro['contrato'])) echo $registro['contrato']; ?>" id="" placeholder="Contrato">
-                                    </div>
-
-                                    
 
                                     <div class="col-lg-6 my-2">
                                         <p for="" class="">Posee coleccion bicentenaria:</p>
@@ -307,6 +285,28 @@ $errors[]= "Cambios Registrados con Exito";
                                         <input type="radio" name="colecc_bicent" <?php if(isset($registro["colecc_bicent"])) if($registro["colecc_bicent"] == '0') echo "checked";
                                         ?> value="0" id="">
                                     </div>
+
+                                    <div class="col-lg-6 my-2">
+                                        <p for="" class="">Posee Canaima?:</p>
+
+                                        <label for="" class="">Si:</label>
+                                        <input type="radio" name="canaima" <?php if(isset($registro["canaima"])) if($registro["canaima"] == '1') echo "checked";
+                                        ?> value="1" id="">
+
+                                        <label for="" class="">No:</label>
+                                        <input type="radio" name="canaima" <?php if(isset($registro["canaima"])) if($registro["canaima"] == '0') echo "checked";
+                                        ?> value="0" id="">
+
+                                        <div class="">
+
+                                        <label for=""  class="">Contrato:</label>
+                                        <input type="text" name="contrato_canaima" value="<?php if(isset($registro['contrato'])) echo $registro['contrato']; ?>" id="" class="mx-2  form-control" placeholder="Contrato">
+                                            
+                                        </div>
+                                    
+
+                                </div>
+
                                 </div>
 
 <!------------------------------------------- BOTON (SIGUIENTE) ----------------------->

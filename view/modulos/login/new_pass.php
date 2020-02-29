@@ -73,8 +73,8 @@ require '../../includes/head.php';
             <div class="row">
             <a style="left: 30px;" class='btn btn-primary col-3' href="log.php">Volver</a>
             <button style="left: 70px;" class='btn btn-primary col-8' type='submit' name='cambiar' value='<?php echo $id_usr; ?>'>Enviar</button>
+
             </form>
-        
             <?php
         imprimir_msjs($errors);
 ?>  
@@ -85,7 +85,7 @@ require '../../includes/head.php';
 
 
 </body>
-
+<br><br><br><br>
 <?php
 require'../../includes/footer.php';
   ?>

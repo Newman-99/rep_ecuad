@@ -118,7 +118,7 @@ echo "
                         <td><center>".$registro['descripcion_estado']."</center>";
 
                         if ($registro['id_estado'] === '2') {
-                                echo "<br><br> <center><b>Fecha Inabilitacion</b></center><br>
+                                echo "<br><center>Fecha Inabilitacion</center><br>
                                  ".$registro['fecha_inabilitacion']."<br>";
                         }
 
@@ -140,17 +140,6 @@ echo "
 ?>
 
 
-    <?php
-    if(!empty($errors)){
-        foreach ($errors as $msjs) {
-            echo "<p>".$msjs."</p>";
-        }
-    }
-
-    ?>
-    
-    <a class="btn btn-primary" style="position:absolute;
-    bottom:-150px;
-    right:10px;" href='docentes.php'>volver</a>
+    <a class="btn btn-primary" style='position:absolute;bottom:50px;right:30%;' href='docentes.php'>volver</a>
     
     <?php require '../../includes/footer.php' ?>

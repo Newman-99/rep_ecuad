@@ -447,6 +447,7 @@ $id_represent = obtener_id_represent($_SESSION['ci_escolar']);
 
 if (!empty($_POST['reg_represent'])) {
 
+
     $nacionalidad_r = htmlentities(addslashes($_POST["nacionalidad_r"]));
     $id_doc_r = htmlentities(addslashes($_POST["id_doc_r"]));
     $nombre1_r = htmlentities(addslashes($_POST["nombre1_r"]));
@@ -495,9 +496,8 @@ if (isset($_POST["si_exist_r"])) {
 
 $si_exist_r = 1;
 
-echo "YA REGISTER";
 if (validar_datos_vacios($id_doc_r,$parentesco_r) || !isset($convivencia_r)) {
-           $errors_r[]='El documento de identidad no puede estar vacio , indique si vive con el estudiante y su parentesco ';  
+           $errors_r[]='El documento de identidad no puede estar vacio, indique si vive con el estudiante y su parentesco ';  
 
 }else{
 
@@ -562,8 +562,7 @@ $apellido_m_r=filtrar_nombres_apellidos($apellido_m_r);
 
     if (!comprobar_msjs_array($errors_r)) {    
 
-        echo "REGISTRO";
-
+ 
         $errors_r_upd[]= 'Representante registrado exitosamente';
 
  $nombres_r=$nombre1_r." ".$nombre2_r;
@@ -1044,12 +1043,13 @@ if (!isset($_POST['new_represent'])) {
 
 
  ?>
+
                 <a href="../menu_upd_student.php" class="btn btn-primary  col-lg-2">Volver</a>
          </form>
 
                                         
-
                         </div>
+
                 </div>
 
 <!----------- DIV container principal Se arrastra hasta el final (NO BORRAR)---->

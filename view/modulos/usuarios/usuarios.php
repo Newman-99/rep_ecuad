@@ -119,6 +119,8 @@ if (!empty($_POST['modificar'])){
 mostrar_user_especifico($id_usr);
 
 
+}
+
 if (!empty($_POST['guardar'])) {
 
 
@@ -128,15 +130,14 @@ if (!empty($_POST['guardar'])) {
 
     modificar_user($id_usr,$tipo_usr);
 
-	echo "<p>Cambios Realizados</p>";
-
-	mostrar_user_especifico($id_usr);
+	echo "<p>Cambios Realizados</p>";	mostrar_user_especifico($id_usr);
 
 }	
 	?>
 
+<?php if (!empty($_POST['modificar'])){
+ ?>
 <br>
-
 		<div style="" class="nav-usr">	
 
 				<h3>Modificacion de Usuario</h3>
@@ -158,11 +159,10 @@ if (!empty($_POST['guardar'])) {
        echo "<button type='submit' value='La operacion ha sido cancelada' name='cancel' id='' class=' btn btn-dark btn-sm col-5 mx-2'>Cancelar</button>";
 
 	/*echo "<br><a href=".$_SERVER['PHP_SELF']."?msj=Operacion&nbsp;Cancelada>Cancelar</a>";*/
-
+}
 ?>
 		
 		</form>
-</div>
 
 
 
@@ -195,7 +195,6 @@ if (!empty($_POST['confirmar_reinicio'])) {
 
 }
 
-}
 
 
 
@@ -206,17 +205,19 @@ if (!empty($_POST['confirmar_reinicio'])) {
 
 ?>
 
+            </div>
+
+	    </section>
 
 				<?php require '../../includes/menu_bar.php' ?>
 
-            </div>
-	    </section>
 
+
+<div style="position: absolute;">
 <?php
-
     imprimir_msjs($errors);
-
-
 ?>
+
+</div>
 
 <?php require '../../includes/footer.php'; ?>

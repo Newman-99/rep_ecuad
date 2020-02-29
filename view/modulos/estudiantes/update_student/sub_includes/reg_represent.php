@@ -158,7 +158,7 @@
 
                                         <div class="col-lg-6 my-2">
                                             <label>Seleccione si ya esta registrado: </label>
-                                            <input type="checkbox" <?php if(isset($si_exist_r)){ if($si_exist_r == '1') echo "checked";}?> name="si_exist_r" value="1" id="">
+                                            <input type="checkbox" <?php if(isset($_POST["si_exist_r"])){  echo "checked";}?> name="si_exist_r" value="1" id="">
                                         </div>
                                     </div>
 
@@ -168,5 +168,5 @@
                                         <button type='submit' class="btn btn-primary col-lg-9" value="reg_represent" name='reg_represent'>Registrar</button>
                                         
                                         
-                                    
+                                 </div>   
 

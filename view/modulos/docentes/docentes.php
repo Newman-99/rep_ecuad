@@ -165,13 +165,15 @@ imprimir_docentes($result);
             </div>
 	    </section>
 
+<div style="position: relative;">
 <?php
 
 imprimir_msjs($errors); 
 
-include '../../includes/footer.php';
  
 ?>
+</div>
 
-
+<?php include '../../includes/footer.php';
+ ?>
 

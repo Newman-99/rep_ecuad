@@ -10,6 +10,7 @@ $_SESSION['id_doc'] = $_POST['sus_clases'];
 }
 $id_doc = $_SESSION['id_doc'];
 
+$errors = array();
 ?>
 
 	    <title>Clases del Docentes</title>
@@ -137,12 +138,7 @@ INNER JOIN funciones_docentes fd ON ca.id_funcion_docent = fd.id_funcion_docent
 				 
 <?php
 
-    if(!empty($errors)){
-        foreach ($errors as $msjs) {
-            echo "<p>$msjs<p>";
-        }
-    }
-
+	imprimir_msjs($errors);
 ?>		
 		</div>
 	</div>

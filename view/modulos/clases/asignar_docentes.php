@@ -11,14 +11,15 @@ if (!empty($_POST['docent_asig'])) {
 $_SESSION['id_clase'] = $_POST['docent_asig'];
 }
 
+$errors =  array();
 
 //var_dump($id_funcion_docent);
 
-$orden_tipo_docent = 'ORDER BY `tipo_docent` ASC';
+$orden_tipo_docent = 'ORDER BY ca.id_funcion_docent ASC';
 
-$orden_estado_contrato = 'ORDER BY `estado_contrato` ASC';
+$orden_estado_contrato = 'ORDER BY ca.id_estado ASC';
 
-$orden_asignacion = "ORDER BY `doc`.`id_doc_docent` DESC";
+$orden_asignacion = "ORDER BY ca.id_doc_docent DESC";
 
 
 
@@ -75,11 +76,22 @@ $id_funcion_docent = $datos_asignacion_array[0][1];
 
 $id_doc_docent = $datos_asignacion_array[0][2];
 
+$id_estado_clase = $datos_asignacion_array[0][3];
+
 $id_estado_docent = obten_estado_docente($id_doc_docent);
 
 if ($id_estado_docent == '2') {
 	$errors[] = "No se le puede asignar esta clase, El docente: ".$id_doc_docent." esta inabilitado ";
-}else{
+}
+
+var_dump(is_exist_contrato_clase($_SESSION['id_clase'],'', $id_funcion_docent,'1',0));
+
+ if (is_exist_contrato_clase($_SESSION['id_clase'],'', $id_funcion_docent,'1',1)){
+ $errors[] = "Ya hay un docente habilitado para esta funcion";
+ }
+
+if (!comprobar_msjs_array($errors)) {    
+
 
  $sql = "UPDATE `clases_asignadas` SET `id_estado` = :id_estado WHERE `clases_asignadas`.`id_contrato_clase` = :id_contrato_clase;";
 
@@ -98,8 +110,10 @@ if ($id_estado_docent == '2') {
 
 
 			$errors[]="El contrato del docente ".$id_doc_docent." ha sido habilitado" ;
+
+}		
 }
-}
+
 
 
 if (!empty($_POST['eliminar_contrato'])) {
@@ -158,6 +172,8 @@ $id_doc_habilitar = $_POST['id_doc_habilitar'];
 
 	$errors[] = valid_ci($id_doc_habilitar);
 
+
+
 	if(!is_exist_docente($id_doc_habilitar)) {
     $errors[]="No hay ningun docente con esta cedula registrado";}
 
@@ -167,6 +183,8 @@ if (!comprobar_turno_docent_clase($id_doc_habilitar,'1')){
     $errors[]="El Docente en Aula ya tiene este turno ocupado";}
 }
 
+
+ if (!is_exist_contrato_clase($_SESSION['id_clase'],$id_doc_habilitar, $id_funcion_clase)){
 
 if (!comprobar_msjs_array($errors)) {
 
@@ -190,6 +208,9 @@ if (!comprobar_msjs_array($errors)) {
 
 
 }
+
+}
+
 }
 
 ?>
@@ -207,7 +228,7 @@ if (!comprobar_msjs_array($errors)) {
 			<div class="col-6 my-3">
 			<select name="orden" type="search" class="mx-3 form-control">
 				<option value="<?php echo $orden_estado_contrato; ?>">Estado del Contrato</option>
-				<option value="<?php echo $orden_tipo_docent ?>">Tipo Docente</option>
+				<option value="<?php echo $orden_tipo_docent ?>">Funcion del Docente</option>
 				<option value="<?php echo $orden_asignacion ?>">Asignacion</option>
 			</select>
 			</div>
@@ -217,9 +238,12 @@ if (!comprobar_msjs_array($errors)) {
 			</div>
 
 		</div>
+			<?php  imprimir_msjs_no_style($errors); ?>
+
 		</form>
 		</div>
 	</div>
+
 </div>
 		<?php
 
@@ -281,13 +305,11 @@ global $db;
 						if (!strcmp($registro['id_doc_docent'],'No asignado') != 0){
 						
 							echo "<form action=".htmlspecialchars($_SERVER['PHP_SELF'])." method='POST'>
-							<br>
 							<button type='submit' id='' class='btn btn-dark btn-sm col-12 mx-2' value=".$registro['id_contrato_clase'].'-'.$registro['id_funcion_docent']."-".$registro['id_doc_docent']." name ='asignar_docente' >Asignar Docente</button>
 	
 								<input type='number'  class='col-12 my-3 mx-2 ' placeholder='Numero de Cedula' name ='id_doc_habilitar'>
 							 </form>
-							 <br>
-							 <br>";
+							 ";
 	
 						 }
 
@@ -296,11 +318,9 @@ global $db;
                        if (strcmp($registro['id_doc_docent'],'No asignado') != 0 && $registro['id_estado'] == 1){
 
                        	echo "<form action=".htmlspecialchars($_SERVER['PHP_SELF'])." method='post'>
-						<br>
                          <button type='submit' id='' class='btn btn-dark btn-sm col-12 mx-2' value=".$registro['id_contrato_clase'].'-'.$registro['id_funcion_docent']."-".$registro['id_doc_docent']." name ='inabilitar_contrato' >Inabilitar</button>
                          <form>
-                         <br>
-                         <br>";
+                         ";
 
 
                        if (valid_inicio_sesion('1')){
@@ -319,14 +339,10 @@ global $db;
 
                        	echo "<form action=".htmlspecialchars($_SERVER['PHP_SELF'])." method='post'>
                       
-                       <button type='submit' id='' class='btn btn-dark btn-sm col-12 mx-2' value=".$registro['id_contrato_clase'].'-'.$registro['id_funcion_docent']."-".$registro['id_doc_docent']." name ='habilitar_contrato' >Habilitar</button>
-                         <form>
-                         
-                         ";
+                       <button type='submit' id='' class='btn btn-dark btn-sm col-12 mx-2' value=".$registro['id_contrato_clase'].'-'.$registro['id_funcion_docent']."-".$registro['id_doc_docent']."-".$registro['id_estado']." name ='habilitar_contrato' >Habilitar</button>
+                         <form>";
 	
 							}	
-
-					echo "<br><br></td>";
 
  		            echo "</tr>";
 
@@ -341,21 +357,13 @@ global $db;
             
 ?>
 
-<br><br>
-
 <?php 
-
-    if(!empty($errors)){
-        foreach ($errors as $msjs) {
-            echo "<p>$msjs<p>";
-        }
-    }
 
      ?>
 
 
-                 <a class="btn btn-primary btn-lg" style="position:absolute;
-    			bottom:-800px;
+                 <a class="btn btn-primary btn-lg" style="position:relative;
+    			bottom:-400px;
 				right:10px; margin-right: 40px;" href="clases.php">Volver</a>
 				
 <?php require '../../includes/footer.php' ?>

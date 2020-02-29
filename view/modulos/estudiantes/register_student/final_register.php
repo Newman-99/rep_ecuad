@@ -151,6 +151,7 @@ if(empty($no_register_m)) {
  }
 }
 
+var_dump($is_represent_m);
 // Proceso de registro del padre
 
  $nombres_p=$nombre1_p." ".$nombre2_p;
@@ -178,7 +179,7 @@ $nombres_r=$nombre1_r." ".$nombre2_r;
 
   registrar_representantes($id_doc_r,$ci_escolar);
 
-  registrar_datos_laborales($id_doc_r,$prof_ofic_r,$lugar_trab_r,$direcc_trab_r,$tlf_ofic_r);
+  registrar_datos_laborales($id_doc_r,$prof_ofi_r,$lug_trab_r,$direcc_trab_r,$tlf_ofic_r);
 
 }
 
@@ -236,6 +237,9 @@ registrar_person_estudiantes($id_doc_pr,$ci_escolar,0,'',$parentesc_pr);
 
 upd_tlf_emerg($id_doc_pr,$tlf_emerg);
 
+var_dump($id_doc_pr);
+
+//var_dump($id_doc_r);
 // Registro de datos de actualizacion
 
 
@@ -271,10 +275,10 @@ registrar_inscrip_scolaridad($ci_escolar,$plantel_proced,$localidad,$anio_escola
 <?php require '../../../includes/footer_reg_est.php'; ?>
 
 <?php 
-
+/*
  unset($_SESSION['sesionform1']);
 unset($_SESSION['sesionform2']);
 unset($_SESSION['sesionform3']);
 unset($_SESSION['sesionform4']);
 unset($_SESSION['ci_escolar']);
- ?>
+ */?>

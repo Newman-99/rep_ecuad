@@ -84,7 +84,8 @@ require '../../includes/head.php';
 
 </div>
 </div>
+<br><br><br>	
     <?php
-    
+    	
 require '../../includes/footer.php';
   ?>

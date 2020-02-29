@@ -106,7 +106,7 @@ echo "
                         <td><center>".$registro['estado']."</center>";
 
                         if ($registro['id_estado'] === '2') {
-                                echo "<br><br> <center><b>Fecha Inabilitacion</b></center><br>
+                                echo "<br><center>Fecha Inabilitacion</center><br>
                                  ".$registro['fecha_inabilitacion']."<br>";
                         }
 
@@ -127,7 +127,7 @@ echo "
             </div>";
 ?>
 
-    <a class="btn btn-primary btn-lg" style="position:absolute;bottom:-100px;right:30px;" href='admins.php'>volver</a>
+    <a class="btn btn-primary btn-lg" style="position:absolute;bottom:70px;right:30px;" href='admins.php'>volver</a>
 
     <?php
     if(!empty($errors)){

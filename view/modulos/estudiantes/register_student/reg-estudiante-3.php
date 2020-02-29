@@ -209,7 +209,7 @@ $errors_pr[] = valid_ci($id_doc_pr);
 if(validar_datos_vacios_sin_espacios($nacionalidad_pr,$estado_civil_pr,$tlf_emerg,$tlf_cel_pr,$tlf_local_pr) || validar_datos_vacios($nombres_pr,$apellido_p_pr,$parentesc_pr) || !isset($_POST["sexo_pr"])){
 
     $errors_pr[]= "
-    Se debe evitar campos vacios a exepcion del documento de identidad, el segundo nombre y apellido
+    Se debe evitar campos vacios a exepcion del segundo nombre y apellido
   <br><br>
     <p>Los Siguientes campos no Pueden poseer espacios:</p>
     <p>
@@ -633,7 +633,7 @@ $confirmar[]= "<a class='btn btn-primary col-lg-9' href='reg-estudiante-4.php'>
                                           <input type="radio" <?php if(isset($_POST["sexo_pr"])){ if($_POST["sexo_pr"] == '1') echo "checked";}else{if(isset($sexo_pr)){ if($sexo_pr == '1') echo "checked";}}?> name="sexo_pr" value="1" id="">
                                             <br>
                                           <label for="sexo_pr" class="">Femenino</label>
-                                          <input type="radio" name="sexo_pr" <?php if(isset($_POST["sexo_pr"])){ if($_POST["sexo_pr"] == '2') echo "checked";}else{if(isset($sexo_pr)){ if($sexo_pr == '2') echo "checked";}} if(isset($sexo_pr)) if($sexo_pr == '2') echo 'checked';?> value="2" id="">
+                                          <input type="radio" name="sexo_pr" <?php if(isset($_POST["sexo_pr"])){ if($_POST["sexo_pr"] == '2') echo "checked";}else{if(isset($sexo_pr)){ if($sexo_pr == '2') echo "checked";}}?> value="2" id="">
 
                                         </div>
 

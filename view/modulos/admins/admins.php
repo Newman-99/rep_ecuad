@@ -4,6 +4,8 @@
 require '../../includes/head.php';
     session_start();
  valid_inicio_sesion('2');
+
+ $errors = array();
 ?>
 	    <title>Administrativos</title>
 		
@@ -59,24 +61,14 @@ require '../../includes/head.php';
 					<a href="reg_admin.php"  id='' class=" btn btn-primary col-3">Registrar Nuevo Administrativo</a>
 				</div>
 			</div>			
+
 		</form>
 	</div>
 
+
+
 			<?php 
 
-	if(!empty($_POST['por_cedula'])){
-	
-	$id_doc_admin = htmlentities(addslashes($_POST["id_doc_admin"]));
-
-	$errors[]=valid_ci($id_doc_admin);
-	
-	if(is_exist_admin($id_doc_admin)){$errors[] = "No existe el Administrativo";}
-
-	if (!comprobar_msjs_array($errors)) {
-
-	mostrar_cedula_admin($id_doc_admin);
-	}
-}
 
 	if(!empty($_POST['por_criterios'])){
 
@@ -89,6 +81,7 @@ require '../../includes/head.php';
 
 	    $id_turno = htmlentities(addslashes($_POST["id_turno"]));
 
+	$id_doc_admin = htmlentities(addslashes($_POST["id_doc_admin"]));
 
 $sql = consulta_admins();
 
@@ -103,6 +96,18 @@ $sql = consulta_admins();
     $campos[':sexo'] = [
       'valor' => $sexo,
       'tipo' => \PDO::PARAM_INT,
+    ];
+  }
+
+
+
+  if (!empty($id_doc_admin)){
+    /* Agregamos al WHERE la comparación */
+    array_push($where,'in_p.id_doc = :id_doc_admin');
+    /* Preparamos los datos para la variable preparada */
+    $campos[':id_doc_admin'] = [
+      'valor' => $id_doc_admin,
+      'tipo' => \PDO::PARAM_STR,
     ];
   }
 
@@ -157,18 +162,22 @@ imprimir_admins($result);
 }
 }
 ?>
+
 				<?php include '../../includes/menu_bar.php' ?>
 
+<div style="margin-bottom:60px;">
+<?php imprimir_msjs($errors);
+ 
+ ?>
+
+</div>
             </div>
 	    </section>
+
+
 <?php
 
 
-    if(!empty($errors)){
-        foreach ($errors as $msjs) {
-            echo "<h4 style = 'margin-top:0%;'>$msjs</h4>";
-        }
-    } 
 
 include '../../includes/footer.php';
  

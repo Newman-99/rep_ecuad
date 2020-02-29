@@ -10,8 +10,11 @@
 $errors = array();
 
 if (!empty($_POST['modificar'])) {
-    $id_doc=$_POST['modificar'];
+    $_SESSION['id_doc']=$_POST['modificar'];
 }
+    $id_doc=$_SESSION['id_doc'];
+
+
 if (!empty($_POST['save_docent'])) {
 
     $nacionalidad = htmlentities(addslashes($_POST["nacionalidad"]));
@@ -33,7 +36,6 @@ if (!empty($_POST['save_docent'])) {
     $estado_civil = htmlentities(addslashes($_POST["estado_civil"])); 
     $turno = htmlentities(addslashes($_POST["turno"])); 
     
-    $id_estado = htmlentities(addslashes($_POST["id_estado"])); 
 
 
 if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc_new,$sexo,$tlf_cel,$tlf_local,$correo,$estado_civil,$turno,$fecha_ingreso) || validar_datos_vacios($nombres,$funcion_docent,$apellido_p,$lugar_nac,$direcc_hab,$turno)){
@@ -53,14 +55,19 @@ if(validar_datos_vacios_sin_espacios($nacionalidad,$id_doc,$id_doc_new,$sexo,$tl
 
 $errors[] = valid_ci($id_doc);
 
-if (strcmp($id_doc, $id_doc_new) != 0) {
 
-if (is_exist_ci($id_doc_new)) {
-       $errors_total[]='La cedula ya esta registrada en el sistema';
-        }
 
-    if(is_exist_docente($id_doc_new)){$errors[] = "Ya hay un docente registrado con esta cedula";} }
+    $id_estado = htmlentities(addslashes($_POST["id_estado"])); 
 
+
+if (!validar_datos_vacios($fecha_inabilitacion) || $id_estado == 2) {
+if ($id_estado != 2 || validar_datos_vacios($fecha_inabilitacion)) {
+       $errors[]='Si desean inabilitar el docente tiene que colocar la fecha de inabilitacion y cambiar su estado';
+}
+}
+
+
+  
 $errors[]= validar_fecha_registro($fecha_ingreso);
 
 $errors[]=validar_nombres_apellidos($nombres,$apellido_p);
@@ -72,6 +79,8 @@ $errors[]=validar_nombres_apellidos($apellido_m);
 if (!is_valid_email($correo)) { $errors[]='El Correo electronico ingresado es invalido';}
 
 if (!is_valid_num_tlf($tlf_local,$tlf_cel)) { $errors[]='El numero de telefono ingresado es invalido';}
+
+}
 
 
 
@@ -91,13 +100,14 @@ $apellido_m=filtrar_nombres_apellidos($apellido_m);
 
 actualizar_persona($nacionalidad ,$id_doc,$id_doc_new,$nombres,$apellido_p,$apellido_m,$sexo,$fecha_nac,$lugar_nac,$direcc_hab,$tlf_cel,$tlf_local,$correo,$estado_civil);
 
+    $id_estado = htmlentities(addslashes($_POST["id_estado"])); 
+
 actualizar_docentes($id_doc,$id_doc_new,$funcion_docent,$turno,$id_estado,$fecha_ingreso,$fecha_inabilitacion);
+
 $errors[]= 'Cambios registrados con exito';
 
-  $id_doc =  $id_doc_new;
 
 
-}
 
 }
 }
@@ -114,7 +124,6 @@ $errors[]= 'Cambios registrados con exito';
     <div class="row">    
         <div class="col-lg-12">
     
-            <form action='<?php htmlspecialchars($_SERVER['PHP_SELF'])?>' method='post' class="form-group text-center">
 
 <?php
 
@@ -130,15 +139,20 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
 
 ?>
 
+
+            <form action='<?php htmlspecialchars($_SERVER['PHP_SELF'])?>' method='post' class="form-group text-center">
+
                 <div class="col-12">
                     <h3 class="form-titulo">Modificación de docentes</h3>
                 </div>
 
             <div class="row">
+
                 <div class="col-lg-2 my-4">
                     <label for=""></label>
+
                     <select name='nacionalidad' id='' class="form-control" autocomplete='on' class="form-control" >
-                        <option <?php if($registro['id_nacionalidad'] == '1') echo 'selected';?> value='1'>V</option>
+                        <option <?php if($registro['id_nacionalidad'] == '1') echo 'selected'; ?> value='1'>V</option>
                         <option <?php if($registro['id_nacionalidad'] == '2') echo 'selected';?> value='2'>E</option>
                     </select>
                     
@@ -262,30 +276,28 @@ while($registro=$result->fetch(PDO::FETCH_ASSOC)){
                 <div class="col-lg-4 my-3">
                     <label for="">Estado</label> 
                         <select name='id_estado' id='' class="form-control">
-                        <option <?php if($registro['id_estado'] == '1') echo 'selected';?> value='1'>Activo</option>
+                        <option <?php if($registro['id_estado'] == '1') echo 'selected';?> value='1'>Habilitado</option>
 
-                        <option <?php if($registro['id_estado'] == '2') echo 'selected';?> value='2'>Inactivo</option>
+                        <option <?php if($registro['id_estado'] == '2') echo 'selected';?> value='2'>Inabilitado</option>
                     </select>
                 </div>
             </div>
 <!--------- Final form --------------------->
 <?php
-if(!empty($errors)){
-    foreach ($errors as $msjs) {
-        echo "<p>".$msjs."</p>";
-    }
-}
-        
+
+imprimir_msjs_no_style($errors);
+
 ?>
+
+<?php } ?>
                     <div class="row">
-                        <div class="col-lg-3"><a class="btn btn-primary btn-block" href='docentes.php'>VOLVER</a></div class="col-lg-3">
-                        <div class="col-lg-9"><button type='submit'  class="btn btn-primary btn-block" name='save_docent' value="<?php echo $id_doc ?>">GUARDAR</button></div>
+                        <div class="col-lg-3"><a class="btn btn-primary btn-block" href='docentes.php'>Volver</a></div class="col-lg-3">
+                        <div class="col-lg-9"><button type='submit'  class="btn btn-primary btn-block" name='save_docent' value="<?php echo $id_doc ?>">Guardar</button></div>
                     </div>
                     
                     
             </form>
      
-<?php } ?>
        
         </div>
     </div>    

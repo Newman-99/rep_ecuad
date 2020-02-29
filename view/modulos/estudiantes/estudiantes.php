@@ -100,6 +100,7 @@ if (isset($_GET['clean_ci_escolar'])) {
       </div>
       
   </form>
+
   
 </div> <!----- FIN - DIV contenedor BARRA NAVEGACION HORIZONTAL ----->
       </section>
@@ -358,14 +359,19 @@ echo "
 }
 }
 }
+
+
 	?>
 		
 
-				<?php require '../../includes/menu_bar.php' ?>
+    <div style="position: relative;">
+<?php    imprimir_msjs($errors);  ?>
+				</div>
+        
+        <?php require '../../includes/menu_bar.php' ?>
 
 <?php
 
-	imprimir_msjs($errors);
 require'../../includes/footer.php';
 ?>
 

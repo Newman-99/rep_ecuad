@@ -481,7 +481,7 @@ $errors[]= "Cambios Registrado con Exito";
                                             <?php if(isset($registro["hermanos"])){ if($registro["hermanos"] == '0') echo "checked";}?>>
                                             <br>
                                             <label for="" class="my-4 ">Especifique:</label>
-                                            <textarea name="descrip_herma" id="" class="form-control" placeholder="Especifique"><?php if(isset($descrip_herma)) echo $descrip_herma; ?></textarea>
+                                            <textarea name="descrip_herma" id="" class="form-control" placeholder="Especifique"><?php if(isset($registro["descrip_hermanos"])) echo $registro["descrip_hermanos"]; ?></textarea>
                                       </div>
 
 <?php } ?>
@@ -851,12 +851,13 @@ $errors[]= "Cambios Registrado con Exito";
                           
                         } ?>
 
+
+                                        <?php imprimir_msjs_no_style($errors); ?>
                             
                                         <button type='submit' class="btn btn-primary col-lg-9"value="otros_datos" name ='otros_datos'>Actualizar</button>
 
                                         <a href="../menu_upd_student.php" class="btn btn-primary  col-lg-2">Volver</a>
 
-                                        <?php imprimir_msjs_no_style($errors); ?>
                                 </form> 
 
 

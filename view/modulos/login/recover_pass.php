@@ -1,7 +1,7 @@
 <?php require '../../includes/init_system.php'; ?>
 
 <?php 
-
+$errors_total=array();
 require '../../includes/head.php';
 
 
@@ -49,19 +49,18 @@ if (!empty($_POST['enviar'])) {
                 <input  type="submit" value="iniciar" name="enviar">
             </form>
         </div>
+
         <a class="btn btn-primary col-3" href="log.php">Volver</a>
 
-</div>
 
 <?php
 
-        if(!empty($errors_total)){
-                foreach($errors_total as $pos => $msj){
-                        echo "<p style='padding:7px;'>".$msj."</p>";}};
-                
+imprimir_msjs($errors_total);                
 ?>
 
+</div>
 
+<br><br>
 <?php
 require'../../includes/footer.php';
 

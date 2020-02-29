@@ -28,9 +28,6 @@ if(validar_datos_vacios_sin_espacios($id_doc,$turno,$fecha_ingreso,$funcion_doce
 
 $errors[] = valid_ci($id_doc);
 
-if (is_exist_ci($id_doc)) {
-    $errors_total[]='La cedula ya esta registrada en el sistema';}else{
-
 if (is_exist_docente($id_doc)){
     $errors[]= "Un Docente con esta cedula ya esta registrado"; }
 
@@ -50,7 +47,7 @@ if (!comprobar_msjs_array($errors)) {
 }
 
 }
-}
+
 
 ?>
     <title>Registro de Docentes</title>
@@ -104,11 +101,7 @@ if (!comprobar_msjs_array($errors)) {
 
                 <!-- mensaje ( validacion) -->  
                 <?php
-                    if(!empty($errors)){
-                        foreach ($errors as $msjs) {
-                    echo "<p>$msjs<p>";
-                        }
-                    }
+                    imprimir_msjs_no_style($errors);
                 ?>
 
                 <!-- botones -->

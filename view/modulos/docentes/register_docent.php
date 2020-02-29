@@ -231,7 +231,7 @@ $errors[] = 'Docente registrado con exito';
                 </div>
             </div>
 
-                <?php imprimir_msjs($errors); ?>
+                <?php imprimir_msjs_no_style($errors); ?>
   
                 <div class="row">
                     <div class="col-lg-2"><a class="btn btn-primary btn-block" href="docentes.php">VOLVER</a></div>

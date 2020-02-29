@@ -1,4 +1,5 @@
 <?php
+
 require  '../../../database/connect.php';
 
 require '../../../functions/functions.php';
@@ -21,6 +22,7 @@ if (!empty($_POST['enviar'])) {
 
         if (!comprobar_msjs_array($errors_total)) {
             register_user($ci,$pass,$pass_confirm,$pregunta1,$pregunta2);
+        $errors_total[]="Usuario registrado exitosamente";            
         }
 
     }else{
@@ -69,7 +71,15 @@ if (!empty($_POST['enviar'])) {
             <input type="password" name="pass" value="<?php if(isset($pass)) echo $pass; ?>" placeholder="Contraseña" required>
 
                 <input type="submit" value="iniciar" name="enviar">
+                                <br><br>
             </form>
+
+                    <?php
+        if(!empty($errors_total)){
+                foreach($errors_total as $pos => $msj){
+                        echo "<p style='padding:7px;color: red;text-align: center;'>".$msj."</p>";}};
+                
+                    ?>
         </div>
        
         
@@ -91,19 +101,20 @@ if (!empty($_POST['enviar'])) {
                                 
  <input type="submit" value="crear" name="enviar">
             </form>
-
-
-        </div>
-
+                    <br><br>
 
         <?php
+
+
         if(!empty($errors_total)){
                 foreach($errors_total as $pos => $msj){
                         echo "<p style='padding:7px;color: red;text-align: center;'>".$msj."</p>";}};
                 
                     ?>
 
-                    <br><br>
+        </div>
+
+
 
 
         <div class="reset-password">
@@ -121,17 +132,23 @@ if (!empty($_POST['enviar'])) {
         </div>
         
         <div class="col-6 mx-4">
-        <h2>U.E.N "República del Ecuador"</h2>
+        <h2>U.E.N "República del Ecuador"
+
+        </h2>
+
+<span style="text-align: center;">
+<?php
+
+require '../../includes/footer.php';
+
+  ?>
+</span>
+
         </div>
+
 
         </div>
     </div>
 
 </body>
 </html>
-
-<?php
-
-require '../../includes/footer.php';
-
-  ?>

@@ -157,16 +157,28 @@ $count_represents++;
                                             <input type="text" name="parentesco_r" id="" placeholder="Parentesco" class="form-control" value="<?php  echo $registro['parentesco'];?>">
                                         </div>
 
-                                        <div class="col-lg-6 my-2">
-                                            <label>Vive con el estudiante:</label>
-                                            <input type="checkbox" <?php if($registro['convivencia']) echo "checked";?> name="convivencia_r" value="1" id="">
+
+ <div class="col-lg-6 ">
+                                        <p for="" class="">Vive con el estudiante:</p>
+
+                                        <label for="convivencia_r" class="">Si</label>
+
+                                        <input type="radio" <?php if(isset($registro["convivencia"])){ if($registro["convivencia"] == '1') echo "checked";}
+                                        ?> name="convivencia_r" value="1" id="">
+
+                                        <label for="convivencia_r" class="">No</label>
+
+                                        <input type="radio" name="convivencia_r" <?php if(isset($registro["convivencia"])){ if($registro["convivencia"] == '0') echo "checked";}
+                                        ?> value="2" id="">
                                         </div>
-                                    </div>
+                                                                                         </div>
+
 
                 <?php imprimir_msjs_no_style($errors_r_upd); ?>
 
              <button type='submit' class="btn btn-primary col-lg-9" value="upd_represent" name='upd_represent'>Actualizar</button>
 
              <button type='submit' class="btn btn-primary col-lg-9" value="new_represent" name='new_represent'>Añadir nuevo</button>
-            <br><br>
+
+    
 <?php } ?>

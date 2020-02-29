@@ -273,14 +273,18 @@ function hash_pass($pass){
 //Funcion Para Registrar usuarios
 
 function registrar_datos_usr_bd($ci,$pass_hash,$tip_usr,$respuesta1,$respuesta2){
+
         global $db;
-            $sql = "INSERT INTO usuarios(id_doc,pass,id_tip_usr) 
-            VALUES (:id, :pass, :tip_usr)";
-            
-                $result = $db->prepare($sql);
-            
-                $result->execute(array("id"=>$ci,"pass"=>$pass_hash,
-                "tip_usr"=>$tip_usr));
+        
+$ult_sesion = "0000-00-00";
+
+            $sql = disable_foreing()." INSERT INTO `usuarios`(`id_doc`, `id_tip_usr`, `pass`, `ult_sesion`) VALUES (:id_doc,:id_tip_usr,:pass,:ult_sesion); ".enable_foreing();
+
+                            $result = $db->prepare($sql);
+                var_dump(
+                $result->execute(array("id_doc"=>$ci,"pass"=>$pass_hash,
+                "id_tip_usr"=>$tip_usr,"ult_sesion"=>$ult_sesion)));
+
 
 //////////
             $sql = "INSERT INTO preguntas_usuarios(`id_usr`, `id_pregunta`, `respuesta`) VALUES (:id,'1',:respuesta1);";
@@ -884,16 +888,17 @@ function actualizar_docentes($id_doc,$id_doc_new,$id_funcion_predet,$turno,$id_e
     global $db;
 
     // Insertando datos personales genericos
+
     
-$sql =disable_foreing()."UPDATE docentes SET id_funcion_predet = :id_funcion_predet,id_turno = :id_turno,id_estado = :id_estado,fecha_ingreso = :fecha_ingreso,fecha_inabilitacion = :fecha_inabilitacion where id_doc_docent = :id_doc_docent; ".enable_foreing();
+$sql =disable_foreing()."UPDATE docentes SET id_funcion_predet = :id_funcion_predet,id_turno = :id_turno, id_estado = :id_estado,fecha_ingreso = :fecha_ingreso,fecha_inabilitacion = :fecha_inabilitacion where id_doc_docent = :id_doc_docent; ".enable_foreing();
 
 $result=$db->prepare($sql);
 
 $result->execute(array("id_doc_docent"=>$id_doc,"id_funcion_predet"=>$id_funcion_predet,"id_turno"=>$turno,"id_estado"=>$id_estado,"fecha_ingreso"=>$fecha_ingreso,"fecha_inabilitacion"=>$fecha_inabilitacion));
 
-if (is_exist_admin($id_doc)) {
+/*if (is_exist_admin($id_doc)) {
 actualizar_admin($id_doc,$id_doc_new);
-}
+}*/
 
 }
 
@@ -956,17 +961,11 @@ $result->execute(array("id_doc"=>$id_doc,"tlf_local"=>$tlf_local,
 "tlf_cel"=>$tlf_cel,"correo"=>$correo));
 
 
-$sql =disable_foreing()."UPDATE administrativos SET id_doc_admin = :id_doc_new,id_area = :id_area,id_turno = :id_turno,id_estado = :id_estado,fecha_ingreso = :fecha_ingreso,fecha_inabilitacion = :fecha_inabilitacion where id_doc_admin = :id_doc_admin; ".enable_foreing();
+$sql =disable_foreing()."UPDATE administrativos SET id_area = :id_area,id_turno = :id_turno,id_estado = :id_estado,fecha_ingreso = :fecha_ingreso,fecha_inabilitacion = :fecha_inabilitacion where id_doc_admin = :id_doc_admin; ".enable_foreing();
 
 $result=$db->prepare($sql);
 
 $result->execute(array("id_doc_admin"=>$id_doc,"id_area"=>$area,"id_turno"=>$turno,"id_estado"=>$id_estado,"fecha_ingreso"=>$fecha_ingreso,"fecha_inabilitacion"=>$fecha_inabilitacion));
-
-$sql =disable_foreing()."UPDATE `usuarios` SET `id_doc`= :id_doc_new where id_doc = :id_doc_admin; ".enable_foreing();
-
-$result=$db->prepare($sql);
-
-$result->execute(array("id_doc_admin"=>$id_doc));
 
 
 }
@@ -1080,6 +1079,9 @@ function tipo_student_x_clase($id_clase,$id_estado){
    return $count;
    
 }
+
+
+
 
 function tipo_student_x_contrato_clas($id_clase,$id_estado){
     global $db;
@@ -1452,17 +1454,73 @@ return $id_estado=$result->fetchColumn();
 
  }
 
-function is_exist_contrato_clase($id_clase,$id_doc_docent,$id_funcion_docent){
+function is_exist_contrato_clase($id_clase,$id_doc_docent,$id_funcion_docent,$id_estado = '',$opc_busc_no_asign = 1){
 
       global $db;
-      
-    $sql="SELECT * FROM `clases_asignadas` WHERE id_doc_docent = :id_doc_docent AND id_funcion_docent = :id_funcion_docent AND id_clase = :id_clase;";
 
-    $result=$db->prepare($sql);
 
-      $result->execute(array("id_doc_docent"=>$id_doc_docent,":id_funcion_docent"=>$id_funcion_docent,"id_clase"=>$id_clase));
 
-    $result->execute();
+    $sql="SELECT * FROM clases_asignadas ";
+
+$where = [];
+
+  $campos = [];
+
+  if ($opc_busc_no_asign) {
+    array_push($where, 'id_doc_docent != :id_doc_docent');
+    $campos[':id_doc_docent'] = [
+      'valor' => 'No asignado',
+      'tipo' => \PDO::PARAM_STR,
+    ];
+echo "BUSCa LOs NO ASING";
+}
+
+  if (!empty($id_estado)) {
+    array_push($where, 'id_estado = :id_estado');
+    $campos[':id_estado'] = [
+      'valor' => $id_estado,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+}
+
+  if (!empty($id_doc_docent)) {
+    array_push($where, 'id_doc_docent = :id_doc_docent');
+    $campos[':id_doc_docent'] = [
+      'valor' => $id_doc_docent,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+}
+ 
+
+  if (!empty($id_funcion_docent)) {
+    array_push($where, 'id_funcion_docent = :id_funcion_docent');
+    $campos[':id_funcion_docent'] = [
+      'valor' => $id_funcion_docent,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+}     
+
+
+  if (!empty($id_clase)) {
+    array_push($where, 'id_clase = :id_clase');
+    $campos[':id_clase'] = [
+      'valor' => $id_clase,
+      'tipo' => \PDO::PARAM_STR,
+    ];
+}     
+
+  if (!empty($where)) {
+    $sql .= ' WHERE ' . implode(' AND ', $where);
+  }
+
+  $result = $db->prepare($sql);
+
+
+  foreach($campos as $clave => $valores) {
+    $result->bindParam($clave, $valores['valor'], $valores['tipo']);
+  }
+
+  $result->execute();
 
    $count=$result->rowCount();
     if(!$count == 0){ 
@@ -1471,6 +1529,7 @@ function is_exist_contrato_clase($id_clase,$id_doc_docent,$id_funcion_docent){
         return false;
     }
 }
+
 
 function is_exist_nro_contrato_clase($id_contrato_clase){
 
@@ -1680,6 +1739,11 @@ return $id_estado=$result->fetchColumn();
 
 function comprobar_msjs_array($array){
     $comprobador=FALSE;
+
+    if (empty($array)) {
+    return $comprobador;
+}
+
         foreach ($array as $key => $value) {
         if (is_string($value)) {
             $comprobador=TRUE;
@@ -1788,12 +1852,12 @@ function register_user($ci,$pass,$pass_confirm,$respuesta1,$respuesta2){
                         }else{
                         $pass_hash = hash_pass($pass);
 
-                        registrar_datos_usr_bd($ci,$pass_hash,$tip_usr,$respuesta1,$respuesta2);
+                        registrar_datos_usr_bd($ci,$pass_hash,'0',$respuesta1,$respuesta2);
+                        /*session_start();
 
-                        session_start();
                         $_SESSION['id_user'] = $ci;
                         $_SESSION['nivel_usuario'] = obtener_nivel_permiso($ci);
-                        header("Location:../inicio/dashboard.php");   
+                        header("Location:../inicio/dashboard.php");   */
                     }
             }
         }
@@ -2245,7 +2309,7 @@ echo "
                         <td><center>".$registro['descripcion_estado']."</center>";
 
                         if ($registro['id_estado'] === '2') {
-                                echo "<br><br> <center><b>Fecha Inabilitacion</b></center><br>
+                                echo "<br><center>Fecha Inabilitacion</center><br>
                                  ".$registro['fecha_inabilitacion']."<br>";
                         }
 
@@ -2365,7 +2429,7 @@ echo "
                         <td><center>".$registro['estado']."</center>";
 
                         if ($registro['id_estado'] === '2') {
-                                echo "<br><br> <center><b>Fecha Inabilitacion</b></center><br>
+                                echo "<br> <center>Fecha Inabilitacion</center><br>
                                  ".$registro['fecha_inabilitacion']."<br>";
                         }
 
@@ -2396,7 +2460,7 @@ echo "
                     </form> ";
 
                   }
-                        if(comprob_permisos('1')) {
+                        /*if(comprob_permisos('1')) {
                         echo "
 
                         <form action='eliminar_admin.php' method='post'>
@@ -2406,7 +2470,7 @@ echo "
                          </form> "
 
                          ;
-                     }
+                     }*/
                     echo  "</td></tr>";
                  }
                          
@@ -2527,18 +2591,6 @@ if(validar_datos_vacios_sin_espacios($nacionalidad,$estado_civil,$correo,$tlf_ce
     Ocupacion
     ";
 
-
-//var_dump($nacionalidad);
-//var_dump($correo);
-//var_dump($tlf_cel);
-//var_dump($tlf_local);
-//var_dump($fecha_nac);
-//var_dump($nombre1);
-//var_dump($apellido_p);
-//var_dump($lugar_nac);
-//var_dump($direcc_hab);
-//var_dump($sexo);
-
     return $errors;
 
 }else{
@@ -2573,7 +2625,7 @@ if (!is_valid_email($correo)) { $errors[]='El Correo electronico ingresado es in
 if (!is_valid_num_tlf($tlf_local,$tlf_cel)) { $errors[]='El numero de telefono ingresado es invalido';}
 
 if (!empty($tlf_ofic)) {
-    if (!is_valid_num_tlf($tlf_ofic)) { $errors[]='Telefonos de oficina invalido';}
+    if (!is_valid_num_tlf($tlf_ofic)) { $errors[]='Telefono de oficina invalido';}
 }
 
 

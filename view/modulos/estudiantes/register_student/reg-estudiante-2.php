@@ -67,7 +67,7 @@ if (empty($_POST['no_register_m'])) {
             $convivencia_m = htmlentities(addslashes($_POST["convivencia_m"]));
     }
 
-    $is_represent_m = 0;
+    $_POST["is_represent_m"] = '';
 
 if (isset($_POST["is_represent_m"])) {
             $is_represent_m = htmlentities(addslashes($_POST["is_represent_m"]));
@@ -161,7 +161,7 @@ if (isset($_POST["convivencia_p"])) {
             $convivencia_p = htmlentities(addslashes($_POST["convivencia_p"]));
     }
 
-    $is_represent_p = 0;
+    $_POST["is_represent_p"] = '';
 
 if (isset($_POST["is_represent_p"])) {
     $is_represent_p = htmlentities(addslashes($_POST["is_represent_p"]));
@@ -503,8 +503,9 @@ $errors_r[]= "<a class='btn btn-primary col-lg-9' href='reg-estudiante-3.php'>
                                     
                                         <div class="col-lg-3 ">
                                             <label>Es el Representante?:</label>
-                                        <input type="checkbox" <?php if(isset($_POST["is_represent_m"])){ if($_POST["is_represent_m"] == '1') echo "checked";}else{if(isset($is_represent_m)){ if($is_represent_m == '1') echo "checked";}}?> name="is_represent_m" value="1" id="" class="col-3">
+                                        <input type="checkbox" <?php if(isset($is_represent_m)){ if($is_represent_m == '1') echo "checked";}?> name="is_represent_m" value="1" id="" class="col-3">
                                         </div>
+
 
                                         <div class="col-lg-6 ">
                                         <p for="" class="">Vive con el estudiante:</p>
@@ -661,11 +662,10 @@ $errors_r[]= "<a class='btn btn-primary col-lg-9' href='reg-estudiante-3.php'>
                                             <label for="">Telefono de oficina:</label>
                                             <input type="number" name="tlf_ofic_p" id="" placeholder="Telefono de oficina" class="form-control" value="<?php if(isset($tlf_ofic_p)) echo $tlf_ofic_p;?>">
                                         </div>
-                                                 
 
                                         <div class="col-lg-3 ">
                                             <label>Es el Representante?:</label>
-                                            <input type="checkbox" <?php if(isset($_POST["is_represent_p"])){ if($_POST["is_represent_p"] == '1') echo "checked";}else{if(isset($is_represent_p)){ if($is_represent_p == '1') echo "checked";}}?> name="is_represent_p" value="1" id="" class="col-3">
+                                            <input type="checkbox" <?php if(isset($is_represent_p)){ if($is_represent_p == '1') echo "checked";}?> name="is_represent_p" value="1" id="" class="col-3">
                                         </div>
 
                                         <div class="col-lg-6 my-2">
@@ -847,7 +847,7 @@ $errors_r[]= "<a class='btn btn-primary col-lg-9' href='reg-estudiante-3.php'>
                                         <div class="col-lg-6 ">
                                         <p for="" class="">Vive con el estudiante:</p>
 
-                                        <label for="convivencia_m" class="">Si</label>
+                                        <label for="convivencia_r" class="">Si</label>
 
                                         <input type="radio" <?php if(isset($_POST["convivencia_r"])){ if($_POST["convivencia_r"] == '1') echo "checked";}else{if(isset($convivencia_r)){ if($convivencia_r == '1') echo "checked";}}
                                         ?> name="convivencia_r" value="1" id="">
@@ -868,14 +868,15 @@ $errors_r[]= "<a class='btn btn-primary col-lg-9' href='reg-estudiante-3.php'>
                                         </div>
                                     </div>
 
-                                        <a href="reg-estudiante-1.php" class="btn btn-primary  col-lg-2">VOLVER</a>
+                                    <?php imprimir_msjs_no_style($errors_r); ?>
+
+                                        <a href="reg-estudiante-1.php" class="btn btn-primary  col-lg-2">Volver</a>
                                         
-                                        <button type='submit' class="btn btn-primary col-lg-9" value="datos_student" name='datos_pers_estd'>CONTINUAR</button>
+                                        <button type='submit' class="btn btn-primary col-lg-9" value="datos_student" name='datos_pers_estd'>Continuar</button>
                                         
                                         
                                     
 
-                                    <?php imprimir_msjs_no_style($errors_r); ?>
 
                          
                             </form>
